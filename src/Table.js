@@ -57,6 +57,17 @@ const Table = () => {
       [...filters.filters.filterByNumericValues, { column, comparison, value }] } });
   }
 
+  const columnFilterOptions = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ].filter((value) => {
+    const { filterByNumericValues } = filters.filters;
+    return !filterByNumericValues.some(({ column }) => column === value);
+  });
+
   return (
     <div>
       <label htmlFor="name-filter">
@@ -89,12 +100,8 @@ const Table = () => {
             });
           } }
         >
-          <option>Selecione</option>
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          { columnFilterOptions
+            .map((value, index) => <option key={ index }>{value}</option>) }
         </select>
       </label>
       <label htmlFor="comparison-filter">
