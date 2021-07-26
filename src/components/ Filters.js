@@ -41,7 +41,7 @@ export default function Filter() {
     column,
     comparison,
     value,
-    filtered,
+    // filtered,
     filters,
     // setData,
     setName,
@@ -199,12 +199,13 @@ export default function Filter() {
           placeholder="0"
           data-testid="value-filter"
         />
-        <input
+        <button
           type="button"
-          value="Filtrar"
           onClick={ () => planetsByFilters() }
           data-testid="button-filter"
-        />
+        >
+          Filtrar
+        </button>
       </form>
       { (filters.filterByNumericValues.length > 0)
         ? (
