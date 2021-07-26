@@ -1,9 +1,15 @@
 import React from 'react';
 import './App.css';
+import Header from './components/Header';
+import Table from './components/Table';
+import MyProvider from './context/MyProvider';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <MyProvider>
+      <Header />
+      <Table />
+    </MyProvider>
   );
 }
 
