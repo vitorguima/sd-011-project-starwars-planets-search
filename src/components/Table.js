@@ -1,14 +1,11 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import allTableFilters from '../helpers/allTableFilters';
 
 function Table() {
-  const {
-    data, filters: { filterByName: { nameToFilter } },
-  } = useContext(PlanetsContext);
+  const context = useContext(PlanetsContext);
 
-  const filteredPlanets = data.filter(({ name }) => (
-    name.toLowerCase().includes(nameToFilter)
-  ));
+  const filteredPlanets = allTableFilters(context);
 
   return (
     <table>

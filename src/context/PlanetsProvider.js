@@ -4,7 +4,8 @@ import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
-  const [name, setName] = useState('');
+  const [filterByName, setName] = useState({ name: '' });
+  const [filterByNumericValues, setNumericValues] = useState([]);
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -16,13 +17,30 @@ function PlanetsProvider({ children }) {
       });
   }, []);
 
+  function handleNameFilterChange({ target: { value } }) {
+    setName({ name: value });
+  }
+
+  function newNumericValuesFilter() {
+    const column = document.querySelector('#column-filter').value;
+    const comparison = document.querySelector('#comparison-filter').value;
+    const Filtervalue = document.querySelector('#value-filter').value;
+    setNumericValues([...filterByNumericValues, {
+      column,
+      comparison,
+      value: Filtervalue,
+    }]);
+  }
+
   const contextValue = {
+    contextFunctions: {
+      handleNameFilterChange,
+      newNumericValuesFilter,
+    },
     data,
     filters: {
-      filterByName: {
-        nameToFilter: name,
-        setName,
-      },
+      filterByName,
+      filterByNumericValues,
     },
   };
 
