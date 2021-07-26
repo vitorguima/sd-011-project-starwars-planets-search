@@ -3,10 +3,25 @@ import TableContext from '../context/TableContext';
 import TableRowContent from './TableRowContent';
 
 export default function Table() {
-  const { planetsResult } = useContext(TableContext);
+  const {
+    planetsResult,
+    handleFilters,
+    filteredResult,
+    valuePlanets,
+  } = useContext(TableContext);
 
   return (
     <div>
+      <label htmlFor="search-input">
+        Search Planet
+        <input
+          id="search-input"
+          type="text"
+          value={ valuePlanets }
+          onChange={ (event) => handleFilters(event) }
+          data-testid="name-filter"
+        />
+      </label>
       <table>
         <thead>
           <tr>
@@ -26,8 +41,10 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {planetsResult
-            .map((item, index) => <TableRowContent item={ item } key={ index } />)}
+          {filteredResult.length === 0 ? planetsResult
+            .map((item, index) => <TableRowContent item={ item } key={ index } />)
+            : filteredResult
+              .map((item, index) => <TableRowContent item={ item } key={ index } />)}
         </tbody>
       </table>
     </div>
