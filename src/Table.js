@@ -4,7 +4,7 @@ import MyContext from './MyContext';
 function Table() {
   return (
     <MyContext.Consumer>
-      { (value) => (
+      { ({ newData }) => (
         <table>
           <thead>
             <tr>
@@ -24,7 +24,7 @@ function Table() {
             </tr>
           </thead>
           <tbody>
-            { value.map(({
+            { newData.map(({
               name,
               rotation_period: rotatioPeriod,
               orbital_period: orbitalPeriod,
