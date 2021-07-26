@@ -39,15 +39,15 @@ export default function Filter() {
     // comparison,
     // valueNumber = value,
     // filtered,
-    filters,
+    // filters,
     // setData,
     setName,
-    setColumn,
+    // setColumn,
     setComparison,
     setValue,
     setFiltered,
     // setFilters,
-} = useContext(PlanetsContext);
+  } = useContext(PlanetsContext);
 
   function planetByInput(target) {
     setName(target.value);
@@ -62,11 +62,11 @@ export default function Filter() {
   // Apos feita a filtragem setar os filtered com a nova lista.
 
   // Montar função que adiciona um novo filtro. Essa mesma função deve adicionar um novo filtered.
-  function planetByFilters() {
-    const { filterByNumericValues } = filters;
-    const byFilterPlanets = data.
-    setFiltered();
-  }
+  // function planetByFilters() {
+  //   const { filterByNumericValues } = filters;
+  //   const byFilterPlanets = data.
+  //   setFiltered();
+  // }
 
   return (
     <form>
@@ -88,7 +88,7 @@ export default function Filter() {
         htmlFor="column-filter"
         data-testid="column-filter"
         value={ null }
-        onChange={ ({ target }) => setColumn([]) }
+        // onChange={ ({ target }) => setColumn([]) }
       >
         <option disabled selected>Selecione um valor</option>
         <option>population</option>
@@ -122,7 +122,7 @@ export default function Filter() {
       <input
         type="button"
         value="Filtrar"
-        onClick={ planetByFilters }
+        // onClick={ planetByFilters }
         data-testid="button-filter"
       />
     </form>
