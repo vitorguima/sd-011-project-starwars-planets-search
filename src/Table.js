@@ -40,19 +40,19 @@ function Table() {
               edited,
             }, index) => (
               <tr key={ index }>
-                <th>{ name }</th>
-                <th>{ rotatioPeriod }</th>
-                <th>{ orbitalPeriod }</th>
-                <th>{ diameter }</th>
-                <th>{ climate }</th>
-                <th>{ gravity }</th>
-                <th>{ terrain }</th>
-                <th>{ surfaceWater }</th>
-                <th>{ population }</th>
-                <th>{ residents.length }</th>
-                <th>{ films.length }</th>
-                <th>{ created }</th>
-                <th>{ edited }</th>
+                <td>{ name }</td>
+                <td>{ rotatioPeriod }</td>
+                <td>{ orbitalPeriod }</td>
+                <td>{ diameter }</td>
+                <td>{ climate }</td>
+                <td>{ gravity }</td>
+                <td>{ terrain }</td>
+                <td>{ surfaceWater }</td>
+                <td>{ population }</td>
+                <td>{ residents.length }</td>
+                <td>{ films.length }</td>
+                <td>{ created }</td>
+                <td>{ edited }</td>
               </tr>
             )) }
           </tbody>
