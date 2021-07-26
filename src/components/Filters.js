@@ -36,7 +36,6 @@ function Filters() {
       <button
         type="button"
         data-testid="button-filter"
-        // onClick={ () => handleFilter() }
       >
         Aplicar Filtro
       </button>

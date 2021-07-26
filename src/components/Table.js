@@ -12,7 +12,7 @@ export default function Table() {
       setPlanetList(data.results.filter((value) => value
         .name.includes(search.filters.filterByName.name)));
     }
-  }, [data, search]);
+  }, [search, data]);
 
   const AttFilter = planetList.filter((value) => {
     switch (FilterInputs.comparison) {
@@ -34,13 +34,14 @@ export default function Table() {
 
   return (
     <>
-      <input
-        type="text"
-        data-testid="name-filter"
-        value={ search.filters.filterByName.name }
-        onChange={ ({ target: { value } }) => (
-          setSearchName({ filters: { filterByName: { name: value } } })) }
-      />
+      <label htmlFor="value">
+        <input
+          type="text"
+          data-testid="name-filter"
+          onChange={ ({ target: { value } }) => (
+            setSearchName({ filters: { filterByName: { name: value } } })) }
+        />
+      </label>
       <Filters />
       <table>
         <thead>

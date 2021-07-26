@@ -4,19 +4,19 @@ import PropTypes from 'prop-types';
 export const GlobalContext = createContext();
 
 export const GlobalStorage = ({ children }) => {
-  const [data, setData] = React.useState(null);
-  const [loading, setLoading] = React.useState(true);
+  const [data, setData] = useState(null);
+  const [loading, setLoading] = useState(true);
   const [FilterInputs, setFilterInputs] = useState({
-    column: 'population',
-    comparison: 'maior que',
+    column: '',
+    comparison: '',
     value: 0,
   });
   const [search, setSearchName] = useState({
     filters:
      { filterByName:
       { name: '' },
+     filterByNumbericValues: [],
      },
-    filterByNumbericValues: [],
   });
 
   useEffect(() => {
