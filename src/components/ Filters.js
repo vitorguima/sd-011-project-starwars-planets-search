@@ -31,9 +31,9 @@ import PlanetsContext from '../contexts/PlanetsContext';
 //       ],
 //     },
 // };
-const MAIOR_QUE = 'maior que';
-const MENOR_QUE = 'menor que';
-const IGUAL_A = 'igual a';
+// const MAIOR_QUE = 'maior que';
+// const MENOR_QUE = 'menor que';
+// const IGUAL_A = 'igual a';
 
 export default function Filter() {
   const {
@@ -54,50 +54,94 @@ export default function Filter() {
 
   function planetByInput(target) {
     setName(target.value);
-    const byInputPlanets = data.filter((planet) => (
+    const planetsByInput = data.filter((planet) => (
       planet.name.toLowerCase().includes(target.value)
     ));
-    setFiltered(byInputPlanets);
+    setFiltered(planetsByInput);
   }
   // Primeiro - Criar um codigo que filtre a compinação. Ou seja, primeiro seta os valores que serao filtrados.
   // Extrair os filtros corretos. O ultimo que foi colocado. O filtro não pode sobrepor o que ja tem lah.
   // Uma vez separado o que será filtrado fazer função que monta esse filtro utilizando um map que utiliza os valores de filtro para fazer a seleção.
   // Apos feita a filtragem setar os filtered com a nova lista.
 
-  function planetByFilters() {
+  function planetsByFilters() {
     const newFilters = {
       ...filters,
       filterByNumericValues: [
         ...filters.filterByNumericValues, { column, comparison, value }],
     };
+
     setFilters(newFilters);
-    // Filtar novamente o data e setar novo filtered
-
-    const newFilteredListPlanets = filtered.filter((planet) => {
-      // planet[column] {`comparison`}
-      // if (comparison === '>') planet[column] > value;
-      switch (planet.comparison) {
-      case MAIOR_QUE:
-        return (planet[column] > value);
-      case MENOR_QUE:
-        return planet[column] < value;
-      case IGUAL_A:
-        return planet[column] === value;
-      default:
-        console.log(`Erro no campo Comparison. Valor passado ${planet.comparison}`);
-        return true;
-      }
-    });
-    setFiltered(newFilteredListPlanets);
+    console.log('Rodou ate setFilter');
+    // if (filters.filterByNumericValues.length > 0) {
+    //   const newfiltered = [];
+    //   filters.forEach((filter) => {
+    //     switch (filter.comparison) {
+    //     case MAIOR_QUE:
+    //       newfiltered.push(filtered.filter((planet) => planet[filter.column] > value));
+    //       console.log('rodou maior');
+    //       break;
+    //     case MENOR_QUE:
+    //       newfiltered.push(filtered.filter((planet) => planet[filter.column] < value));
+    //       console.log('rodou menor');
+    //       break;
+    //     case IGUAL_A:
+    //       newfiltered.push(filtered.filter((planet) => planet[filter.column] === value));
+    //       console.log('rodou igual');
+    //       break;
+    //     default:
+    //       newfiltered.push(filtered);
+    //       console.log('Deu b.o no comparasion');
+    //       break;
+    //     }
+    //   });
+    //   setFiltered(newfiltered);
+    // }
   }
+  // function planetsByFilters() {
+  //   const newFilters = {
+  //     ...filters,
+  //     filterByNumericValues: [
+  //       ...filters.filterByNumericValues, { column, comparison, value }],
+  //   };
+  //   setFilters(newFilters);
+  //   // Filtar novamente o data e setar novo filtered
+  //   // let filteredListPlanets = [];
+  //   filters.filterByNumericValues.forEach((filter, index) => {
+  //     if (index > 0) {
+  //       const result = filtered.map((planet) => {
+  //         // planet[column] {`comparison`}
+  //         // if (comparison === '>') planet[column] > value;
+  //         switch (filter.comparison) {
+  //         case MAIOR_QUE:
+  //           return (planet[filter.column] > value);
+  //         case MENOR_QUE:
+  //           return planet[filter.column] < value;
+  //         case IGUAL_A:
+  //           return planet[filter.column] === value;
+  //         default:
+  //           console.log(`Erro no campo Comparison. Valor passado ${filter.comparison} ???`);
+  //           return planet;
+  //         }
+  //       });
+  //     }
+  //     // filteredListPlanets.push(result);
+  //   });
+  //   let newFilteredListPlanets = [];
+  //   filteredListPlanets.forEach((list) => {
+  //     newFilteredListPlanets = [...newFilteredListPlanets, ...list];
+  //   });
+  //   setFiltered(newFilteredListPlanets);
+  //   console.log(newFilteredListPlanets);
+  // }
 
+  // Planetas com x ><= Y
   function liCreator({ filterByNumericValues }) {
     const liList = filterByNumericValues.map((filter, index) => (
-      (index === 0) ? null : (
-        <li key={ index }>
-          {`${filter.column} ${filter.comparison} ${filter.value}`}
-          <input type="button" value="X" />
-        </li>)
+      <li key={ index }>
+        {`${filter.column} ${filter.comparison} ${filter.value}`}
+        <input type="button" value="X" />
+      </li>
     ));
     return liList;
   }
@@ -158,11 +202,11 @@ export default function Filter() {
         <input
           type="button"
           value="Filtrar"
-          onClick={ () => planetByFilters() }
+          onClick={ () => planetsByFilters() }
           data-testid="button-filter"
         />
       </form>
-      { (filters.filterByNumericValues.length > 1)
+      { (filters.filterByNumericValues.length > 0)
         ? (
           <ul>
             {liCreator(filters)}

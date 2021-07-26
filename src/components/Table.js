@@ -14,11 +14,13 @@
 //     </tr>
 //   </tbody>
 // </table>
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../contexts/PlanetsContext';
 
 function Table() {
   const { filtered } = useContext(PlanetsContext);
+  // useEffect(() => {
+  // }, [filtered]);
   // PARA REFATORAÇÂO - buscar fazer a th automatica
   return (
     <table>

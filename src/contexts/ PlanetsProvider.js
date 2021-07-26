@@ -3,6 +3,10 @@ import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
+  const MAIOR_QUE = 'maior que';
+  const MENOR_QUE = 'menor que';
+  const IGUAL_A = 'igual a';
+
   const [data, setData] = useState([]);
   const [name, setName] = useState('');
   const [column, setColumn] = useState('');
@@ -13,13 +17,7 @@ function PlanetsProvider({ children }) {
     filterByName: {
       name,
     },
-    filterByNumericValues: [
-      {
-        column,
-        comparison,
-        value,
-      },
-    ],
+    filterByNumericValues: [],
   });
 
   // Fazer tratativa de erro. Passar tbm para then e cath para testar sintaxe
@@ -38,6 +36,31 @@ function PlanetsProvider({ children }) {
     };
     getPlanet();
   }, []);
+
+  useEffect(() => {
+    if (filters.filterByNumericValues.length > 0) {
+      const newArray = [];
+      filters.filterByNumericValues.forEach((filter) => {
+        switch (filter.comparison) {
+        case MAIOR_QUE:
+          newArray.push(...filtered.filter((planet) => planet[filter.column] > value));
+          break;
+        case MENOR_QUE:
+          newArray.push(...filtered.filter((planet) => planet[filter.column] < value));
+          break;
+        case IGUAL_A:
+          newArray.push(...filtered.filter((planet) => planet[filter.column] === value));
+          break;
+        default:
+          newArray.push(filtered);
+          console.log('Deu b.o no comparasion');
+          break;
+        }
+      });
+      setFiltered(newArray);
+      console.log(filtered);
+    }
+  }, [filters, filtered, value]);
 
   const context = {
     data,
