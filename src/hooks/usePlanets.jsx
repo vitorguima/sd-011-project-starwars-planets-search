@@ -7,8 +7,7 @@ const BASE_URL = 'https://swapi-trybe.herokuapp.com/api/planets';
 
 const combineFilters = ([head, ...tail]) => (
   data,
-) => (!head ? true : (head(data) && combineFilters(tail)(data))
-);
+) => (!head ? true : (head(data) && combineFilters(tail)(data)));
 
 export function PlanetProvider({ children }) {
   const [loading, setLoading] = useState(true);
