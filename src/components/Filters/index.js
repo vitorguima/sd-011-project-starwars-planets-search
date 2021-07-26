@@ -4,7 +4,6 @@ import Context from '../../utils/Context';
 const numericOptions = [
   'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
 ];
-
 const comparisonOptions = ['maior que', 'menor que', 'igual a'];
 
 function Filters() {
@@ -13,27 +12,41 @@ function Filters() {
   const [column, setColumn] = React.useState(numericOptions[0]);
   const [comparison, setComparison] = React.useState(comparisonOptions[0]);
   const [value, setValue] = React.useState(0);
+  const [numericFilters, setNumericFilters] = React.useState([]);
+  const [actualNumericOptions, setActualNumericOptions] = React.useState(numericOptions);
 
-  const updateFilters = (key, keyValue) => {
-    setFilters({
-      ...filters,
-      [key]: keyValue,
-    });
-  };
+  React.useEffect(() => {
+    setNumericFilters(filters.filterByNumericValues.map((filter) => filter.column));
+  }, [filters]);
+
+  React.useEffect(() => {
+    setColumn(actualNumericOptions[0]);
+  }, [actualNumericOptions]);
 
   const handleNameFilterChange = ({ target }) => {
     setName(target.value);
-    updateFilters('filterByName', { name: target.value.toLowerCase() });
+    setFilters({
+      ...filters,
+      filterByName: {
+        name: target.value.toLowerCase(),
+      },
+    });
   };
 
   const handleFilters = () => {
-    const numericFilters = {
-      column,
-      comparison,
-      value,
-    };
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues,
+        {
+          column,
+          comparison,
+          value,
+        },
+      ],
+    });
 
-    updateFilters('filterByNumericValues', numericFilters);
+    setActualNumericOptions(actualNumericOptions.filter((option) => option !== column));
   };
 
   return (
@@ -49,7 +62,11 @@ function Filters() {
         onChange={ ({ target }) => setColumn(target.value) }
         data-testid="column-filter"
       >
-        { numericOptions.map((option) => <option key={ option }>{option}</option>) }
+        {
+          actualNumericOptions
+            .filter((option) => !numericFilters.includes(option))
+            .map((option) => <option key={ option }>{option}</option>)
+        }
       </select>
       <select
         value={ comparison }

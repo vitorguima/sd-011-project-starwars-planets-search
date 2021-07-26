@@ -4,7 +4,9 @@ import Context from './Context';
 
 function Provider({ children }) {
   const [data, setData] = React.useState({});
-  const [filters, setFilters] = React.useState({});
+  const [filters, setFilters] = React.useState(
+    { filterByName: {}, filterByNumericValues: [] },
+  );
 
   const contextValue = {
     data,
