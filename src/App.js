@@ -1,15 +1,15 @@
-import React, { useContext, useEffect } from 'react';
+import React from 'react';
 import './App.css';
-import PlanetsContext from './PlanetsContext';
+import Filters from './Filters';
+import Provider from './PlanetsProvider';
 import Table from './Table';
 
 function App() {
-  const { fetchData } = useContext(PlanetsContext);
-
-  useEffect(fetchData, []);
-
   return (
-    <Table />
+    <Provider>
+      <Filters />
+      <Table />
+    </Provider>
   );
 }
 

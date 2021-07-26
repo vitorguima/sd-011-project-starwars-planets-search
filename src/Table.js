@@ -1,8 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import PlanetsContext from './PlanetsContext';
 
 export default function Table() {
-  const { data } = useContext(PlanetsContext);
+  const { data, fetchData } = useContext(PlanetsContext);
+
+  useEffect(() => {
+    const getData = async () => {
+      await fetchData();
+    };
+    getData();
+  }, []);
 
   const renderTableRows = () => data.map((item) => (
     <tr key={ item.name }>
@@ -15,7 +22,7 @@ export default function Table() {
       <td>{item.terrain}</td>
       <td>{item.surface_water}</td>
       <td>{item.population}</td>
-      <td>{item.films[0]}</td>
+      <td>{item.films}</td>
       <td>{item.created}</td>
       <td>{item.edited}</td>
       <td>{item.url}</td>

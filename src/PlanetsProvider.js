@@ -12,7 +12,8 @@ function Provider({ children }) {
     .then(({ results }) => setData(results.map((element) => {
       delete element.residents;
       return element;
-    })));
+    })))
+    .catch((err) => err);
 
   const contextValue = {
     data,
