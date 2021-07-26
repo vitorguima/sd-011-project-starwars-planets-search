@@ -4,6 +4,14 @@ import { GlobalContext } from './GlobalContext';
 const Table = () => {
   const apiResults = React.useContext(GlobalContext);
 
+  const [filters, setFilters] = React.useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+    },
+  });
+
   if (!apiResults.data) {
     return (
       <p>Carregando...</p>
@@ -13,8 +21,28 @@ const Table = () => {
   const filterHeader = Object.keys(apiResults.data.results[0])
     .filter((value) => value !== 'residents');
 
+  const filterSearch = apiResults.data.results
+    .filter((value) => value.name.includes(filters.filters.filterByName.name));
+
   return (
     <div>
+      <label htmlFor="name-filter">
+        <input
+          data-testid="name-filter"
+          name="name-filter"
+          value={ filters.filters.filterByName.name }
+          type="text"
+          onChange={ ({ target }) => {
+            setFilters({
+              filters: {
+                filterByName: {
+                  name: target.value,
+                },
+              },
+            });
+          } }
+        />
+      </label>
       <table>
         <thead>
           <tr>
@@ -22,7 +50,7 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          { apiResults.data.results.map((value, index) => (
+          { filterSearch.map((value, index) => (
             <tr key={ index }>
               <td>{value.name}</td>
               <td>{value.rotation_period}</td>
