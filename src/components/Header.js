@@ -3,6 +3,8 @@ import MyContext from '../context/Mycontext';
 
 function Header() {
   const { handleChange, searchValue } = useContext(MyContext);
+  const { filterByName } = searchValue;
+  const { name } = filterByName;
   return (
     <div>
       <h1>Stars Wars Planet</h1>
@@ -11,7 +13,8 @@ function Header() {
           name="search"
           type="text"
           data-testid="name-filter"
-          value={ searchValue }
+          placeholder="Enter the planet Name"
+          value={ name }
           onChange={ handleChange }
         />
       </label>

@@ -3,12 +3,12 @@ import PropTypes from 'prop-types';
 import MyContext from './Mycontext';
 
 function MyProvider({ children }) {
-  const [searchValue, setSearchValue] = useState('');
   const [data, setData] = useState([]);
-
-  const handleChange = (event) => {
-    setSearchValue(event.target.value);
-  };
+  const [searchValue, setSearchValue] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   useEffect(() => {
     const getApi = async () => {
@@ -20,6 +20,13 @@ function MyProvider({ children }) {
     };
     getApi();
   }, []);
+
+  const handleChange = ({ target }) => {
+    setSearchValue({
+      ...searchValue,
+      filterByName: { name: target.value },
+    });
+  };
 
   return (
     <MyContext.Provider value={ { data, searchValue, handleChange } }>
