@@ -1,10 +1,15 @@
 import React from 'react';
 import './App.css';
+import Table from './components/Table';
+import PlanetContext from './contexts/PlanetContext';
+import InputHeader from './components/Input/InputHeader';
 
 function App() {
   return (
-    <span>Hello, App!</span>
-  );
+    <PlanetContext>
+      <InputHeader />
+      <Table />
+    </PlanetContext>);
 }
 
 export default App;

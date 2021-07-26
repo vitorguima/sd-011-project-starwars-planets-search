@@ -20,15 +20,16 @@ const SORT_APPLY_SELECTOR = 'column-sort-button';
 const PLANET_NAME_SELECTOR = 'planet-name';
 
 const mockFetch = () => {
-  jest.spyOn(global, 'fetch')
-    .mockImplementation(() => Promise.resolve({
+  jest.spyOn(global, 'fetch').mockImplementation(() =>
+    Promise.resolve({
       status: 200,
       ok: true,
-      json: () => Promise.resolve(testData)
-    }));
-}
+      json: () => Promise.resolve(testData),
+    })
+  );
+};
 
-describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star Wars e preencha uma tabela com os dados retornados, com exceção dos da coluna `residents`', () => {
+describe.only('1 - Faça uma requisição para o endpoint `/planets` da API de Star Wars e preencha uma tabela com os dados retornados, com exceção dos da coluna `residents`', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
@@ -44,7 +45,7 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
       render(<App />);
     });
     const planets = testData.results;
-    for(let planetIndex in planets) {
+    for (let planetIndex in planets) {
       const name = await screen.findByText(planets[planetIndex].name);
       const rotationPeriod = await screen.findAllByText(planets[planetIndex].rotation_period);
       const orbitalPeriod = await screen.findAllByText(planets[planetIndex].orbital_period);
@@ -64,7 +65,7 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
       expect(terrain.length).toBeGreaterThanOrEqual(1);
       expect(surfaceWater.length).toBeGreaterThanOrEqual(1);
       expect(population.length).toBeGreaterThanOrEqual(1);
-    };
+    }
   });
 
   it('Verifique se a tabela tem 13 colunas', async () => {
@@ -84,7 +85,7 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
   });
 });
 
-describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto*, exibindo somente os planetas cujos nomes incluam o texto digitado', () => {
+describe.only('2 - Filtre a tabela através de um texto, inserido num *campo de texto*, exibindo somente os planetas cujos nomes incluam o texto digitado', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
@@ -152,14 +153,25 @@ describe('2 - Filtre a tabela através de um texto, inserido num *campo de texto
       fireEvent.change(input, { target: { value: '' } });
     });
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
-    planetNames = ['Alderaan', 'Bespin', 'Coruscant', 'Dagobah', 'Endor', 'Hoth', 'Kamino', 'Naboo', 'Tatooine', 'Yavin IV'];
+    planetNames = [
+      'Alderaan',
+      'Bespin',
+      'Coruscant',
+      'Dagobah',
+      'Endor',
+      'Hoth',
+      'Kamino',
+      'Naboo',
+      'Tatooine',
+      'Yavin IV',
+    ];
     for (let planetName of planetNames) {
       expect(await screen.findByText(planetName)).toBeInTheDocument();
     }
   });
 });
 
-describe('3 - Crie um filtro para valores numéricos', () => {
+describe.only('3 - Crie um filtro para valores numéricos', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
@@ -170,8 +182,14 @@ describe('3 - Crie um filtro para valores numéricos', () => {
 
     const column = await screen.findByTestId(COLUMN_FILTER_SELECTOR);
     expect(column).toHaveProperty('nodeName', 'SELECT');
-    const columns = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-    const foundColumnFilter = Array.from(column.children).map(child => {
+    const columns = [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ];
+    const foundColumnFilter = Array.from(column.children).map((child) => {
       expect(child).toHaveProperty('nodeName', 'OPTION');
       return child.innerHTML;
     });
@@ -186,7 +204,7 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     const column = await screen.findByTestId(COMPARISON_FILTER_SELECTOR);
     expect(column).toHaveProperty('nodeName', 'SELECT');
     const columns = ['maior que', 'igual a', 'menor que'];
-    const foundComparisonFilter = Array.from(column.children).map(child => {
+    const foundComparisonFilter = Array.from(column.children).map((child) => {
       expect(child).toHaveProperty('nodeName', 'OPTION');
       return child.innerHTML;
     });
@@ -214,9 +232,13 @@ describe('3 - Crie um filtro para valores numéricos', () => {
       render(<App />);
     });
 
-    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'surface_water' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'menor que' }});
-    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '40' }});
+    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), {
+      target: { value: 'surface_water' },
+    });
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), {
+      target: { value: 'menor que' },
+    });
+    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '40' } });
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
 
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(7);
@@ -227,9 +249,15 @@ describe('3 - Crie um filtro para valores numéricos', () => {
       render(<App />);
     });
 
-    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'diameter' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
-    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8900' }});
+    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), {
+      target: { value: 'diameter' },
+    });
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), {
+      target: { value: 'maior que' },
+    });
+    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), {
+      target: { value: '8900' },
+    });
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
 
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
@@ -240,9 +268,15 @@ describe('3 - Crie um filtro para valores numéricos', () => {
       render(<App />);
     });
 
-    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'population' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'igual a' }});
-    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '200000' }});
+    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), {
+      target: { value: 'population' },
+    });
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), {
+      target: { value: 'igual a' },
+    });
+    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), {
+      target: { value: '200000' },
+    });
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
 
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(2);
@@ -263,25 +297,41 @@ describe('4 - Não utilize filtros repetidos', () => {
 
     column = await screen.findByTestId(COLUMN_FILTER_SELECTOR);
     expect(column).toHaveProperty('nodeName', 'SELECT');
-    foundColumnFilter = Array.from(column.children).map(child => {
+    foundColumnFilter = Array.from(column.children).map((child) => {
       expect(child).toHaveProperty('nodeName', 'OPTION');
       return child.innerHTML;
     });
-    expect(foundColumnFilter).toEqual(expect.arrayContaining(['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water']));
+    expect(foundColumnFilter).toEqual(
+      expect.arrayContaining([
+        'population',
+        'orbital_period',
+        'diameter',
+        'rotation_period',
+        'surface_water',
+      ])
+    );
 
-    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'population' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
-    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8000' }});
+    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), {
+      target: { value: 'population' },
+    });
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), {
+      target: { value: 'maior que' },
+    });
+    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), {
+      target: { value: '8000' },
+    });
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
 
     column = await screen.findByTestId(COLUMN_FILTER_SELECTOR);
     expect(column).toHaveProperty('nodeName', 'SELECT');
-    foundColumnFilter = Array.from(column.children).map(child => {
+    foundColumnFilter = Array.from(column.children).map((child) => {
       expect(child).toHaveProperty('nodeName', 'OPTION');
       return child.innerHTML;
     });
-    expect(foundColumnFilter).toEqual(expect.arrayContaining(['orbital_period', 'diameter', 'rotation_period', 'surface_water']));
+    expect(foundColumnFilter).toEqual(
+      expect.arrayContaining(['orbital_period', 'diameter', 'rotation_period', 'surface_water'])
+    );
     expect(foundColumnFilter).toHaveLength(4);
   });
 });
@@ -301,9 +351,15 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
     });
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
 
-    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'diameter' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
-    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8900' }});
+    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), {
+      target: { value: 'diameter' },
+    });
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), {
+      target: { value: 'maior que' },
+    });
+    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), {
+      target: { value: '8900' },
+    });
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
 
@@ -318,15 +374,27 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
     });
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
 
-    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'diameter' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
-    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8900' }});
+    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), {
+      target: { value: 'diameter' },
+    });
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), {
+      target: { value: 'maior que' },
+    });
+    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), {
+      target: { value: '8900' },
+    });
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
 
-    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'population' }});
-    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'menor que' }});
-    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '1000000' }});
+    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), {
+      target: { value: 'population' },
+    });
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), {
+      target: { value: 'menor que' },
+    });
+    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), {
+      target: { value: '1000000' },
+    });
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(3);
 
@@ -346,9 +414,20 @@ describe('6 - Ordene as colunas de forma ascendente ou descendente', () => {
     await act(async () => {
       render(<App />);
     });
-    const expected = ['Alderaan', 'Bespin', 'Coruscant', 'Dagobah', 'Endor', 'Hoth', 'Kamino', 'Naboo', 'Tatooine', 'Yavin IV' ];
+    const expected = [
+      'Alderaan',
+      'Bespin',
+      'Coruscant',
+      'Dagobah',
+      'Endor',
+      'Hoth',
+      'Kamino',
+      'Naboo',
+      'Tatooine',
+      'Yavin IV',
+    ];
     const planets = await screen.findAllByTestId(PLANET_NAME_SELECTOR);
-    const actual = planets.map(planet => planet.innerHTML);
+    const actual = planets.map((planet) => planet.innerHTML);
     expect(actual).toEqual(expected);
   });
 
@@ -356,12 +435,25 @@ describe('6 - Ordene as colunas de forma ascendente ou descendente', () => {
     await act(async () => {
       render(<App />);
     });
-    fireEvent.change(await screen.findByTestId(SORT_COLUMN_SELECTOR), { target: { value: 'orbital_period' }});
+    fireEvent.change(await screen.findByTestId(SORT_COLUMN_SELECTOR), {
+      target: { value: 'orbital_period' },
+    });
     fireEvent.click(await screen.findByTestId(SORT_ORDER_DESC_SELECTOR));
     fireEvent.click(await screen.findByTestId(SORT_APPLY_SELECTOR));
-    const expected = ['Bespin', 'Yavin IV', 'Hoth', 'Kamino', 'Endor', 'Coruscant', 'Alderaan', 'Dagobah', 'Naboo', 'Tatooine'];
+    const expected = [
+      'Bespin',
+      'Yavin IV',
+      'Hoth',
+      'Kamino',
+      'Endor',
+      'Coruscant',
+      'Alderaan',
+      'Dagobah',
+      'Naboo',
+      'Tatooine',
+    ];
     const planets = await screen.findAllByTestId(PLANET_NAME_SELECTOR);
-    const actual = planets.map(planet => planet.innerHTML);
+    const actual = planets.map((planet) => planet.innerHTML);
     expect(actual).toEqual(expected);
   });
 });
