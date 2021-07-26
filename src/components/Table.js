@@ -24,7 +24,7 @@ function Table() {
   if (filters.filterByNumericValues[0].comparison === 'menor que') {
     filter = filter
       .filter((e) => Number(e[filters
-        .filterByNumericValues[0].column]) <= Number(filters
+        .filterByNumericValues[0].column]) < Number(filters
         .filterByNumericValues[0].value));
   }
   if (filters.filterByNumericValues[0].comparison === 'igual a') {

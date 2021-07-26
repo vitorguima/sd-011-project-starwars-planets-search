@@ -6,6 +6,9 @@ function Filter() {
     setFilterName,
     filterName: { filters },
   } = React.useContext(GlobalContext);
+  const [column, setColumn] = React.useState('population');
+  const [comparison, setComparison] = React.useState('maior que');
+  const [values, setValues] = React.useState(0);
 
   function handleFilterNameChange({ target }) {
     setFilterName({ ...filterName,
@@ -17,40 +20,28 @@ function Filter() {
       } });
   }
 
+  function handleClick() {
+    setFilterName({ ...filterName,
+      filters: {
+        filterByName: filters.filterByName,
+        filterByNumericValues: [{
+          column,
+          comparison,
+          value: values,
+        }],
+      } });
+  }
+
   function handleColumnFilterChange({ target }) {
     const { name, value } = target;
     if (name === 'column-filter') {
-      setFilterName({ ...filterName,
-        filters: {
-          filterByName: filters.filterByName,
-          filterByNumericValues: [{
-            column: value,
-            comparison: filters.filterByNumericValues[0].comparison,
-            value: filters.filterByNumericValues[0].value,
-          }],
-        } });
+      setColumn(value);
     }
     if (name === 'comparison-filter') {
-      setFilterName({ ...filterName,
-        filters: {
-          filterByName: filters.filterByName,
-          filterByNumericValues: [{
-            column: filters.filterByNumericValues[0].column,
-            comparison: value.replace('-', ' '),
-            value: filters.filterByNumericValues[0].value,
-          }],
-        } });
+      setComparison(value);
     }
     if (name === 'value-filter') {
-      setFilterName({ ...filterName,
-        filters: {
-          filterByName: filters.filterByName,
-          filterByNumericValues: [{
-            column: filters.filterByNumericValues[0].column,
-            comparison: filters.filterByNumericValues[0].comparison,
-            value,
-          }],
-        } });
+      setValues(value);
     }
   }
 
@@ -86,9 +77,9 @@ function Filter() {
           name="comparison-filter"
           onChange={ handleColumnFilterChange }
         >
-          <option value="maior-que">maior que</option>
-          <option value="menor-que">menor que</option>
-          <option value="igual-a">igual a</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
       </label>
       <label htmlFor="value-filter">
@@ -100,7 +91,13 @@ function Filter() {
           onChange={ handleColumnFilterChange }
         />
       </label>
-      <button type="button" data-testid="button-filter">Acionar filtro</button>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ handleClick }
+      >
+        Acionar filtro
+      </button>
     </form>
   );
 }
