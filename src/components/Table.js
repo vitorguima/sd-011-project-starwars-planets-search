@@ -3,12 +3,14 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 export default function Table() {
-  const { data, filters: {
+  const { data, filteredData, filters: {
     filterByName: { name: nameFilter },
   } } = useContext(Context);
-  let planets = data;
+  let planets;
+  if (filteredData.length === 0) planets = data;
+  else planets = filteredData;
   if (nameFilter.trim() !== '') {
-    planets = data.filter(({ name }) => name.includes(nameFilter));
+    planets = planets.filter(({ name }) => name.includes(nameFilter));
   }
   return (
     <table>
