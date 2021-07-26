@@ -6,6 +6,13 @@ import requestPlanets from '../services/requestPlanets';
 const PlanetsProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [isFeching, setIsFecthing] = useState(false);
+  const [filters, setFilters] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+    },
+  });
 
   useEffect(() => {
     setIsFecthing(true);
@@ -29,9 +36,24 @@ const PlanetsProvider = ({ children }) => {
       });
   }, []);
 
+  const setFilterByName = (name) => {
+    const newFilter = {
+      ...filters,
+      filters: {
+        filterByName: {
+          name,
+        },
+      },
+    };
+
+    setFilters(newFilter);
+  };
+
   const context = {
     data,
     isFeching,
+    setFilterByName,
+    name: filters.filters.filterByName.name,
   };
 
   return (
