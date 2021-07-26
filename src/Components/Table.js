@@ -1,9 +1,29 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function Table() {
   const { data } = useContext(PlanetsContext);
-  console.log(data);
+  const [filters, setFilters] = useState(
+    { filterByName: { name: '' },
+      filterByNumericValues: [
+        {
+          column: '',
+          comparison: '',
+          value: '',
+        },
+      ],
+    },
+  );
+
+  const handleInputContent = ({ target }) => {
+    setFilters(
+      { ...filters, filterByName: { name: target.value } },
+    );
+  };
+
+  const filterPlanets = data.filter((item) => (
+    item.name.toLowerCase().includes(filters.filterByName.name)));
+
   return (
     <table>
       <tr>
@@ -23,8 +43,15 @@ export default function Table() {
 
       </tr>
 
+      <input
+        type="text"
+        value={ filters.filterByName.name }
+        onChange={ handleInputContent }
+        data-testid="name-filter"
+      />
+
       {data
-        && data.map((item) => (
+        && filterPlanets.map((item) => (
           <tr key={ `${item.name}` }>
             {Object.values(item).map((value, index) => (
               value === item.name ? (
