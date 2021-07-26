@@ -45,7 +45,12 @@ const Table = () => {
             <tr key={ planet.name }>
               {
                 planetInfoList.map(
-                  (info, index) => <td key={ index }>{ planet[info] }</td>,
+                  (info, index) => (
+                    <td key={ index }>
+                      {
+                        info === 'films' ? planet[info][0] : planet[info]
+                      }
+                    </td>),
                 )
               }
             </tr>
