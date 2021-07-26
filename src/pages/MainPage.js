@@ -1,18 +1,10 @@
-import React, { useState, useEffect, useContext } from 'react';
-import fetchStarWarsPlanets from '../services/StarWarsAPI';
+import React, { useContext } from 'react';
+import StarWarsContext from '../context/StarWarsContext';
 
 function MainPage() {
-  const [planets, setPlanets] = useState([]);
+  const { filteredPlanets, handleFilterByName } = useContext(StarWarsContext);
 
-  useEffect(() => {
-    const getPlanets = async () => {
-      const listPlanets = await fetchStarWarsPlanets();
-      await setPlanets(listPlanets);
-    };
-    getPlanets();
-  }, []);
-
-  const planetsTableLine = (planet) => {
+  const planetLine = (planet) => {
     const {
       name,
       rotation_period: rotationalPeriod,
@@ -51,6 +43,18 @@ function MainPage() {
 
   return (
     <div>
+      <div>
+        <form>
+          <label htmlFor="name-filter">
+            <input
+              type="text"
+              name="name-filter"
+              onChange={ handleFilterByName }
+              data-testid="name-filter"
+            />
+          </label>
+        </form>
+      </div>
       <table>
         <thead>
           <tr>
@@ -70,7 +74,9 @@ function MainPage() {
           </tr>
         </thead>
         <tbody>
-          { planets.length > 0 && planets.map((planet) => planetsTableLine(planet))}
+          { filteredPlanets.length > 0 && filteredPlanets.map((planet) => (
+            planetLine(planet)
+          ))}
         </tbody>
       </table>
     </div>
