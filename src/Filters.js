@@ -6,8 +6,9 @@ export default function Filters() {
   const { filterByName: { name } } = filters;
 
   useEffect(() => {
+    console.log('loop 1');
     filterByName();
-  }, [filterByName, name]);
+  }, [name]);
 
   return (
     <div>

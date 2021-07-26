@@ -9,9 +9,11 @@ export default function Table() {
       await fetchData();
     };
     getData();
-  }, [fetchData]);
+    console.log('loop 3');
+  }, []);
 
   useEffect(() => {
+    console.log('loop 2');
     setFilteredData(data);
   }, [data, setFilteredData]);
 
