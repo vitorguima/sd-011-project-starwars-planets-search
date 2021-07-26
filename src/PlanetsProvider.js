@@ -6,6 +6,8 @@ const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filteredData, setFilteredData] = useState(data);
 
   const fetchData = () => fetch(url)
     .then((result) => result.json())
@@ -15,9 +17,22 @@ function Provider({ children }) {
     })))
     .catch((err) => err);
 
+  const setFilterByName = (name) => {
+    setFilters({ filterByName: { name } });
+  };
+
+  const filterByName = () => {
+    setFilteredData(data.filter(({ name }) => name.includes(filters.filterByName.name)));
+  };
+
   const contextValue = {
     data,
     fetchData,
+    filters,
+    setFilterByName,
+    filteredData,
+    setFilteredData,
+    filterByName,
   };
 
   return (

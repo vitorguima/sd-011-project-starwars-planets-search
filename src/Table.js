@@ -2,16 +2,20 @@ import React, { useContext, useEffect } from 'react';
 import PlanetsContext from './PlanetsContext';
 
 export default function Table() {
-  const { data, fetchData } = useContext(PlanetsContext);
+  const { filteredData, fetchData, data, setFilteredData } = useContext(PlanetsContext);
 
   useEffect(() => {
     const getData = async () => {
       await fetchData();
     };
     getData();
-  }, []);
+  }, [fetchData]);
 
-  const renderTableRows = () => data.map((item) => (
+  useEffect(() => {
+    setFilteredData(data);
+  }, [data, setFilteredData]);
+
+  const renderTableRows = () => filteredData.map((item) => (
     <tr key={ item.name }>
       <td>{item.name}</td>
       <td>{item.rotation_period}</td>
@@ -29,7 +33,7 @@ export default function Table() {
     </tr>
   ));
 
-  if (!data.length) {
+  if (!filteredData.length) {
     return <h1>Loading</h1>;
   } return (
     <table>
