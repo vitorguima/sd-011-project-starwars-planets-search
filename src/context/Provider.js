@@ -6,8 +6,6 @@ import getPlanetsAPI from '../services/getPlanetsAPI';
 function Provider({ children }) {
   const [data, setData] = useState([]);
 
-  const [isLoading, setIsLoading] = useState(false);
-
   const [dataFilters, setDataFilters] = useState({
     filters: {
       filterByName: {
@@ -17,15 +15,12 @@ function Provider({ children }) {
   });
 
   async function fetchPlanets() {
-    setIsLoading(true);
     try {
       const response = await getPlanetsAPI();
       response.map((result) => delete result.residents); // remove chave 'residents' dos dados obtidos da API
       setData(response);
-      setIsLoading(false);
     } catch (error) {
       console.log('error');
-      setIsLoading(false);
     }
   }
 
@@ -35,7 +30,6 @@ function Provider({ children }) {
 
   const contextValue = {
     data,
-    isLoading,
     fetchPlanets,
     dataFilters,
     setDataFilters,
