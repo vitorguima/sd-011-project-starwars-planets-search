@@ -4,10 +4,6 @@ import planetContext from '../Context/planetContext';
 const FilterPlanetsName = () => {
   const { name, handleChange } = useContext(planetContext);
 
-  // const handleChange = (event) => {
-  //   setName({ filterByName: { name: event.target.value } });
-  // };
-
   return (
     <form>
       <label htmlFor="name">
