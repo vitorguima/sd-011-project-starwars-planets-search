@@ -41,7 +41,7 @@ function Table() {
               <td>{ edited }</td>
               <td>{ films.map((film) => <p key={ film }>{ film }</p>) }</td>
               <td>{ gravity }</td>
-              <td>{ name }</td>
+              <td data-testid="planet-name">{ name }</td>
               <td>{ orbital }</td>
               <td>{ population }</td>
               <td>{ rotation }</td>

@@ -1,20 +1,17 @@
-export default function allTableFilters(context) {
-  const {
-    data,
-    filters: {
-      filterByName: { name: nameToFilter },
-      filterByNumericValues,
-    },
-  } = context;
-
-  let filteredPlanets = data.filter(({ name }) => (
+function filterByNameStep(data, nameToFilter) {
+  const filteredPlanets = data.filter(({ name }) => (
     name.toLowerCase().includes(nameToFilter)
   ));
 
+  return filteredPlanets;
+}
+
+function filterByNumericValuesStep(filterByNumericValues, filteredPlanets) {
+  let response = [];
   if (filterByNumericValues.length > 0) {
     filterByNumericValues.forEach((filter) => {
       const { column, comparison, value } = filter;
-      filteredPlanets = filteredPlanets.filter((planet) => {
+      response = filteredPlanets.filter((planet) => {
         switch (comparison) {
         case 'maior que':
           return parseFloat(planet[column]) > parseFloat(value);
@@ -28,6 +25,71 @@ export default function allTableFilters(context) {
       });
     });
   }
+  return response.length === 0 ? filteredPlanets : response;
+}
+
+function sortByASC(orderColumn, filteredPlanets) {
+  let response = [];
+  const NEGATIVE_ONE = -1;
+  const toNumberColumns = [
+    'rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population',
+  ];
+
+  response = filteredPlanets.sort((a, b) => {
+    if (toNumberColumns.includes(orderColumn)) {
+      if (parseFloat(a[orderColumn]) > parseFloat(b[orderColumn])) return 1;
+      if (parseFloat(b[orderColumn]) > parseFloat(a[orderColumn])) return NEGATIVE_ONE;
+      return 0;
+    }
+    if (a[orderColumn] > b[orderColumn]) return 1;
+    if (b[orderColumn] > a[orderColumn]) return NEGATIVE_ONE;
+    return 0;
+  });
+  return response;
+}
+
+function sortByDESC(orderColumn, filteredPlanets) {
+  let response = [];
+  const NEGATIVE_ONE = -1;
+  const toNumberColumns = [
+    'rotation_period', 'orbital_period', 'diameter', 'surface_water', 'population',
+  ];
+
+  response = filteredPlanets.sort((a, b) => {
+    if (toNumberColumns.includes(orderColumn)) {
+      if (parseFloat(a[orderColumn]) < parseFloat(b[orderColumn])) return 1;
+      if (parseFloat(b[orderColumn]) < parseFloat(a[orderColumn])) return NEGATIVE_ONE;
+      return 0;
+    }
+    if (a[orderColumn] < b[orderColumn]) return 1;
+    if (b[orderColumn] < a[orderColumn]) return NEGATIVE_ONE;
+    return 0;
+  });
+  return response;
+}
+
+function sortByFiltersStep(sort, orderColumn, filteredPlanets) {
+  let response = [];
+
+  if (sort === 'ASC') response = sortByASC(orderColumn, filteredPlanets);
+  if (sort === 'DESC') response = sortByDESC(orderColumn, filteredPlanets);
+
+  return response;
+}
+
+export default function allTableFilters(context) {
+  const {
+    data,
+    filters: {
+      filterByName: { name: nameToFilter },
+      filterByNumericValues,
+      order: { column: orderColumn, sort },
+    },
+  } = context;
+
+  let filteredPlanets = filterByNameStep(data, nameToFilter);
+  filteredPlanets = filterByNumericValuesStep(filterByNumericValues, filteredPlanets);
+  filteredPlanets = sortByFiltersStep(sort, orderColumn, filteredPlanets);
 
   return filteredPlanets;
 }

@@ -13,6 +13,7 @@ function PlanetsProvider({ children }) {
     'rotation_period',
     'surface_water',
   ]);
+  const [order, setOrder] = useState({ column: 'name', sort: 'ASC' });
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -49,17 +50,23 @@ function PlanetsProvider({ children }) {
     setColumnFilters([...columnFiltersAvailable, id]);
   }
 
+  function newOrderSort(newColumn, newSort) {
+    setOrder({ column: newColumn, sort: newSort });
+  }
+
   const contextValue = {
     contextFunctions: {
       handleNameFilterChange,
       newNumericValuesFilter,
       removeNumericValuesFilter,
+      newOrderSort,
     },
     data,
     filters: {
       filterByName,
       filterByNumericValues,
       columnFiltersAvailable,
+      order,
     },
   };
 
