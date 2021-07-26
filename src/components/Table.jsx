@@ -2,15 +2,32 @@ import React, { useContext } from 'react';
 import StarwarsContext from '../context/StarwarsContext';
 
 export default function Table() {
-  const { data, loading } = useContext(StarwarsContext);
+  const { data, loading, filters, setFilters } = useContext(StarwarsContext);
+
+  const inputHandle = ({ target }) => {
+    setFilters(
+      { ...filters, filterByName: { name: target.value } },
+    );
+  };
 
   if (loading) {
     return (<h1>Loading...</h1>);
   }
 
+  const filterPlanets = data.results.filter((item) => (
+    item.name.toLowerCase().includes(filters.filterByName.name)));
+
   return (
     <div>
       <h1>Trybe Wars</h1>
+
+      <input
+        type="text"
+        value={ filters.filterByName.name }
+        onChange={ inputHandle }
+        data-testid="name-filter"
+      />
+
       <table>
         <thead>
           <tr>
@@ -30,7 +47,7 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.results.map((item) => (
+          {filterPlanets.map((item) => (
             <tr key={ item.name }>
               <td>{ item.name }</td>
               <td>{item.climate}</td>

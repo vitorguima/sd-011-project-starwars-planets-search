@@ -5,6 +5,17 @@ import StarwarsContext from '../context/StarwarsContext';
 export default function Provider({ children }) {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState(
+    { filterByName: { name: '' },
+      filterByNumericValues: [
+        {
+          column: '',
+          comparison: '',
+          value: '',
+        },
+      ],
+    },
+  );
 
   useEffect(() => {
     const fetchPlanetsApi = () => {
@@ -17,7 +28,7 @@ export default function Provider({ children }) {
   }, []);
 
   return (
-    <StarwarsContext.Provider value={ { data, loading } }>
+    <StarwarsContext.Provider value={ { data, loading, filters, setFilters } }>
       {children}
     </StarwarsContext.Provider>
   );
