@@ -31,22 +31,25 @@ import PlanetsContext from '../contexts/PlanetsContext';
 //       ],
 //     },
 // };
+const MAIOR_QUE = 'maior que';
+const MENOR_QUE = 'menor que';
+const IGUAL_A = 'igual a';
 
 export default function Filter() {
   const {
     data,
-    // column,
-    // comparison,
-    // valueNumber = value,
-    // filtered,
-    // filters,
+    column,
+    comparison,
+    value,
+    filtered,
+    filters,
     // setData,
     setName,
-    // setColumn,
+    setColumn,
     setComparison,
     setValue,
     setFiltered,
-    // setFilters,
+    setFilters,
   } = useContext(PlanetsContext);
 
   function planetByInput(target) {
@@ -61,70 +64,111 @@ export default function Filter() {
   // Uma vez separado o que será filtrado fazer função que monta esse filtro utilizando um map que utiliza os valores de filtro para fazer a seleção.
   // Apos feita a filtragem setar os filtered com a nova lista.
 
-  // Montar função que adiciona um novo filtro. Essa mesma função deve adicionar um novo filtered.
-  // function planetByFilters() {
-  //   const { filterByNumericValues } = filters;
-  //   const byFilterPlanets = data.
-  //   setFiltered();
-  // }
+  function planetByFilters() {
+    const newFilters = {
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues, { column, comparison, value }],
+    };
+    setFilters(newFilters);
+    // Filtar novamente o data e setar novo filtered
+
+    const newFilteredListPlanets = filtered.filter((planet) => {
+      // planet[column] {`comparison`}
+      // if (comparison === '>') planet[column] > value;
+      switch (planet.comparison) {
+      case MAIOR_QUE:
+        return (planet[column] > value);
+      case MENOR_QUE:
+        return planet[column] < value;
+      case IGUAL_A:
+        return planet[column] === value;
+      default:
+        console.log(`Erro no campo Comparison. Valor passado ${planet.comparison}`);
+        return true;
+      }
+    });
+    setFiltered(newFilteredListPlanets);
+  }
+
+  function liCreator({ filterByNumericValues }) {
+    const liList = filterByNumericValues.map((filter, index) => (
+      (index === 0) ? null : (
+        <li key={ index }>
+          {`${filter.column} ${filter.comparison} ${filter.value}`}
+          <input type="button" value="X" />
+        </li>)
+    ));
+    return liList;
+  }
+  // Os filtros selecionados devem ser renderizados na tela depois do click.
 
   return (
-    <form>
-      <label htmlFor="input_Filter">
+    <section>
+      <form>
+        <label htmlFor="input_Filter">
+          <input
+            name="input_Filter"
+            id="input_Filter"
+            type="text"
+            onChange={ ({ target }) => planetByInput(target) }
+            placeholder="Search..."
+            data-testid="name-filter"
+          />
+        </label>
+
+        <br />
+        <span>Filtro: </span>
+        <select
+          name="column-filter"
+          htmlFor="column-filter"
+          data-testid="column-filter"
+          value={ null }
+          onChange={ ({ target }) => setColumn(target.value) }
+        >
+          <option disabled selected>Selecione um valor</option>
+          <option>population</option>
+          <option>orbital_period</option>
+          <option>diameter</option>
+          <option>rotation_period</option>
+          <option>surface_water</option>
+        </select>
+
+        <select
+          id="comparison_filter"
+          name="comparison_filter"
+          data-testid="comparison-filter"
+          value={ null }
+          onChange={ ({ target }) => setComparison(target.value) }
+        >
+          <option disabled selected>Selecione um valor</option>
+          <option>maior que</option>
+          <option>menor que</option>
+          <option>igual a</option>
+        </select>
+
         <input
-          name="input_Filter"
-          id="input_Filter"
-          type="text"
-          onChange={ ({ target }) => planetByInput(target) }
-          placeholder="Search..."
-          data-testid="name-filter"
+          name="value_filter"
+          id="value_filter"
+          type="number"
+          onChange={ ({ target }) => setValue(target.value) }
+          placeholder="0"
+          data-testid="value-filter"
         />
-      </label>
-
-      <br />
-      <span>Filtro: </span>
-      <select
-        name="column-filter"
-        htmlFor="column-filter"
-        data-testid="column-filter"
-        value={ null }
-        // onChange={ ({ target }) => setColumn([]) }
-      >
-        <option disabled selected>Selecione um valor</option>
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
-      </select>
-
-      <select
-        id="comparison_filter"
-        name="comparison_filter"
-        data-testid="comparison-filter"
-        value={ null }
-        onChange={ ({ target: { value } }) => setComparison(value) }
-      >
-        <option disabled selected>Selecione um valor</option>
-        <option>maior que</option>
-        <option>menor que</option>
-        <option>igual a</option>
-      </select>
-
-      <input
-        name="value_filter"
-        id="value_filter"
-        type="number"
-        onChange={ ({ target: { value } }) => setValue(value) }
-        placeholder="0"
-        data-testid="value-filter"
-      />
-      <input
-        type="button"
-        value="Filtrar"
-        // onClick={ planetByFilters }
-        data-testid="button-filter"
-      />
-    </form>
+        <input
+          type="button"
+          value="Filtrar"
+          onClick={ () => planetByFilters() }
+          data-testid="button-filter"
+        />
+      </form>
+      { (filters.filterByNumericValues.length > 1)
+        ? (
+          <ul>
+            {liCreator(filters)}
+          </ul>
+        )
+        : null }
+    </section>
   );
 }
