@@ -23,7 +23,8 @@ export default function Table() {
         type="text"
         data-testid="name-filter"
         value={ search.filters.filterByName.name }
-        onChange={ ({ target: { value } }) => setSearchName({ filters: { filterByName: { name: value } } }) }
+        onChange={ ({ target: { value } }) => (
+          setSearchName({ filters: { filterByName: { name: value } } })) }
       />
       <table>
         <thead>
