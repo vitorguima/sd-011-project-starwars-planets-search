@@ -5,15 +5,14 @@ import StarwarsContext from '../context/StarwarsContext';
 export default function Provider({ children }) {
   const [data, setData] = useState({});
   const [loading, setLoading] = useState(true);
+  const [options, setOptions] = useState({
+    column: '',
+    comparison: '',
+    value: '',
+  });
   const [filters, setFilters] = useState(
     { filterByName: { name: '' },
-      filterByNumericValues: [
-        {
-          column: '',
-          comparison: '',
-          value: '',
-        },
-      ],
+      filterByNumericValues: [],
     },
   );
 
@@ -28,7 +27,15 @@ export default function Provider({ children }) {
   }, []);
 
   return (
-    <StarwarsContext.Provider value={ { data, loading, filters, setFilters } }>
+    <StarwarsContext.Provider
+      value={ {
+        data,
+        loading,
+        filters,
+        setFilters,
+        options,
+        setOptions } }
+    >
       {children}
     </StarwarsContext.Provider>
   );

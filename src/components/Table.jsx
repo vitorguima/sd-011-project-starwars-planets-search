@@ -2,7 +2,13 @@ import React, { useContext } from 'react';
 import StarwarsContext from '../context/StarwarsContext';
 
 export default function Table() {
-  const { data, loading, filters, setFilters } = useContext(StarwarsContext);
+  const {
+    data,
+    loading,
+    filters,
+    setFilters,
+    options,
+    setOptions } = useContext(StarwarsContext);
 
   const inputHandle = ({ target }) => {
     setFilters(
@@ -15,7 +21,33 @@ export default function Table() {
   }
 
   const filterPlanets = data.results.filter((item) => (
-    item.name.toLowerCase().includes(filters.filterByName.name)));
+    item.name.toLowerCase().includes(filters.filterByName.name))).filter((itemF) => {
+    switch (options.comparison) {
+    case 'maior que':
+      return itemF[options.column] > Number(options.value);
+    case 'menor que':
+      return itemF[options.column] < Number(options.value);
+    case 'igual a':
+      return itemF[options.column] === options.value;
+    default:
+      return itemF;
+    }
+  });
+
+  const handleFilterOptions = (target) => {
+    const { name, value } = target;
+    setOptions({
+      ...options,
+      [name]: value,
+    });
+  };
+
+  const handleFilterBttn = () => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [...filters.filterByNumericValues, options],
+    });
+  };
 
   return (
     <div>
@@ -27,6 +59,45 @@ export default function Table() {
         onChange={ inputHandle }
         data-testid="name-filter"
       />
+
+      <select
+        data-testid="column-filter"
+        name="column"
+        onChange={ ({ target }) => handleFilterOptions(target) }
+      >
+        <option>Escolha uma coluna</option>
+        <option value="population">population</option>
+        <option value="orbital_period">orbital_period</option>
+        <option value="diameter">diameter</option>
+        <option value="rotation_period">rotation_period</option>
+        <option value="surface_water">surface_water</option>
+      </select>
+
+      <select
+        data-testid="comparison-filter"
+        name="comparison"
+        onChange={ ({ target }) => handleFilterOptions(target) }
+      >
+        <option>Escolha uma comparação</option>
+        <option value="maior que">maior que</option>
+        <option value="menor que">menor que</option>
+        <option value="igual a">igual a</option>
+      </select>
+
+      <input
+        data-testid="value-filter"
+        type="number"
+        value={ options.value }
+        name="value"
+        onChange={ ({ target }) => handleFilterOptions(target) }
+      />
+      <button
+        data-testid="button-filter"
+        type="button"
+        onClick={ handleFilterBttn }
+      >
+        Filtrar
+      </button>
 
       <table>
         <thead>
