@@ -6,11 +6,17 @@ import getPlanets from '../services/FetchPlanetsAPI';
 export default function TableProvider({ children }) {
   const [planetsResult, setPlanetsResults] = useState([]);
   const [filteredResult, setFilteredResult] = useState('');
-
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: 'population',
+        comparison: 'maior que',
+        value: '100000',
+      },
+    ],
   });
 
   const getPlanetsFromAPI = async () => {
@@ -33,6 +39,18 @@ export default function TableProvider({ children }) {
     });
   };
 
+  const handleSelectors = ({ target }) => {
+    const { name, value } = target;
+    setFilters({ ...filters,
+      filterByNumericValues: [
+        {
+          ...filters.filterByNumericValues[0],
+          [name]: value,
+        },
+      ],
+    });
+  };
+
   const filterResultsByName = () => {
     const { filterByName: { name } } = filters;
     const filteredPlanets = planetsResult
@@ -40,13 +58,13 @@ export default function TableProvider({ children }) {
     setFilteredResult(filteredPlanets);
   };
 
-  const filterResultsByNumericNumbers = () => {
-    console.log('funcionou');
-  };
+  // const filterResultsByNumericNumbers = () => {
+  //   console.log('deu boa');
+  // };
 
   const filterResults = () => {
     filterResultsByName();
-    filterResultsByNumericNumbers();
+    // filterResultsByNumericNumbers();
   };
 
   useEffect(() => {
@@ -58,6 +76,8 @@ export default function TableProvider({ children }) {
     handleFilters,
     filteredResult,
     valuePlanets: filters.filterByName.name,
+    selectorsValue: filters.filterByNumericValues,
+    handleSelectors,
   };
 
   return (

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import TableContext from '../context/TableContext';
+import SearchByNumericValue from './SearchByNumericValue';
 import TableRowContent from './TableRowContent';
 
 export default function Table() {
@@ -22,6 +23,7 @@ export default function Table() {
           data-testid="name-filter"
         />
       </label>
+      <SearchByNumericValue />
       <table>
         <thead>
           <tr>
