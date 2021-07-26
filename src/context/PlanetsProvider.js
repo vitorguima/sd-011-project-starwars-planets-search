@@ -6,6 +6,13 @@ function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [filterByName, setName] = useState({ name: '' });
   const [filterByNumericValues, setNumericValues] = useState([]);
+  const [columnFiltersAvailable, setColumnFilters] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -22,29 +29,37 @@ function PlanetsProvider({ children }) {
   }
 
   function newNumericValuesFilter() {
-    const column = document.querySelector('#column-filter');
-    const { value } = column;
+    const column = document.querySelector('#column-filter').value;
     const comparison = document.querySelector('#comparison-filter').value;
     const Filtervalue = document.querySelector('#value-filter').value;
     setNumericValues([...filterByNumericValues, {
-      column: value,
+      column,
       comparison,
       value: Filtervalue,
     }]);
+    setColumnFilters(
+      columnFiltersAvailable.filter((columnFilter) => columnFilter !== column),
+    );
+  }
 
-    const optionToRemove = document.querySelector(`#${value}`);
-    column.removeChild(optionToRemove);
+  function removeNumericValuesFilter({ target: { id } }) {
+    setNumericValues(
+      filterByNumericValues.filter(({ column }) => id !== column),
+    );
+    setColumnFilters([...columnFiltersAvailable, id]);
   }
 
   const contextValue = {
     contextFunctions: {
       handleNameFilterChange,
       newNumericValuesFilter,
+      removeNumericValuesFilter,
     },
     data,
     filters: {
       filterByName,
       filterByNumericValues,
+      columnFiltersAvailable,
     },
   };
 

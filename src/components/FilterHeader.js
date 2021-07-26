@@ -2,10 +2,15 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function FilterHeader() {
-  const { contextFunctions: {
-    handleNameFilterChange,
-    newNumericValuesFilter,
-  } } = useContext(PlanetsContext);
+  const {
+    contextFunctions: {
+      handleNameFilterChange,
+      newNumericValuesFilter,
+    },
+    filters: {
+      columnFiltersAvailable,
+    },
+  } = useContext(PlanetsContext);
 
   return (
     <header>
@@ -16,11 +21,9 @@ function FilterHeader() {
         placeholder="Filtrar pelo nome"
       />
       <select id="column-filter" data-testid="column-filter">
-        <option id="population">population</option>
-        <option id="orbital_period">orbital_period</option>
-        <option id="diameter">diameter</option>
-        <option id="rotation_period">rotation_period</option>
-        <option id="surface_water">surface_water</option>
+        { columnFiltersAvailable.map((column, index) => (
+          <option key={ index }>{ column }</option>
+        )) }
       </select>
       <select id="comparison-filter" data-testid="comparison-filter">
         <option value="maior que">maior que</option>
