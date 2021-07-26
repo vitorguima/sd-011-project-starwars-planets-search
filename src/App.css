@@ -1,13 +1,12 @@
-*,
-*::after
-*::before {
+/* *, 
+*::after *::before {
   box-sizing: border-box;
 }
 
 html {
-  --font: -apple-system, BlinkMacSytemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
-  Cantarell, 'Open Sans', 'Helvetica Nueue', sans-serif;
-  --font-title: Georgia, 'Times New Roman', Times, serif;
+  --font: -apple-system, BlinkMacSytemFont, "Segoe UI", Roboto, Oxygen, Ubuntu,
+    Cantarell, "Open Sans", "Helvetica Nueue", sans-serif;
+  --font-title: Georgia, "Times New Roman", Times, serif;
   font-size: 1.2rem;
   --color: #19f;
   --color-light: #adf;
@@ -84,5 +83,5 @@ button:disabled {
 
 hr {
   border: 2px solid black;
-  cursor: wait
-}
+  cursor: wait;
+} */
