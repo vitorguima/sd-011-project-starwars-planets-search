@@ -14,14 +14,6 @@
   }
 }
 
-.App-header {
-  left: 50%;
-  position: absolute;
-	top: 10%;
-	transform: translate(-50%, -50%);
-  width: 1000px;
-}
-
 .App-link {
   color: #61dafb;
 }
