@@ -19,8 +19,8 @@ export default function Table() {
             <th>Surface Water</th>
             <th>Population</th>
             <th>Films</th>
-            <th>created</th>
-            <th>edited</th>
+            <th>Created</th>
+            <th>Edited</th>
             <th>Url</th>
           </tr>
         </thead>
@@ -58,7 +58,7 @@ const StyledTable = styled.table`
 
   th,
   td {
-    padding: 15px;
+    padding: 8px;
     background-color: rgba(255,255,255,0.2);
     color: black;
   }
