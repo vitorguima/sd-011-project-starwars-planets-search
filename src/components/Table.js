@@ -2,8 +2,8 @@ import React, { useContext } from 'react';
 import Context from '../APIcontext/Context';
 
 function Table() {
-  const { data } = useContext(Context);
-  const renderTable = () => data.map((planet) => (
+  const { filteredPlanets } = useContext(Context);
+  const renderTable = () => filteredPlanets.map((planet) => (
     <tr key={ planet.name }>
       <td>{ planet.name }</td>
       <td>{ planet.rotation_period }</td>
