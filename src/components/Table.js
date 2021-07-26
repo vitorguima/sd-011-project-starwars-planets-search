@@ -4,26 +4,36 @@ import FetchPlanets from '../services/api';
 
 function Table() {
   const results = FetchPlanets();
-  const { data, setData } = React.useContext(GlobalContext);
+  const { data, setData, filterName: { filters: {
+    filterByName: {
+      name,
+    },
+  } } } = React.useContext(GlobalContext);
   if (results) {
     results.map((e) => delete e.residents);
     setData(results);
   }
+  let filter = [];
+  if (name) {
+    filter = data.filter((e) => e.name.toLowerCase().includes(name));
+  } else {
+    filter = data;
+  }
 
   return (
     <div>
-      {data.length > 0 ? (
+      {filter.length > 0 ? (
         <table>
           <thead>
             <tr>
-              {Object.keys(data[0]).map((e, i) => (
+              {Object.keys(filter[0]).map((e, i) => (
                 <th key={ i }>{e}</th>
               ))}
             </tr>
 
           </thead>
           <tbody>
-            {data.map((e, i) => (
+            {filter.map((e, i) => (
               <tr key={ i }>
                 <td>{e.name}</td>
                 <td>{e.rotation_period}</td>
