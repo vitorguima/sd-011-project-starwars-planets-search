@@ -2,11 +2,13 @@ import React, { useContext } from 'react';
 import Context from '../Context/Context';
 
 const Columns = () => {
-  const { data } = useContext(Context);
+  const { data, filters: { filterByName: { name: planetName } } } = useContext(Context);
   if (data.length === 0) return <p>loading...</p>;
+  console.log('planetName', planetName);
   return (
     <div>
-      {data.length > 0 && data.map(({ climate,
+      {data.length > 0 && data.filter((planet) => planet.name
+        .includes(planetName)).map(({ climate,
         created,
         diameter,
         edited,
