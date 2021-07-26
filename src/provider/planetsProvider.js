@@ -4,16 +4,39 @@ import planetsContext from './planetsContext';
 
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState();
+  const [keys, setKeys] = useState();
+  const [filterPlanets, setFilterPlanets] = useState();
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
+
+  function changeFilter({ target: { value } }) {
+    setFilters({
+      filterByName: {
+        name: value,
+      },
+    });
+  }
   useEffect(() => {
     const getPlanets = async () => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const fetchPlanets = await fetch(endpoint).then((data) => data.json());
-      setPlanets(fetchPlanets);
+      const totalkeys = Object.keys(fetchPlanets.results[0]);
+      setKeys((totalkeys).filter((key) => key !== 'residents'));
+      setPlanets(fetchPlanets.results);
     };
     getPlanets();
   }, []);
   const context = {
     planets,
+    setPlanets,
+    setFilterPlanets,
+    filterPlanets,
+    filters,
+    changeFilter,
+    keys,
   };
   return (
     <planetsContext.Provider value={ context }>
