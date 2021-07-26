@@ -2,10 +2,14 @@ import React, { useContext } from 'react';
 import ContextApi from '../context/ContextApi';
 
 export default function Table() {
-  const { data } = useContext(ContextApi);
-  console.log(data);
+  const { data, handleChangeInputFilter, planetsFilter } = useContext(ContextApi);
+
   return (
     <table>
+      <input
+        data-testid="name-filter"
+        onChange={ ({ target }) => handleChangeInputFilter(target.value) }
+      />
       <tr>
 
         {/* {data
@@ -26,11 +30,10 @@ export default function Table() {
         <th>created</th>
         <th>edited</th>
         <th>url</th>
-
       </tr>
 
-      {data
-        && data.map((item) => (
+      {planetsFilter.length > 0
+        ? planetsFilter.map((item) => (
           <tr key={ `${item.name}` }>
             {Object.values(item).map((value, index) => (
               value === item.name ? (
@@ -41,8 +44,19 @@ export default function Table() {
                 <td key={ `${value} ${index}` }>{value}</td>
               )))}
           </tr>
+        ))
+        : data.map((item2) => (
+          <tr key={ `${item2.name}` }>
+            {Object.values(item2).map((value, index) => (
+              value === item2.name ? (
+                <td key={ `${value} ${index}` } data-testid="planet-name">
+                  {value}
+                </td>
+              ) : (
+                <td key={ `${value} ${index}` }>{value}</td>
+              )))}
+          </tr>
         ))}
-
     </table>
   );
 }

@@ -5,6 +5,7 @@ import apiPlanets, { residentFilter } from '../services/API';
 
 export default function StarWarsProvider({ children }) {
   const [starWarsPlanets, setStarWarsPlanets] = useState([]);
+  const [planetsFilter, setPlanetsFilter] = useState([]);
 
   async function getPlanets() {
     const planets = await apiPlanets();
@@ -18,7 +19,20 @@ export default function StarWarsProvider({ children }) {
     getPlanets();
   }, []);
 
-  const context = { data: starWarsPlanets };
+  function handleChangeInputFilter(event) {
+    setPlanetsFilter(
+      starWarsPlanets.filter((item) => (
+        item.name.toLowerCase().includes(event.toLowerCase()))),
+    );
+  }
+
+  const context = { data: starWarsPlanets,
+    handleChangeInputFilter,
+    planetsFilter,
+    setPlanetsFilter };
+
+  console.log(planetsFilter);
+
   return (
     <ContextApi.Provider value={ context }>
       { children }
