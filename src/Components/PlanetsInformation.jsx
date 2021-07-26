@@ -2,6 +2,7 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 function PlanetsInformation({ info }) {
+  console.log(info);
   return (
     info.map((anyInfo) => <td key>{anyInfo}</td>)
   );
