@@ -6,6 +6,8 @@ import RequisitionContext from './RequisitionContext';
 export default function RequisitionProvider({ children }) {
   const [contextState, setContextState] = useState([]);
 
+  const [filterName, setFilterName] = useState('');
+
   useEffect(() => {
     const planets = async () => {
       const getSWInfo = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -17,6 +19,12 @@ export default function RequisitionProvider({ children }) {
 
   const contextValue = {
     data: contextState,
+    filters: {
+      filterByName: {
+        name: filterName,
+        setFilterName,
+      },
+    },
   };
 
   return (

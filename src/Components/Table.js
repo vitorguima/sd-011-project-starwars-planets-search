@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import RequisitionContext from '../Context/RequisitionContext';
 
 export default function Table() {
-  const { data } = useContext(RequisitionContext);
+  const { data,
+    filters: { filterByName: { name: planetName } } } = useContext(RequisitionContext);
 
   let filteredData = [[]];
 
@@ -15,6 +16,10 @@ export default function Table() {
     console.log(filteredData);
   }
 
+  const inputTextData = data.filter(
+    (planet) => planet.name.toLowerCase().includes(planetName.toLowerCase()),
+  );
+
   return (
     <table>
       <thead>
@@ -23,7 +28,7 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {data.map(({
+        {(planetName === '' ? data : inputTextData).map(({
           name,
           rotation_period: rotation,
           orbital_period: orbit,
