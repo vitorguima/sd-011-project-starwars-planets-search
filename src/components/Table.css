@@ -1,0 +1,28 @@
+#table {
+  display: flex;
+  flex-direction: column;
+}
+
+#head {
+  display: flex;
+  flex-direction:row;
+}
+
+#body {
+  display: flex;
+  flex-direction:column;
+}
+
+#block {
+  display: flex;
+  flex-direction: row;
+  border-top: 5px solid red;
+}
+
+#list {
+  display: flex;
+  flex-direction:column;
+  flex-wrap: wrap;
+  font-size: 10px;
+  border: 2px solid blue;
+}
