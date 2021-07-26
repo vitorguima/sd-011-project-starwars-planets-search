@@ -5,7 +5,15 @@ import Context from './Context';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: [] });
+
+  const handleNumberFilter = (object) => {
+    console.log(object);
+    setFilters({ ...filters,
+      filterByNumericValues: [...filters.filterByNumericValues, object] });
+  };
 
   useEffect(() => {
     async function fetchData() {
@@ -19,7 +27,7 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <Context.Provider value={ { data, setFilters, filters } }>
+    <Context.Provider value={ { data, setFilters, filters, handleNumberFilter } }>
       {children}
     </Context.Provider>
   );

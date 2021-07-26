@@ -3,6 +3,7 @@ import TableHeader from './TableHeader';
 import Context from '../Context/Context';
 import Columns from './Columns';
 import NameFilter from './NameFIlter';
+import NumberFilter from './NumberFIlter';
 
 const Table = () => {
   const { data } = useContext(Context);
@@ -10,6 +11,7 @@ const Table = () => {
   return (
     <div>
       <NameFilter />
+      <NumberFilter />
       <TableHeader />
       <Columns />
     </div>
