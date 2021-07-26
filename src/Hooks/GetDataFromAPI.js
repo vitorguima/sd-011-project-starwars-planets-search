@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import RemoveResidentsKey from '../Helpers/RemoveResidentsKey';
 
 const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
@@ -11,7 +12,7 @@ function useFetch() {
       try {
         const response = await fetch(URL);
         const planets = await response.json();
-        setData(planets);
+        setData(RemoveResidentsKey(planets.results));
       } catch (error) {
         setError(error);
       }
@@ -19,7 +20,7 @@ function useFetch() {
     fetchData();
   }, []);
 
-  return [APIdata, /* loading, */ APIerror];
+  return [APIdata, APIerror];
 }
 
 export default useFetch;
