@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Context from './Context';
 import getPlanetsAPI from '../services/getPlanetsAPI';
@@ -20,6 +20,10 @@ function Provider({ children }) {
       setIsLoading(false);
     }
   }
+
+  useEffect(() => {
+    fetchPlanets();
+  }, [])
 
   const contextValue = {
     data,

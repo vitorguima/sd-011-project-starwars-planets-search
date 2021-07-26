@@ -2,18 +2,15 @@ import React, { useEffect, useContext } from 'react';
 import './App.css';
 import Table from './components/Table';
 import Context from './context/Context';
+import Provider from './context/Provider';
 
 function App() {
-  const { fetchPlanets } = useContext(Context);
-
-  useEffect(() => {
-    fetchPlanets();
-  }, []);
-
   return (
-    <div>
-      <Table />
-    </div>
+    <Provider>
+      <div>
+        <Table />
+      </div>
+    </Provider>
   );
 }
 

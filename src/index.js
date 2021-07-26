@@ -4,8 +4,6 @@ import App from './App';
 import Provider from './context/Provider';
 
 ReactDOM.render(
-  <Provider>
-    <App />
-  </Provider>,
+  <App />,
   document.getElementById('root'),
 );
