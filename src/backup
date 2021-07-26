@@ -1,0 +1,45 @@
+// const [filterPlanets, setFilterPlanets] = useState([]);
+
+  // useEffect(() => {
+  //   setFilterPlanets(data.results);
+  // }, [data]);
+
+  // const inputHandle = ({ target }) => {
+  //   setFilters(
+  //     { ...filters, filterByName: { name: target.value } },
+  //   );
+  // };
+
+  // useEffect(() => {
+  //   if (!loading && filters.filterByName.name) {
+  //     setFilterPlanets(data.results.filter((item) => (
+  //       item.name.includes(filters.filterByName.name))));
+  //   }
+  // }, [data.results, filters, loading]);
+
+  // const handleFilterOptions = (target) => {
+  //   const { name, value } = target;
+  //   setOptions({
+  //     ...options,
+  //     [name]: value,
+  //   });
+  // };
+
+  // const handleFilterBttn = () => {
+  //   setFilterPlanets(data.results.filter((itemF) => {
+  //     switch (options.comparison) {
+  //     case 'maior que':
+  //       return itemF[options.column] > Number(options.value);
+  //     case 'menor que':
+  //       return itemF[options.column] < Number(options.value);
+  //     case 'igual a':
+  //       return itemF[options.column] === options.value;
+  //     default:
+  //       return itemF;
+  //     }
+  //   }));
+  //   // setFilters({
+  //   //   ...filters,
+  //   //   filterByNumericValues: [...filters.filterByNumericValues, options],
+  //   // });
+  // };

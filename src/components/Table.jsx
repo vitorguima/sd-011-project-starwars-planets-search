@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import StarwarsContext from '../context/StarwarsContext';
 
 export default function Table() {
@@ -9,6 +9,10 @@ export default function Table() {
     setFilters,
     options,
     setOptions } = useContext(StarwarsContext);
+
+  const [selectColunms, setSelectColumns] = useState(
+    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+  );
 
   const inputHandle = ({ target }) => {
     setFilters(
@@ -47,6 +51,7 @@ export default function Table() {
       ...filters,
       filterByNumericValues: [...filters.filterByNumericValues, options],
     });
+    setSelectColumns(selectColunms.filter((item) => item !== options.column));
   };
 
   return (
@@ -65,12 +70,13 @@ export default function Table() {
         name="column"
         onChange={ ({ target }) => handleFilterOptions(target) }
       >
-        <option>Escolha uma coluna</option>
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {selectColunms.map((item) => (
+          <option
+            key={ item }
+            value={ item }
+          >
+            {item}
+          </option>))}
       </select>
 
       <select

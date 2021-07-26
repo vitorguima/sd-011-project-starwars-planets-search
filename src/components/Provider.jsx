@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import StarwarsContext from '../context/StarwarsContext';
 
 export default function Provider({ children }) {
-  const [data, setData] = useState({});
+  const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [options, setOptions] = useState({
     column: '',
