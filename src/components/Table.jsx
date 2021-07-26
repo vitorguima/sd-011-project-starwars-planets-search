@@ -8,18 +8,31 @@ function Table() {
       filterByName: {
         name: '',
       },
+      filterByNumericValues: [],
     },
   });
+  const [filterNumericValues, setFilterNumericValues] = React.useState({
+    column: '',
+    comparison: '',
+    value: 0,
+  });
 
-  console.log(resultsApi);
+  const [allPlanets, setAllPlanets] = React.useState([]);
 
-  if (!resultsApi) {
+  React.useEffect(() => {
+    if (resultsApi.data) {
+      setAllPlanets(resultsApi.data.results
+        .filter((value) => value.name.includes(filters.filters.filterByName.name)));
+    }
+  }, [resultsApi.data, filters]);
+
+  if (!resultsApi.data) {
     return (
       <p>carregando</p>
     );
   }
 
-  const filterTR = Object.keys(resultsApi.results[0])
+  const filterTR = Object.keys(resultsApi.data.results[0])
     .filter((value) => value !== 'residents');
 
   function handlerClick({ target }) {
@@ -29,17 +42,47 @@ function Table() {
         filterByName: {
           name: value,
         },
+        filterByNumericValues: [
+          ...filters.filters.filterByNumericValues,
+        ],
       },
     });
   }
 
-  const filterInput = resultsApi.results
-    .filter((value) => value.name.includes(filters.filters.filterByName.name));
+  const filterPlanets = allPlanets.filter((value) => {
+    switch (filterNumericValues.comparison) {
+    case 'maior que':
+      return value[filterNumericValues.column] > Number(filterNumericValues.value);
+    case 'menor que':
+      return value[filterNumericValues.column] < Number(filterNumericValues.value);
+    case 'igual a':
+      return value[filterNumericValues.column] === filterNumericValues.value;
+    default:
+      return true;
+    }
+  });
+
+  const filterColumn = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ].filter((value) => {
+    const { filterByNumericValues } = filters.filters;
+    return !filterByNumericValues.some(({ column }) => column === value);
+  });
+
+  function setStateFilters() {
+    const { column, comparison, value } = filterNumericValues;
+    setFilters({ filters: { ...filters.filters,
+      filterByNumericValues:
+      [...filters.filters.filterByNumericValues, { column, comparison, value }] } });
+  }
 
   return (
     <div>
       <label htmlFor="filter">
-        planeta:
         <input
           data-testid="name-filter"
           name="filter"
@@ -47,18 +90,63 @@ function Table() {
           onChange={ (value) => handlerClick(value) }
         />
       </label>
-      <label htmlFor="selectColum">
+      <label htmlFor="value">
+        <input
+          name="value"
+          data-testid="value-filter"
+          value={ filters.filters.filterByNumericValues.value }
+          type="number"
+          onChange={ ({ target }) => {
+            setFilterNumericValues({
+
+              ...filterNumericValues,
+              value: target.value,
+            });
+          } }
+        />
+      </label>
+      <label htmlFor="column">
         <select
-          name="selectColum"
-          data-testid="comparison-filter"
+          name="column"
+          data-testid="column-filter"
+          onChange={ ({ target }) => {
+            setFilterNumericValues({
+
+              ...filterNumericValues,
+              column: target.value,
+            });
+          } }
+
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {filterColumn
+            .map((item, index) => (<option key={ index } value={ item }>{item}</option>))}
         </select>
       </label>
+      <label htmlFor="comparison">
+        <select
+          name="comparison"
+          data-testid="comparison-filter"
+          onChange={ ({ target }) => {
+            setFilterNumericValues({
+
+              ...filterNumericValues,
+              comparison: target.value,
+            });
+          } }
+        >
+          <option>Selecione</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+      </label>
+      <button
+        data-testid="button-filter"
+        onClick={ setStateFilters }
+        type="button"
+      >
+        Filtrar
+      </button>
       <table>
         <thead>
           <tr>
@@ -66,7 +154,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {filterInput.map((item, index) => (
+          {filterPlanets.map((item, index) => (
             <tr key={ index }>
               <td>{item.name}</td>
               <td>{item.rotation_period}</td>

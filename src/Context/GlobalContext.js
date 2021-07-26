@@ -12,7 +12,7 @@ const GlobalContext = ({ children }) => {
   }, []);
 
   return (
-    <Context.Provider value={ data }>
+    <Context.Provider value={ { data } }>
       {children}
     </Context.Provider>
   );
