@@ -16,6 +16,12 @@ function Filters() {
   const [actualNumericOptions, setActualNumericOptions] = React.useState(numericOptions);
 
   React.useEffect(() => {
+    setActualNumericOptions(
+      numericOptions.filter((option) => !numericFilters.includes(option)),
+    );
+  }, [numericFilters]);
+
+  React.useEffect(() => {
     setNumericFilters(filters.filterByNumericValues.map((filter) => filter.column));
   }, [filters]);
 
@@ -45,8 +51,6 @@ function Filters() {
         },
       ],
     });
-
-    setActualNumericOptions(actualNumericOptions.filter((option) => option !== column));
   };
 
   return (
