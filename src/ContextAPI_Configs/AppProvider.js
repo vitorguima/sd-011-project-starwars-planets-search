@@ -1,16 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import propTypes from 'prop-types';
 import AppContext from './AppContext';
 
 function Provider({ children }) {
-  const [state, setState] = useState('a');
-
-  const hooks = {
-    state, setState,
-  };
-
   return (
-    <AppContext.Provider value={ hooks }>
+    <AppContext.Provider>
       {children}
     </AppContext.Provider>
   );

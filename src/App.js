@@ -1,13 +1,14 @@
 import React from 'react';
-import InitialTable from './Components/Table';
+import Table from './Components/Table';
+import AppProvider from './ContextAPI_Configs/AppProvider';
 import './App.css';
 
 function App() {
   return (
-    <>
+    <AppProvider>
       <span>Hello, App!</span>
-      <InitialTable />
-    </>
+      <Table />
+    </AppProvider>
   );
 }
 

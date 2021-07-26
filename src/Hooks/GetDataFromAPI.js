@@ -4,7 +4,7 @@ import RemoveResidentsKey from '../Helpers/RemoveResidentsKey';
 const URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
 function useFetch() {
-  const [APIdata, setData] = useState(null);
+  const [data, setData] = useState(null);
   const [APIerror, setError] = useState(null);
 
   useEffect(() => {
@@ -20,7 +20,7 @@ function useFetch() {
     fetchData();
   }, []);
 
-  return [APIdata, APIerror];
+  return [data, APIerror];
 }
 
 export default useFetch;
