@@ -11,6 +11,7 @@ export default function Provider({ children }) {
     column: '',
     comparison: '',
     value: '' });
+  const [usedFilters, setUsedFilters] = useState([]);
   const [updateFilter, setUpdateFilter] = useState(false);
 
   const handleNumericFilter = ({ name: property, value }) => {
@@ -28,8 +29,7 @@ export default function Provider({ children }) {
       });
   }, []);
 
-  const filterData = () => {
-    const { column, comparison, value } = filterByNumericValues;
+  const filterData = ({ column, comparison, value }) => {
     const newData = data.filter((planet) => {
       switch (comparison) {
       case 'maior que':
@@ -45,9 +45,11 @@ export default function Provider({ children }) {
 
   useEffect(() => {
     const filter = () => {
+      const { column } = filterByNumericValues;
       if (updateFilter) {
-        const newData = filterData();
+        const newData = filterData(filterByNumericValues);
         setFilteredData(newData);
+        setUsedFilters([...usedFilters, column]);
         setUpdateFilter(false);
       }
     };
@@ -57,6 +59,12 @@ export default function Provider({ children }) {
   const contextValue = {
     data,
     filteredData,
+    allFilters: ['population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water'],
+    usedFilters,
     filters: {
       filterByName: {
         name,
