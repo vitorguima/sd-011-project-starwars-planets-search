@@ -1,23 +1,27 @@
 import React, { useEffect, useState } from 'react';
 import { useAuth } from '../providers/auth';
+import SearchPlanet from './SearchPlanet';
 
 function Table() {
   const [state, setState] = useState({
     loading: true,
     planets: '',
+    filterByName: '',
   });
 
-  const { user } = useAuth();
+  const { planets, filters } = useAuth();
 
   useEffect(() => {
     setState({
-      planets: user.data.results,
+      planets: planets.data.results,
+      filterByName: filters.filterByName.name,
       loading: false,
     });
-  }, [user]);
+  }, [planets, filters]);
 
   return (
     <div>
+      <SearchPlanet />
       <table>
         <tr>
           {state.planets && Object.keys(state.planets[0]).map((key, index) => {
@@ -25,16 +29,18 @@ function Table() {
             return <th key={ index }>{ key }</th>;
           })}
         </tr>
-        {state.planets && state.planets.map((planets, index) => {
-          delete planets.residents;
-          return (
-            <tr key={ index }>
-              {Object.values(planets).map((info, indexTd) => (
-                <td key={ indexTd }>{ info }</td>
-              ))}
-            </tr>
-          );
-        })}
+        {state.planets && state.planets
+          .filter((planet) => planet.name.includes(state.filterByName))
+          .map((planet, index) => {
+            delete planet.residents;
+            return (
+              <tr key={ index }>
+                {Object.values(planet).map((info, indexTd) => (
+                  <td key={ indexTd }>{ info }</td>
+                ))}
+              </tr>
+            );
+          })}
       </table>
     </div>
   );

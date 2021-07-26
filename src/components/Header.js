@@ -2,21 +2,21 @@ import React, { useEffect } from 'react';
 import { useAuth } from '../providers/auth';
 
 function Header() {
-  const { user, setUser } = useAuth();
+  const { planets, setPlanets } = useAuth();
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
       .then((response) => response.json())
-      .then((data) => setUser({
+      .then((data) => setPlanets({
         data,
       }));
-  }, [setUser]);
+  }, [setPlanets]);
 
   return (
     <header>
       <h1>StarWars Planet Search</h1>
       <div>
-        { user.data.count }
+        { planets.data.count }
         {' '}
         planets found in database.
       </div>
