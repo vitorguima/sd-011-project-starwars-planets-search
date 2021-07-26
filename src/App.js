@@ -1,5 +1,5 @@
 import React from 'react';
-import InitialTable from './Components/InitialTable';
+import InitialTable from './Components/Table';
 import './App.css';
 
 function App() {
