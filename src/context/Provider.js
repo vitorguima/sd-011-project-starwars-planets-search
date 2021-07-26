@@ -8,6 +8,14 @@ function Provider({ children }) {
 
   const [isLoading, setIsLoading] = useState(false);
 
+  const [dataFilters, setDataFilters] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+    },
+  });
+
   async function fetchPlanets() {
     setIsLoading(true);
     try {
@@ -23,13 +31,16 @@ function Provider({ children }) {
 
   useEffect(() => {
     fetchPlanets();
-  }, [])
+  }, []);
 
   const contextValue = {
     data,
     isLoading,
     fetchPlanets,
+    dataFilters,
+    setDataFilters,
   };
+
   return (
     <Context.Provider value={ contextValue }>
       { children }

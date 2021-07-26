@@ -2,11 +2,16 @@ import React, { useContext } from 'react';
 import Context from '../context/Context';
 
 function Table() {
-  const { data } = useContext(Context);
+  const {
+    data,
+    dataFilters: { filters: { filterByName: { name } } } } = useContext(Context);
 
-  // useEffect(() => {
-  //   fetchPlanets();
-  // }, [fetchPlanets]);
+  let filteredPlanets = [];
+  if (name) {
+    filteredPlanets = data.filter((planet) => planet.name.toLowerCase().includes(name));
+  } else {
+    filteredPlanets = data;
+  }
 
   return (
     <table>
@@ -28,7 +33,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {data.map((planet, index) => (
+        {filteredPlanets.map((planet, index) => (
           <tr key={ index }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>
