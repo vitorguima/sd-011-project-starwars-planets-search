@@ -5,7 +5,11 @@ import Context from './Context';
 function Provider({ children }) {
   const [data, setData] = React.useState({});
   const [filters, setFilters] = React.useState(
-    { filterByName: {}, filterByNumericValues: [] },
+    {
+      filterByName: {},
+      filterByNumericValues: [],
+      order: { column: 'name', sort: 'ASC' },
+    },
   );
 
   const contextValue = {
