@@ -11,6 +11,21 @@ function App() {
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState('');
 
+  const colunmItems = [
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ];
+
+  const valuesByFilter = filterByNumericValues.map((filter) => filter.column);
+
+  const valuesSelect = colunmItems.filter((select) => !valuesByFilter.includes(select));
+
+  const deleteFilterValue = ({ target }) => {
+    const newFilter = filterByNumericValues.filter(
+      (filter) => filter.column !== target.value,
+    );
+    setfilterByNumericValues(newFilter);
+  };
+
   return (
     <div>
       <form>
@@ -31,11 +46,8 @@ function App() {
             data-testid="column-filter"
             onChange={ (event) => (setColumn(event.target.value)) }
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {valuesSelect.map((option) => (
+              <option value={ option } key={ option }>{option}</option>))}
           </select>
         </label>
         <label htmlFor="comparison-filter">
@@ -67,6 +79,24 @@ function App() {
           Filter
         </button>
       </form>
+      <div>
+        {filterByNumericValues.map((filter) => (
+          <div key={ filter.column } data-testid="filter">
+            <span>
+              {`Active filter: ${filter.column} | 
+              Comparison: ${filter.comparison} | 
+              Value: ${filter.value}`}
+            </span>
+            <button
+              type="button"
+              value={ filter.column }
+              onClick={ (event) => deleteFilterValue(event) }
+            >
+              X
+            </button>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
