@@ -57,6 +57,14 @@ const Table = () => {
       [...filters.filters.filterByNumericValues, { column, comparison, value }] } });
   }
 
+  function handleClickRemoveList(param) {
+    setFilters({ filters: {
+      ...filters.filters,
+      filterByNumericValues: [...filters.filters.filterByNumericValues
+        .filter((_value, index) => index !== param)],
+    } });
+  }
+
   const columnFilterOptions = [
     'population',
     'orbital_period',
@@ -141,6 +149,19 @@ const Table = () => {
       >
         Filter
       </button>
+      <ol>
+        { filters.filters.filterByNumericValues
+          .map((value, index) => (
+            <li data-testid="filter" key={ index }>
+              {`${value.column} | ${value.comparison} | ${value.value}`}
+              <button
+                type="button"
+                onClick={ () => handleClickRemoveList(index) }
+              >
+                x
+              </button>
+            </li>)) }
+      </ol>
       <table>
         <thead>
           <tr>
