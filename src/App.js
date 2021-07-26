@@ -1,11 +1,12 @@
 import React from 'react';
 import { GlobalStorage } from './GlobalContext';
+import Table from './Table';
 import './App.css';
 
 function App() {
   return (
     <GlobalStorage>
-      <span>Titulo</span>
+      <Table />
     </GlobalStorage>
   );
 }
