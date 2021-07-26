@@ -2,11 +2,13 @@ import React, { useEffect, useState, useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 const Table = () => {
-  const { data } = useContext(PlanetsContext);
+  const { data, filters } = useContext(PlanetsContext);
   const [planets, setPlanets] = useState([]);
   useEffect(() => {
-    setPlanets(data);
-  }, [data]);
+    const { name } = filters.filterByName;
+    const filteredData = data.filter((d) => d.name.toLowerCase().includes(name));
+    setPlanets(filteredData);
+  }, [data, filters]);
 
   const renderTableItems = () => planets.map((planet) => (
     <tr key={ planet.name }>

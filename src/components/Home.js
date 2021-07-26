@@ -3,7 +3,7 @@ import PlanetsContext from '../context/PlanetsContext';
 import Table from './Table';
 
 const Home = () => {
-  const { setData } = useContext(PlanetsContext);
+  const { setData, filters, setFilters } = useContext(PlanetsContext);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -19,9 +19,18 @@ const Home = () => {
     getPlanets();
   }, []);
 
+  const nameFilter = ({ target }) => {
+    setFilters({ ...filters, filterByName: { name: target.value } });
+  };
+
   return (
     <div>
       <span>Olá</span>
+      <input
+        type="text"
+        data-testid="name-filter"
+        onChange={ nameFilter }
+      />
       <Table />
     </div>
   );
