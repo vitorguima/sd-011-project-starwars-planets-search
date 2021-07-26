@@ -1,14 +1,6 @@
 import React, { useContext } from 'react';
 import GlobalContext from '../context/GlobalContext';
 
-const columnFilterOptions = [
-  'population',
-  'orbital_period',
-  'diameter',
-  'rotation_period',
-  'surface_water',
-];
-
 const comparisonFilterOptions = ['maior que', 'menor que', 'igual a'];
 
 function Table() {
@@ -49,23 +41,28 @@ function Table() {
     setSearch({
       filters: {
         ...search.filters,
-        filterByNumericValues: {
-          column: columnFilter,
-          comparison: comparisonFilter,
-          value: inputNumber,
-        },
+        filterByNumericValues: [
+          ...search.filters.filterByNumericValues,
+          {
+            column: columnFilter,
+            comparison: comparisonFilter,
+            value: inputNumber,
+          },
+        ],
       },
     });
   }
 
   if (!data) return <p>Loading...</p>;
   const thNames = Object.keys(data[0]).filter((name) => name !== 'residents');
-  const filteredByName = data
-    .filter((planet) => planet.name.includes(search.filters.filterByName.name));
+  const filteredByName = data.filter((planet) => planet.name.includes(search.filters.filterByName.name));
 
   const filteredByColumn = filteredByName.filter((planet) => {
-    const column = planet[search.filters.filterByNumericValues.column];
-    const { comparison, value } = search.filters.filterByNumericValues;
+    const { filterByNumericValues } = search.filters;
+    const column = planet[filterByNumericValues[filterByNumericValues.length - 1].column];
+    const { comparison, value } = search.filters.filterByNumericValues[
+      filterByNumericValues.length - 1
+    ];
 
     switch (comparison) {
     case 'maior que':
@@ -79,6 +76,17 @@ function Table() {
     }
   });
 
+  const columnFilterOptions = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ].filter((option) => {
+    const { filterByNumericValues } = search.filters;
+    return !filterByNumericValues.some(({ column }) => column === option);
+  });
+
   return (
     <div>
       <label htmlFor="input">
@@ -87,9 +95,7 @@ function Table() {
 
       <select
         data-testid="column-filter"
-        onChange={
-          ({ target: { value } }) => setFilters({ ...filters, columnFilter: value })
-        }
+        onChange={ ({ target: { value } }) => setFilters({ ...filters, columnFilter: value }) }
       >
         {columnFilterOptions.map((optionContent, index) => (
           <option key={ index }>{optionContent}</option>
@@ -98,9 +104,7 @@ function Table() {
 
       <select
         data-testid="comparison-filter"
-        onChange={
-          ({ target: { value } }) => setFilters({ ...filters, comparisonFilter: value })
-        }
+        onChange={ ({ target: { value } }) => setFilters({ ...filters, comparisonFilter: value }) }
       >
         {comparisonFilterOptions.map((optionContent, index) => (
           <option key={ index }>{optionContent}</option>
