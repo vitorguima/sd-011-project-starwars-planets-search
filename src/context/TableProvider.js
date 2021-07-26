@@ -4,6 +4,9 @@ import TableContext from './TableContext';
 
 export default function TableProvider({ children }) {
   const [data, setData] = useState({});
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+  });
 
   useEffect(() => {
     const fetchApi = () => {
@@ -15,7 +18,7 @@ export default function TableProvider({ children }) {
   }, []);
 
   return (
-    <TableContext.Provider value={ { data } }>
+    <TableContext.Provider value={ { data, filters, setFilters } }>
       {children}
     </TableContext.Provider>
   );

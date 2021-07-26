@@ -2,15 +2,34 @@ import React, { useContext } from 'react';
 import TableContext from '../context/TableContext';
 
 export default function Table() {
-  const { data } = useContext(TableContext);
+  const { data, filters, setFilters } = useContext(TableContext);
   console.log(data.results);
+
+  const handleChange = ({ target }) => {
+    setFilters(
+      { ...filters, filterByName: { name: target.value } },
+    );
+  };
+
   if (!data.results) {
     return (
       <p>Loading...</p>
     );
   }
+
+  const searchByPlanetName = data.results.filter((planets) => (
+    planets.name.toLowerCase().includes(filters.filterByName.name)));
+
   return (
     <div>
+      <header>
+        <input
+          type="text"
+          data-testid="name-filter"
+          value={ filters.filterByName.name }
+          onChange={ handleChange }
+        />
+      </header>
       <table>
         <thead>
           <tr>
@@ -30,7 +49,7 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.results.map((planet) => (
+          {searchByPlanetName.map((planet) => (
             <tr key={ planet.name }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
