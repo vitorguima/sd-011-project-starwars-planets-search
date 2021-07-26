@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import PlanetContext from './context/PlanetContex';
+import PlanetContext from './PlanetContex';
 
-function PlanetProvider({ children }) {
+function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
@@ -42,8 +42,8 @@ function PlanetProvider({ children }) {
   );
 }
 
-PlanetProvider.propTypes = ({
+PlanetsProvider.propTypes = ({
   children: PropTypes.node,
 }).isRequired;
 
-export default PlanetProvider;
+export default PlanetsProvider;
