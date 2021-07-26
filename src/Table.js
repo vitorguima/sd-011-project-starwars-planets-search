@@ -29,16 +29,20 @@ const Table = () => {
   }, [apiResults.data, filters]);
 
   const filterColumn = filterData.filter((value) => {
-    switch (filter.comparison) {
-    case 'maior que':
-      return value[filter.column] > Number(filter.value);
-    case 'menor que':
-      return value[filter.column] < Number(filter.value);
-    case 'igual a':
-      return value[filter.column] === filter.value;
-    default:
-      return true;
-    }
+    const { filterByNumericValues } = filters.filters;
+    if (filterByNumericValues.length > 0) {
+      const filterValues = filterByNumericValues[filterByNumericValues.length - 1];
+      switch (filterValues.comparison) {
+      case 'maior que':
+        return value[filterValues.column] > Number(filterValues.value);
+      case 'menor que':
+        return value[filterValues.column] < Number(filterValues.value);
+      case 'igual a':
+        return value[filterValues.column] === filterValues.value;
+      default:
+        return true;
+      }
+    } return true;
   });
 
   if (!apiResults.data) {
@@ -87,12 +91,10 @@ const Table = () => {
           onChange={ ({ target }) => {
             setFilters({
               filters: {
+                ...filters.filters,
                 filterByName: {
                   name: target.value,
                 },
-                filterByNumericValues: [{
-                  ...filters.filters.filterByNumericValues[0],
-                }],
               },
             });
           } }
