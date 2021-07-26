@@ -5,6 +5,7 @@ import Context from './context/Context';
 
 function App() {
   const [planets, setPlanets] = useState([]);
+  const [filterByName, setFilterByName] = useState('');
 
   // didMount
   useEffect(() => {
@@ -17,10 +18,32 @@ function App() {
 
     getPlanet();
   }, []);
+
+  function handlePlanetFiltered({ target: { value } }) {
+    setFilterByName(value);
+  }
+  const filteredPlanets = planets.filter((item) => item.name.includes(filterByName));
   return (
-    <Context.Provider value={ planets }>
-      { planets.length && <Table /> }
-    </Context.Provider>
+    <div>
+      <input
+        data-testid="name-filter"
+        type="text"
+        onChange={ handlePlanetFiltered }
+        value={ filterByName }
+      />
+      <Context.Provider
+        value={ {
+          data: filteredPlanets,
+          filters: {
+            filterByName: {
+              name: filterByName,
+            },
+          },
+        } }
+      >
+        { filteredPlanets.length && <Table /> }
+      </Context.Provider>
+    </div>
   );
 }
 

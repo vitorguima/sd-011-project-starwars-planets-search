@@ -5,7 +5,7 @@ import Context from '../context/Context';
 function Table() {
   return (
     <Context.Consumer>
-      {(planets) => (
+      {({ data }) => (
         <table>
           <thead>
             <tr>
@@ -25,7 +25,7 @@ function Table() {
             </tr>
           </thead>
           <tbody>
-            {planets.map((planet) => (
+            {data.map((planet) => (
               <tr key={ planet.name }>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>
@@ -44,11 +44,6 @@ function Table() {
             ))}
           </tbody>
         </table>
-        // <ul>
-        //   {
-        //     planets.map(({ name }) => <li>{name}</li>)
-        //   }
-        // </ul>
       )}
     </Context.Consumer>
   );
