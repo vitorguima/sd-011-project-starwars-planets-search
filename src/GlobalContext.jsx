@@ -1,15 +1,15 @@
-import React, { createContext, useEffect } from 'react';
+import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 export const GlobalContext = createContext();
 
 export const GlobalStorage = ({ children }) => {
   const [data, setData] = React.useState(null);
-  const [loading, setLoading] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
+  const [finalFilter, setFinalFilter] = useState({ filterByNumericValues: [] });
 
   useEffect(() => {
     const fetchData = async () => {
-      setLoading(true);
       const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
       const json = await response.json();
       setData(json);
@@ -19,7 +19,7 @@ export const GlobalStorage = ({ children }) => {
   }, []);
 
   return (
-    <GlobalContext.Provider value={ { data, loading } }>
+    <GlobalContext.Provider value={ { data, loading, finalFilter, setFinalFilter } }>
       {children}
     </GlobalContext.Provider>
   );

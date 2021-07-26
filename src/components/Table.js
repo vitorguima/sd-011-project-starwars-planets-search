@@ -1,21 +1,44 @@
 import React, { useContext, useState } from 'react';
 import { GlobalContext } from '../GlobalContext';
+import Filters from './Filters';
 
 export default function Table() {
   const global = useContext(GlobalContext);
-
-  const { data } = global;
-
+  const { loading, data, finalFilter } = global;
   const [search, setSearchName] = useState({ filters: { filterByName: { name: '' } } });
 
-  if (!data) return <div>Carregando...</div>;
-
-  const headerTable = Object.keys(data.results[0])
-    .filter((itens) => itens !== 'residents');
+  if (loading) return <div>Carregando...</div>;
 
   const filterPlanetName = data.results.filter((item) => (
     item.name.includes(search.filters.filterByName.name)
   ));
+
+  let listAtt = filterPlanetName;
+
+  const handleFilterCase = () => {
+    if (finalFilter.filterByNumericValues.lenght > 0) {
+      switch (finalFilter.filterByNumericValues.comparison) {
+      case 'maior que':
+        listAtt = listAtt.filter((item) => (item[finalFilter.filterByNumericValues
+          .column] > Number(finalFilter.filterByNumericValues.value)));
+        break;
+      case 'menor que':
+        listAtt = listAtt.filter((item) => (item[finalFilter.filterByNumericValues
+          .column] < Number(finalFilter.filterByNumericValues.value)));
+        break;
+      case 'igual a':
+        listAtt = listAtt.filter((item) => (item[finalFilter.filterByNumericValues
+          .column] === Number(finalFilter.filterByNumericValues.value)));
+        break;
+      default:
+        break;
+      }
+    }
+    return listAtt;
+  };
+
+  const headerTable = Object.keys(data.results[0])
+    .filter((itens) => itens !== 'residents');
 
   return (
     <>
@@ -26,6 +49,7 @@ export default function Table() {
         onChange={ ({ target: { value } }) => (
           setSearchName({ filters: { filterByName: { name: value } } })) }
       />
+      <Filters />
       <table>
         <thead>
           <tr>
@@ -35,7 +59,7 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {filterPlanetName.map((itens, index) => (
+          {listAtt && listAtt.map((itens, index) => (
             <tr key={ index }>
               <td>{itens.name}</td>
               <td>{itens.rotation_period}</td>
