@@ -9,12 +9,12 @@ function Table() {
       <thead>
         <tr>
           <th>Nome</th>
-          <th>Periodo de Rotação</th>
-          <th>Periodo de Órbita</th>
+          <th>Rotação</th>
+          <th>Órbita</th>
           <th>Diâmetro</th>
           <th>Clima</th>
           <th>Gravidade</th>
-          <th>Solo</th>
+          <th>Relevo</th>
           <th>Água Navegável</th>
           <th>População</th>
           <th>Filmes Onde Aparece</th>
