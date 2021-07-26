@@ -7,19 +7,38 @@ export default function NumericFilters() {
     usedFilters,
     handleNumericFilter,
     setUpdateFilter,
+    filters: {
+      filterByNumericValues,
+    },
+    removeFilter,
   } = useContext(Context);
 
   const filters = allFilters.filter((filter) => !usedFilters.includes(filter));
 
   return (
     <>
+      {
+        filterByNumericValues.map((filter, index) => (
+          <div key={ index } data-testid="filter">
+            <p>{filter.column}</p>
+            <p>{filter.comparison}</p>
+            <p>{filter.value}</p>
+            <button
+              type="button"
+              onClick={ () => removeFilter(index) }
+            >
+              X
+            </button>
+          </div>
+        ))
+      }
       <select
         data-testid="column-filter"
         name="column"
         onChange={ (e) => handleNumericFilter(e.target) }
       >
-        { filters.map((filter, index) => (
-          <option key={ index } value={ filter }>{filter}</option>
+        { filters.map((actualFilter, i) => (
+          <option key={ i } value={ actualFilter }>{actualFilter}</option>
         )) }
       </select>
       <select

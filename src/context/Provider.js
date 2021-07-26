@@ -3,20 +3,23 @@ import PropTypes from 'prop-types';
 
 import Context from './Context';
 
+import filterData from '../services/filterData';
+
 export default function Provider({ children }) {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [name, setNameFilter] = useState('');
-  const [filterByNumericValues, setNumericFilter] = useState({
+  const [filterByNumericValues, setNumericValuesFilters] = useState([]);
+  const [numericValues, setNumericFilter] = useState({
     column: '',
     comparison: '',
     value: '' });
-  const [usedFilters, setUsedFilters] = useState([]);
   const [updateFilter, setUpdateFilter] = useState(false);
+  const [removedFilter, setRemovedFilter] = useState(false);
 
   const handleNumericFilter = ({ name: property, value }) => {
     setNumericFilter({
-      ...filterByNumericValues,
+      ...numericValues,
       [property]: value,
     });
   };
@@ -29,32 +32,37 @@ export default function Provider({ children }) {
       });
   }, []);
 
-  const filterData = ({ column, comparison, value }) => {
-    const newData = data.filter((planet) => {
-      switch (comparison) {
-      case 'maior que':
-        return parseInt(planet[column], 10) > parseInt(value, 10);
-      case 'menor que':
-        return parseInt(planet[column], 10) < parseInt(value, 10);
-      default:
-        return parseInt(planet[column], 10) === parseInt(value, 10);
-      }
-    });
-    return newData;
-  };
-
   useEffect(() => {
     const filter = () => {
-      const { column } = filterByNumericValues;
-      if (updateFilter) {
-        const newData = filterData(filterByNumericValues);
+      if (updateFilter || removedFilter) {
+        let newData;
+        if (removedFilter) {
+          newData = filterData(filterByNumericValues, data);
+        } else {
+          const newFilters = [...filterByNumericValues, { ...numericValues }];
+          newData = filterData(newFilters, data);
+          setNumericValuesFilters(newFilters);
+          setNumericFilter({
+            column: '',
+            comparison: '',
+            value: '',
+          });
+        }
         setFilteredData(newData);
-        setUsedFilters([...usedFilters, column]);
         setUpdateFilter(false);
+        setRemovedFilter(false);
       }
     };
     filter();
   });
+
+  const removeFilter = (index) => {
+    const newData = filterByNumericValues.filter((_element, i) => i !== index);
+    setNumericValuesFilters(newData);
+    setRemovedFilter(true);
+  };
+
+  const usedFilters = filterByNumericValues.map(({ column }) => column);
 
   const contextValue = {
     data,
@@ -69,13 +77,12 @@ export default function Provider({ children }) {
       filterByName: {
         name,
       },
-      filterByNumericValues: [
-        { ...filterByNumericValues },
-      ],
+      filterByNumericValues,
     },
     setNameFilter,
     handleNumericFilter,
     setUpdateFilter,
+    removeFilter,
   };
   return (
     <Context.Provider value={ contextValue }>

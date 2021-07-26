@@ -17,6 +17,7 @@ export default function Filters() {
         onKeyUp={ ({ target }) => setNameFilter(target.value) }
         onChange={ ({ target }) => setNameFilter(target.value) }
       />
+      <br />
       <NumericFilters />
     </div>
   );
