@@ -1,9 +1,13 @@
 import React from 'react';
 import './App.css';
+import Table from './components/Table';
+import { GlobalStorage } from './hooks/Context';
 
 function App() {
   return (
-    <span>Hello, App! start</span>
+    <GlobalStorage>
+      <Table />
+    </GlobalStorage>
   );
 }
 
