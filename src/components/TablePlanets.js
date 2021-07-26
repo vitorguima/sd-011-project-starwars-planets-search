@@ -6,7 +6,6 @@ import FilterComparison from './FilterComparison';
 
 const TablePlanets = () => {
   const {
-    filter,
     data,
     numberValue,
     filters: { filterByName: { name } },

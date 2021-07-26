@@ -48,7 +48,7 @@ function PlanetProvider({ children }) {
 
   useEffect(() => {
     hideOptionsFilter(numberValue[0].column);
-  }, [clicked]);
+  }, [clicked, numberValue]);
 
   const handleChange = (value) => setName(value);
 
