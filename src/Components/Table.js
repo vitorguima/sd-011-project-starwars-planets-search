@@ -7,12 +7,6 @@ export default function Table() {
   return (
     <table>
       <tr>
-
-        {/* {data
-          && Object.keys(data[0]).map((item, index) => (
-            <th key={ `${item} ${index}` }>{item.toUpperCase()}</th>
-          ))} */}
-
         <th>name</th>
         <th>rotation_period</th>
         <th>orbital_period</th>
