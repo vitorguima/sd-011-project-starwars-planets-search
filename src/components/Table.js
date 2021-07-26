@@ -15,7 +15,8 @@ export default function Table() {
     },
   });
 
-  const filterPlanets = data && data.results.filter((value) => value.name.includes(filter.filters.filterByName.name));
+  const filterPlanets = data && data.results
+    .filter((value) => value.name.includes(filter.filters.filterByName.name));
 
   function renderTHEAD() {
     return (

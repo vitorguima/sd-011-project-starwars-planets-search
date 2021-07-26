@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState } from 'react';
 
 export const GlobalContext = React.createContext();
@@ -13,4 +14,8 @@ export const GlobalProvider = ({ children }) => {
     <GlobalContext.Provider value={ { data, fetchApi } }>
       { children }
     </GlobalContext.Provider>);
+};
+
+GlobalProvider.propTypes = {
+  children: PropTypes.element.isRequired,
 };
