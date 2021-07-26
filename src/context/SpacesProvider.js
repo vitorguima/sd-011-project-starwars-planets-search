@@ -4,8 +4,23 @@ import SpacesContext from './SpacesContext';
 
 function SpacesProvider({ children }) {
   const [planetList, setPlanetList] = useState([]);
+  const filterInitialState = {
+    filterByName: {
+      name: '',
+    },
+  };
 
-  const context = { planetList, setPlanetList };
+  const [filters, setFilters] = useState(filterInitialState);
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
+
+  const context = {
+    planetList,
+    setPlanetList,
+    filters,
+    setFilters,
+    filteredPlanets,
+    setFilteredPlanets,
+  };
 
   return (
     <SpacesContext.Provider value={ context }>

@@ -4,7 +4,11 @@ import SpacesContext from '../context/SpacesContext';
 import '../styles/Table.css';
 
 function Table() {
-  const { planetList, setPlanetList } = useContext(SpacesContext);
+  const {
+    setPlanetList,
+    setFilteredPlanets,
+    filteredPlanets,
+  } = useContext(SpacesContext);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -13,8 +17,11 @@ function Table() {
       const data = planetsJSON.json();
       return data;
     };
-    getPlanets().then((planets) => setPlanetList(planets.results));
-  }, [setPlanetList]);
+    getPlanets().then((planets) => {
+      setPlanetList(planets.results);
+      setFilteredPlanets(planets.results);
+    });
+  }, [setFilteredPlanets, setPlanetList]);
 
   function renderTableBody(planets) {
     return (
@@ -74,7 +81,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {planetList.length ? renderTableBody(planetList) : null}
+        {filteredPlanets.length ? renderTableBody(filteredPlanets) : null}
       </tbody>
     </table>
   );
