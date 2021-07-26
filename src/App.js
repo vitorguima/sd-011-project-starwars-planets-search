@@ -1,7 +1,7 @@
 import React from 'react';
-import PlanetsProvider from '../contexts/PlanetsProvider';
-import Table from '../components/Table';
-import Filter from '../components/Filter';
+import PlanetsProvider from './contexts/ PlanetsProvider';
+import Table from './components/Table';
+import Filter from './components/ Filters';
 import './App.css';
 
 function App() {
