@@ -5,10 +5,17 @@ const PlanetContext = createContext({});
 
 const BASE_URL = 'https://swapi-trybe.herokuapp.com/api/planets';
 
+const combineFilters = ([head, ...tail]) => (
+  data,
+) => (!head ? true : (head(data) && combineFilters(tail)(data))
+);
+
 export function PlanetProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [apiResponse, setApiResponse] = useState(null);
+  const [planets, setPlanets] = useState([]);
+  const [filters, setFilters] = useState([]);
 
   function fetchAndUpdate(url) {
     setLoading(true);
@@ -23,8 +30,28 @@ export function PlanetProvider({ children }) {
     fetchAndUpdate(BASE_URL);
   }, []);
 
-  function fetchNextPage() {
+  useEffect(() => {
+    if (!apiResponse) return;
 
+    const { results } = apiResponse;
+
+    if (!filters.length) {
+      setPlanets(results);
+      return;
+    }
+
+    const filterFuncs = filters.map(({ filterFunc }) => filterFunc);
+    setPlanets(results.filter((planet) => combineFilters(filterFuncs)(planet)));
+  }, [apiResponse, filters]);
+
+  function addFilter(filter) {
+    setFilters((previous) => {
+      if (previous.find(({ type }) => type === filter.type)) {
+        return [...previous.filter(({ type }) => type !== filter.type), filter];
+      }
+
+      return [...previous, filter];
+    });
   }
 
   return (
@@ -32,8 +59,9 @@ export function PlanetProvider({ children }) {
       value={ {
         loading,
         error,
-        fetchNextPage,
         apiResponse,
+        planets,
+        addFilter,
       } }
     >
       { children }

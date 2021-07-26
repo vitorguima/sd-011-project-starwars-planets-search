@@ -1,8 +1,8 @@
 import React from 'react';
-import { usePlanets } from './usePlanets';
+import { usePlanets } from '../hooks/usePlanets';
 
 function Table() {
-  const { loading, apiResponse, error } = usePlanets();
+  const { loading, planets, error } = usePlanets();
   if (loading) {
     return <p>Carregando...</p>;
   }
@@ -10,8 +10,6 @@ function Table() {
   if (error) {
     return <p>Algo deu errado...</p>;
   }
-
-  const { results } = apiResponse;
 
   return (
     <table>
@@ -33,21 +31,21 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { results.map((r) => (
-          <tr key={ r.name }>
-            <td>{ r.name }</td>
-            <td>{ r.rotation_period }</td>
-            <td>{ r.orbital_period }</td>
-            <td>{ r.diameter }</td>
-            <td>{ r.climate }</td>
-            <td>{ r.gravity }</td>
-            <td>{ r.terrain }</td>
-            <td>{ r.surface_water }</td>
-            <td>{ r.population }</td>
-            <td>{ r.films }</td>
-            <td>{ r.created }</td>
-            <td>{ r.edited }</td>
-            <td>{ r.url }</td>
+        { planets.map((p) => (
+          <tr key={ p.name }>
+            <td>{ p.name }</td>
+            <td>{ p.rotation_period }</td>
+            <td>{ p.orbital_period }</td>
+            <td>{ p.diameter }</td>
+            <td>{ p.climate }</td>
+            <td>{ p.gravity }</td>
+            <td>{ p.terrain }</td>
+            <td>{ p.surface_water }</td>
+            <td>{ p.population }</td>
+            <td>{ p.films }</td>
+            <td>{ p.created }</td>
+            <td>{ p.edited }</td>
+            <td>{ p.url }</td>
           </tr>
         )) }
       </tbody>
