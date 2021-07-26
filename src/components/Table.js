@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import planetsContext from '../provider/planetsContext';
+import Filter from './Filter';
 
 function Table() {
   const {
@@ -17,6 +18,27 @@ function Table() {
     }
   }, [filters, planets, setFilterPlanets]);
 
+  useEffect(() => {
+    if (filters.filterByNumericValues.length > 0) {
+        console.log('to aqui')
+      filters.filterByNumericValues.forEach(({ collumn, comparison, value }) => {
+       const filtred = filterPlanets.filter((planet) => {
+          switch (comparison) {
+          case 'maior que':
+            return planet[collumn] > value;
+            break;
+          case 'menor que':
+            return planet[collumn] < value;
+            break;
+          default:
+            return planet[collumn] === value;
+          }
+        })
+        setFilterPlanets(filtred);
+      });
+    }
+  }, [filters]);
+
   if (filterPlanets !== undefined && keys !== undefined) {
     return (
       <>
@@ -25,7 +47,8 @@ function Table() {
           data-testid="name-filter"
           onChange={ (event) => { changeFilter(event); } }
         />
-        <table className="tabela">
+        <Filter />
+        <table>
           <tr>
             {keys.map((key) => <th key={ key }>{key}</th>)}
           </tr>

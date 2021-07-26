@@ -10,6 +10,7 @@ function PlanetsProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
   function changeFilter({ target: { value } }) {
@@ -37,6 +38,7 @@ function PlanetsProvider({ children }) {
     filters,
     changeFilter,
     keys,
+    setFilters,
   };
   return (
     <planetsContext.Provider value={ context }>
