@@ -11,9 +11,28 @@ function App() {
   const filterPlanetsInput = data
     .filter((planet) => planet.name.includes(filterByName));
 
-  const filterPlanetsSelect = filterPlanetsInput;
+  let filterPlanetsSelect;
 
-  console.log(filterByNumericValues);
+  if (filterByNumericValues.length > 0) {
+    filterPlanetsSelect = filterByNumericValues.map((filter) => {
+      const { column, comparison, value } = filter;
+      if (comparison === 'maior que') {
+        return filterPlanetsInput.filter((planet) => (
+          Number(planet[column]) > Number(value)));
+      }
+      if (comparison === 'menor que') {
+        return filterPlanetsInput.filter((planet) => (
+          Number(planet[column]) < Number(value)));
+      }
+      if (comparison === 'igual a') {
+        return filterPlanetsInput.filter((planet) => (
+          Number(planet[column]) === Number(value)));
+      }
+      return 0;
+    });
+  } else {
+    filterPlanetsSelect = [filterPlanetsInput];
+  }
 
   return (
     <table>
@@ -23,7 +42,7 @@ function App() {
         </tr>
       </thead>
       <tbody>
-        {filterPlanetsSelect.map((planet) => {
+        {filterPlanetsSelect[0].map((planet) => {
           const infoPlanet = Object.values(planet);
           return (
             <tr key={ infoPlanet[0] }>
@@ -37,11 +56,3 @@ function App() {
 }
 
 export default App;
-
-// Exemplo para uso no filtro:
-
-// let filterMovies = movies.filter((movie) => (
-//   movie.title.toLowerCase().includes(searchText.toLowerCase())
-//   || movie.subtitle.toLowerCase().includes(searchText.toLowerCase())
-//   || movie.storyline.toLowerCase().includes(searchText.toLowerCase())
-// ));
