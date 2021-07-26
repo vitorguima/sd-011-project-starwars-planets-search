@@ -1,12 +1,25 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import MyContext from '../context/MyContext';
+import Search from './Search';
 
 function Table() {
   const data = useContext(MyContext);
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState([]);
+
+  function toSearchInput({ target }) {
+    setSearch({
+      filters: { filterByName: { name: target.value } } });
+    setFilter(data.filter((planet) => planet.name.includes(target.value)));
+  }
 
   if (data.length === 0) return <p>Loading</p>;
   return (
     <div>
+      <Search
+        name={ search }
+        handleChange={ toSearchInput }
+      />
       <table>
         <thead>
           <tr>
@@ -26,7 +39,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.map((element, index) => (
+          {filter.length === 0 ? data.map((element, index) => (
             <tr key={ index }>
               <td>{element.name}</td>
               <td>{element.rotation_period}</td>
@@ -45,6 +58,25 @@ function Table() {
               <td>{element.edited}</td>
               <td>{element.url}</td>
             </tr>
+          )) : filter.map((filtered, index) => (
+            <tr key={ index }>
+              <td>{filtered.name}</td>
+              <td>{filtered.rotation_period}</td>
+              <td>{filtered.orbital_period}</td>
+              <td>{filtered.diameter}</td>
+              <td>{filtered.climate}</td>
+              <td>{filtered.gravity}</td>
+              <td>{filtered.terrain}</td>
+              <td>{filtered.surface_water}</td>
+              <td>{filtered.population}</td>
+              <td>
+                {filtered.films
+                  .map((film, position) => <li key={ position }>{film}</li>)}
+              </td>
+              <td>{filtered.created}</td>
+              <td>{filtered.edited}</td>
+              <td>{filtered.url}</td>
+            </tr>
           ))}
         </tbody>
       </table>
@@ -52,5 +84,5 @@ function Table() {
   );
 }
 
-Table.contextType = MyContext;
 export default Table;
+Table.contextType = MyContext;
