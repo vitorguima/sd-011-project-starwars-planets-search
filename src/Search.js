@@ -14,15 +14,18 @@ function Search({ search }) {
   return (
     <div>
       <select data-testid="column-filter">
-        <option value={ column } name="population">Population</option>
-        <option value={ column } name="diameter">Diameter</option>
-        <option value={ column } name="climate">Climate</option>
+        <option value={ column } name="population">population</option>
+        <option value={ column } name="diameter">diameter</option>
+        <option value={ column } name="climate">climate</option>
+        <option value={ column } name="climate">orbital_period</option>
+        <option value={ column } name="climate">rotation_period</option>
+        <option value={ column } name="climate">surface_water</option>
       </select>
       <select data-testid="comparison-filter">
         <option>Comparison</option>
-        <option value={ comparison } name="maior que">Maior que</option>
-        <option value={ comparison } name="menor que">Menor que</option>
-        <option value={ comparison } name="igual a">Igual a</option>
+        <option value={ comparison } name="maior que">maior que</option>
+        <option value={ comparison } name="menor que">menor que</option>
+        <option value={ comparison } name="igual a">igual a</option>
       </select>
       <input
         data-testid="value-filter"
