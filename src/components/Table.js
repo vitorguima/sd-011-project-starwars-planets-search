@@ -15,28 +15,24 @@ function Table() {
   } else {
     filter = data;
   }
-  if (filters.filterByNumericValues[0].comparison === 'maior que') {
+  const { comparison, column, value } = filters.filterByNumericValues[0];
+
+  if (comparison === 'maior que' && value !== 0) {
     filter = filter
-      .filter((e) => Number(e[filters
-        .filterByNumericValues[0].column]) > Number(filters
-        .filterByNumericValues[0].value));
+      .filter((e) => Number(e[column]) > Number(value));
   }
-  if (filters.filterByNumericValues[0].comparison === 'menor que') {
+  if (comparison === 'menor que' && value !== 0) {
     filter = filter
-      .filter((e) => Number(e[filters
-        .filterByNumericValues[0].column]) < Number(filters
-        .filterByNumericValues[0].value));
+      .filter((e) => Number(e[column]) < Number(value));
   }
-  if (filters.filterByNumericValues[0].comparison === 'igual a') {
+  if (comparison === 'igual a' && value !== 0) {
     filter = filter
-      .filter((e) => Number(e[filters
-        .filterByNumericValues[0].column]) === Number(filters
-        .filterByNumericValues[0].value));
+      .filter((e) => Number(e[column]) === Number(value));
   }
 
   return (
     <div>
-      {filter.length > 0 ? (
+      {data.length > 0 ? (
         <table>
           <thead>
             <tr>

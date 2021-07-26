@@ -53,6 +53,7 @@ function Filter() {
           type="text"
           name="name-filter"
           data-testid="name-filter"
+          id="name-filter"
           onChange={ handleFilterNameChange }
         />
       </label>
