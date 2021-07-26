@@ -1,15 +1,38 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Context from '../context/Context';
 
 export default function Table() {
+  const [filterState, setFilterState] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+    },
+  });
   const { data } = useContext(Context);
   if (!data[0]) {
     return (<p>Carregando...</p>);
   }
   const filteredValues = Object.keys(data[0]).filter((value) => value !== 'residents');
-  const filteredPlanets = data;
+  const filteredPlanets = data.filter((planet) => planet.name
+    .includes(filterState.filters.filterByName.name));
+  // console.log(filteredPlanets);
   return (
     <div>
+      <label htmlFor="filterPlanets">
+        <input
+          id="filterPlanets"
+          data-testid="name-filter"
+          onChange={ (({ target }) => setFilterState({
+            ...filterState,
+            filters: {
+              filterByName: {
+                name: target.value,
+              },
+            },
+          })) }
+        />
+      </label>
       <table>
         <thead>
           <tr>
