@@ -11,6 +11,14 @@ function Table() {
     },
   });
 
+  if (!results.data) {
+    return (
+      <p>carregando</p>
+    );
+  }
+  const filterApi = Object.keys(results.data.results[0])
+    .filter((value) => value !== 'residents');
+
   return (
     <div>
       olá
