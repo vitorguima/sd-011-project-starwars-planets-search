@@ -1,128 +1,160 @@
-/* 
-====== 
-Variables 
+/*
+======
+Variables
 ======
 */
+
 :root {
+
   --primaryLightColor: #d4e6a5;
+
   --primaryColor: #476a2e;
+
   --primaryDarkColor: #c02c03;
-  --mainWhite: #fff;
+
+  --mainWhite: white;
+
   --offWhite: #f7f7f7;
+
   --mainBackground: #f1f5f8;
+
   --mainOverlay: rgba(35, 10, 36, 0.4);
+
   --mainBlack: #222;
+
   --mainGrey: #ececec;
+
   --darkGrey: #afafaf;
+
   --mainRed: #bd0303;
+
   --mainTransition: all 0.3s linear;
+
   --mainSpacing: 0.3rem;
-  --lightShadow: 2px 5px 3px 0px rgba(0, 0, 0, 0.5);
-  --darkShadow: 4px 10px 5px 0px rgba(0, 0, 0, 0.5);
+
+  --lightShadow: 2px 5px 3px 0 rgba(0, 0, 0, 0.5);
+
+  --darkShadow: 4px 10px 5px 0 rgba(0, 0, 0, 0.5);
+
   --mainBorderRadius: 0.25rem;
+
   --smallWidth: 85vw;
+
   --maxWidth: 40rem;
+
   --fullWidth: 1170px;
 }
-/* 
-====== 
-Global Styles 
+
+/*
+======
+Global Styles
 ======
 */
+
 * {
+  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
-    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  color: var(--mainBlack);
   background: var(--mainBackground);
-  line-height: 1.4;
+  color: var(--mainBlack);
+  font-family: -apple-system , BlinkMacSystemFont , Segoe UI , Roboto , Oxygen , Ubuntu , Cantarell , Open Sans , Helvetica Neue , sans-serif;/* stylelint-disable */
   font-size: 1rem;
   font-weight: 300;
+  line-height: 1.4;
 }
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+
+h1, h2, h3, h4, h5, h6 {
   font-family: var(--slantedFont);
-  margin-bottom: 1.25rem;
   letter-spacing: var(--mainSpacing);
+  margin-bottom: 1.25rem;
 }
+
 p {
   margin-bottom: 1.25rem;
 }
+
 ul {
   list-style-type: none;
 }
+
 a {
-  text-decoration: none;
   color: var(--mainBlack);
-}
-img {
-  width: 100%;
-  display: block;
+  text-decoration: none;
 }
 
-/* 
-====== 
-Buttons 
+img {
+  display: block;
+  width: 100%;
+}
+
+/*
+======
+Buttons
 ======
 */
-.btn,
-.btn-white,
-.btn-primary {
-  text-transform: uppercase;
-  letter-spacing: var(--mainSpacing);
-  color: var(--primaryColor);
-  border: 2px solid var(--primaryColor);
-  padding: 0.45rem 0.8rem;
-  display: inline-block;
-  transition: var(--mainTransition);
-  cursor: pointer;
-  font-size: 0.8rem;
+
+.btn, .btn-white, .btn-primary {
   background: transparent;
+  border: 2px solid var(--primaryColor);
   border-radius: var(--mainBorderRadius);
+  color: var(--primaryColor);
+  cursor: pointer;
   display: inline-block;
+  font-size: 0.8rem;
+  letter-spacing: var(--mainSpacing);
+  padding: 0.45rem 0.8rem;
+  text-transform: uppercase;
+  transition: var(--mainTransition);
 }
+
 .btn:hover {
   background: var(--primaryColor);
   color: var(--mainWhite);
 }
+
 .btn-white {
   background: transparent;
-  color: var(--mainWhite);
   border-color: var(--mainWhite);
+  color: var(--mainWhite);
 }
+
 .btn-white:hover {
   background: var(--mainWhite);
   color: var(--primaryColor);
 }
+
 .btn-primary {
   background: var(--primaryColor);
-  color: var(--mainWhite);
   border-color: transparent;
+  color: var(--mainWhite);
 }
+
 .btn-primary:hover {
   background: var(--primaryLightColor);
   color: var(--primaryColor);
 }
+
 .btn-block {
-  width: 100%;
+  box-shadow: var(--lightShadow);
   display: block;
   margin: 0 auto;
-  box-shadow: var(--lightShadow);
   text-align: center;
+  width: 100%;
 }
+
 .btn-details {
   padding: 0.25rem 0.4rem;
 }
+
 .btn-details:hover {
   background: var(--primaryLightColor);
   border-color: var(--primaryLightColor);
+}
+
+.loader {
+  margin-top: 25rem;
+  text-align: center;
 }
