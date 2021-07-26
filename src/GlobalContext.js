@@ -6,21 +6,23 @@ export const GlobalContext = React.createContext();
 
 export const GlobalStorage = ({ children }) => {
   const [data, setData] = React.useState([]);
-  const [name, setName] = React.useState('Bruno');
+  const [name, setName] = React.useState('');
 
   const setApiToState = () => {
     fetchApi().then((results) => setData(results));
   };
 
-  React.useEffect(() => {
-    setApiToState();
-  }, []);
+  React.useEffect(setApiToState, []);
 
   const providerValues = {
     data,
     setData,
-    name,
     setName,
+    filters: {
+      filterByName: {
+        name,
+      },
+    },
   };
 
   return (
