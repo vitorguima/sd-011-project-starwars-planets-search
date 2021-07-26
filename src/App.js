@@ -6,13 +6,7 @@ import Table from './Table';
 function App() {
   const { fetchData } = useContext(PlanetsContext);
 
-  useEffect(() => {
-    const getData = async() =>{
-      fetchData();
-    };
-    getData();
-  });
-
+  useEffect(fetchData, []);
 
   return (
     <Table />
