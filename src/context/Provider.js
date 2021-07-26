@@ -79,6 +79,7 @@ export default function Provider({ children }) {
       },
       filterByNumericValues,
     },
+    numericValues,
     setNameFilter,
     handleNumericFilter,
     setUpdateFilter,

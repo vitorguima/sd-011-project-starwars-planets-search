@@ -11,6 +11,7 @@ export default function NumericFilters() {
       filterByNumericValues,
     },
     removeFilter,
+    numericValues: { column, comparison, value },
   } = useContext(Context);
 
   const filters = allFilters.filter((filter) => !usedFilters.includes(filter));
@@ -35,6 +36,7 @@ export default function NumericFilters() {
       <select
         data-testid="column-filter"
         name="column"
+        value={ column }
         onChange={ (e) => handleNumericFilter(e.target) }
       >
         { filters.map((actualFilter, i) => (
@@ -44,6 +46,7 @@ export default function NumericFilters() {
       <select
         data-testid="comparison-filter"
         name="comparison"
+        value={ comparison }
         onChange={ (e) => handleNumericFilter(e.target) }
       >
         <option value="maior que">maior que</option>
@@ -53,6 +56,7 @@ export default function NumericFilters() {
       <input
         data-testid="value-filter"
         name="value"
+        value={ value }
         onChange={ (e) => handleNumericFilter(e.target) }
       />
       <button
