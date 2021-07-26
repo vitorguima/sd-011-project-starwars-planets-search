@@ -1,9 +1,13 @@
 import React from 'react';
 import './App.css';
+import Home from './pages/Home';
+import SpacesProvider from './context/SpacesProvider';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <SpacesProvider>
+      <Home />
+    </SpacesProvider>
   );
 }
 
