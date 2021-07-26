@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import AppContext from './Context';
 
 function Table() {
-  const { data } = useContext(AppContext);
+  const { filterData } = useContext(AppContext);
 
   return (
     <table>
@@ -24,7 +24,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { data.map((dados) => (
+        { filterData.map((dados) => (
           <tr key={ dados.name }>
             <td>{dados.name}</td>
             <td>{dados.rotation_period}</td>
