@@ -9,7 +9,36 @@ const Table = () => {
       filterByName: {
         name: '',
       },
+      filterByNumericValues: [],
     },
+  });
+
+  const [filter, setFilter] = React.useState({
+    column: '',
+    comparison: '',
+    value: '',
+  });
+
+  const [filterData, setFilterData] = React.useState([]);
+
+  React.useEffect(() => {
+    if (apiResults.data) {
+      setFilterData(apiResults.data.results
+        .filter((value) => value.name.includes(filters.filters.filterByName.name)));
+    }
+  }, [apiResults.data, filters]);
+
+  const filterColumn = filterData.filter((value) => {
+    switch (filter.comparison) {
+    case 'maior que':
+      return value[filter.column] > Number(filter.value);
+    case 'menor que':
+      return value[filter.column] < Number(filter.value);
+    case 'igual a':
+      return value[filter.column] === filter.value;
+    default:
+      return true;
+    }
   });
 
   if (!apiResults.data) {
@@ -21,8 +50,12 @@ const Table = () => {
   const filterHeader = Object.keys(apiResults.data.results[0])
     .filter((value) => value !== 'residents');
 
-  const filterSearch = apiResults.data.results
-    .filter((value) => value.name.includes(filters.filters.filterByName.name));
+  function handleClickOnState() {
+    const { column, comparison, value } = filter;
+    setFilters({ filters: { ...filters.filters,
+      filterByNumericValues:
+      [...filters.filters.filterByNumericValues, { column, comparison, value }] } });
+  }
 
   return (
     <div>
@@ -38,11 +71,69 @@ const Table = () => {
                 filterByName: {
                   name: target.value,
                 },
+                filterByNumericValues: [{
+                  ...filters.filters.filterByNumericValues[0],
+                }],
               },
             });
           } }
         />
       </label>
+      <label htmlFor="column-filter">
+        <select
+          data-testid="column-filter"
+          onChange={ ({ target }) => {
+            setFilter({
+              ...filter,
+              column: target.value,
+            });
+          } }
+        >
+          <option>Selecione</option>
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
+        </select>
+      </label>
+      <label htmlFor="comparison-filter">
+        <select
+          data-testid="comparison-filter"
+          onChange={ ({ target }) => {
+            setFilter({
+              ...filter,
+              comparison: target.value,
+            });
+          } }
+        >
+          <option>Selecione</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+      </label>
+      <label htmlFor="value">
+        <input
+          data-testid="value-filter"
+          type="number"
+          name="value"
+          value={ filter.value }
+          onChange={ ({ target }) => {
+            setFilter({
+              ...filter,
+              value: target.value,
+            });
+          } }
+        />
+      </label>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ handleClickOnState }
+      >
+        Filter
+      </button>
       <table>
         <thead>
           <tr>
@@ -50,7 +141,7 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          { filterSearch.map((value, index) => (
+          { filterColumn.map((value, index) => (
             <tr key={ index }>
               <td>{value.name}</td>
               <td>{value.rotation_period}</td>
