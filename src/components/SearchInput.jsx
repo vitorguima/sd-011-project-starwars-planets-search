@@ -3,14 +3,11 @@ import PlanetsContext from '../context/PlanetsContext';
 
 function SearchInput() {
   const [handleSearcher, setHandleSearcher] = useState('');
-  const { setPlanets, planetsFromApi } = useContext(PlanetsContext);
+  const { setFilters, filters } = useContext(PlanetsContext);
 
   function handleSearchingWhileFiltering({ target }) {
     setHandleSearcher(target.value);
-    const filteredPlanets = planetsFromApi.filter(
-      (planet) => planet.name.includes(target.value),
-    );
-    setPlanets(filteredPlanets);
+    setFilters({ ...filters, filterByName: { name: target.value } });
   }
 
   return (
