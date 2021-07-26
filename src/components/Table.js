@@ -55,7 +55,8 @@ function Table() {
 
   if (!data) return <p>Loading...</p>;
   const thNames = Object.keys(data[0]).filter((name) => name !== 'residents');
-  const filteredByName = data.filter((planet) => planet.name.includes(search.filters.filterByName.name));
+  const filteredByName = data
+    .filter((planet) => planet.name.includes(search.filters.filterByName.name));
 
   const filteredByColumn = filteredByName.filter((planet) => {
     const { filterByNumericValues } = search.filters;
@@ -95,7 +96,9 @@ function Table() {
 
       <select
         data-testid="column-filter"
-        onChange={ ({ target: { value } }) => setFilters({ ...filters, columnFilter: value }) }
+        onChange={
+          ({ target: { value } }) => setFilters({ ...filters, columnFilter: value })
+        }
       >
         {columnFilterOptions.map((optionContent, index) => (
           <option key={ index }>{optionContent}</option>
@@ -104,7 +107,9 @@ function Table() {
 
       <select
         data-testid="comparison-filter"
-        onChange={ ({ target: { value } }) => setFilters({ ...filters, comparisonFilter: value }) }
+        onChange={
+          ({ target: { value } }) => setFilters({ ...filters, comparisonFilter: value })
+        }
       >
         {comparisonFilterOptions.map((optionContent, index) => (
           <option key={ index }>{optionContent}</option>
