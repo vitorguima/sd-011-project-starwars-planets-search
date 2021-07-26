@@ -3,28 +3,39 @@ import { Context } from '../context/GlobalContext';
 
 const Home = () => {
   const { data, request } = React.useContext(Context);
-  const [filter, serFilter] = React.useState({
+  const [filteredData, setFilteredData] = React.useState([]);
+  const [filter, setFilter] = React.useState({
     filterByName: {
       name: '',
     },
   });
 
   React.useEffect(() => { request(); }, [request]);
+  React.useEffect(() => { if (data) setFilteredData(data.results); }, [data]);
+  React.useEffect(() => {
+    if (data) {
+      setFilteredData(data.results.filter((item) => item.name.toLowerCase()
+        .includes(filter.filterByName.name.toLowerCase())));
+    }
+  }, [filter, data]);
+
   if (!data) {
     return null;
   }
-  const { results } = data;
-  const headerTable = Object.keys(results[0]).filter((key) => key !== 'residents');
 
+  let headerTable = [];
+  if (filteredData.length > 0) {
+    headerTable = Object.keys(filteredData[0]).filter((key) => key !== 'residents');
+  }
   return (
     <div>
       <input
+        data-testid="name-filter"
         type="text"
-        onChange={ ({ target: { value } }) => serFilter(
+        onChange={ ({ target: { value } }) => setFilter(
           { ...filter, filterByName: { name: value } },
         ) }
       />
-      {filter.filterByName.name}
       <table>
         <thead>
           <tr>
@@ -32,7 +43,7 @@ const Home = () => {
           </tr>
         </thead>
         <tbody>
-          {results.map((item) => {
+          {filteredData.map((item) => {
             const {
               name,
               rotation_period: rotationPeriod,
