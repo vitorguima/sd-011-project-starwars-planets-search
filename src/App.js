@@ -1,9 +1,12 @@
 import React from 'react';
+import { GlobalStorage } from './GlobalContext';
 import './App.css';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <GlobalStorage>
+      <span>Titulo</span>
+    </GlobalStorage>
   );
 }
 
