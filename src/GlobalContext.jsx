@@ -6,7 +6,18 @@ export const GlobalContext = createContext();
 export const GlobalStorage = ({ children }) => {
   const [data, setData] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
-  const [finalFilter, setFinalFilter] = useState({ filterByNumericValues: [] });
+  const [FilterInputs, setFilterInputs] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: 0,
+  });
+  const [search, setSearchName] = useState({
+    filters:
+     { filterByName:
+      { name: '' },
+     },
+    filterByNumbericValues: [],
+  });
 
   useEffect(() => {
     const fetchData = async () => {
@@ -19,7 +30,15 @@ export const GlobalStorage = ({ children }) => {
   }, []);
 
   return (
-    <GlobalContext.Provider value={ { data, loading, finalFilter, setFinalFilter } }>
+    <GlobalContext.Provider
+      value={ {
+        data,
+        loading,
+        search,
+        setSearchName,
+        setFilterInputs,
+        FilterInputs } }
+    >
       {children}
     </GlobalContext.Provider>
   );
