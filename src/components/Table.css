@@ -13,7 +13,7 @@
   flex-direction: column;
 }
 
-#block {
+tr {
   border-top: 3px solid grey;
   display: flex;
   flex-direction: row;
