@@ -10,9 +10,10 @@ export default function Table() {
       filterByNumericValues: [],
     },
   });
+  const [column, setColumn] = useState([]);
   const [filterNumeric, setFilterNumeric] = useState({
-    column: '',
-    comparison: '',
+    column: 'population',
+    comparison: 'maior que',
     value: 0,
   });
   const [filteredPlanets, setFilteredPlanets] = useState(null);
@@ -22,6 +23,12 @@ export default function Table() {
     setFilteredPlanets(data.filter((planet) => planet.name
       .includes(filterState.filters.filterByName.name)));
   }, [data, filterState.filters.filterByName]);
+
+  useEffect(() => {
+    setColumn([
+      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+    ]);
+  }, []);
 
   useEffect(() => {
     const { filters } = filterState;
@@ -63,10 +70,11 @@ export default function Table() {
           filterNumeric],
       },
     });
+    setColumn(column.filter((value) => value !== filterNumeric.column));
     setFilterNumeric({
-      column: '',
-      comparison: '',
-      value: '',
+      column: column[1],
+      comparison: 'maior que',
+      value: 0,
     });
   };
 
@@ -97,11 +105,11 @@ export default function Table() {
           },
         )) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { column.map((value, index) => (
+          <option value={ value } key={ index }>
+            {value}
+          </option>
+        )) }
       </select>
       <select
         data-testid="comparison-filter"
