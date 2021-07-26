@@ -1,9 +1,15 @@
 import React from 'react';
 import './App.css';
 
+import PlaneProvider from './context/planetProvider';
+
+import Table from './components/Table';
+
 function App() {
   return (
-    <span>Hello, App!!</span>
+    <PlaneProvider>
+      <Table />
+    </PlaneProvider>
   );
 }
 
