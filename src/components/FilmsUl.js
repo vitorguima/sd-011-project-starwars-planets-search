@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import FilmLi from './FilmLi';
 
-// RETURNS AN UL WITH FILM TITLES INSIDE. EACH CHILD WILL RECEIVE AN URL TO FETCH IN RESPECTIVE COMPONENT
+// RETURNS AN UL WITH FILM TITLES INSIDE. EACH CHILD WILL RECEIVE AN URL TO FETCH
 function FilmsUl({ urls }) {
   return (
     <ul>

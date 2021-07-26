@@ -32,10 +32,12 @@ const isColumnTypeNumber = (column) => {
 const FilterPlanets = (data, filters) => {
   let planetsToReturn = [...data];
   const { filterByName, filterByNumericValues, order } = filters;
+
   // QUERY PLANETS BY NAME
   planetsToReturn = planetsToReturn
     .filter(({ name }) => name.toLowerCase()
       .includes((filterByName.name).toLowerCase()));
+
   // FILTER PLANETS ACCORDING TO FILTERS SETTINGS
   filterByNumericValues.forEach(({ column, comparison, value }) => {
     switch (true) {

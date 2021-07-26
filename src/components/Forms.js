@@ -1,8 +1,10 @@
 import React, { useContext, useState } from 'react';
 import SWContext from '../context/SWContext';
 
+// OPTIONS TO COMPARISON
 const COMPARISON_OPTIONS = ['maior que', 'menor que', 'igual a'];
 
+// OPTIONS TO SORT
 const COLUMNS_OPTIONS_TO_SORT = ['name', 'rotation_period', 'orbital_period',
   'diameter', 'climate', 'gravity', 'terrain', 'surface_water', 'population',
   'films', 'created',
@@ -22,6 +24,7 @@ function Forms() {
 
   const myState = { column, comparison, value };
 
+  // SET FILTER INFO
   const handleFilterClick = () => {
     if (column && comparison && value) {
       setFilters({ ...filters,
@@ -35,13 +38,7 @@ function Forms() {
     }
   };
 
-  // const handleChange = ({ target }) => {
-  //   if (target.nodeName === 'SELECT') {
-  //     return setFilters({ ...filters, order: { ...order, column: target.value } });
-  //   }
-  //   return setFilters({ ...filters, order: { ...order, sort: target.value } });
-  // };
-
+  // SET SORT SETTINGS
   const handleSortClick = () => {
     setFilters({ ...filters, order: { column: columnSort, sort } });
   };

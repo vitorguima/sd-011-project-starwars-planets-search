@@ -7,6 +7,7 @@ function FilterList() {
     columnsOptions, setColumnsOptions } = useContext(SWContext);
   const { filterByNumericValues } = filters;
 
+  // REMOVE FILTER FROM FILTERS DATA LIST (filterByNumericValues)
   const removeFilter = (column) => {
     setColumnsOptions([...columnsOptions, column]);
     setFilters({ ...filters,
