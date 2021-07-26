@@ -34,7 +34,6 @@ function Table() {
               <td>{planet.terrain}</td>
               <td>{planet.surface_water}</td>
               <td>{planet.population}</td>
-              <td>{planet.population}</td>
               <div id="list">
                 {planet.films
                   .map((film, numberKey) => <td key={ numberKey }>{film}</td>)}
