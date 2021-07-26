@@ -20,37 +20,52 @@ export default function Table() {
   const { data } = useContext(Context);
 
   useEffect(() => {
-    setFilteredPlanets(data.filter((planet) => planet.name
-      .includes(filterState.filters.filterByName.name)));
-  }, [data, filterState.filters.filterByName]);
-
-  useEffect(() => {
     setColumn([
       'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
     ]);
   }, []);
 
   useEffect(() => {
+    setFilteredPlanets(data.filter((planet) => planet.name
+      .includes(filterState.filters.filterByName.name)));
+  }, [data, filterState.filters.filterByName]);
+
+  const functionFilterPlanets = () => {
     const { filters } = filterState;
     const { filterByNumericValues } = filters;
-    // console.log(filterByNumericValues.length - 1);
-    const teste = filterByNumericValues[filterByNumericValues.length - 1] || '';
-    switch (teste.comparison) {
-    case 'maior que':
-      setFilteredPlanets(data
-        .filter((planet) => Number(planet[teste.column]) > Number(teste.value)));
-      break;
-    case 'menor que':
-      setFilteredPlanets(data
-        .filter((planet) => Number(planet[teste.column]) < Number(teste.value)));
-      break;
-    case 'igual a':
-      setFilteredPlanets(data
-        .filter((planet) => Number(planet[teste.column]) === Number(teste.value)));
-      break;
-    default:
-      break;
+    console.log(filteredPlanets);
+    setFilteredPlanets(data.filter((planet) => planet.name
+      .includes(filterState.filters.filterByName.name)));
+    for (let index = 0; index < filterByNumericValues.length; index += 1) {
+      const fill = filterByNumericValues[index];
+
+      console.log(fill.comparison);
+      console.log(fill.column);
+      console.log(fill.value);
+      console.log(filteredPlanets[index]);
+
+      switch (fill.comparison) {
+      case 'maior que':
+        setFilteredPlanets(filteredPlanets
+          .filter((planet) => Number(planet[fill.column]) > Number(fill.value)));
+        console.log(filteredPlanets);
+        break;
+      case 'menor que':
+        setFilteredPlanets(filteredPlanets
+          .filter((planet) => Number(planet[fill.column]) < Number(fill.value)));
+        break;
+      case 'igual a':
+        setFilteredPlanets(filteredPlanets
+          .filter((planet) => Number(planet[fill.column]) === Number(fill.value)));
+        break;
+      default:
+        break;
+      }
     }
+  };
+
+  useEffect(() => {
+    functionFilterPlanets();
   }, [filterState.filters.filterByNumericValues]);
 
   if (!data[0]) {
@@ -59,9 +74,6 @@ export default function Table() {
   const filteredValues = Object.keys(data[0]).filter((value) => value !== 'residents');
 
   const searchNumeric = () => {
-    const filterP = filteredPlanets.filter((value) => (
-      value[filterNumeric.column] > filterNumeric.value));
-    setFilteredPlanets(filterP);
     setFilterState({
       ...filterState,
       filters: {
@@ -72,9 +84,20 @@ export default function Table() {
     });
     setColumn(column.filter((value) => value !== filterNumeric.column));
     setFilterNumeric({
-      column: column[1],
+      column: column[0],
       comparison: 'maior que',
       value: 0,
+    });
+  };
+
+  const deleteFilter = (selected) => {
+    setColumn([...column, filterState.filters.filterByNumericValues[selected].column]);
+    setFilterState({
+      filters: {
+        ...filterState.filters,
+        filterByNumericValues: [...filterState.filters.filterByNumericValues
+          .filter((_, index) => index !== selected)],
+      },
     });
   };
 
@@ -144,6 +167,19 @@ export default function Table() {
       >
         Filtrar
       </button>
+      { filterState.filters.filterByNumericValues.map((value, index) => (
+        <p key={ index } data-testid="filter">
+          <span>{value.column}</span>
+          <span>{value.comparison}</span>
+          <span>{value.value}</span>
+          <button
+            type="button"
+            onClick={ () => deleteFilter(index) }
+          >
+            X
+          </button>
+        </p>
+      )) }
       <table>
         <thead>
           <tr>
