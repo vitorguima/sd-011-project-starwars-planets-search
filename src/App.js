@@ -20,6 +20,7 @@ function App() {
 
   const data = {
     planets,
+    setPlanets,
     loading,
   };
 
