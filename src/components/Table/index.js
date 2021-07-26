@@ -1,5 +1,6 @@
 import React from 'react';
 import Context from '../../utils/Context';
+import snakeCaseToCapitalized from '../../utils/utils';
 
 const planetInfoList = [
   'name', 'population', 'diameter', 'surface_water', 'climate', 'terrain', 'gravity',
@@ -22,12 +23,29 @@ const Table = () => {
   }, [setData]);
 
   React.useEffect(() => {
-    const { filterByName } = filters;
+    const { filterByName, filterByNumericValues } = filters;
     let filteredPlanets = data.results;
 
     if (filterByName) {
       filteredPlanets = filteredPlanets
         .filter(({ name }) => name.toLowerCase().includes(filterByName.name));
+    }
+
+    if (filterByNumericValues) {
+      const { column, comparison, value } = filterByNumericValues;
+      filteredPlanets = filteredPlanets
+        .filter((planet) => {
+          switch (comparison) {
+          case 'maior que':
+            return Number(planet[column]) > Number(value);
+          case 'menor que':
+            return Number(planet[column]) < Number(value);
+          case 'igual a':
+            return Number(planet[column]) === Number(value);
+          default:
+            return true;
+          }
+        });
     }
 
     setPlanets(filteredPlanets);
@@ -41,10 +59,7 @@ const Table = () => {
             planetInfoList.map((info) => (
               <th key={ info }>
                 {
-                  info
-                    .split('_')
-                    .map((word) => `${word.charAt(0).toUpperCase()}${word.slice(1)}`)
-                    .join(' ')
+                  snakeCaseToCapitalized(info)
                 }
               </th>
             ))
