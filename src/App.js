@@ -1,12 +1,12 @@
 import React, { useContext } from 'react';
 import './App.css';
-// import { Planet } from './context/Planet';
+import { Planet } from './context/Planet';
 import useFetch from './hooks/useFetch';
 
 function App() {
-  // const { data } = useContext(Planet);
   useFetch();
-
+  const { data } = useContext(Planet);
+  console.log(data);
   return (
     <span>Hello, App!</span>
   );
