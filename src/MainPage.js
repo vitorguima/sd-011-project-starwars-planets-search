@@ -1,4 +1,5 @@
 import React, { useContext, useEffect } from 'react';
+import SearchInput from './components/SearchInput';
 import Table from './components/Table';
 import PlanetsContext from './context/PlanetsContext';
 
@@ -16,6 +17,7 @@ function MainPage() {
   }
   return (
     <div>
+      <SearchInput />
       <Table />
     </div>
   );

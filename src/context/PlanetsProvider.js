@@ -4,10 +4,12 @@ import getStarwarsPlanets from '../services/starwarsPlanetAPI';
 import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
-  const [planets, setPlanets] = useState([]);
+  const [planetsFromApi, setPlanetsFromApi] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [planets, setPlanets] = useState([]);
 
   function fetchPlanetsOnSuccess({ results }) {
+    setPlanetsFromApi(results);
     setPlanets(results);
     setIsLoading(false);
   }
@@ -23,7 +25,13 @@ function PlanetsProvider({ children }) {
     }
   }
   return (
-    <PlanetsContext.Provider value={ { planets, isLoading, fetchStarwarsPlanets } }>
+    <PlanetsContext.Provider
+      value={ { planets,
+        planetsFromApi,
+        isLoading,
+        fetchStarwarsPlanets,
+        setPlanets } }
+    >
       { children }
     </PlanetsContext.Provider>
   );
