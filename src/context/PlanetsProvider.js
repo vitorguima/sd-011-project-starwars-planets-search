@@ -6,6 +6,9 @@ import fetchPlanets from '../services/fetchSWAPI';
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+  });
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -16,7 +19,15 @@ function PlanetsProvider({ children }) {
     getPlanets();
   }, []);
 
-  const context = { data, loading };
+  const handleFilterByName = (event) => {
+    const { value } = event.target;
+    setFilters({ filterByName: { name: value.toLowerCase() } });
+  };
+
+  const context = {
+    data, loading, filters, handleFilterByName,
+  };
+
   return (
     <PlanetsContext.Provider value={ context }>
       { children }
