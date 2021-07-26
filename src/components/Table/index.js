@@ -7,7 +7,8 @@ const planetInfoList = [
 ];
 
 const Table = () => {
-  const { data, setData } = React.useContext(Context);
+  const { data, setData, filters } = React.useContext(Context);
+  const [planets, setPlanets] = React.useState([]);
 
   React.useEffect(() => {
     const fetchPlanets = async () => {
@@ -19,6 +20,18 @@ const Table = () => {
 
     fetchPlanets();
   }, [setData]);
+
+  React.useEffect(() => {
+    const { filterByName } = filters;
+    let filteredPlanets = data.results;
+
+    if (filterByName) {
+      filteredPlanets = filteredPlanets
+        .filter(({ name }) => name.toLowerCase().includes(filterByName.name));
+    }
+
+    setPlanets(filteredPlanets);
+  }, [data, filters]);
 
   return (
     <table>
@@ -40,8 +53,7 @@ const Table = () => {
       </thead>
       <tbody>
         {
-          Object.keys(data).length > 0
-          && data.results.map((planet) => (
+          planets && planets.map((planet) => (
             <tr key={ planet.name }>
               {
                 planetInfoList.map(
