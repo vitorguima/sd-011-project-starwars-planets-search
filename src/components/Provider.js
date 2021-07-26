@@ -4,9 +4,10 @@ import MyContext from './MyContext';
 
 function Provider({ children }) {
   const [data, setData] = React.useState({});
+  const [filters, setFilters] = React.useState({});
 
   const contextValue = {
-    data, setData,
+    data, setData, filters, setFilters,
   };
 
   return (

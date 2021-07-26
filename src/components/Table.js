@@ -6,7 +6,8 @@ const planetsData = [
   'orbital_period', 'rotation_period', 'url', 'films', 'created', 'edited',
 ];
 function Table() {
-  const { data, setData } = React.useContext(MyContext);
+  const { data, setData, filters } = React.useContext(MyContext);
+  const [planets, setPlanets] = React.useState([]);
 
   React.useEffect(() => {
     const fetchPlanets = async () => {
@@ -18,6 +19,18 @@ function Table() {
 
     fetchPlanets();
   }, [setData]);
+
+  React.useEffect(() => {
+    const { filterByName } = filters;
+    let filteredPlanets = data.results;
+
+    if (filterByName) {
+      filteredPlanets = filteredPlanets
+        .filter(({ name }) => name.toLowerCase().includes(filterByName.name));
+    }
+
+    setPlanets(filteredPlanets);
+  }, [data, filters]);
 
   return (
     <table>
@@ -39,16 +52,15 @@ function Table() {
       </thead>
       <tbody>
         {
-          Object.keys(data).length > 0
-        && data.results.map((planet) => (
-          <tr key={ planet.name }>
-            {
-              planetsData.map(
-                (info, index) => <td key={ index }>{ planet[info] }</td>,
-              )
-            }
-          </tr>
-        ))
+          planets && planets.map((planet) => (
+            <tr key={ planet.name }>
+              {
+                planetsData.map(
+                  (info, index) => <td key={ index }>{ planet[info] }</td>,
+                )
+              }
+            </tr>
+          ))
         }
       </tbody>
     </table>
