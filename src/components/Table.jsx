@@ -4,11 +4,40 @@ import { AppContext } from '../contexts/AppContext';
 export default function Table() {
   const { data } = useContext(AppContext);
   const StarWarsPlanets = data.results;
-  console.log(StarWarsPlanets);
+
+  const [filters, setFilters] = React.useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+    },
+  });
+
+  if (!StarWarsPlanets) {
+    return (
+      <p>Carregando...</p>
+    );
+  } 
+  
+    const SearchFilter = StarWarsPlanets.filter((Value) => Value.name.includes(filters.filters.filterByName.name))
+  
+  
+
 
   return (
     <div>
-      {StarWarsPlanets ? (
+      <input 
+      value = {filters.filters.filterByName.name}
+      data-testid='name-filter'
+    onChange= {({target}) => {
+      setFilters({
+        filters: {
+        filterByName: {
+          name: target.value,
+        },}})
+    }}
+      /> 
+    <div>
         <table>
           <thead>
             <tr>
@@ -28,7 +57,7 @@ export default function Table() {
             </tr>
           </thead>
           <tbody>
-            {StarWarsPlanets.map((planet, index) => (
+            {SearchFilter.map((planet, index) => (
               <tr key={ index }>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>
@@ -46,7 +75,7 @@ export default function Table() {
               </tr>))}
           </tbody>
         </table>)
-        : (<p>Loading...</p>)}
+    </div>
     </div>
   );
 }
