@@ -57,6 +57,13 @@ function App() {
       ...filters, filterByNumericValues: [...filters.filterByNumericValues, newFilter] });
   };
 
+  const removeFilter = (v) => {
+    const { filterByNumericValues } = filters;
+    setFilters({
+      ...filters, filterByNumericValues: filterByNumericValues.filter((e, i) => i !== v),
+    });
+  };
+
   const data = {
     planets,
     filteredPlanets,
@@ -70,7 +77,7 @@ function App() {
 
   return (
     <PlanetsContext.Provider value={ data }>
-      <Table addFilter={ addFilter } />
+      <Table addFilter={ addFilter } removeFilter={ removeFilter } />
     </PlanetsContext.Provider>
   );
 }

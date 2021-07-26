@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 import PlanetsContext from '../context/PlanetsContext';
 import TableRow from './TableRow';
 
-export default function Table({ addFilter }) {
+export default function Table({ addFilter, removeFilter }) {
   const {
     planets,
     loading,
+    filters: { filterByNumericValues },
     setFilters,
     filteredPlanets, setColumn, setComparison, setValue } = useContext(PlanetsContext);
 
@@ -15,27 +16,6 @@ export default function Table({ addFilter }) {
   }
 
   const tableHead = Object.keys(planets[0]).filter((key) => key !== 'residents');
-  // const { filterByName: { name } } = filters;
-  // let planetsList = planets.filter((planet) => planet.name.includes(name));
-
-  // const addFilter = () => {
-  // const newFilter = { column, comparison, value };
-  // setFilters({
-  //   ...filters, filterByNumericValues: [...filters.filterByNumericValues, newFilter] });
-  // switch (comparison) {
-  // case 'greater':
-  //   planetsList = planetsList.filter((planet) => planet[column] > value);
-  //   break;
-  // case 'smaller':
-  //   planetsList = planetsList.filter((planet) => planet[column] < value);
-  //   break;
-  // case 'equal':
-  //   planetsList = planetsList.filter((planet) => planet[column] === value);
-  //   break;
-  // default:
-  //   console.log('choose a proper comparison');
-  // }
-  // };
 
   return (
     <div>
@@ -77,6 +57,13 @@ export default function Table({ addFilter }) {
       >
         Add filter
       </button>
+      { filterByNumericValues.length > 0 && filterByNumericValues.map((filter, index) => (
+        <div data-testid="filter" key={ index }>
+          <p>{ filter.column }</p>
+          <p>{ filter.comparison }</p>
+          <p>{ filter.value }</p>
+          <button type="button" onClick={ () => removeFilter(index) }>X</button>
+        </div>)) }
       <table>
         <thead>
           <tr>
@@ -94,4 +81,5 @@ export default function Table({ addFilter }) {
 
 Table.propTypes = {
   addFilter: PropTypes.func.isRequired,
+  removeFilter: PropTypes.func.isRequired,
 };
