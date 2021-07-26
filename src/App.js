@@ -1,19 +1,12 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useContext } from 'react';
 import './App.css';
-import { Planet } from './context/Planet';
+// import { Planet } from './context/Planet';
+import useFetch from './hooks/useFetch';
 
 function App() {
-  const { setData, data, fetchData } = useContext(Planet);
+  // const { data } = useContext(Planet);
+  useFetch();
 
-  useEffect(() => {
-    const getData = async () => {
-      const dataReceived = await fetchData();
-      setData(dataReceived);
-    };
-    getData();
-  }, []);
-
-  console.log(data);
   return (
     <span>Hello, App!</span>
   );
