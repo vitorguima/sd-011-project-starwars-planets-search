@@ -4,20 +4,34 @@ import FetchPlanets from '../services/api';
 
 function Table() {
   const results = FetchPlanets();
-  const { data, setData, filterName: { filters: {
-    filterByName: {
-      name,
-    },
-  } } } = React.useContext(GlobalContext);
+  const { data, setData, filterName: { filters } } = React.useContext(GlobalContext);
   if (results) {
     results.map((e) => delete e.residents);
     setData(results);
   }
   let filter = [];
-  if (name) {
-    filter = data.filter((e) => e.name.toLowerCase().includes(name));
+  if (filters.filterByName.name) {
+    filter = data.filter((e) => e.name.toLowerCase().includes(filters.filterByName.name));
   } else {
     filter = data;
+  }
+  if (filters.filterByNumericValues[0].comparison === 'maior que') {
+    filter = filter
+      .filter((e) => Number(e[filters
+        .filterByNumericValues[0].column]) > Number(filters
+        .filterByNumericValues[0].value));
+  }
+  if (filters.filterByNumericValues[0].comparison === 'menor que') {
+    filter = filter
+      .filter((e) => Number(e[filters
+        .filterByNumericValues[0].column]) <= Number(filters
+        .filterByNumericValues[0].value));
+  }
+  if (filters.filterByNumericValues[0].comparison === 'igual a') {
+    filter = filter
+      .filter((e) => Number(e[filters
+        .filterByNumericValues[0].column]) === Number(filters
+        .filterByNumericValues[0].value));
   }
 
   return (

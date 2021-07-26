@@ -9,10 +9,23 @@ function GlobalProvider({ children }) {
       filterByName: {
         name: '',
       },
+      filterByNumericValues: [
+        {
+          column: 'population',
+          comparison: 'maior que',
+          value: 0,
+        },
+      ],
     },
   });
   return (
-    <GlobalContext.Provider value={ { data, setData, filterName, setFilterName } }>
+    <GlobalContext.Provider
+      value={ { data,
+        setData,
+        filterName,
+        setFilterName,
+      } }
+    >
       {children}
     </GlobalContext.Provider>
   );
