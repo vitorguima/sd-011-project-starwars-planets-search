@@ -6,6 +6,7 @@ function FilterHeader() {
     handleNameFilterChange,
     newNumericValuesFilter,
   } } = useContext(PlanetsContext);
+
   return (
     <header>
       <input
@@ -15,16 +16,16 @@ function FilterHeader() {
         placeholder="Filtrar pelo nome"
       />
       <select id="column-filter" data-testid="column-filter">
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        <option id="population">population</option>
+        <option id="orbital_period">orbital_period</option>
+        <option id="diameter">diameter</option>
+        <option id="rotation_period">rotation_period</option>
+        <option id="surface_water">surface_water</option>
       </select>
       <select id="comparison-filter" data-testid="comparison-filter">
-        <option>maior que</option>
-        <option>menor que</option>
-        <option>igual a</option>
+        <option value="maior que">maior que</option>
+        <option value="menor que">menor que</option>
+        <option value="igual a">igual a</option>
       </select>
       <input
         type="number"

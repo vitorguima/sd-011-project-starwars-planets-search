@@ -22,14 +22,18 @@ function PlanetsProvider({ children }) {
   }
 
   function newNumericValuesFilter() {
-    const column = document.querySelector('#column-filter').value;
+    const column = document.querySelector('#column-filter');
+    const { value } = column;
     const comparison = document.querySelector('#comparison-filter').value;
     const Filtervalue = document.querySelector('#value-filter').value;
     setNumericValues([...filterByNumericValues, {
-      column,
+      column: value,
       comparison,
       value: Filtervalue,
     }]);
+
+    const optionToRemove = document.querySelector(`#${value}`);
+    column.removeChild(optionToRemove);
   }
 
   const contextValue = {
