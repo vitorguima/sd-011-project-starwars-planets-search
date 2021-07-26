@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import PlanetContext from './context/PlanetContex';
 
 function PlanetProvider({ children }) {
-  const [result, setResult] = useState([]);
+  const [data, setData] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -12,7 +12,7 @@ function PlanetProvider({ children }) {
       {
         column: 'population',
         comparison: '',
-        value: 0,
+        value: '0',
       },
     ],
   });
@@ -20,8 +20,9 @@ function PlanetProvider({ children }) {
   useEffect(() => {
     const getAPI = async () => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
-      const { results } = await fetch(endpoint).then((data) => data.json());
-      setResult(results);
+      const { results } = await fetch(endpoint).then((api) => api.json());
+      results.filter((item) => delete item.residents);
+      setData(results);
     };
     getAPI();
   }, []);
@@ -35,7 +36,7 @@ function PlanetProvider({ children }) {
   };
 
   return (
-    <PlanetContext.Provider value={ { result, filters, handleChange, handleValue } }>
+    <PlanetContext.Provider value={ { data, filters, handleChange, handleValue } }>
       { children }
     </PlanetContext.Provider>
   );
