@@ -43,13 +43,19 @@ function PlanetsProvider({ children }) {
       filters.filterByNumericValues.forEach((filter) => {
         switch (filter.comparison) {
         case MAIOR_QUE:
-          newArray.push(...filtered.filter((planet) => Number(planet[filter.column]) > Number(value)));
+          newArray.push(...filtered.filter((planet) => (
+            Number(planet[filter.column]) > Number(value)
+          )));
           break;
         case MENOR_QUE:
-          newArray.push(...filtered.filter((planet) => Number(planet[filter.column]) < Number(value)));
+          newArray.push(...filtered.filter((planet) => (
+            Number(planet[filter.column]) < Number(value)
+          )));
           break;
         case IGUAL_A:
-          newArray.push(...filtered.filter((planet) => Number(planet[filter.column]) === Number(value)));
+          newArray.push(...filtered.filter((planet) => (
+            Number(planet[filter.column]) === Number(value)
+          )));
           break;
         default:
           newArray.push(filtered);
