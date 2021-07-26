@@ -6,7 +6,6 @@ import './App.css';
 function App() {
   return (
     <AppProvider>
-      <span>Hello, App!</span>
       <Table />
     </AppProvider>
   );

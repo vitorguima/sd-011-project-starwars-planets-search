@@ -8,8 +8,8 @@ const errorMsg = <p>Erro ao fazer requisição! Contate o administrador do siste
 function Table() {
   const [data, APIerror] = GetDataFromAPI();
 
-  if (APIerror) return errorMsg;
   if (data === null) return <p>Carregando...</p>;
+  if (APIerror) return errorMsg;
 
   const columnInformation = Object.keys(data[0]);
   const planetsInformation = data.map((planet) => Object.values(planet));
