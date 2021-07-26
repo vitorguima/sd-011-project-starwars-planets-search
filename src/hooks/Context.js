@@ -19,8 +19,12 @@ export const GlobalStorage = ({ children }) => {
   const providerValues = {
     data,
     setData,
-    name,
     setName,
+    filters: {
+      filterByName: {
+        name,
+      },
+    },
   };
 
   return (
