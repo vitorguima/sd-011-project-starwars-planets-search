@@ -1,0 +1,10 @@
+th, tr, td {
+  background-clip: padding-box;
+  border: 20px solid transparent;
+  text-align: center;
+}
+
+table {
+  border-style: solid;
+  margin: auto;
+}
