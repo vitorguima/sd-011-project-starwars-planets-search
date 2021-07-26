@@ -1,6 +1,8 @@
-export async function fetchPlanets() {
+async function fetchPlanetsOnAPI() {
   const result = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-  const response = result.json();
-  console.log(response);
-  return response;
+  const response = await result.json();
+  // console.log(response);
+  return response.results;
 }
+
+export default fetchPlanetsOnAPI;
