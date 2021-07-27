@@ -1,9 +1,16 @@
-import React from 'react';
-import './App.css';
+import React, { useState } from 'react';
+import ContextPlanetsApi from './context/ContextPlanetsApi';
+import Table from './components/Table';
 
 function App() {
+  const [planets] = useState([]);
+  console.log(planets);
   return (
-    <span>Hello, App!</span>
+    <div>
+      <ContextPlanetsApi.Provider value={ { planets } }>
+        <Table />
+      </ContextPlanetsApi.Provider>
+    </div>
   );
 }
 
