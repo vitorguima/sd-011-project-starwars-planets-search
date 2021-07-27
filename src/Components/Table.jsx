@@ -4,12 +4,16 @@ import GetDataFromAPI from '../Hooks/GetDataFromAPI';
 import HeaderMainColumn from './HeaderMainColumn';
 import PlanetsInformation from './PlanetsInformation';
 import SearchInput from './SearchInput';
+import ColumnFilter from './Filters/ColumnFilter';
+import ComparisonFilter from './Filters/ComparisonFilter';
+import ValueFilter from './Filters/ValueFilter';
+import ApplyFilterButton from './Filters/ApplyFilterButton';
 
 const errorMsg = <p>Erro ao fazer requisição! Contate o administrador do sistema!</p>;
 
 function Table() {
-  const { userInput } = useContext(AppContext);
-  const { filters: { filterByName: { name } } } = userInput;
+  const { userInputFilter } = useContext(AppContext);
+  const { filters: { filterByName: { name } } } = userInputFilter;
   const [data, APIerror] = GetDataFromAPI();
 
   if (data === null) return <p>Carregando...</p>;
@@ -21,6 +25,10 @@ function Table() {
   return (
     <>
       <SearchInput />
+      <ColumnFilter />
+      <ComparisonFilter />
+      <ValueFilter />
+      <ApplyFilterButton />
       <table>
         <tr>
           {columnInformation

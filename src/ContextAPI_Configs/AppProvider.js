@@ -3,7 +3,7 @@ import propTypes from 'prop-types';
 import AppContext from './AppContext';
 
 function Provider({ children }) {
-  const [userInput, setUserInput] = useState({
+  const [userInputFilter, setUserInputFilter] = useState({
     filters: {
       filterByName: {
         name: '',
@@ -12,7 +12,7 @@ function Provider({ children }) {
   });
 
   const context = {
-    userInput, setUserInput,
+    userInputFilter, setUserInputFilter,
   };
 
   return (
