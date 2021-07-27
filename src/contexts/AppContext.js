@@ -4,6 +4,11 @@ import PropTypes from 'prop-types';
 export const AppContext = createContext({});
 export function AppContextProvider({ children }) {
   const [data, setData] = useState({});
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -12,7 +17,7 @@ export function AppContextProvider({ children }) {
   }, []);
 
   return (
-    <AppContext.Provider value={ { data } }>
+    <AppContext.Provider value={ { data, filters, setFilters } }>
       {children}
     </AppContext.Provider>
   );

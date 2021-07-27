@@ -1,10 +1,8 @@
-import React, { useContext } from 'react';
-import { AppContext } from '../contexts/AppContext';
+import React from 'react';
+import Planets from '../hooks/Planets';
 
 export default function Table() {
-  const { data } = useContext(AppContext);
-  const planets = data.results;
-  console.log(planets);
+  const { planets } = Planets();
 
   return (
     <div>
