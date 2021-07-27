@@ -56,14 +56,34 @@ function Filter() {
       [filter.column]: true,
     });
   }
+  function deleteFilter({ target }) {
+    const { dataset: { indexfilter, typeofcolumn } } = target;
+    const newArray = filters.filterByNumericValues;
+    newArray.splice(indexfilter, 1);
+    setFilters({
+      ...filters,
+      filterByNumericValues: newArray,
+    });
+    setOptions({
+      ...options,
+      [typeofcolumn]: false,
+    });
+  }
   return (
     <>
       {
         (filterByNumericValues.length > 0) ? (
           filterByNumericValues.map(({ column, comparison, value }, key) => (
-            <span key={ key }>
+            <span data-testid="filter" key={ key }>
               <p>{` ${column} ${comparison} ${value}`}</p>
-              <button type="button">X</button>
+              <button
+                data-typeofcolumn={ column }
+                data-indexFilter={ key }
+                type="button"
+                onClick={ (event) => { deleteFilter(event); } }
+              >
+                X
+              </button>
             </span>
           ))
         ) : (

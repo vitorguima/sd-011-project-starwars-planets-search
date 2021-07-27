@@ -27,7 +27,6 @@ function Table() {
   }
   useEffect(() => {
     if (planets !== undefined) {
-      console.log(typeof (planets[0].diameter));
       const filterName = filters.filterByName.name;
       let newFilter = planets.filter(({ name }) => name.includes(filterName));
       if (filterByNumericValues.length > 0) {
