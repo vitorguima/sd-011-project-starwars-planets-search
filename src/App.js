@@ -31,7 +31,7 @@ function App() {
   return (
     <MyContext.Provider value={ initstate }>
       <Filter initstate={ initstate } setInitState={ setInitState } />
-      <Table />
+      <Table initstate={ initstate } setInitState={ setInitState } />
     </MyContext.Provider>
   );
 }
