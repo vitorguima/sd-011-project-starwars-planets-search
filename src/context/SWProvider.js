@@ -4,7 +4,9 @@ import SWContext from './SWContext';
 
 export default function SWProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
 
   function savePlanets(data) {
     setPlanets(data);
@@ -15,11 +17,25 @@ export default function SWProvider({ children }) {
     setIsLoading(true);
   }
 
+  function changeFiltersByName(value) {
+    const newFilter = filters;
+    newFilter.filterByName.name = value;
+    setFilters(newFilter);
+  }
+
+  function saveFilteredPlanets(arrayFilteredPlanets) {
+    setFilteredPlanets(arrayFilteredPlanets);
+  }
+
   const context = {
-    planets,
+    planets: filteredPlanets,
     savePlanets,
     isLoading,
     changeLoading,
+    filters,
+    setFilters: changeFiltersByName,
+    planetsToFilter: planets,
+    saveFilteredPlanets,
   };
 
   return (
