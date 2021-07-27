@@ -12,7 +12,7 @@ function Table() {
     },
   });
   const [filterNumericValues, setFilterNumericValues] = React.useState({
-    column: '',
+    column: 'maior que',
     comparison: '',
     value: 0,
   });
@@ -48,18 +48,21 @@ function Table() {
       },
     });
   }
-
   const filterPlanets = allPlanets.filter((value) => {
-    switch (filterNumericValues.comparison) {
-    case 'maior que':
-      return value[filterNumericValues.column] > Number(filterNumericValues.value);
-    case 'menor que':
-      return value[filterNumericValues.column] < Number(filterNumericValues.value);
-    case 'igual a':
-      return value[filterNumericValues.column] === filterNumericValues.value;
-    default:
-      return true;
-    }
+    if (filters.filters.filterByNumericValues.length > 0) {
+      const values = filters.filters
+        .filterByNumericValues[filters.filters.filterByNumericValues.length - 1];
+      switch (values.comparison) {
+      case 'maior que':
+        return value[values.column] > Number(values.value);
+      case 'menor que':
+        return value[values.column] < Number(values.value);
+      case 'igual a':
+        return value[values.column] === values.value;
+      default:
+        return true;
+      }
+    } return true;
   });
 
   const filterColumn = [
@@ -78,6 +81,15 @@ function Table() {
     setFilters({ filters: { ...filters.filters,
       filterByNumericValues:
       [...filters.filters.filterByNumericValues, { column, comparison, value }] } });
+  }
+
+  function removeParams(indexComparison) {
+    setFilters({ filters: {
+      ...filters.filters,
+      filterByNumericValues: [
+        ...filters.filters.filterByNumericValues
+          .filter((value, index) => index !== indexComparison)],
+    } });
   }
 
   return (
@@ -147,6 +159,18 @@ function Table() {
       >
         Filtrar
       </button>
+      <div>
+        {filters.filters.filterByNumericValues.map((item, index) => (
+          <div data-testid="filter" key={ index }>
+            <span>{ `${item.comparison} ${item.value} ${item.column}` }</span>
+            <button
+              type="button"
+              onClick={ () => removeParams(index) }
+            >
+              x
+            </button>
+          </div>))}
+      </div>
       <table>
         <thead>
           <tr>
