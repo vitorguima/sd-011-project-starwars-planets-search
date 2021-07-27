@@ -38,6 +38,15 @@ export default function SWProvider({ children }) {
     setFilteredPlanets(arrayFilteredPlanets);
   }
 
+  function removeFilterByNumericValue(index) {
+    const newFiltersNumeric = filters.filterByNumericValues.filter(
+      (filter, i) => i !== index,
+    );
+    const newFilter = filters;
+    newFilter.filterByNumericValues = newFiltersNumeric;
+    setFilters(newFilter);
+  }
+
   const context = {
     planets: filteredPlanets,
     savePlanets,
@@ -48,6 +57,7 @@ export default function SWProvider({ children }) {
     planetsToFilter: planets,
     saveFilteredPlanets,
     addFilterByNumericValue,
+    removeFilterByNumericValue,
   };
 
   return (

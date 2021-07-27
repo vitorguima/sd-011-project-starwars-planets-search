@@ -14,6 +14,7 @@ export default function Table() {
     planetsToFilter,
     saveFilteredPlanets,
     addFilterByNumericValue,
+    removeFilterByNumericValue,
   } = useContext(SWContext);
 
   const [filterName, setFilterName] = useState('');
@@ -97,7 +98,39 @@ export default function Table() {
       [name]: value,
     }));
   }
-  useEffect(filterPlanetsByName, [filterName, planetsToFilter, numericValues]);
+
+  const [index, setIndex] = useState(null);
+
+  function setIndexRemove(indexFilter) {
+    setIndex(indexFilter);
+  }
+
+  function removeFilter() {
+    removeFilterByNumericValue(index);
+  }
+  useEffect(removeFilter, [index]);
+
+  useEffect(filterPlanetsByName, [filterName, planetsToFilter, numericValues, index]);
+
+  function renderNumericFiltersApplied() {
+    return (
+      <div className="filters-applied-section">
+        { filters.filterByNumericValues.map((filter, i) => (
+          <div data-testid="filter" key={ i }>
+            <span>{ filter.column }</span>
+            <span>{ filter.comparison }</span>
+            <span>{ filter.value }</span>
+            <button
+              type="button"
+              onClick={ () => setIndexRemove(i) }
+            >
+              X
+            </button>
+          </div>
+        )) }
+      </div>
+    );
+  }
 
   function renderFilterNumericValues() {
     return (
@@ -107,19 +140,14 @@ export default function Table() {
           data-testid="column-filter"
           onChange={ (e) => handlerNumericValues(e) }
         >
-          { filteredColumn.map((column, index) => (
+          { filteredColumn.map((column, i) => (
             <option
-              key={ index }
+              key={ i }
               value={ column }
             >
               { column }
             </option>
           ))}
-          {/* <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option> */}
         </select>
         <select
           name="comparison"
@@ -175,6 +203,7 @@ export default function Table() {
       <section>
         { renderFilterName() }
         { renderFilterNumericValues() }
+        { renderNumericFiltersApplied() }
         <table>
           <thead>
             <tr>
@@ -182,8 +211,8 @@ export default function Table() {
             </tr>
           </thead>
           <tbody>
-            { planets.map((planet, index) => (
-              <tr key={ index }>
+            { planets.map((planet, i) => (
+              <tr key={ i }>
                 <td>{ planet.name }</td>
                 <td>{ planet.rotation_period }</td>
                 <td>{ planet.orbital_period }</td>
