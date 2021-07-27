@@ -37,27 +37,29 @@ function PlanetsProvider({ children }) {
     );
     let filteredPlanetsByNumericValues = filteredPlanetsByName;
     if (filters.filterByNumericValues.length !== 0) {
-      switch (filters.filterByNumericValues[0].comparison) {
-      case 'maior que':
-        filteredPlanetsByNumericValues = filteredPlanetsByName.filter(
-          (planet) => parseInt(planet[filters.filterByNumericValues[0].column], 10)
-          > parseInt(filters.filterByNumericValues[0].value, 10),
-        );
-        break;
-      case 'menor que':
-        filteredPlanetsByNumericValues = filteredPlanetsByName.filter(
-          (planet) => parseInt(planet[filters.filterByNumericValues[0].column], 10)
-          < parseInt(filters.filterByNumericValues[0].value, 10),
-        );
-        break;
-      case 'igual a':
-        filteredPlanetsByNumericValues = filteredPlanetsByName.filter(
-          (planet) => parseInt(planet[filters.filterByNumericValues[0].column], 10)
-          === parseInt(filters.filterByNumericValues[0].value, 10),
-        );
-        break;
-      default:
-      }
+      filters.filterByNumericValues.forEach((filter) => {
+        switch (filter.comparison) {
+        case 'maior que':
+          filteredPlanetsByNumericValues = filteredPlanetsByNumericValues.filter(
+            (planet) => parseInt(planet[filter.column], 10)
+          > parseInt(filter.value, 10),
+          );
+          break;
+        case 'menor que':
+          filteredPlanetsByNumericValues = filteredPlanetsByNumericValues.filter(
+            (planet) => parseInt(planet[filter.column], 10)
+          < parseInt(filter.value, 10),
+          );
+          break;
+        case 'igual a':
+          filteredPlanetsByNumericValues = filteredPlanetsByNumericValues.filter(
+            (planet) => parseInt(planet[filter.column], 10)
+          === parseInt(filter.value, 10),
+          );
+          break;
+        default:
+        }
+      });
     }
     setPlanets(filteredPlanetsByNumericValues);
   }

@@ -31,6 +31,21 @@ function SelectionFilter() {
       (filter) => filter !== form.column,
     );
     setColumnFilters(columnWithoutUsedFilter);
+    setForm({
+      ...form,
+      value: '',
+    });
+  }
+
+  function returnOnColumnFilters(filterToReturn) {
+    setColumnFilters([...columnFilters, filterToReturn]);
+    const returningFilter = filters.filterByNumericValues.filter(
+      (filterToClear) => filterToClear.column !== filterToReturn,
+    );
+    setFilters({
+      ...filters,
+      filterByNumericValues: returningFilter,
+    });
   }
 
   return (
@@ -65,6 +80,18 @@ function SelectionFilter() {
       >
         Filtrar
       </button>
+      <div>
+        {filters.filterByNumericValues.map((filter, index) => (
+          <div data-testid="filter" key={ index }>
+            <p>{`${filter.column} ${filter.comparison} ${filter.value}`}</p>
+            <button
+              type="button"
+              onClick={ () => returnOnColumnFilters(filter.column) }
+            >
+              X
+            </button>
+          </div>))}
+      </div>
     </div>
   );
 }
