@@ -5,7 +5,7 @@ function TableBody(props) {
   const { planet } = props;
   return (
     <tr>
-      {Object.values(planet).map((info) => <td key={ info }>{info}</td>)}
+      {Object.values(planet).map((info, index) => <td key={ index }>{info}</td>)}
     </tr>
   );
 }

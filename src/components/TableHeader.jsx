@@ -17,13 +17,15 @@ function TableHeader() {
     'Url',
   ];
   return (
-    <tr>
-      {tableTitles.map((title) => (
-        <th key={ title }>
-          { title }
-          <hr />
-        </th>))}
-    </tr>
+    <thead>
+      <tr>
+        {tableTitles.map((title) => (
+          <th key={ title }>
+            { title }
+            <hr />
+          </th>))}
+      </tr>
+    </thead>
   );
 }
 
