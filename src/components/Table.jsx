@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import SearchFieldName from './SearchFieldName';
 
 const Table = () => {
-  const { data } = useContext(PlanetsContext);
+  const { data, filterName } = useContext(PlanetsContext);
   return (
     <div>
+      <SearchFieldName />
       <table>
         <thead>
           <tr>
@@ -25,23 +27,24 @@ const Table = () => {
         </thead>
         <tbody>
           {
-            data.map((planet, index) => (
-              <tr key={ index }>
-                <td>{planet.name}</td>
-                <td>{planet.rotation_period}</td>
-                <td>{planet.orbital_period}</td>
-                <td>{planet.diameter}</td>
-                <td>{planet.climate}</td>
-                <td>{planet.gravity}</td>
-                <td>{planet.terrain}</td>
-                <td>{planet.surface_water}</td>
-                <td>{planet.population}</td>
-                <td>{planet.films}</td>
-                <td>{planet.created}</td>
-                <td>{planet.edited}</td>
-                <td>{planet.url}</td>
-              </tr>
-            ))
+            data.filter((planet) => (planet.name.toLowerCase().includes(filterName)))
+              .map((items, index) => (
+                <tr key={ index }>
+                  <td>{items.name}</td>
+                  <td>{items.rotation_period}</td>
+                  <td>{items.orbital_period}</td>
+                  <td>{items.diameter}</td>
+                  <td>{items.climate}</td>
+                  <td>{items.gravity}</td>
+                  <td>{items.terrain}</td>
+                  <td>{items.surface_water}</td>
+                  <td>{items.population}</td>
+                  <td>{items.films}</td>
+                  <td>{items.created}</td>
+                  <td>{items.edited}</td>
+                  <td>{items.url}</td>
+                </tr>
+              ))
           }
         </tbody>
       </table>
