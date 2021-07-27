@@ -2,11 +2,16 @@ import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 const Filters = () => {
-  const { setFilterByName, addNewNumericFilter } = useContext(PlanetsContext);
+  const {
+    setFilterByName,
+    addNewNumericFilter,
+    defaultColunsFilters,
+  } = useContext(PlanetsContext);
+
   const [selectedValues, setSelectedValues] = useState({
-    column: '',
-    comparison: '',
-    value: '',
+    column: defaultColunsFilters[0],
+    comparison: 'maior que',
+    value: 0,
   });
 
   const handleSelects = ({ target }) => {
@@ -20,20 +25,14 @@ const Filters = () => {
 
   const submitFilter = () => {
     addNewNumericFilter(selectedValues);
-    setSelectedValues({
-      column: 'population',
-      comparison: 'maior que',
-      value: '',
-    });
+    if (defaultColunsFilters[1]) {
+      setSelectedValues({
+        column: defaultColunsFilters[1],
+        comparison: 'maior que',
+        value: 0,
+      });
+    }
   };
-
-  const defaultColumns = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
 
   const { column, comparison, value: filterValue } = selectedValues;
 
@@ -61,7 +60,7 @@ const Filters = () => {
             value={ column }
           >
             {
-              defaultColumns.map((option, index) => (
+              defaultColunsFilters.map((option, index) => (
                 <option key={ index }>{ option }</option>
               ))
             }
