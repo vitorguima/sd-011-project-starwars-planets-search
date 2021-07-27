@@ -1,8 +1,23 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import FetchApi from './FetchApi';
+import PlanetsContext from '../hooks/PlanetsContext';
 
 function Table() {
   const { data } = FetchApi();
+  const {
+    initialFilters,
+    filteredInfo,
+    setFilteredInfo,
+  } = useContext(PlanetsContext);
+
+  useEffect(() => {
+    if (data) {
+      setFilteredInfo(data
+        .filter((item) => item.name.toLowerCase()
+          .includes(initialFilters.filterByName.name.toLowerCase())));
+    }
+  }, [initialFilters, data, setFilteredInfo]);
+
   return (
     <div>
       <table>
@@ -24,7 +39,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          { data.map((planets, index) => (
+          { filteredInfo.map((planets, index) => (
             <tr key={ index }>
               <td data-testid="planet-name">{ planets.name }</td>
               <td>{ planets.rotation_period }</td>
