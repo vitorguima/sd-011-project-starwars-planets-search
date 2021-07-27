@@ -8,7 +8,26 @@ function MyProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
+
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('');
+
+  const handleClick = () => {
+    setSearchValue({
+      ...searchValue,
+      filterByNumericValues: [
+        ...searchValue.filterByNumericValues,
+        {
+          column,
+          comparison,
+          value,
+        },
+      ],
+    });
+  };
 
   useEffect(() => {
     const getApi = async () => {
@@ -22,14 +41,36 @@ function MyProvider({ children }) {
   }, []);
 
   const handleChange = ({ target }) => {
-    setSearchValue({
-      ...searchValue,
-      filterByName: { name: target.value },
-    });
+    switch (value) {
+    case 'name':
+      setSearchValue({ filterByName: { name: target.name } });
+      break;
+    case 'value':
+      setSearchValue({ filterByNumericValues: { value: target.value } });
+      break;
+    case 'column':
+      setSearchValue({ filterByNumericValues: { column: target.column } });
+      break;
+    case 'comparison':
+      setSearchValue({ filterByNumericValues: { comparison: target.comparison } });
+      break;
+    default:
+      setSearchValue({ ...searchValue, filterByName: { name: target.value } });
+    }
+  };
+
+  const context = {
+    data,
+    searchValue,
+    handleChange,
+    handleClick,
+    setColumn,
+    setComparison,
+    setValue,
   };
 
   return (
-    <MyContext.Provider value={ { data, searchValue, handleChange } }>
+    <MyContext.Provider value={ context }>
       {children}
     </MyContext.Provider>
   );

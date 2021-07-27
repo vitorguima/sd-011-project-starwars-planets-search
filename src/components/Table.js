@@ -3,13 +3,35 @@ import MyContext from '../context/Mycontext';
 
 function Table() {
   const { data, searchValue } = useContext(MyContext);
-  const { filterByName } = searchValue;
+  const { filterByName, filterByNumericValues } = searchValue;
   const { name } = filterByName;
-  const results = !name
-    ? data
-    : data.filter((planet) => planet
-      .name.toLowerCase()
-      .includes(name.toLowerCase()));
+
+  const results = !name ? data : data.filter((planet) => planet
+    .name.toLowerCase().includes(name.toLowerCase()));
+
+  const condition = () => {
+    const newArray = results.filter((element) => {
+      let boleanCondition = true;
+      filterByNumericValues.forEach(({ comparison, value, column }) => {
+        switch (comparison) {
+        case 'maior que':
+          boleanCondition = boleanCondition && Number(element[column]) > Number(value);
+          break;
+        case 'menor que':
+          boleanCondition = boleanCondition && Number(element[column]) < Number(value);
+          break;
+        case 'igual a':
+          boleanCondition = boleanCondition && Number(element[column]) === Number(value);
+          break;
+        default:
+          boleanCondition = false;
+          break;
+        }
+      });
+      return boleanCondition;
+    });
+    return newArray;
+  };
 
   return (
     <div>
@@ -32,7 +54,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          { results.map((item, index) => (
+          { condition().map((item, index) => (
             <tr key={ index }>
               <td>{item.name}</td>
               <td>{item.rotation_period}</td>
