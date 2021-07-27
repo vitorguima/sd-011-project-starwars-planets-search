@@ -28,7 +28,7 @@ function App() {
       ));
       setList(list);
     }
-  }, [search, planets]);
+  }, [search]);
 
   const contextValue = {
     planets: planetList,
