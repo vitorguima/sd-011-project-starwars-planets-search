@@ -6,6 +6,7 @@ import { useAuth } from '../providers/auth';
  * Link: https://www.youtube.com/watch?v=d1r0aK5awWk
  */
 
+import FilterNumericNumbers from './FilterNumericNumbers';
 import Datatable from './datatable';
 
 function Table() {
@@ -35,6 +36,7 @@ function Table() {
           filterByName: { name: e.target.value },
         }) }
       />
+      <FilterNumericNumbers />
       <div>
         <Datatable data={ search(data) } />
       </div>

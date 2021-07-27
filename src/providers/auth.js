@@ -16,7 +16,6 @@ export const AuthProvider = (props) => {
       name: '',
     },
     filterByNumericValues: [{}],
-    activeFilter: false,
   });
 
   const { children } = props;
