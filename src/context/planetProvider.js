@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PlanetContext from './planetContext';
 
@@ -11,11 +11,15 @@ function PlanetProvider({ children }) {
     const request = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
     const response = await request.json();
     const data = response;
-    const header = Object.keys(data.results[0]).filter((key) => key !== 'residents');
+    const header = Object.keys(response.results[0]).filter((key) => key !== 'residents');
     setPlanets(data);
     setIsLoading(false);
     setKeys(header);
   }
+
+  useEffect(() => {
+    fetchPlanets();
+  }, []);
 
   return (
     <PlanetContext.Provider value={ { planets, isLoading, keys, fetchPlanets } }>
