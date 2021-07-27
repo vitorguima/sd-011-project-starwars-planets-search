@@ -1,0 +1,22 @@
+.container {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 2em;
+  padding: 2em;
+}
+
+.header {
+  align-items: center;
+  display: flex;
+  gap: 2em;
+}
+
+.icon {
+  font-size: 5em;
+}
+
+.title {
+  font-size: 3em;
+  text-shadow: 2px 2px var(--secondary-color);
+}
