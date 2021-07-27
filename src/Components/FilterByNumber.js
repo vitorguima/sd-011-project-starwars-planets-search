@@ -9,7 +9,7 @@ export default function NumericFilter() {
     comparison: '',
     value: '',
   });
-  
+
   const formHandleChange = (event) => {
     const { target: { id, value: selectValue } } = event;
     setFormState({
@@ -17,7 +17,7 @@ export default function NumericFilter() {
       [id]: selectValue,
     });
   };
-  
+
   const dispatchFilter = (event) => {
     event.preventDefault();
     setFilterByNumericValues([formState]);
