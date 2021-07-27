@@ -57,7 +57,10 @@ function Table() {
   ));
   return (
     <div>
-
+      <label htmlFor="name-filter">
+        Busca por nome
+        <input type="text" data-testid="name-filter" id="name-filter" />
+      </label>
       <table className="table">
         <thread>
           <tr>
