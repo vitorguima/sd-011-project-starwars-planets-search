@@ -15,7 +15,8 @@ function NumberFilter() {
     'surface_water'];
 
   const handleSelect = () => selectArr
-    .filter((string) => !filterByNumericValues.map((item) => item.column).includes(string));
+    .filter((string) => !filterByNumericValues.map((item) => item.column)
+      .includes(string));
   return (
     <div>
       <select
