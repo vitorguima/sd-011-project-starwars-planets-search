@@ -95,6 +95,21 @@ const PlanetsProvider = ({ children }) => {
     setFilters(newFilter);
   };
 
+  const removeNumericFilter = (valueToFilter) => {
+    const newFilter = {
+      ...filters,
+      filters: {
+        ...filters.filters,
+        filterByNumericValues: filters
+          .filters
+          .filterByNumericValues
+          .filter((filterOption) => filterOption.column !== valueToFilter),
+      },
+    };
+
+    setFilters(newFilter);
+  };
+
   const context = {
     data,
     isLoading,
@@ -102,6 +117,7 @@ const PlanetsProvider = ({ children }) => {
     defaultColunsFilters,
     setFilterByName,
     addNewNumericFilter,
+    removeNumericFilter,
   };
 
   return (
