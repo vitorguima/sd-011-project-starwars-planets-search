@@ -18,8 +18,10 @@ function Table() {
       return data;
     };
     getPlanets().then((planets) => {
-      setPlanetList(planets.results);
-      setFilteredPlanets(planets.results);
+      setPlanetList(planets.results
+        .sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })));
+      setFilteredPlanets(planets.results
+        .sort((a, b) => a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })));
     });
   }, [setFilteredPlanets, setPlanetList]);
 
@@ -43,7 +45,7 @@ function Table() {
         <tr
           key={ index }
         >
-          <td>{name}</td>
+          <td data-testid="planet-name">{name}</td>
           <td>{diameter}</td>
           <td>{rotationPeriod}</td>
           <td>{orbitalPeriod}</td>

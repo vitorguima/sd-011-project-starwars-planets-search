@@ -9,6 +9,10 @@ function SpacesProvider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: '',
+      sort: '',
+    },
   };
 
   const [filters, setFilters] = useState(filterInitialState);
