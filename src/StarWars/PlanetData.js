@@ -5,25 +5,20 @@ import FetchAPI from './FetchAPI';
 
 const PlanetData = ({ children }) => {
   const [data, setData] = React.useState([]);
-  const [planetData, setPlanetData] = React.useState([]);
 
   React.useEffect(() => {
     FetchAPI().then((result) => setData(result));
   }, []);
 
-  React.useEffect(() => {
-    setPlanetData(data);
-  }, [data]);
-
   return (
-    <GlobalContext.Provider valor={ planetData }>
+    <GlobalContext.Provider value={ data }>
       {children}
     </GlobalContext.Provider>
   );
 };
 
 PlanetData.propTypes = {
-  children: PropTypes.objectOf.isRequired,
+  children: PropTypes.func.isRequired,
 };
 
 export default PlanetData;
