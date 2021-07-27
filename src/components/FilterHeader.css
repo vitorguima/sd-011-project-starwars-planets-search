@@ -1,0 +1,21 @@
+.header {
+  align-items: center;
+  background-image: url('../images/header-bg.jpg');
+  background-position: 50% 0%;
+  background-size: 80% 120%;
+  color: white;
+  display: flex;
+  flex-direction: column;
+}
+
+.header-title {
+  font-size: 3em;
+  font-weight: 900;
+  padding-top: 20vh;
+}
+
+.form-container {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+}

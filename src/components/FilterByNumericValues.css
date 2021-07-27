@@ -1,0 +1,34 @@
+.filter-by-numeric-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  text-align: center;
+}
+
+.filter-by-numeric-title {
+  font-size: 1.2em;
+}
+
+.filter-by-numeric-inputs {
+  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.filter-by-numeric-inputs > * {
+  margin: 0 8px;
+}
+
+.filter-by-numeric-column-label {
+  width: 11em;
+}
+
+.filter-by-numeric-value-label {
+  width: 20%;
+}
+
+.filter-by-numeric-btn {
+  height: 38px;
+  width: 9em;
+}

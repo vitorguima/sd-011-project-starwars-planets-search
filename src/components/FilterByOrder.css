@@ -1,0 +1,22 @@
+.filter-by-order-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 0 30px;
+  text-align: center;
+}
+
+.filter-by-order-title {
+  font-size: 1.2em;
+}
+
+.filter-by-order-inputs {
+  align-items: flex-end;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 15px;
+}
+
+.filter-by-order-inputs > * {
+  margin: 0 8px;
+}
