@@ -1,8 +1,13 @@
-import React from 'react';
-// import MyContext from './MyContext';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 function Filter({ initstate, setInitState }) {
+  const [valueFilter, setValueFilter] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    numberValue: '100000',
+  });
+
   function changeValue({ target }) {
     const { value } = target;
     const { data } = initstate;
@@ -17,30 +22,28 @@ function Filter({ initstate, setInitState }) {
 
   function sendSelect({ target }) {
     const { name, value } = target;
-    setInitState({
-      ...initstate,
-      filterByNumericValues: {
-        ...initstate.filterByNumericValues,
-        [name]: value,
-      },
+    setValueFilter({
+      ...valueFilter,
+      [name]: value,
     });
   }
 
   function clickFilter() {
     const { data } = initstate;
-    const { column, comparison, numberValue } = initstate.filterByNumericValues;
-    let newArray = [];
+    const { column, comparison, numberValue } = valueFilter;
 
-    if (comparison === 'maior que' || comparison === undefined) {
-      newArray = data.filter((itemArray) => itemArray[column] > numberValue);
-    }
+    let newArray = [];
     if (comparison === 'menor que') {
-      newArray = data.filter((itemArray) => itemArray[column] < numberValue);
+      newArray = data.filter((itemArray) => (
+        itemArray[column] < numberValue || itemArray[column] === 'unknown'));
+    }
+    if (comparison === 'maior que') {
+      newArray = data.filter((itemArray) => (
+        Number(itemArray[column]) > Number(numberValue)));
     }
     if (comparison === 'igual a') {
       newArray = data.filter((itemArray) => itemArray[column] === numberValue);
     }
-
     setInitState({
       ...initstate,
       newData: newArray,

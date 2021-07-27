@@ -11,11 +11,6 @@ function App() {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [{
-      column: 'population',
-      comparison: 'maior que',
-      numberValue: '100000',
-    }],
   });
 
   async function getApi() {
