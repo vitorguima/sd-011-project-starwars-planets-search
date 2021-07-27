@@ -7,11 +7,24 @@ function Filter() {
     comparison: 'maior que',
     value: 0,
   });
+  const [options, setOptions] = useState({
+    population: false,
+    orbital_period: false,
+    diameter: false,
+    rotation_period: false,
+    surface_water: false,
+  });
   const {
     setFilters,
     filters,
     filters: { filterByNumericValues },
   } = useContext(planetsContext);
+
+  function optionsFunction(type) {
+    if (!options[type]) {
+      return <option>{type}</option>;
+    }
+  }
 
   function changeColumn(event) {
     setFilterNumber({
@@ -38,6 +51,10 @@ function Filter() {
       ...filters,
       filterByNumericValues: newFilter,
     });
+    setOptions({
+      ...options,
+      [filter.column]: true,
+    });
   }
   return (
     <>
@@ -58,11 +75,11 @@ function Filter() {
           data-testid="column-filter"
           onChange={ (event) => changeColumn(event) }
         >
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          {optionsFunction('population')}
+          {optionsFunction('orbital_period')}
+          {optionsFunction('diameter')}
+          {optionsFunction('rotation_period')}
+          {optionsFunction('surface_water')}
         </select>
         <select
           data-testid="comparison-filter"
