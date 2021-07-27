@@ -100,7 +100,13 @@ export default function Table() {
             }) }
           />
         </label>
-        <button type="button" data-testid="button-filter" onClick={ filterPlanets }>Filtrar</button>
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ filterPlanets }
+        >
+          Filtrar
+        </button>
       </div>
     );
   }
