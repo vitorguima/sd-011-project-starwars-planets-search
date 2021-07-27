@@ -1,63 +1,38 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useAuth } from '../providers/auth';
-import SearchPlanet from './SearchPlanet';
+
+import Datatable from './datatable';
 
 function Table() {
-  const [state, setState] = useState({
-    loading: true,
-    planets: '',
-    filterByName: '',
-    filterByNumericValues: [],
-  });
-
-  const { planets, filters } = useAuth();
+  const [data, setData] = useState([]);
+  const { filters, setFilters } = useAuth();
+  const { filterByName: { name } } = filters;
 
   useEffect(() => {
-    setState({
-      planets: planets.data.results,
-      filterByName: filters.filterByName.name,
-      filterByNumericValues: filters.filterByNumericValues,
-      loading: false,
-    });
-    abadabadu();
-  }, [planets, filters]);
+    fetch('https://swapi-trybe.herokuapp.com/api/planets/')
+      .then((response) => response.json())
+      .then((json) => setData(json.results));
+  }, []);
 
-  const abadabadu = () => {
-    const planetas = state.planets;
-    const { filterByNumericValues } = filters;
-    const { comparison, value, column } = filterByNumericValues[0];
-
-    if (comparison === 'maior que') {
-      const teste = planetas.filter((planet) => (
-        planet[column] > value
-      ));
-      console.log(teste);
-    }
-  };
+  function search(rows) {
+    const minusOne = -1;
+    return rows.filter((row) => row.name.toLowerCase().indexOf(name) > minusOne);
+  }
 
   return (
     <div>
-      <SearchPlanet />
-      <table>
-        <tr>
-          {state.planets && Object.keys(state.planets[0]).map((key, index) => {
-            if (key === 'residents') return null;
-            return <th key={ index }>{ key }</th>;
-          })}
-        </tr>
-        {state.planets && state.planets
-          .filter((planet) => planet.name.includes(state.filterByName))
-          .map((planet, index) => {
-            delete planet.residents;
-            return (
-              <tr key={ index }>
-                {Object.values(planet).map((info, indexTd) => (
-                  <td key={ indexTd }>{ info }</td>
-                ))}
-              </tr>
-            );
-          })}
-      </table>
+      <input
+        type="text"
+        value={ name }
+        data-testid="name-filter"
+        onChange={ (e) => setFilters({
+          ...filters,
+          filterByName: { name: e.target.value },
+        }) }
+      />
+      <div>
+        <Datatable data={ search(data) } />
+      </div>
     </div>
   );
 }
