@@ -1,11 +1,45 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 const Table = () => {
-  const { data, name } = useContext(PlanetsContext);
+  const { data, isLoading, filters } = useContext(PlanetsContext);
+  const { results } = data;
+  const {
+    filters: {
+      filterByName: {
+        name,
+      },
+      filterByNumericValues,
+    },
+  } = filters;
+
+  const [filteredPlanetList, setFilteredPlanetList] = useState([]);
+
+  useEffect(() => {
+    filterByNumericValues.forEach((option) => {
+      setFilteredPlanetList(
+        results
+          .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()))
+          .filter((planet) => {
+            switch (option.comparison) {
+            case 'maior que':
+              return (planet[option.column] > Number(option.value));
+            case 'menor que':
+              return (planet[option.column] < Number(option.value));
+            case 'igual a':
+              return (planet[option.column] === option.value);
+            default:
+              return true;
+            }
+          }),
+      );
+    });
+  }, [filterByNumericValues, name, results]);
+
+  // console.log(filteredPlanetList, filterByNumericValues, name, results);
 
   return (
-    (data.results)
+    (!isLoading)
       ? (
         <table>
           <thead>
@@ -26,8 +60,7 @@ const Table = () => {
             </tr>
           </thead>
           <tbody>
-            { data.results
-              .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()))
+            { filteredPlanetList
               .map((planet, index) => (
                 <tr key={ index }>
                   <td>{ planet.name }</td>
