@@ -11,8 +11,8 @@ body {
 }
 
 main {
-  text-align: center;
   height: 100%;
+  text-align: center;
   width: 100vw;
 }
 
@@ -20,8 +20,8 @@ main form input {
   background-color: cornflowerblue;
 }
 
-table,
+table, 
 td {
-  width: 100%;
   border: 1px solid black;
+  width: 100%;
 }
