@@ -7,6 +7,7 @@ function Table() {
     loading: true,
     planets: '',
     filterByName: '',
+    filterByNumericValues: [],
   });
 
   const { planets, filters } = useAuth();
@@ -15,9 +16,24 @@ function Table() {
     setState({
       planets: planets.data.results,
       filterByName: filters.filterByName.name,
+      filterByNumericValues: filters.filterByNumericValues,
       loading: false,
     });
+    abadabadu();
   }, [planets, filters]);
+
+  const abadabadu = () => {
+    const planetas = state.planets;
+    const { filterByNumericValues } = filters;
+    const { comparison, value, column } = filterByNumericValues[0];
+
+    if (comparison === 'maior que') {
+      const teste = planetas.filter((planet) => (
+        planet[column] > value
+      ));
+      console.log(teste);
+    }
+  };
 
   return (
     <div>

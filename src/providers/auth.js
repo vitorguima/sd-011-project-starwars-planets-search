@@ -15,10 +15,11 @@ export const AuthProvider = (props) => {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [{}],
+    activeFilter: false,
   });
 
   const { children } = props;
-  console.log(children);
 
   return (
     <AuthContext.Provider value={ { planets, setPlanets, filters, setFilters } }>
