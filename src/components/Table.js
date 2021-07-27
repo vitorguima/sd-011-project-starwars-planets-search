@@ -11,7 +11,6 @@ function Table() {
       );
     }
   }
-  // console.log(Object.keys(data[0])); <<< se eu uso ele nao funciona.
   return (
     <table>
       <thead>
@@ -21,7 +20,11 @@ function Table() {
       </thead>
       <tbody>
         {
-          data.map((item, index) => <tr key={ index }>{Object.values(item).map((tdName, index2) => <td key={ index2 }>{tdName}</td>)}</tr>)
+          data.map((item, index) => (
+            <tr key={ index }>
+              {Object.values(item).map((tdName, index2) => (
+                <td key={ index2 }>{tdName}</td>))}
+            </tr>))
         }
       </tbody>
     </table>
