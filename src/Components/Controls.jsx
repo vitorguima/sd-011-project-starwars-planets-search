@@ -1,27 +1,57 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { usePlanets } from '../hooks/usePlanets';
+
+const NUMERIC_FIELDS = [
+  { translation: 'population', value: 'population' },
+  { translation: 'orbital_period', value: 'orbital_period' },
+  { translation: 'diameter', value: 'diameter' },
+  { translation: 'rotation_period', value: 'rotation_period' },
+  { translation: 'surface_water', value: 'surface_water' },
+];
+
+// const NUMERIC_FIELDS_HOW_IT_SHOULD_HAVE_BEEN = [
+//   { translation: 'População', value: 'population' },
+//   { translation: 'Período Orbital', value: 'orbital_period' },
+//   { translation: 'Diâmetro', value: 'diameter' },
+//   { translation: 'Período de Rotação', value: 'rotation_period' },
+//   { translation: 'Água na Superfície', value: 'surface_water' },
+// ];
 
 function Controls() {
   const [textFilter, setTextFilter] = useState('');
   const [numericFilter, setNumericFilter] = useState({
     numeric_field: 'population',
     numeric_comparison: 'gt',
-    numeric_value: null,
+    numeric_value: '',
   });
   const { addFilter, filters } = usePlanets();
-  const NUMERIC_FIELDS = [
-    { translation: 'População', value: 'population' },
-    { translation: 'Período Orbital', value: 'orbital_period' },
-    { translation: 'Diâmetro', value: 'diameter' },
-    { translation: 'Período de Rotação', value: 'rotation_period' },
-    { translation: 'Água na Superfície', value: 'surface_water' },
-  ];
+
+  const [availableNumericFilters, setAvailableNumericFilters] = useState([]);
 
   const COMPARE_OPTIONS = [
     { translation: 'maior que', value: 'gt' },
     { translation: 'igual a', value: 'eq' },
     { translation: 'menor que', value: 'lt' },
   ];
+
+  useEffect(() => {
+    const usedFilters = filters.filter(({ type }) => type.includes('numeric'));
+    const availableFilters = NUMERIC_FIELDS.filter((numFilter) => {
+      for (let i = 0; i < usedFilters.length; i += 1) {
+        const filterType = usedFilters[i].type.split('/')[1];
+        if (numFilter.value.includes(filterType)) {
+          return false;
+        }
+      }
+      return true;
+    });
+    setAvailableNumericFilters(availableFilters);
+    setNumericFilter({
+      numeric_field: availableFilters[0].value,
+      numeric_comparison: 'gt',
+      value: '',
+    });
+  }, [filters]);
 
   function handleAddFilter({ type, content, field }) {
     const filterDict = {
@@ -91,7 +121,6 @@ function Controls() {
       </fieldset>
 
       <form
-        onChange={ handleChangeNumericFilter }
         onSubmit={ handleAddNumericFilter }
       >
         <fieldset>
@@ -99,16 +128,20 @@ function Controls() {
           <select
             data-testid="column-filter"
             name="numeric_field"
+            onChange={ handleChangeNumericFilter }
             required
             title="Campo para ser comparado"
+            value={ numericFilter.numeric_field }
           >
-            { mapSelect(NUMERIC_FIELDS) }
+            { mapSelect(availableNumericFilters) }
           </select>
           <select
             data-testid="comparison-filter"
             name="numeric_comparison"
+            onChange={ handleChangeNumericFilter }
             required
             title="Comparação"
+            value={ numericFilter.numeric_comparison }
           >
             { mapSelect(COMPARE_OPTIONS) }
           </select>
@@ -116,9 +149,11 @@ function Controls() {
             data-testid="value-filter"
             name="numeric_value"
             placeholder="30000"
+            onChange={ handleChangeNumericFilter }
             required
             title="Valor para ser comparado"
             type="number"
+            value={ numericFilter.numeric_value || '' }
           />
           <button
             data-testid="button-filter"
