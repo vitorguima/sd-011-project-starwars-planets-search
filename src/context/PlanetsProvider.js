@@ -8,14 +8,26 @@ function PlanetsProvider({ children }) {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [
-      {
-        column: 'population',
-        comparison: '',
-        value: '0',
-      },
-    ],
+    filterByNumericValues: [],
   });
+
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [value, setValue] = useState('');
+
+  function handleClick() {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues,
+        {
+          column,
+          comparison,
+          value,
+        },
+      ],
+    });
+  }
 
   useEffect(() => {
     const getAPI = async () => {
@@ -28,19 +40,42 @@ function PlanetsProvider({ children }) {
   }, []);
 
   const handleChange = ({ target }) => {
-    setFilters({ ...filters, filterByName: { name: target.value } });
+    switch (value) {
+    case 'name':
+      setFilters({ filterByName: { name: target.name } });
+      break;
+    case 'value':
+      setFilters({ filterByNumericValues: { value: target.value } });
+      break;
+    case 'column':
+      setFilters({ filterByNumericValues: { column: target.column } });
+      break;
+    case 'comparison':
+      setFilters({ filterByNumericValues: { comparison: target.comparison } });
+      break;
+    default:
+      setFilters({ ...filters, filterByName: { name: target.value } });
+    }
   };
 
-  const handleValue = ({ target }) => {
-    setFilters({ ...filters, filterByNumericValues: { name: target.value } });
+  const context = {
+    data,
+    filters,
+    handleChange,
+    handleClick,
+    setColumn,
+    setComparison,
+    setValue,
   };
 
   return (
-    <PlanetContext.Provider value={ { data, filters, handleChange, handleValue } }>
+    <PlanetContext.Provider value={ context }>
       { children }
     </PlanetContext.Provider>
   );
 }
+
+
 
 PlanetsProvider.propTypes = ({
   children: PropTypes.node,

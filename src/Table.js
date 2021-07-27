@@ -3,21 +3,35 @@ import PlanetContext from './context/PlanetContex';
 
 function Table() {
   const { data, filters } = useContext(PlanetContext);
-  const { filterByName } = filters;
+  const { filterByName, filterByNumericValues } = filters;
   const { name } = filterByName;
-  // const { column, comparison, value } = filterByNumericValues;
 
-  const search = !name ? data : data.filter((planet) => planet.name.toLowerCase()
-    .includes(name.toLocaleLowerCase()));
-    // }
-    // if (column && comparison === 'maior que') {
-    //   return column > value;
-    // }
-    // if (column && comparison === 'menor que') {
-    //   return column < value;
-    // }
-    // if (column && comparison === 'igual a') {
-    //   return column === value;
+  const search = (!name) ? data : data.filter((planet) => planet
+    .name.toLowerCase().includes(name.toLocaleLowerCase()));
+
+  const condition = () => {
+    const newArray = search.filter((element) => {
+      let trueOrFalse = true;
+      filterByNumericValues.forEach(({ comparison, value, column }) => {
+        switch (comparison) {
+        case 'maior que':
+          trueOrFalse = trueOrFalse && Number(element[column]) > Number(value);
+          break;
+        case 'menor que':
+          trueOrFalse = trueOrFalse && Number(element[column]) < Number(value);
+          break;
+        case 'igual a':
+          trueOrFalse = trueOrFalse && Number(element[column]) === Number(value);
+          break;
+        default:
+          trueOrFalse = false;
+          break;
+        }
+      });
+      return trueOrFalse;
+    });
+    return newArray;
+  };
 
   return (
     <div>
@@ -40,7 +54,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          { data.length && search.map((planet) => (
+          { condition().map((planet) => (
             <tr key={ planet.name }>
               <td>{ planet.name }</td>
               <td>{ planet.rotation_period }</td>
