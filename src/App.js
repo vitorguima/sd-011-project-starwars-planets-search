@@ -1,8 +1,13 @@
-import React from "react";
-import "./App.css";
+import React from 'react';
+import PlanetData from './StarWars/PlanetData';
+import Table from './StarWars/Table';
 
 function App() {
-  return <span>Hello, App! </span>;
+  return (
+    <PlanetData>
+      <Table />
+    </PlanetData>
+  );
 }
 
 export default App;
