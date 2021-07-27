@@ -7,7 +7,6 @@ function PlanetFilters() {
     filters,
     setFilters,
     setFilteredPlanets,
-    planetList,
     filteredPlanets,
   } = useContext(SpacesContext);
 
