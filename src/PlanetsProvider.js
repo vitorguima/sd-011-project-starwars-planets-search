@@ -1,17 +1,23 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
+import response from './testData';
 
+const options = ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
   const [filteredData, setFilteredData] = useState(data);
+  const [columnFilterOptions, setColumnFilterOptions] = useState(options);
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+     filterByNumericValues: [],
+  });
 
   const fetchData = () => fetch(url)
     .then((result) => result.json())
-    .then(({ results }) => setData(results.map((element) => {
+    .then(({ results }) => setData(response.results.map((element) => {
       delete element.residents;
       return element;
     })))
@@ -33,6 +39,7 @@ function Provider({ children }) {
     filteredData,
     setFilteredData,
     filterByName,
+    columnFilterOptions,
   };
 
   return (

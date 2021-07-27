@@ -9,13 +9,11 @@ export default function Table() {
       await fetchData();
     };
     getData();
-    console.log('loop 3');
   }, []);
 
   useEffect(() => {
-    console.log('loop 2');
     setFilteredData(data);
-  }, [data, setFilteredData]);
+  }, [data]);
 
   const renderTableRows = () => filteredData.map((item) => (
     <tr key={ item.name }>

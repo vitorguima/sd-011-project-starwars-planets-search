@@ -2,13 +2,18 @@ import React, { useContext, useEffect } from 'react';
 import PlanetsContext from './PlanetsContext';
 
 export default function Filters() {
-  const { filters, setFilterByName, filterByName } = useContext(PlanetsContext);
+  const { filters, setFilterByName, filterByName, columnFilterOptions } = useContext(PlanetsContext);
   const { filterByName: { name } } = filters;
 
   useEffect(() => {
-    console.log('loop 1');
     filterByName();
   }, [name]);
+
+  const renderColumnOptions = () => {
+    return (
+      columnFilterOptions.map((item) => <option key={ item }>{ item }</option>)
+    );
+  }
 
   return (
     <div>
@@ -22,6 +27,27 @@ export default function Filters() {
           onChange={ (event) => setFilterByName(event.target.value) }
         />
       </label>
+      <label htmlFor="column-filter">
+        <select data-testid='column-filter' id="column-filter">
+          {renderColumnOptions()}
+        </select>
+      </label>
+      <label htmlFor="comparison-filter">
+        <select data-testid="comparison-filter" id="comparison-filter">
+          <option>maior que</option>
+          <option>menor que</option>
+          <option>igual a</option>
+        </select>
+      </label>
+      <label htmlFor="value-filter">
+        valor:
+        <input
+          type="number"
+          data-testid="value-filter"
+          id="value-filter"
+        />
+      </label>
+      <button type="button" data-testid='button-filter'>Adicionar filtro</button>
     </div>
   );
 }
