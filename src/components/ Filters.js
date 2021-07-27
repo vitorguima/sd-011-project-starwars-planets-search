@@ -84,7 +84,7 @@ export default function Filter() {
           value={ null }
           onChange={ ({ target }) => setColumn(target.value) }
         >
-          <option disabled selected>Selecione um valor</option>
+          {/* <option disabled selected>Selecione um valor</option> */}
           {
             columnsOptions.map(((option, index) => (
               <option key={ index }>{option}</option>
