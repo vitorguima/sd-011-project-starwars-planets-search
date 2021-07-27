@@ -1,15 +1,15 @@
 import React from 'react';
 import './App.css';
 
-import PlaneProvider from './context/planetProvider';
+import Provider from './context/PlanetsProvider';
 
-import Table from './components/Table';
+import Home from './pages/Home';
 
 function App() {
   return (
-    <PlaneProvider>
-      <Table />
-    </PlaneProvider>
+    <Provider>
+      <Home />
+    </Provider>
   );
 }
 

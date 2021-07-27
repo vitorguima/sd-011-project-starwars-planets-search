@@ -1,55 +1,55 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 
-import PlanetContext from '../context/planetContext';
+import PlanetsContext from '../context/PlanetsContext';
+
+function createTableTitles(titles) {
+  return (
+    <tr>
+      { titles.map((title, index) => <th key={ index }>{ title }</th>) }
+    </tr>
+  );
+}
+
+function createInfosPlanetsTable(info) {
+  return (
+    <tr>
+      { info.map((value, index) => <td key={ index }>{ value }</td>) }
+    </tr>
+  );
+}
+
+function createTable(planets) {
+  if (planets.length < 1) return <span>Planeta não encontrado.</span>;
+  return (
+    <div>
+      { createTableTitles(Object.keys(planets[0])) }
+      { planets.map((planet) => createInfosPlanetsTable(Object.values(planet))) }
+    </div>
+  );
+}
+
+function filterPlanetName(list, name) {
+  return list.filter((planet) => {
+    const namePlanetUpper = planet.name.toUpperCase();
+    const nameFilter = name.toUpperCase();
+    return (namePlanetUpper.includes(nameFilter));
+  });
+}
 
 function Table() {
-  const { planets, getPlanetsApi } = useContext(PlanetContext);
+  const { planets, filters } = useContext(PlanetsContext);
+  const { name } = filters.filterByName;
 
-  useEffect(() => {
-    getPlanetsApi();
-  }, [getPlanetsApi]);
+  if (planets.length < 1) return <h1>Carregando...</h1>;
 
-  return (
+  planets.forEach((planet) => delete planet.residents);
 
-    <table>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Rotation Period</th>
-          <th>Orbital Period</th>
-          <th>Diameter</th>
-          <th>Climate</th>
-          <th>Gravity</th>
-          <th>Terrain</th>
-          <th>Surface Water</th>
-          <th>Population</th>
-          <th>Films</th>
-          <th>Created</th>
-          <th>Edited</th>
-          <th>url</th>
-        </tr>
-      </thead>
-      <tbody>
-        { planets.map((planet, index) => (
-          <tr key={ index }>
-            <td>{ planet.name }</td>
-            <td>{ planet.rotation_period }</td>
-            <td>{ planet.orbital_period }</td>
-            <td>{ planet.diameter }</td>
-            <td>{ planet.climate }</td>
-            <td>{ planet.gravity }</td>
-            <td>{ planet.terrain }</td>
-            <td>{ planet.surface_water }</td>
-            <td>{ planet.population }</td>
-            <td>{ planet.films }</td>
-            <td>{ planet.created }</td>
-            <td>{ planet.edited }</td>
-            <td>{ planet.url }</td>
-          </tr>
-        )) }
-      </tbody>
-    </table>
-  );
+  if (name) {
+    const filteredByName = filterPlanetName(planets, name);
+    return createTable(filteredByName);
+  }
+
+  return createTable(planets);
 }
 
 export default Table;
