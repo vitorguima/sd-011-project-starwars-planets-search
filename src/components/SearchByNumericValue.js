@@ -1,14 +1,14 @@
-import React, { createElement, useContext } from 'react';
+import React, { useContext } from 'react';
 import TableContext from '../context/TableContext';
 
 export default function SearchByNumericValue() {
   const { handleSelectors, selectorsValue } = useContext(TableContext);
 
-  const addFilterOnList = () => {
-    const li = createElement()
-    const searchContainer = document.getElementsByClassName('search-container')[0];
-    searchContainer.appendChild();
-  };
+  // const addFilterOnList = () => {
+  //   const li = createElement('li', {}, selectorsValue[0]);
+  //   const searchContainer = document.getElementsByClassName('search-container')[0];
+  //   searchContainer.appendChild(li);
+  // };
 
   return (
     <div className="search-container">

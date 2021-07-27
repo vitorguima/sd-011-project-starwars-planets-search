@@ -58,18 +58,16 @@ export default function TableProvider({ children }) {
     setFilteredResult(filteredPlanets);
   };
 
-  const filterResultsByNumericNumbers = () => {
-    const { filterByNumericValues: [{ column, comparison, value }] } = filters;
-    const planetsFilteredByNumericValues = [];
-    // switch (key) {
-    //   case value:
-        
-    //     break;
-    
-    //   default:
-    //     break;
-    // }
-  };
+  // const filterResultsByNumericNumbers = () => {
+  //   const { filterByNumericValues: [{ column, comparison, value }] } = filters;
+  //   const planetsFilteredByNumericValues = [];
+  //   switch (key) {
+  //     case value:
+  //       break;
+  //     default:
+  //       break;
+  //   }
+  // };
 
   const filterResults = () => {
     filterResultsByName();
