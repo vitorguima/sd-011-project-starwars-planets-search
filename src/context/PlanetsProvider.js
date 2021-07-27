@@ -7,6 +7,7 @@ const PlanetsProvider = ({ children }) => {
   const [data, setData] = useState({
     results: [],
   });
+
   const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({
     filters: {
@@ -16,6 +17,13 @@ const PlanetsProvider = ({ children }) => {
       filterByNumericValues: [{}],
     },
   });
+  const [defaultColunsFilters, setDefaultColunsFilters] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   useEffect(() => {
     setIsLoading(true);
@@ -38,6 +46,20 @@ const PlanetsProvider = ({ children }) => {
         setIsLoading(false);
       });
   }, []);
+
+  const {
+    filters: {
+      filterByNumericValues,
+    },
+  } = filters;
+
+  useEffect(() => {
+    filterByNumericValues.forEach((filterOption) => {
+      setDefaultColunsFilters(
+        defaultColunsFilters.filter((options) => options !== filterOption.column),
+      );
+    });
+  }, [filterByNumericValues]);
 
   const setFilterByName = (name) => {
     const newFilterName = {
@@ -75,6 +97,7 @@ const PlanetsProvider = ({ children }) => {
     data,
     isLoading,
     filters,
+    defaultColunsFilters,
     setFilterByName,
     addNewNumericFilter,
   };
