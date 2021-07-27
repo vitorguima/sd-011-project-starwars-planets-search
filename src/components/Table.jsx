@@ -7,6 +7,7 @@ import TableHeader from './TableHeader';
 function Table() {
   const { data, name } = useContext(PlanetsContext);
   const { planetFilter } = useFilter(data, name);
+  console.log(planetFilter);
   return (
     <table>
       <TableHeader />
