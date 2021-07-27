@@ -1,13 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
+import FilterPlanetsByNumericValues from '../../helpers/FilterPlanetsByNumericValues';
 import PlanetsContext from '../../context/PlanetsContext';
 
 export default function Table() {
   const { data, filters } = useContext(PlanetsContext);
+  const [filteredPlanets, setFilteredPlanets] = useState(['Loading']);
 
-  const REG_EXP_TO_BY_FILTER_NAME = new RegExp(filters.filterByName.name, 'gi');
-  const filteredPlanets = data.filter(
-    (planet) => planet.name.match(REG_EXP_TO_BY_FILTER_NAME),
-  );
+  useEffect(() => {
+    const REG_EXP_TO_FILTER_NAME = new RegExp(filters.filterByName.name, 'gi');
+    let planets = data.filter((planet) => planet.name.match(REG_EXP_TO_FILTER_NAME));
+    planets = FilterPlanetsByNumericValues(planets, filters, setFilteredPlanets);
+    setFilteredPlanets(planets);
+  }, [data, filters]);
 
   return (
     <table>
@@ -31,8 +35,8 @@ export default function Table() {
       <tbody>
         {
           (
-            filteredPlanets.map((planet) => (
-              <tr key={ planet.name }>
+            filteredPlanets.map((planet, index) => (
+              <tr key={ index }>
                 <td>{ planet.name }</td>
                 <td>{ planet.climate }</td>
                 <td>{ planet.created }</td>
