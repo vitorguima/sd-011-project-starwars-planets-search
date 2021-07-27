@@ -15,6 +15,9 @@ export function PlanetProvider({ children }) {
   const [apiResponse, setApiResponse] = useState(null);
   const [planets, setPlanets] = useState([]);
   const [filters, setFilters] = useState([]);
+  const [orderPlanets, setOrderPlanets] = useState({
+    func: (a, b) => a.name > b.name,
+  });
 
   function fetchAndUpdate(url) {
     setLoading(true);
@@ -35,13 +38,17 @@ export function PlanetProvider({ children }) {
     const { results } = apiResponse;
 
     if (!filters.length) {
-      setPlanets(results);
+      const sorted = [...apiResponse.results].sort((a, b) => a.name > b.name);
+      console.log(sorted);
+      setPlanets([...results.sort(orderPlanets.func)]);
       return;
     }
 
     const filterFuncs = filters.map(({ filterFunc }) => filterFunc);
-    setPlanets(results.filter((planet) => combineFilters(filterFuncs)(planet)));
-  }, [apiResponse, filters]);
+    const filtrdPlanets = results.filter((planet) => combineFilters(filterFuncs)(planet));
+    const sortedPlanets = filtrdPlanets.sort((orderPlanets.func));
+    setPlanets([...sortedPlanets]);
+  }, [apiResponse, filters, orderPlanets]);
 
   function addFilter(filter) {
     setFilters((previous) => {
@@ -57,6 +64,25 @@ export function PlanetProvider({ children }) {
     setFilters((previous) => previous.filter((filter) => filter.type !== type));
   }
 
+  function changeOrder({ field, order }) {
+    const nameSorters = {
+      ASC: { func: (a, b) => a.name > b.name },
+      DESC: { func: (a, b) => a.name < b.name },
+    };
+
+    const numericSorters = {
+      ASC: { func: (a, b) => a[field] - b[field] },
+      DESC: { func: (a, b) => b[field] - a[field] },
+    };
+
+    if (field === 'name') {
+      setOrderPlanets(nameSorters[order]);
+      return;
+    }
+
+    setOrderPlanets(numericSorters[order]);
+  }
+
   return (
     <PlanetContext.Provider
       value={ {
@@ -67,6 +93,7 @@ export function PlanetProvider({ children }) {
         addFilter,
         removeFilter,
         filters,
+        changeOrder,
       } }
     >
       { children }

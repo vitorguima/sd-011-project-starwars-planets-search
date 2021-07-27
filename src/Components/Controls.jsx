@@ -11,6 +11,11 @@ const NUMERIC_FIELDS = [
   { translation: 'surface_water', value: 'surface_water' },
 ];
 
+const ALL_SELECTABLE_FIELDS = [
+  ...NUMERIC_FIELDS,
+  { translation: 'name', value: 'name' },
+];
+
 // const NUMERIC_FIELDS_HOW_IT_SHOULD_HAVE_BEEN = [
 //   { translation: 'População', value: 'population' },
 //   { translation: 'Período Orbital', value: 'orbital_period' },
@@ -20,13 +25,19 @@ const NUMERIC_FIELDS = [
 // ];
 
 function Controls() {
+  const { addFilter, filters, changeOrder } = usePlanets();
+
   const [textFilter, setTextFilter] = useState('');
   const [numericFilter, setNumericFilter] = useState({
     numeric_field: 'population',
     numeric_comparison: 'maior que',
     numeric_value: '',
   });
-  const { addFilter, filters } = usePlanets();
+
+  const [orderForms, setOrderForms] = useState({
+    field: 'name',
+    order: 'ASC',
+  });
 
   const [availableNumericFilters, setAvailableNumericFilters] = useState([]);
   const [usedNumericFilters, setUsedNumericFilters] = useState([]);
@@ -108,6 +119,21 @@ function Controls() {
     });
   }
 
+  function handleChangeOrderForms({ target }) {
+    const { name, value } = target;
+
+    setOrderForms((previous) => ({
+      ...previous,
+      [name.split('_')[1]]: value,
+    }));
+  }
+
+  function handleSubmitChangeOrder(e) {
+    e.preventDefault();
+
+    changeOrder(orderForms);
+  }
+
   return (
     <section>
       <fieldset>
@@ -164,6 +190,52 @@ function Controls() {
             type="submit"
           >
             Adicionar Filtro Numérico
+          </button>
+        </fieldset>
+      </form>
+
+      <form
+        onSubmit={ handleSubmitChangeOrder }
+      >
+        <fieldset>
+          <legend>Ordenar</legend>
+          <select
+            data-testid="column-sort"
+            name="order_field"
+            onChange={ handleChangeOrderForms }
+            value={ orderForms.field }
+          >
+            { mapSelect(ALL_SELECTABLE_FIELDS) }
+          </select>
+          <label htmlFor="order_asc">
+            Ascendente
+            <input
+              data-testid="column-sort-input-asc"
+              id="order_asc"
+              name="order_order"
+              onChange={ handleChangeOrderForms }
+              type="radio"
+              value="ASC"
+              checked={ orderForms.order === 'ASC' }
+            />
+          </label>
+          <label htmlFor="order_desc">
+            Descendente
+            <input
+              data-testid="column-sort-input-desc"
+              id="order_desc"
+              name="order_order"
+              onChange={ handleChangeOrderForms }
+              type="radio"
+              value="DESC"
+              checked={ orderForms.order === 'DESC' }
+            />
+          </label>
+          <button
+            data-testid="column-sort-button"
+            type="submit"
+          >
+            Mudar ordem
           </button>
         </fieldset>
       </form>
