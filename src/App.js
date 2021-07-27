@@ -8,9 +8,11 @@ import Provider from './context/Provider';
 function App() {
   return (
     <Provider>
-      <Forms />
-      <FilterList />
-      <Table />
+      <div className="App">
+        <Forms />
+        <FilterList />
+        <Table />
+      </div>
     </Provider>
   );
 }

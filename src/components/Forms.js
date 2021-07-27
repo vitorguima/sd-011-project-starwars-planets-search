@@ -16,10 +16,10 @@ function Forms() {
     columnsOptions, setColumnsOptions } = useContext(SWContext);
   const { filterByNumericValues } = filters;
 
-  const [column, setColumn] = useState('population');
-  const [comparison, setComparison] = useState('maior que');
-  const [value, setValue] = useState('100000');
-  const [columnSort, setColumnSort] = useState('name');
+  const [column, setColumn] = useState('column');
+  const [comparison, setComparison] = useState('');
+  const [value, setValue] = useState('');
+  const [columnSort, setColumnSort] = useState('');
   const [sort, setSort] = useState('ASC');
 
   const myState = { column, comparison, value };
@@ -30,9 +30,9 @@ function Forms() {
       setFilters({ ...filters,
         filterByNumericValues: [...filterByNumericValues, myState] });
       setColumnsOptions(columnsOptions.filter((option) => option !== column));
-      setColumn(columnsOptions[0]);
-      setComparison('maior que');
-      setValue('100000');
+      setColumn('column');
+      setComparison('comparison');
+      setValue('0');
     } else {
       console.log('Incomplete Fields');
     }
@@ -60,7 +60,7 @@ function Forms() {
           value={ column }
           onChange={ ({ target }) => setColumn(target.value) }
         >
-          {/* <option value="">Column</option> */}
+          <option value="">Column</option>
           {columnsOptions.map((option, i) => (
             <option key={ i } value={ option }>{option}</option>))}
         </select>
@@ -71,7 +71,7 @@ function Forms() {
           value={ comparison }
           onChange={ ({ target }) => setComparison(target.value) }
         >
-          {/* <option value="">Comparion</option> */}
+          <option value="">Comparion</option>
           {COMPARISON_OPTIONS.map((option, i) => (
             <option key={ i } value={ option }>{option}</option>))}
         </select>
