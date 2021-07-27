@@ -22,14 +22,15 @@ function RendersCurrentFilters() {
   return (
     filterByNumericValues.map(({ column, comparison, value }, index) => (
       <span key={ index }>
-        <p data-testid="filter">{ `${column} ${comparison} ${value}` }</p>
-        <button
-          type="button"
-          data-testid="filter"
-          onClick={ () => removeFilter(column) }
-        >
-          x
-        </button>
+        <p data-testid="filter">
+          { `${column} ${comparison} ${value}` }
+          <button
+            type="button"
+            onClick={ () => removeFilter(column) }
+          >
+            x
+          </button>
+        </p>
       </span>
     ))
   );
