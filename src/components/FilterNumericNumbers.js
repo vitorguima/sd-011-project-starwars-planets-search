@@ -17,29 +17,68 @@ function FilterNumericNumbers() {
     value: '0',
   };
 
-  const addFiltersToGlobalStateAndRemoveLocal = (event) => {
-    console.log(event.target.value);
-    setColFilters([
-      colFilters.filter((person) => person !== event.target.value),
-    ]);
+  const [localFilters, setLocalFilters] = useState(defaultFilters);
+
+  const handleColumnFilters = ({ target: { value } }) => {
+    setLocalFilters({
+      ...localFilters,
+      column: value,
+    });
+  };
+
+  const handleComparisonFilters = ({ target: { value } }) => {
+    setLocalFilters({
+      ...localFilters,
+      comparison: value,
+    });
+  };
+
+  const handleValueFilters = ({ target: { value } }) => {
+    setLocalFilters({
+      ...localFilters,
+      value,
+    });
+  };
+
+  const addFiltersToGlobalStateAndRemoveLocal = () => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [...filters.filterByNumericValues, localFilters],
+    });
+
+    const newColumn = [];
+    colFilters.filter((column) => column !== localFilters.column)
+      .forEach((col) => {
+        newColumn.push(col);
+        setColFilters(newColumn);
+      });
+
+    const event = {
+      target: { value: newColumn[0] },
+    };
+    handleColumnFilters(event);
   };
 
   return (
     <div>
-      <select testid="column-filter" onChange={ addFiltersToGlobalStateAndRemoveLocal }>
+      <select data-testid="column-filter" onChange={ handleColumnFilters }>
         {colFilters.map((colFil, index) => (
           <option key={ index }>
             {colFil}
           </option>
         ))}
       </select>
-      <select data-testid="comparison-filter">
+      <select data-testid="comparison-filter" onChange={ handleComparisonFilters }>
         <option>maior que</option>
         <option>menor que</option>
         <option>igual a</option>
       </select>
-      <input type="number" data-testid="value-filter" />
-      <button type="button" data-testid="button-filter">
+      <input type="number" data-testid="value-filter" onChange={ handleValueFilters } />
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ addFiltersToGlobalStateAndRemoveLocal }
+      >
         search
       </button>
     </div>

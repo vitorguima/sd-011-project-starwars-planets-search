@@ -20,9 +20,42 @@ function Table() {
       .then((json) => setData(json.results));
   }, []);
 
+  const { filterByNumericValues } = filters;
+
   function search(rows) {
     const minusOne = -1;
-    return rows.filter((row) => row.name.toLowerCase().indexOf(name) > minusOne);
+
+    if (filterByNumericValues[0]) {
+      const { column, value, comparison } = filterByNumericValues[0];
+
+      // return rows.filter((row) => (
+      //   row.name.toLowerCase().indexOf(name) > minusOne
+      //   && parseInt(row[column], 0) > parseInt(value, 0)
+      // ));
+
+      switch (comparison) {
+      case 'maior que':
+        return rows.filter((row) => (
+          row.name.toLowerCase().indexOf(name) > minusOne
+            && parseInt(row[column], 0) > parseInt(value, 0)
+        ));
+      case 'menor que':
+        return rows.filter((row) => (
+          row.name.toLowerCase().indexOf(name) > minusOne
+            && parseInt(row[column], 0) < parseInt(value, 0)
+        ));
+      case 'igual a':
+        return rows.filter((row) => (
+          row.name.toLowerCase().indexOf(name) > minusOne
+            && parseInt(row[column], 0) === parseInt(value, 0)
+        ));
+      default:
+      }
+    }
+
+    return rows.filter((row) => (
+      row.name.toLowerCase().indexOf(name) > minusOne
+    ));
   }
 
   return (
