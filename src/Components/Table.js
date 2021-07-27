@@ -1,41 +1,41 @@
 import React, { useContext } from 'react';
-import { AppContext } from '../contexts/AppContext';
+import GlobalContext from '../Context/GlobalContext';
 
 export default function Table() {
-  const { data } = useContext(AppContext);
-  const StarWarsPlanets = data.results;
-
-  const [filters, setFilters] = React.useState({
-    filters: {
-      filterByName: {
-        name: '',
-      },
-    },
-  });
-
-  if (!StarWarsPlanets) {
-    return (
-      <p>Carregando...</p>
-    );
+  const { data, filterOn, setFilterOn, tableData, setTableData,
+    filters:
+      { filterByName:
+        { name: planetName }, filterByNumericValues } } = useContext(GlobalContext);
+  const { column, comparison, value } = filterByNumericValues[0];
+  let SearchFilter = tableData;
+  if (filterOn) {
+    switch (comparison) {
+    case ('maior que'):
+      setTableData(
+        data.filter((planet) => parseInt(planet[column], 10) > parseInt(value, 10)),
+      );
+      break;
+    case ('menor que'):
+      setTableData(
+        data.filter((planet) => parseInt(planet[column], 10) < parseInt(value, 10)),
+      );
+      break;
+    case ('igual a'):
+      setTableData(
+        data.filter((planet) => parseInt(planet[column], 10) === parseInt(value, 10)),
+      );
+      break;
+    default:
+      break;
+    }
+    setFilterOn(false);
   }
 
-  const SearchFilter = StarWarsPlanets.filter(
-    (Value) => Value.name.includes(filters.filters.filterByName.name),
-  );
+  SearchFilter = tableData
+    .filter((planet) => planet.name.includes(planetName.toLowerCase()));
 
   return (
     <div>
-      <input
-        value={ filters.filters.filterByName.name }
-        data-testid="name-filter"
-        onChange={ ({ target }) => {
-          setFilters({
-            filters: {
-              filterByName: {
-                name: target.value,
-              } } });
-        } }
-      />
       <table>
         <thead>
           <tr>

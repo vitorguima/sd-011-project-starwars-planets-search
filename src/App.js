@@ -1,15 +1,17 @@
 import React from 'react';
 import './App.css';
-import Table from './components/Table';
-import { AppContextProvider } from './contexts/AppContext';
+import FilterByName from './Components/FilterByName';
+import FilterByNumber from './Components/FilterByNumber';
+import Table from './Components/Table';
+import RequisitionProvider from './Context/RequisitionProvider';
 
 function App() {
   return (
-    <div>
-      <AppContextProvider>
-        <Table />
-      </AppContextProvider>
-    </div>
+    <RequisitionProvider>
+      <FilterByName />
+      <FilterByNumber />
+      <Table />
+    </RequisitionProvider>
   );
 }
 
