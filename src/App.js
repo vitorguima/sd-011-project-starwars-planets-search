@@ -1,14 +1,13 @@
-import React, { useContext } from 'react';
+import React from 'react';
+import Table from './components/Table';
 import './App.css';
-import { Planet } from './context/Planet';
-import useFetch from './hooks/useFetch';
 
 function App() {
-  useFetch();
-  const { data } = useContext(Planet);
-  console.log(data);
   return (
-    <span>Hello, App!</span>
+    <>
+      <h1>Projeto Star Wars</h1>
+      <Table />
+    </>
   );
 }
 
