@@ -4,12 +4,26 @@ import StarWarsContext from './StarWarsContext';
 import fetchStarWarsPlanets from '../services/StarWarsAPI';
 
 function StarWarsProvider({ children }) {
+  const initalColumns = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+  const initialState = { column: 'population', comparison: 'maior que', value: 0 };
+  const [formNumeric, setFormNumeric] = useState(initialState);
   const [planets, setPlanets] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
     filterByNumericValues: [],
   });
+  const [optionsColumn, setOptionsColumn] = useState(initalColumns);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+
+  function handleFilterByNumericValues({ target: { name, value } }) {
+    setFormNumeric({ ...formNumeric, [name]: value });
+  }
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -19,58 +33,79 @@ function StarWarsProvider({ children }) {
     getPlanets();
   }, []);
 
-  function filtrateByNumericValues(array) {
-    const { filterByNumericValues: filter } = filters;
-    switch (filter[0].comparison) {
-    case 'maior que':
-      return array.filter((item) => (Number(item[filter[0].column]) > (filter[0].value)));
-    case 'menor que':
-      return array.filter((item) => Number(item[filter[0].column]) < (filter[0].value));
-    case 'igual a':
-      return array.filter((item) => Number(item[filter[0].column]) === (filter[0].value));
-    default:
-      return array;
-    }
-  }
-
-  // function callSetFilteredPlanets(array) {
-  //   setFilteredPlanets(array);
-  // }
-
   // https://www.youtube.com/watch?v=Q8JyF3wpsHc
   useEffect(() => {
-    const updateFilteredPlanets = () => {
-      const { filterByName: { name }, filterByNumericValues } = filters;
-
+    const updateFilteredPlanetsByName = () => {
+      const { filterByName: { name } } = filters;
       const listFilteredByName = planets.filter((planet) => (
         planet.name.toLowerCase().includes(name.toLowerCase())
       ));
+      setFilteredPlanets(listFilteredByName);
+    };
+    updateFilteredPlanetsByName();
+  }, [filters, planets]);
 
-      if (filterByNumericValues.length > 0) {
-        const listFilteredByNumericValues = filtrateByNumericValues(listFilteredByName);
-        setFilteredPlanets(listFilteredByNumericValues);
-      } else {
-        setFilteredPlanets(listFilteredByName);
+  useEffect(() => {
+    const updateFilteredPlanetsBNV = () => {
+      const { filterByNumericValues: filterBNV } = filters;
+      if (filterBNV.length > 0) {
+        const planet = filterBNV[filterBNV.length - 1];
+        switch (planet.comparison) {
+        case 'maior que':
+          setFilteredPlanets([...filteredPlanets.filter((item) => (
+            Number(item[planet.column]) > Number(planet.value)
+          ))]);
+          break;
+        case 'menor que':
+          setFilteredPlanets([...filteredPlanets.filter((item) => (
+            Number(item[planet.column]) < Number(planet.value)
+          ))]);
+          break;
+        case 'igual a':
+          setFilteredPlanets([...filteredPlanets.filter((item) => (
+            Number(item[planet.column]) === Number(planet.value)
+          ))]);
+          break;
+        default:
+          break;
+        }
       }
     };
-    updateFilteredPlanets();
-  }, [filters, planets]);
+    updateFilteredPlanetsBNV();
+  }, [filters]);
 
   function handleFilterByName({ target: { value } }) {
     setFilters({ ...filters, filterByName: { name: value } });
   }
 
+  useEffect(() => {
+    const { filterByNumericValues: filterBNV } = filters;
+    if (filterBNV.length > 0) {
+      const index = optionsColumn.indexOf(filterBNV[filterBNV.length - 1].column);
+      optionsColumn.splice(index, 1);
+      setOptionsColumn(optionsColumn);
+      setFormNumeric({ column: optionsColumn[0], comparison: 'maior que', value: 0 });
+    } else {
+      setOptionsColumn(initalColumns);
+    }
+  }, [filters]);
+
   function onClickButtonNumericValues(column, comparison, value) {
     setFilters({
       ...filters,
-      filterByNumericValues: [{ column, comparison, value: Number(value) }] });
-    // filterByNumericValues: [...filters.filterByNumericValues, { column: column, comparison: comparison, value: value }]});
+      filterByNumericValues: [
+        ...filters.filterByNumericValues,
+        { column, comparison, value },
+      ] });
   }
 
   const contextValue = {
     planets,
     filteredPlanets,
+    optionsColumn,
+    formNumeric,
     handleFilterByName,
+    handleFilterByNumericValues,
     onClickButtonNumericValues,
   };
 

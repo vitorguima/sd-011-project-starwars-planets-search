@@ -1,17 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function MainPage() {
-  const initialState = { column: 'population', comparison: 'maior que', value: 0 };
-  const [formNumeric, setFormNumeric] = useState(initialState);
   const { filteredPlanets,
+    optionsColumn,
+    formNumeric,
     handleFilterByName,
+    handleFilterByNumericValues,
     onClickButtonNumericValues,
   } = useContext(StarWarsContext);
-
-  function handleFilterByNumericValues({ target: { name, value } }) {
-    setFormNumeric({ ...formNumeric, [name]: value });
-  }
 
   const planetLine = (planet) => {
     const {
@@ -50,13 +47,6 @@ function MainPage() {
     );
   };
 
-  const columns = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
   const comparisons = ['maior que', 'menor que', 'igual a'];
   const { column, comparison, value } = formNumeric;
 
@@ -81,7 +71,7 @@ function MainPage() {
               data-testid="column-filter"
               value={ column }
             >
-              { columns.map((item) => (
+              { optionsColumn.map((item) => (
                 <option key={ item } value={ item }>{ item }</option>
               ))}
             </select>
@@ -96,9 +86,6 @@ function MainPage() {
               { comparisons.map((item) => (
                 <option key={ item } value={ item }>{ item }</option>
               ))}
-              {/* <option value="maior que">maior que</option>
-                <option value="igual a">igual a</option>
-                <option value="menor que">menor que</option> */}
             </select>
           </label>
           <label htmlFor="value">
@@ -114,7 +101,9 @@ function MainPage() {
             data-testid="button-filter"
             type="button"
             // disabled={ !(column && comparison) }
-            onClick={ () => onClickButtonNumericValues(column, comparison, value) }
+            onClick={ () => {
+              onClickButtonNumericValues(column, comparison, value);
+            } }
           >
             Filter
           </button>
