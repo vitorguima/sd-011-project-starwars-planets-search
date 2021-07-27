@@ -2,8 +2,8 @@ import React from 'react';
 import { GlobalContext } from '../GlobalContext';
 
 const Table = () => {
-  const { data, options, column, setColumn, comparison, setComparison,
-    value, setValue, filters, setFilters } = React
+  const { data, options, setOptions, column, setColumn, comparison,
+    setComparison, value, setValue, filters, setFilters } = React
     .useContext(GlobalContext);
   const [localValue, setLocalValue] = React.useState('');
   const [localColumn, setLocalColumn] = React.useState('population');
@@ -12,12 +12,11 @@ const Table = () => {
   const currentData = localValue
     ? data.filter((planet) => planet.name.toLowerCase().includes(localValue)) : data;
   const filterByMoreThan = data
-    .filter((planet) => planet[column] > Number(value) || planet[column] === 'unknown');
+    .filter((planet) => planet[column] > Number(value));
   const filterByLessThan = data
     .filter((planet) => planet[column] < Number(value));
   const filterByEqual = data
-    .filter((planet) => Number(planet[column]) === Number(value)
-  || Number(planet[column]) === 'unknown');
+    .filter((planet) => Number(planet[column]) === Number(value));
 
   function renderMap() {
     if (localValue) {
@@ -44,9 +43,10 @@ const Table = () => {
       comparison: localComparison,
       value: localNumberValue,
     };
-    setFilters({ filters: { ...filters,
+    setFilters({ ...filters,
       filterByNumericValues:
-      [...filters.filterByNumericValues, objNumericFilter] } });
+      [...filters.filterByNumericValues, objNumericFilter] });
+    setOptions(options.filter((option) => option !== localColumn));
   }
 
   return (

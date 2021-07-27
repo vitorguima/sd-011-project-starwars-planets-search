@@ -6,12 +6,10 @@ export const GlobalContext = React.createContext();
 
 export const GlobalStorage = ({ children }) => {
   const initialState = {
-    filters: {
-      filterByName: {
-        name: '',
-      },
-      filterByNumericValues: [],
+    filterByName: {
+      name: '',
     },
+    filterByNumericValues: [],
   };
 
   const [data, setData] = React.useState([]);
@@ -19,9 +17,8 @@ export const GlobalStorage = ({ children }) => {
   const [comparison, setComparison] = React.useState('');
   const [value, setValue] = React.useState(0);
   const [filters, setFilters] = React.useState(initialState);
-  console.log(filters);
-  const options = ['population', 'orbital_period',
-    'diameter', 'rotation_period', 'surface_water'];
+  const [options, setOptions] = React.useState(['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water']);
 
   const setApiToState = () => {
     fetchApi().then((results) => setData(results));
@@ -33,6 +30,7 @@ export const GlobalStorage = ({ children }) => {
     data,
     setData,
     options,
+    setOptions,
     column,
     comparison,
     value,
