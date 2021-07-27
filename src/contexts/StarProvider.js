@@ -5,6 +5,7 @@ import StarContext from './starContext';
 
 export default function StarProvider({ children }) {
   const [data, setData] = useState([]);
+  const [filter, setFilter] = useState([]);
 
   const getDataFromApi = () => {
     fetchStarwars().then((starData) => setData(starData));
@@ -14,6 +15,8 @@ export default function StarProvider({ children }) {
 
   const context = {
     data,
+    filter,
+    setFilter,
   };
 
   return (
