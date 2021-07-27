@@ -1,20 +1,12 @@
 import React, { useContext } from 'react';
 import StarContext from '../context/StarContext';
+import Filters from './Filters';
 
 function Table() {
-  const { filterPlanet, filterInput } = useContext(StarContext);
+  const { filterPlanet } = useContext(StarContext);
   return (
     <div>
-      <label htmlFor="filter">
-        Pesquisa
-        <input
-          data-testid="name-filter"
-          type="text"
-          name="text"
-          id="search_input"
-          onChange={ filterInput }
-        />
-      </label>
+      <Filters />
       <table>
         <thead>
           <tr id="table-planets">
