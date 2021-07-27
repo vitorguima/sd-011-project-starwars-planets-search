@@ -59,6 +59,7 @@ function Table() {
           </td>
         </tr>);
     }
+    return null;
   });
 
   const lista = mapData;
