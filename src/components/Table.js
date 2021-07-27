@@ -1,9 +1,42 @@
 import React, { useEffect, useState, useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
+const orderAlpha = [
+  'name',
+  'climate',
+  'created',
+  'edited',
+  'gravity',
+  'terrain',
+];
+
 const Table = () => {
   const { data, filters } = useContext(PlanetsContext);
   const [planets, setPlanets] = useState([]);
+
+  const ifOrder = (order, sub, a, b) => {
+    const isAlpha = orderAlpha.find((c) => c === order.column);
+    const magicMinus1 = -1;
+    if (order.sort === 'ASC') {
+      if (isAlpha) {
+        return a[order.column] > b[order.column] ? 1 : magicMinus1;
+      }
+      return sub > 0 ? 1 : magicMinus1;
+    }
+    if (isAlpha) {
+      return a[order.column] > b[order.column] ? 1 : magicMinus1;
+    }
+    return sub > 0 ? magicMinus1 : 1;
+  };
+
+  const setOrder = (array) => {
+    const { order } = filters;
+    array.sort((a, b) => {
+      const sub = a[order.column] - b[order.column];
+      return ifOrder(order, sub, a, b);
+    });
+  };
+
   useEffect(() => {
     const { name } = filters.filterByName;
     const { filterByNumericValues: byNumber } = filters;
@@ -12,17 +45,14 @@ const Table = () => {
       byNumber.forEach((filt) => {
         switch (filt.comparison) {
         case 'maior que':
-          console.log('>');
           filteredData = filteredData
             .filter((d) => parseInt(d[filt.column], 10) > filt.value);
           break;
         case 'menor que':
-          console.log('<');
           filteredData = filteredData
             .filter((d) => parseInt(d[filt.column], 10) < filt.value);
           break;
         case 'igual a':
-          console.log('=');
           filteredData = filteredData.filter((d) => d[filt.column] === filt.value);
           break;
         default:
@@ -30,7 +60,7 @@ const Table = () => {
         }
       });
     }
-    console.log(filters);
+    setOrder(filteredData);
     setPlanets(filteredData);
   }, [data, filters]);
 
@@ -42,7 +72,7 @@ const Table = () => {
       <td>{ planet.edited }</td>
       <td>{ planet.films.reduce((all, film) => `${all}, ${film}`) }</td>
       <td>{ planet.gravity }</td>
-      <td>{ planet.name }</td>
+      <td data-testid="planet-name">{ planet.name }</td>
       <td>{ planet.orbital_period }</td>
       <td>{ planet.population }</td>
       <td>{ planet.rotation_period }</td>

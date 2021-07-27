@@ -10,6 +10,20 @@ const collumns = [
   'surface_water',
 ];
 
+const order = [
+  'name',
+  'climate',
+  'created',
+  'diameter',
+  'edited',
+  'gravity',
+  'orbital_period',
+  'population',
+  'rotation_period',
+  'surface_water',
+  'terrain',
+];
+
 const comparisons = ['maior que', 'menor que', 'igual a'];
 
 const Home = () => {
@@ -17,6 +31,8 @@ const Home = () => {
   const [column, setColumn] = useState(collumns[0]);
   const [comparison, setComparison] = useState(comparisons[0]);
   const [value, setValue] = useState(0);
+  const [orderCol, setOrderCol] = useState('name');
+  const [orderDir, setOrderDir] = useState('ASC');
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -47,6 +63,15 @@ const Home = () => {
     await setFilters({ ...filters, filterByNumericValues: [...byNumber, newFilter] });
     const colSelect = document.querySelector('#col-select').value;
     setColumn(colSelect);
+  };
+
+  const setOrder = (event) => {
+    event.preventDefault();
+    const newFilter = {
+      column: orderCol,
+      sort: orderDir,
+    };
+    setFilters({ ...filters, order: newFilter });
   };
 
   const renderColumns = () => {
@@ -116,6 +141,45 @@ const Home = () => {
             onClick={ valueFilter }
           >
             Filtrar
+          </button>
+        </fieldset>
+        <fieldset>
+          <legend>Ordenar:</legend>
+          <select
+            data-testid="column-sort"
+            onChange={ ({ target }) => setOrderCol(target.value) }
+          >
+            {order.map((or) => <option key={ or } value={ or }>{ or }</option>)}
+          </select>
+          <label htmlFor="asc">
+            <input
+              type="radio"
+              id="asc"
+              name="ord_dir"
+              value="ASC"
+              data-testid="column-sort-input-asc"
+              defaultChecked
+              onChange={ ({ target }) => setOrderDir(target.value) }
+            />
+            ASC
+          </label>
+          <label htmlFor="desc">
+            <input
+              type="radio"
+              id="desc"
+              name="ord_dir"
+              value="DESC"
+              data-testid="column-sort-input-desc"
+              onChange={ ({ target }) => setOrderDir(target.value) }
+            />
+            DESC
+          </label>
+          <button
+            type="submit"
+            data-testid="column-sort-button"
+            onClick={ setOrder }
+          >
+            Ordenar
           </button>
         </fieldset>
         { renderFilters() }
