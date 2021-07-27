@@ -6,6 +6,9 @@ function PlanetProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [keys, setKeys] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: {
+    name: '',
+  } });
 
   async function fetchPlanets() {
     const request = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -22,7 +25,9 @@ function PlanetProvider({ children }) {
   }, []);
 
   return (
-    <PlanetContext.Provider value={ { planets, isLoading, keys, fetchPlanets } }>
+    <PlanetContext.Provider
+      value={ { planets, isLoading, keys, fetchPlanets, filters, setFilters } }
+    >
       {children}
     </PlanetContext.Provider>
   );
