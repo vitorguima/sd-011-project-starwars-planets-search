@@ -26,36 +26,36 @@ function Table() {
   function renderTableBody(planets) {
     return (
       planets.map(({
-        climate,
-        created,
-        diameter,
-        edited,
-        films,
-        gravity,
         name,
-        orbital_period: orbitalPeriod,
-        population,
+        diameter,
         rotation_period: rotationPeriod,
-        surface_water: surfaceWater,
+        orbital_period: orbitalPeriod,
+        gravity,
+        population,
+        climate,
         terrain,
+        surface_water: surfaceWater,
+        films,
         url,
+        created,
+        edited,
       }, index) => (
         <tr
           key={ index }
         >
           <td>{name}</td>
+          <td>{diameter}</td>
           <td>{rotationPeriod}</td>
           <td>{orbitalPeriod}</td>
-          <td>{surfaceWater}</td>
-          <td>{diameter}</td>
-          <td>{climate}</td>
           <td>{gravity}</td>
-          <td>{terrain}</td>
           <td>{population}</td>
+          <td>{climate}</td>
+          <td>{terrain}</td>
+          <td>{surfaceWater}</td>
           <td>{films}</td>
+          <td>{url}</td>
           <td>{created}</td>
           <td>{edited}</td>
-          <td>{url}</td>
         </tr>
       ))
     );
@@ -65,19 +65,19 @@ function Table() {
     <table className="planets-table">
       <thead>
         <tr>
-          <th>Name</th>
-          <th>Rotation Period</th>
-          <th>Oribtal Period</th>
-          <th>Diameter</th>
-          <th>Climate</th>
-          <th>Gravity</th>
-          <th>Terrain</th>
-          <th>Surface Water</th>
-          <th>Population</th>
-          <th>Films</th>
-          <th>Created</th>
-          <th>Edited</th>
-          <th>URL</th>
+          <th>name</th>
+          <th>diameter</th>
+          <th>rotation_period</th>
+          <th>orbital_period</th>
+          <th>gravity</th>
+          <th>population</th>
+          <th>climate</th>
+          <th>terrain</th>
+          <th>surface_water</th>
+          <th>films</th>
+          <th>url</th>
+          <th>created</th>
+          <th>edited</th>
         </tr>
       </thead>
       <tbody>
