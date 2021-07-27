@@ -1,8 +1,6 @@
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
-import testData from '../testData';
-
 const PlanetContext = createContext({});
 
 const BASE_URL = 'https://swapi-trybe.herokuapp.com/api/planets';
@@ -34,7 +32,7 @@ export function PlanetProvider({ children }) {
   useEffect(() => {
     if (!apiResponse) return;
 
-    const { results } = testData;
+    const { results } = apiResponse;
 
     if (!filters.length) {
       setPlanets(results);

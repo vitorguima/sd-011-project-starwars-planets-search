@@ -61,15 +61,15 @@ function Controls() {
       },
       numeric_menor: {
         type: `numeric/${field}`,
-        filterFunc: (planet) => planet[field] < content || planet[field] === 'unknown',
+        filterFunc: (planet) => parseInt(planet[field], 10) < content,
       },
       numeric_igual: {
         type: `numeric/${field}`,
-        filterFunc: (planet) => planet[field] === content || planet[field] === 'unknown',
+        filterFunc: (planet) => parseInt(planet[field], 10) === content,
       },
       numeric_maior: {
         type: `numeric/${field}`,
-        filterFunc: (planet) => planet[field] > content || planet[field] === 'unknown',
+        filterFunc: (planet) => parseInt(planet[field], 10) > content,
       },
     };
 
