@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
+
 import PlanetsContext from './PlanetsContext';
 import fetchAllPlanetsInAPI from '../services/fetchAllPlanetsInAPI';
 
@@ -8,18 +10,23 @@ export default function Provider({ children }) {
   useEffect(() => {
     const fetchPlanets = async () => {
       const data = await fetchAllPlanetsInAPI();
-      setPlanets(data);
+      // console.log(data.results)
+      setPlanets(data.results);
     };
     fetchPlanets();
   }, []);
 
-  const contextValue = {
-    planets,
-  };
+  // const contextValue = {
+  //   planets,
+  // };
 
   return (
-    <PlanetsContext.Provider value={ contextValue }>
+    <PlanetsContext.Provider value={ { planets } }>
       { children }
     </PlanetsContext.Provider>
   );
 }
+
+Provider.propTypes = {
+  children: PropTypes.element.isRequired,
+};
