@@ -1,5 +1,8 @@
 import React from 'react';
 import { Context } from '../context/GlobalContext';
+import TableBody from './TableBody';
+import DirectionFilter from './DirectionFilter';
+
 import { columnOptions,
   comparisonOptions,
   INITIAL_NUM_FILTER,
@@ -13,6 +16,10 @@ const Table = () => {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
 
   const [filterComparison, setFilterComparison] = React.useState(INITIAL_NUM_FILTER);
@@ -21,13 +28,8 @@ const Table = () => {
   React.useEffect(() => { if (data) setFilteredData(data); }, [data]);
   React.useEffect(() => {
     if (data) {
-      const newArray = data.filter((planet) => {
-        const { name, ...rest } = planet;
-        const nameContains = name.toLowerCase()
-          .includes(filter.filterByName.name.toLowerCase());
-        const comparisonValue = filterComparisonNumber(filter, rest);
-        return comparisonValue && nameContains;
-      });
+      const newArray = data
+        .filter((planet) => filterComparisonNumber(filter, planet));
       setFilteredData(newArray);
     }
   }, [filter, data]);
@@ -48,6 +50,7 @@ const Table = () => {
   const filteredColumnOptions = columnOptions
     .filter((item) => !filter.filterByNumericValues
       .map(({ column }) => column).includes(item));
+
   return (
     <div>
       <input
@@ -91,6 +94,11 @@ const Table = () => {
       >
         Filtrar
       </button>
+      <DirectionFilter
+        options={ headerTable }
+        setOrder={ setFilter }
+        filter={ filter }
+      />
       {filter.filterByNumericValues.map(({ column, value, comparison }) => (
         <p key={ column } data-testid="filter">
           {`${column} ${comparison} ${value}`}
@@ -114,40 +122,7 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {filteredData.map((item) => {
-            const {
-              name,
-              rotation_period: rotationPeriod,
-              orbital_period: orbitPeriod,
-              diameter,
-              climate,
-              gravity,
-              terrain,
-              surface_water: surfaceWater,
-              population,
-              films,
-              created,
-              edited,
-              url,
-            } = item;
-            return (
-              <tr key={ name }>
-                <td>{name}</td>
-                <td>{rotationPeriod}</td>
-                <td>{orbitPeriod}</td>
-                <td>{diameter}</td>
-                <td>{climate}</td>
-                <td>{gravity}</td>
-                <td>{terrain}</td>
-                <td>{surfaceWater}</td>
-                <td>{population}</td>
-                <td>{films}</td>
-                <td>{created}</td>
-                <td>{edited}</td>
-                <td>{url}</td>
-              </tr>
-            );
-          })}
+          <TableBody filteredData={ filteredData } filter={ filter } />
         </tbody>
       </table>
     </div>

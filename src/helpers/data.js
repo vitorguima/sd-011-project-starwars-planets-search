@@ -12,7 +12,12 @@ export const INITIAL_NUM_FILTER = {
   comparison: 'maior que',
   value: 0 };
 
-export function filterComparisonNumber(filter, rest) {
+export function filterComparisonNumber(filter, planet) {
+  const { name, ...rest } = planet;
+
+  const nameContains = name.toLowerCase()
+    .includes(filter.filterByName.name.toLowerCase());
+
   let comparisonValue = true;
   filter.filterByNumericValues.forEach((fil) => {
     const { column, comparison, value } = fil;
@@ -26,5 +31,6 @@ export function filterComparisonNumber(filter, rest) {
       comparisonValue = comparisonValue && Number(valuePlanet) < Number(value);
     }
   });
-  return comparisonValue;
+
+  return comparisonValue && nameContains;
 }
