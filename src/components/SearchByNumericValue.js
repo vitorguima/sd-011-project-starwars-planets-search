@@ -1,10 +1,17 @@
-import React, { useContext } from 'react';
+import React, { createElement, useContext } from 'react';
 import TableContext from '../context/TableContext';
 
 export default function SearchByNumericValue() {
   const { handleSelectors, selectorsValue } = useContext(TableContext);
+
+  const addFilterOnList = () => {
+    const li = createElement()
+    const searchContainer = document.getElementsByClassName('search-container')[0];
+    searchContainer.appendChild();
+  };
+
   return (
-    <div>
+    <div className="search-container">
       <label htmlFor="column-filter">
         Categoria:
         <select
@@ -46,6 +53,13 @@ export default function SearchByNumericValue() {
           name="value"
         />
       </label>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ () => addFilterOnList() }
+      >
+        Adicionar Filtro
+      </button>
     </div>
   );
 }
