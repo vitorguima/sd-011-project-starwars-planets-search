@@ -8,11 +8,7 @@ function SpacesProvider({ children }) {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [{
-      column: '',
-      comparison: '',
-      value: 0,
-    }],
+    filterByNumericValues: [],
   };
 
   const [filters, setFilters] = useState(filterInitialState);

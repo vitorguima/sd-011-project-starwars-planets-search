@@ -81,7 +81,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {filteredPlanets.length ? renderTableBody(filteredPlanets) : null}
+        {filteredPlanets ? renderTableBody(filteredPlanets) : null}
       </tbody>
     </table>
   );
