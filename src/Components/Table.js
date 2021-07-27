@@ -52,7 +52,6 @@ function Table() {
     <table>
       {headers()}
       {cells()}
-      {console.log(filtered)}
     </table>
   );
 }
