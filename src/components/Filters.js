@@ -80,6 +80,7 @@ function Filters() {
             onChange={ handleSelectedOptions }
             required
           >
+            <option>Column</option>
             {availableColumnOptions.map((option, index) => (
               <option key={ index } value={ option }>
                 {option}
@@ -94,9 +95,10 @@ function Filters() {
             onChange={ handleSelectedOptions }
             required
           >
-            <option>maior que</option>
-            <option>menor que</option>
-            <option>igual a</option>
+            <option>Comparison</option>
+            <option value="maior que">maior que</option>
+            <option value="menor que">menor que</option>
+            <option value="igual a">igual a</option>
           </select>
         </label>
         <label htmlFor="value-filter">
