@@ -5,18 +5,43 @@ export default function Table() {
   const { data, fetchApi } = useContext(GlobalContext);
   useEffect(() => {
     fetchApi();
-  }, [fetchApi]);
+  }, []);
 
   const [filter, setFilter] = useState({
     filters: {
       filterByName: {
         name: '',
       },
+      filterByNumericValues: [],
     },
   });
 
-  const filterPlanets = data && data.results
-    .filter((value) => value.name.includes(filter.filters.filterByName.name));
+  const [filterOption, setFilterOption] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '0',
+  });
+
+  const [filteredPlanets, setFiltered] = useState([]);
+  useEffect(() => {
+    setFiltered(data && data.results
+      .filter((value) => value.name.includes(filter.filters.filterByName.name)));
+  }, [data, filter.filters.filterByName]);
+
+  function filterPlanets() {
+    return setFiltered(data && data.results.filter((value) => {
+      switch (filterOption.comparison) {
+      case 'maior que':
+        return Number(value[filterOption.column]) > Number(filterOption.value);
+      case 'menor que':
+        return Number(value[filterOption.column]) < Number(filterOption.value);
+      case 'igual a':
+        return Number(value[filterOption.column]) === Number(filterOption.value);
+      default:
+        return true;
+      }
+    }));
+  }
 
   function renderTHEAD() {
     return (
@@ -43,20 +68,39 @@ export default function Table() {
   function renderFilters() {
     return (
       <div>
-        <select data-testid="column-filter">
+        <select
+          data-testid="column-filter"
+          onChange={ ({ target }) => setFilterOption({
+            ...filterOption, column: target.value,
+          }) }
+        >
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
           <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period </option>
+          <option value="rotation_period">rotation_period</option>
           <option value="surface_water">surface_water</option>
         </select>
-        <select data-testid="comparison-filter">
-          <option value=">">maior que</option>
-          <option value="<">menor que</option>
-          <option value="===">igual a</option>
+        <select
+          data-testid="comparison-filter"
+          onChange={ ({ target }) => setFilterOption({
+            ...filterOption, comparison: target.value,
+          }) }
+        >
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
         </select>
-        <input type="number" name="number" data-testid="value-filter" />
-        <button type="button" data-testid="button-filter">Filtrar</button>
+        <label htmlFor="value">
+          <input
+            type="number"
+            name="value"
+            data-testid="value-filter"
+            onChange={ ({ target }) => setFilterOption({
+              ...filterOption, value: target.value,
+            }) }
+          />
+        </label>
+        <button type="button" data-testid="button-filter" onClick={ filterPlanets }>Filtrar</button>
       </div>
     );
   }
@@ -86,7 +130,7 @@ export default function Table() {
       <table>
         {renderTHEAD()}
         <tbody>
-          {filterPlanets.map((planet, i) => (
+          {filteredPlanets && filteredPlanets.map((planet, i) => (
             <tr key={ i }>
               <td>{planet.climate}</td>
               <td>{planet.created}</td>

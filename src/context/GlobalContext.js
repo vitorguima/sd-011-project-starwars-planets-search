@@ -6,7 +6,7 @@ export const GlobalContext = React.createContext();
 export const GlobalProvider = ({ children }) => {
   const [data, setData] = useState(null);
   async function fetchApi() {
-    const fetchStar = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+    const fetchStar = await fetch('https://star-api-wars.herokuapp.com/');
     const fetchResult = await fetchStar.json();
     setData(fetchResult);
   }
