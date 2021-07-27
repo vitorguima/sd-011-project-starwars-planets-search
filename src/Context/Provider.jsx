@@ -13,11 +13,16 @@ function Provider({ children }) {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const { results } = await fetch(endpoint)
         .then((receivedData) => receivedData.json());
-      const filteredResults = Object.values(results)
-        .filter((item) => item.codein !== 'residents').map((obj) => obj);
+      const filteredResults = Object.values(results);
+      console.log(filteredResults.map((test) => {
+        test.residents.splice(0, test.residents.length);
+        return test;
+      }));
+
       if (name.length === 0) setData(filteredResults);
+
       if (name.length !== 0) {
-        const filterData = filteredResults.filter((test) => test.name
+        const filterData = filteredResults.filter((element) => element.name
           .toLowerCase().includes(name.toLowerCase()));
         setData(filterData);
       }
