@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../providers/auth';
 
+/**
+ * Consultei o video do canal "devmentorlive" para refatorar meu codigo.
+ * Link: https://www.youtube.com/watch?v=d1r0aK5awWk
+ */
+
 import Datatable from './datatable';
 
 function Table() {
