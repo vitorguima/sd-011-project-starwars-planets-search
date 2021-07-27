@@ -1,5 +1,6 @@
 import React from 'react';
 import usePlanets from '../../hooks/usePlanets';
+import FilterButtons from '../FilterButtons';
 
 export default function Selector() {
   const { setNumericFilter } = usePlanets();
@@ -48,6 +49,7 @@ export default function Selector() {
           Filter
         </button>
       </div>
+      <FilterButtons />
     </form>
   );
 }

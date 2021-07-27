@@ -11,20 +11,19 @@ export default function PlanetContext({ children }) {
       filterByName: {
         name: '',
       },
-      filterByNumericValues: [
-        {
-          column: 'population',
-          comparison: '>',
-          value: null,
-        },
-      ],
+      filterByNumericValues: [],
     },
   };
 
   const reducer = (state, action) => {
     const { type, data, payload } = action;
+    const filtered = state.filters.filterByNumericValues.filter(
+      (filter, index) => index !== payload,
+    );
+
     switch (type) {
     case 'SET_FILTERS':
+
       return {
         ...state,
         filters: { ...state.filters, ...payload },
@@ -36,6 +35,12 @@ export default function PlanetContext({ children }) {
         data,
       };
 
+    case 'REMOVE_FILTERS':
+
+      return {
+        ...state,
+        filters: { ...state.filters, filterByNumericValues: filtered } };
+
     default:
       return state;
     }
@@ -43,15 +48,23 @@ export default function PlanetContext({ children }) {
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const setData = (data) => dispatch({ type: 'SET_DATA', data });
+  const removeFilters = (index) => dispatch({ type: 'REMOVE_FILTERS', payload: index });
   const setFilter = (name, filter) => dispatch({
     type: 'SET_FILTERS',
     payload: { [filter]: { name } } });
-  const setNumericFilter = (data) => dispatch({
-    type: 'SET_FILTERS',
-    payload: {
-      filterByNumericValues: [data],
-    },
-  });
+
+  const setNumericFilter = (data) => {
+    const { filters } = state;
+    const { filterByNumericValues } = filters;
+    const newFilter = filterByNumericValues;
+
+    dispatch({
+      type: 'SET_FILTERS',
+      payload: {
+        filterByNumericValues: [...newFilter, data],
+      },
+    });
+  };
 
   useEffect(() => {
     (async () => {
@@ -60,7 +73,7 @@ export default function PlanetContext({ children }) {
     })();
   }, []);
 
-  const planetState = { ...state, setFilter, setNumericFilter };
+  const planetState = { ...state, setFilter, setNumericFilter, removeFilters };
 
   return <Context.Provider value={ planetState }>{children}</Context.Provider>;
 }

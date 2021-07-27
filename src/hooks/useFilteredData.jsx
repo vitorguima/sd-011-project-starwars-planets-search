@@ -3,10 +3,10 @@ import usePlanets from './usePlanets';
 const useFilteredData = () => {
   const { data, filters } = usePlanets();
   const { filterByName, filterByNumericValues } = filters;
-  const { column, comparison, value } = filterByNumericValues[0];
   const { name } = filterByName;
   let filteredData = data && data.filter((planet) => planet.name.includes(name));
-  if (value) {
+  if (filterByNumericValues.length > 0) {
+    const { column, comparison, value } = filterByNumericValues[0];
     const string = String(value);
     filteredData = data && data.filter((planet) => {
       if (comparison === 'maior que') { return planet[column] > value; }
@@ -15,7 +15,6 @@ const useFilteredData = () => {
       return planet;
     });
   }
-
   return { filteredData };
 };
 
