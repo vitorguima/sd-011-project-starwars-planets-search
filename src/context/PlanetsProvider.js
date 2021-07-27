@@ -4,18 +4,21 @@ import PlanetsContext from './PlanetsContext';
 import requestPlanets from '../services/requestPlanets';
 
 const PlanetsProvider = ({ children }) => {
-  const [data, setData] = useState([]);
-  const [isFeching, setIsFecthing] = useState(false);
+  const [data, setData] = useState({
+    results: [],
+  });
+  const [isLoading, setIsLoading] = useState(false);
   const [filters, setFilters] = useState({
     filters: {
       filterByName: {
         name: '',
       },
+      filterByNumericValues: [{}],
     },
   });
 
   useEffect(() => {
-    setIsFecthing(true);
+    setIsLoading(true);
     requestPlanets()
       .then((response) => {
         // Referência para remover uma chave do objeto: https://www.horadecodar.com.br/2020/12/11/remover-propriedade-de-objeto-javascript/
@@ -28,21 +31,40 @@ const PlanetsProvider = ({ children }) => {
         };
 
         setData(planetList);
-        setIsFecthing(false);
+        setIsLoading(false);
       })
       .catch(() => {
         setData({ error: '404' });
-        setIsFecthing(false);
+        setIsLoading(false);
       });
   }, []);
 
   const setFilterByName = (name) => {
-    const newFilter = {
-      ...filters,
+    const newFilterName = {
       filters: {
+        ...filters.filters,
         filterByName: {
           name,
         },
+      },
+    };
+
+    setFilters(newFilterName);
+  };
+
+  const addNewNumericFilter = ({ column, comparison, value }) => {
+    const newFilter = {
+      ...filters,
+      filters: {
+        ...filters.filters,
+        filterByNumericValues: [
+          ...filters.filters.filterByNumericValues,
+          {
+            column,
+            comparison,
+            value,
+          },
+        ],
       },
     };
 
@@ -51,9 +73,10 @@ const PlanetsProvider = ({ children }) => {
 
   const context = {
     data,
-    isFeching,
+    isLoading,
+    filters,
     setFilterByName,
-    name: filters.filters.filterByName.name,
+    addNewNumericFilter,
   };
 
   return (
