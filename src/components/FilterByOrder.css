@@ -20,3 +20,7 @@
 .filter-by-order-inputs > * {
   margin: 0 8px;
 }
+
+.filter-by-order-column-label {
+  width: 10em;
+}

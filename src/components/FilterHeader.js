@@ -10,8 +10,8 @@ function FilterHeader() {
       <h1 className="header-title">PLANETS SEARCH</h1>
       <div className="form-container">
         <FilterByText />
-        <FilterByNumericValues />
         <FilterByOrder />
+        <FilterByNumericValues />
       </div>
     </header>
   );

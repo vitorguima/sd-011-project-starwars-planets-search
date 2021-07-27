@@ -22,7 +22,10 @@ function FilterByOrder() {
     <div className="filter-by-order-container">
       <p className="filter-by-order-title">Ordenar por</p>
       <div className="filter-by-order-inputs">
-        <label htmlFor="column-sort" className="form-label">
+        <label
+          htmlFor="column-sort"
+          className="form-label filter-by-order-column-label"
+        >
           Coluna
           <select
             onChange={ handleOrderColumnChange }
