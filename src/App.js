@@ -1,9 +1,14 @@
 import React from 'react';
 import './App.css';
+import Table from './components/Table';
+import ContextProvider from './context/ContextProvider';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <ContextProvider>
+      <h1>Star Wars Planet Searcher</h1>
+      <Table />
+    </ContextProvider>
   );
 }
 
