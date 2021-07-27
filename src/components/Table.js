@@ -6,7 +6,30 @@ const Table = () => {
   const [planets, setPlanets] = useState([]);
   useEffect(() => {
     const { name } = filters.filterByName;
-    const filteredData = data.filter((d) => d.name.toLowerCase().includes(name));
+    const { filterByNumericValues: byNumber } = filters;
+    let filteredData = data.filter((d) => d.name.toLowerCase().includes(name));
+    if (byNumber.length) {
+      byNumber.forEach((filt) => {
+        switch (filt.comparison) {
+        case 'maior que':
+          console.log('>');
+          filteredData = filteredData
+            .filter((d) => parseInt(d[filt.column], 10) > filt.value);
+          break;
+        case 'menor que':
+          console.log('<');
+          filteredData = filteredData
+            .filter((d) => parseInt(d[filt.column], 10) < filt.value);
+          break;
+        case 'igual a':
+          console.log('=');
+          filteredData = filteredData.filter((d) => d[filt.column] === filt.value);
+          break;
+        default:
+          break;
+        }
+      });
+    }
     setPlanets(filteredData);
   }, [data, filters]);
 
