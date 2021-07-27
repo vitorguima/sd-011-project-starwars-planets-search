@@ -11,6 +11,9 @@ function App() {
     filterByName: {
       name: '',
     },
+    colunFilter: ['population',
+      'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+    comparisonFilter: ['maior que', 'menor que', 'igual a'],
     filterByNumericValues: [],
   });
 
@@ -20,6 +23,9 @@ function App() {
     setInitState({
       data: results,
       newData: results,
+      colunFilter: ['population',
+        'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+      comparisonFilter: ['maior que', 'menor que', 'igual a'],
       filterByNumericValues: [],
     });
   }

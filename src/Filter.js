@@ -71,7 +71,10 @@ function Filter({ initstate, setInitState }) {
       setupdateFilter(false);
     }
   }, [initstate, setInitState, updateFilter]);
-
+  const colunFiltr = ['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  const comparisonFilter = ['maior que', 'menor que', 'igual a'];
+  // const { filterByNumericValues } = initstate;
   return (
     <form>
       <input
@@ -80,16 +83,15 @@ function Filter({ initstate, setInitState }) {
         data-testid="name-filter"
       />
       <select data-testid="column-filter" name="column" onChange={ sendSelect }>
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { colunFiltr.map((colunItem, index) => (
+
+          <option key={ index } value={ colunItem }>{ colunItem }</option>
+        )) }
       </select>
       <select data-testid="comparison-filter" name="comparison" onChange={ sendSelect }>
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
+        { comparisonFilter.map((comparisonItem, index) => (
+          <option key={ index } value={ comparisonItem }>{ comparisonItem }</option>
+        )) }
       </select>
       <input
         type="number"
