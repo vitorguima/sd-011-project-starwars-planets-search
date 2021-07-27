@@ -6,17 +6,17 @@ import fetchAPI from './fetchAPI';
 export default function Provider({ children }) {
   const [data, setData] = React.useState(null);
 
-  async function resolvePromise() {
+  const resolvePromise = async () => {
     const response = await fetchAPI();
     setData(response);
-  }
+  };
 
   React.useEffect(() => {
     resolvePromise();
   }, []);
 
   return (
-    <GlobalContext.Provider value={ { data } }>{children}</GlobalContext.Provider>
+    <GlobalContext.Provider value={ data }>{children}</GlobalContext.Provider>
   );
 }
 
