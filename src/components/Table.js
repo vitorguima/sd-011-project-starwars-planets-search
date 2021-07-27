@@ -30,6 +30,7 @@ const Table = () => {
         }
       });
     }
+    console.log(filters);
     setPlanets(filteredData);
   }, [data, filters]);
 

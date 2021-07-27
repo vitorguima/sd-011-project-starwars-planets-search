@@ -36,7 +36,7 @@ const Home = () => {
     setFilters({ ...filters, filterByName: { name: target.value } });
   };
 
-  const valueFilter = (event) => {
+  const valueFilter = async (event) => {
     event.preventDefault();
     const { filterByNumericValues: byNumber } = filters;
     const newFilter = {
@@ -44,7 +44,9 @@ const Home = () => {
       comparison,
       value,
     };
-    setFilters({ ...filters, filterByNumericValues: [...byNumber, newFilter] });
+    await setFilters({ ...filters, filterByNumericValues: [...byNumber, newFilter] });
+    const colSelect = document.querySelector('#col-select').value;
+    setColumn(colSelect);
   };
 
   const renderColumns = () => {
@@ -56,6 +58,27 @@ const Home = () => {
       }
       return '';
     }));
+  };
+
+  const renderFilters = () => {
+    const { filterByNumericValues: byNumber } = filters;
+    return byNumber.map((filt, i) => (
+      <div key={ filt.column } data-testid="filter">
+        <span>{ `${filt.column} ${filt.comparison} ${filt.value}` }</span>
+        <button
+          type="submit"
+          onClick={ async (event) => {
+            event.preventDefault();
+            byNumber.splice(i, 1);
+            await setFilters(({ ...filters, filterByNumericValues: byNumber }));
+            const colSelect = document.querySelector('#col-select').value;
+            setColumn(colSelect);
+          } }
+        >
+          X
+        </button>
+      </div>
+    ));
   };
 
   return (
@@ -71,6 +94,7 @@ const Home = () => {
           <legend>Filtrar por valor:</legend>
           <select
             data-testid="column-filter"
+            id="col-select"
             onChange={ ({ target }) => setColumn(target.value) }
           >
             { renderColumns() }
@@ -94,6 +118,7 @@ const Home = () => {
             Filtrar
           </button>
         </fieldset>
+        { renderFilters() }
       </form>
       <Table />
     </div>
