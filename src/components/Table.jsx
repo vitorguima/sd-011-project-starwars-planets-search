@@ -7,7 +7,7 @@ export default function Table({ addFilter, removeFilter }) {
   const {
     planets,
     loading,
-    filters: { filterByNumericValues },
+    filters,
     setFilters,
     filteredPlanets, setColumn, setComparison, setValue } = useContext(PlanetsContext);
 
@@ -15,6 +15,7 @@ export default function Table({ addFilter, removeFilter }) {
     return <div>Loading...</div>;
   }
 
+  const { filterByNumericValues } = filters;
   const tableHead = Object.keys(planets[0]).filter((key) => key !== 'residents');
 
   return (
@@ -22,7 +23,8 @@ export default function Table({ addFilter, removeFilter }) {
       <input
         type="text"
         data-testid="name-filter"
-        onChange={ (e) => setFilters({ filterByName: { name: e.target.value } }) }
+        onChange={ (e) => setFilters({
+          ...filters, filterByName: { name: e.target.value } }) }
       />
       <select
         data-testid="column-filter"
