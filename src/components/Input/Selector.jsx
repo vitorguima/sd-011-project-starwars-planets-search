@@ -1,8 +1,9 @@
 import React from 'react';
 import usePlanets from '../../hooks/usePlanets';
-import FilterButtons from '../FilterButtons';
+import FilterButtons from '../RemoveFilterButtons';
 
 export default function Selector() {
+  const magic = 5;
   const { setNumericFilter, filters } = usePlanets();
   const { savedFilters, filterByNumericValues } = filters;
   const handleSubmit = (e) => {
@@ -27,8 +28,13 @@ export default function Selector() {
     <form className="row" onSubmit={ handleSubmit }>
       {getFilterOptions()}
       <div className="col-2 m-2">
-        <select name="comparison" data-testid="comparison-filter" className="form-select">
-          <option hidden selected>{'>'}</option>
+        <select
+          name="comparison"
+          data-testid="comparison-filter"
+          className="form-select"
+          defaultValue="maior que"
+        >
+          <option hidden>Choose</option>
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
           <option value="igual a">igual a</option>
@@ -47,7 +53,7 @@ export default function Selector() {
       </div>
       <div className="col-2 m-2">
         <button
-          disabled={ filterByNumericValues.length === 5 }
+          disabled={ filterByNumericValues.length === magic }
           type="submit"
           className="btn btn-primary"
           data-testid="button-filter"
