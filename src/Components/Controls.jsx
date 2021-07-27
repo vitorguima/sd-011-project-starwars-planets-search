@@ -57,16 +57,22 @@ function Controls() {
       <form>
         <fieldset>
           <legend>Filtrar por números</legend>
-          <select name="numeric_field" data-testid="column-filter" required>
+          <select
+            name="numeric_field"
+            title="Campo para ser comparado"
+            data-testid="column-filter"
+            required
+          >
             { mapSelect(NUMERIC_FIELDS) }
           </select>
-          <select name="" data-testid="comparison-filter" required>
+          <select name="" data-testid="comparison-filter" title="Comparação" required>
             { mapSelect(COMPARE_OPTIONS) }
           </select>
           <input
             type="number"
             placeholder="30000"
             data-testid="value-filter"
+            title="Valor para ser comparado"
             required
           />
           <button
