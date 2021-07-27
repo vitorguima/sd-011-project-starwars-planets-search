@@ -17,7 +17,11 @@ const useFetch = () => {
       json = null;
       setError(err.message);
     } finally {
-      setData(json);
+      const filteredResults = json.results.map((item) => {
+        delete item.residents;
+        return item;
+      });
+      setData(filteredResults);
       setLoading(false);
     }
   }, []);
