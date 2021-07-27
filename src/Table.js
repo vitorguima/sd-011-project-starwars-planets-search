@@ -1,26 +1,30 @@
 import React from 'react';
 import { GlobalContext } from './GlobalContext';
+import columnFilter from './Helper';
 
 const Table = () => {
   const apiResults = React.useContext(GlobalContext);
-
   const [filters, setFilters] = React.useState({
     filters: {
       filterByName: {
         name: '',
       },
       filterByNumericValues: [],
-    },
+      order: {
+        column: 'name',
+        sort: 'ASC',
+      } },
   });
-
   const [filter, setFilter] = React.useState({
     column: '',
     comparison: '',
     value: '',
   });
-
+  const [order, setOrder] = React.useState({
+    sortOrder: '',
+    columnOrder: '',
+  });
   const [filterData, setFilterData] = React.useState([]);
-
   React.useEffect(() => {
     if (apiResults.data) {
       setFilterData(apiResults.data.results
@@ -28,39 +32,21 @@ const Table = () => {
     }
   }, [apiResults.data, filters]);
 
-  const filterColumn = filterData.filter((value) => {
-    const { filterByNumericValues } = filters.filters;
-    if (filterByNumericValues.length > 0) {
-      const filterValues = filterByNumericValues[filterByNumericValues.length - 1];
-      switch (filterValues.comparison) {
-      case 'maior que':
-        return value[filterValues.column] > Number(filterValues.value);
-      case 'menor que':
-        return value[filterValues.column] < Number(filterValues.value);
-      case 'igual a':
-        return value[filterValues.column] === filterValues.value;
-      default:
-        return true;
-      }
-    } return true;
-  });
+  const filterColumn = columnFilter(filters.filters.filterByNumericValues, filterData);
 
   if (!apiResults.data) {
     return (
       <p>Carregando...</p>
     );
   }
-
   const filterHeader = Object.keys(apiResults.data.results[0])
     .filter((value) => value !== 'residents');
-
   function handleClickOnState() {
     const { column, comparison, value } = filter;
     setFilters({ filters: { ...filters.filters,
       filterByNumericValues:
       [...filters.filters.filterByNumericValues, { column, comparison, value }] } });
   }
-
   function handleClickRemoveList(param) {
     setFilters({ filters: {
       ...filters.filters,
@@ -68,7 +54,6 @@ const Table = () => {
         .filter((_value, index) => index !== param)],
     } });
   }
-
   const columnFilterOptions = [
     'population',
     'orbital_period',
@@ -79,9 +64,66 @@ const Table = () => {
     const { filterByNumericValues } = filters.filters;
     return !filterByNumericValues.some(({ column }) => column === value);
   });
-
+  function handleStateOrder({ target }) {
+    const { name, value } = target;
+    setOrder({
+      sortOrder: name === 'ORDER' ? value : order.sortOrder,
+      columnOrder: name === 'COLUMN' ? value : order.columnOrder,
+    });
+  }
+  filterColumn.sort((planetA, planetB) => {
+    const { column, sort } = filters.filters.order;
+    if (sort === 'ASC' && /^[0-9]/.test(planetA[column])) {
+      return +planetA[column] - +planetB[column];
+    }
+    if (sort === 'ASC') {
+      return planetA[column].charCodeAt(0) - planetB[column].charCodeAt(0);
+    }
+    if (sort === 'DESC' && /^[0-9]/.test(planetA[column])) {
+      return +planetB[column] - +planetA[column];
+    }
+    return planetB[column].charCodeAt(0) - planetA[column].charCodeAt(0);
+  });
   return (
     <div>
+      <label htmlFor="column-sort">
+        <select data-testid="column-sort" name="COLUMN" onChange={ handleStateOrder }>
+          { filterHeader.map((value, index) => <option key={ index }>{value}</option>)}
+        </select>
+      </label>
+      <label htmlFor="input-sort">
+        <input
+          data-testid="column-sort-input-asc"
+          value="ASC"
+          type="radio"
+          name="ORDER"
+          onChange={ handleStateOrder }
+        />
+        <input
+          data-testid="column-sort-input-desc"
+          value="DESC"
+          type="radio"
+          name="ORDER"
+          onChange={ handleStateOrder }
+        />
+      </label>
+      <button
+        data-testid="column-sort-button"
+        type="button"
+        onClick={ () => {
+          const { sortOrder, columnOrder } = order;
+          setFilters({
+            filters: {
+              ...filters.filters,
+              ...filters.filterByNumericValues,
+              order: {
+                column: columnOrder,
+                sort: sortOrder,
+              } } });
+        } }
+      >
+        Ordernar
+      </button>
       <label htmlFor="name-filter">
         <input
           data-testid="name-filter"
@@ -94,8 +136,7 @@ const Table = () => {
                 ...filters.filters,
                 filterByName: {
                   name: target.value,
-                },
-              },
+                } },
             });
           } }
         />
@@ -173,7 +214,7 @@ const Table = () => {
         <tbody>
           { filterColumn.map((value, index) => (
             <tr key={ index }>
-              <td>{value.name}</td>
+              <td data-testid="planet-name">{value.name}</td>
               <td>{value.rotation_period}</td>
               <td>{value.orbital_period}</td>
               <td>{value.diameter}</td>
@@ -186,12 +227,10 @@ const Table = () => {
               <td>{value.created}</td>
               <td>{value.edited}</td>
               <td>{value.url}</td>
-            </tr>
-          ))}
+            </tr>))}
         </tbody>
       </table>
     </div>
   );
 };
-
 export default Table;
