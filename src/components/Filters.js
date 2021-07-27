@@ -1,10 +1,10 @@
 import React from 'react';
-import FilterByName from './FilterByName';
+import FilterSelector from './FilterSelector';
 
 export default function Filters() {
   return (
     <div>
-      <FilterByName />
+      <FilterSelector />
     </div>
   );
 }

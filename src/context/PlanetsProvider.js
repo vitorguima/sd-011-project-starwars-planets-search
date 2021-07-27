@@ -1,28 +1,38 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import planetsContext from './PlanetsContext';
-import filteredPlanets from '../helpers/filteredPlanets';
+import { filteredPlanetsByName, filteredPlanets } from '../helpers/filteredPlanets';
 
 export default function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filteredData, setFilteredData] = useState([]);
-  const [globalFilter, setGlobalFilter] = useState({
-    filters: {
-      filterByName: {
-        name: '',
-      },
+  const [filters, setFilter] = useState({
+    filterByName: {
+      name: '',
     },
-
+    filterByNumericValues: [],
   });
 
   const setNameFilter = (name) => {
-    setGlobalFilter({
-      filters: {
-        filterByName: {
-          name,
-        },
+    setFilter({
+      ...filters,
+      filterByName: {
+        name,
       },
+    });
+  };
+
+  const setSelectFilter = ({ column, comparison, value }) => {
+    setFilter({
+      ...filters,
+      filterByNumericValues: [
+        {
+          column,
+          comparison,
+          value,
+        },
+      ],
     });
   };
 
@@ -44,17 +54,24 @@ export default function PlanetsProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    const newData = filteredPlanets(data, globalFilter);
-    setFilteredData(newData);
-  }, [data, globalFilter]);
+    const { filterByNumericValues } = filters;
+    if (filterByNumericValues.length === 0) {
+      const newData = filteredPlanetsByName(data, filters);
+      setFilteredData(newData);
+    } else {
+      const planetsWithFilter = filteredPlanets(filteredData, filterByNumericValues);
+      setFilteredData(...planetsWithFilter);
+    }
+  }, [data, filters]);
 
   return (
     <planetsContext.Provider
       value={ {
         fetchStarWarsPlanets,
         isLoading,
-        globalFilter,
+        filters,
         setNameFilter,
+        setSelectFilter,
         filteredData } }
     >
       { children }
