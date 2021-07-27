@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import { useGlobalContext } from '../context';
 
 export default function Table() {
-  const { planets } = useGlobalContext();
-  if (!planets.length) {
+  const { Filtredplanets, name, isLoading } = useGlobalContext();
+
+  if (name && !Filtredplanets.length) {
+    return <h1 className="loader">No results found</h1>;
+  }
+  if (isLoading) {
     return <h1 className="loader">Loading...</h1>;
   }
   return (
@@ -27,7 +31,7 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {planets.map((planet) => (
+        {Filtredplanets.map((planet) => (
           <tr key={ planet.name }>
             <td>{ planet.name }</td>
             <td>{ planet.rotation_period }</td>
@@ -53,5 +57,5 @@ export default function Table() {
 }
 
 Table.propTypes = {
-  planets: PropTypes.arrayOf(PropTypes.object).isRequired,
+  filtredPlanets: PropTypes.arrayOf(PropTypes.object).isRequired,
 }.isRequired;
