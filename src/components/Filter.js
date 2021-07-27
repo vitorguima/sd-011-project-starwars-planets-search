@@ -87,7 +87,7 @@ function Filter() {
             </span>
           ))
         ) : (
-          <span>sem filtro</span>
+          <h4>Sem filtro</h4>
         )
       }
       <form>

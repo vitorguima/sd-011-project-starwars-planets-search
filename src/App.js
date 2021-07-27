@@ -6,7 +6,9 @@ import './App.css';
 function App() {
   return (
     <PlanetsProvider>
-      <span>Hello, App!</span>
+      <header>
+        <h1>StarWars Planets</h1>
+      </header>
       <Table />
     </PlanetsProvider>
   );
