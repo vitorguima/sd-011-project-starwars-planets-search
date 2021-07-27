@@ -12,6 +12,9 @@ export default function PlanetContext({ children }) {
         name: '',
       },
       filterByNumericValues: [],
+      order: {
+        column: 'Name',
+        sort: 'ASC' },
       savedFilters: [
         'population',
         'orbital_period',

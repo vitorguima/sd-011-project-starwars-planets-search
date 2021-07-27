@@ -1,5 +1,6 @@
 import React from 'react';
 import usePlanets from '../hooks/usePlanets';
+import OrderFilter from './Input/OrderFilter';
 
 export default function FilterButtons() {
   const { filters, removeFilters } = usePlanets();
@@ -30,9 +31,8 @@ export default function FilterButtons() {
   ));
 
   return (
-    <div className="col-2 mt-2 btn-group">
+    <div className="col-2">
       {getFilters()}
-
     </div>
   );
 }

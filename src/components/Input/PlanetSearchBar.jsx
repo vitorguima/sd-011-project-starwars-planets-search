@@ -1,10 +1,11 @@
 import React from 'react';
 import usePlanets from '../../hooks/usePlanets';
+import RemoveFilterButtons from '../RemoveFilterButtons';
 
 export default function PlanetInput() {
   const { setFilter } = usePlanets();
   return (
-    <div className="form-group w-25 m-2">
+    <div className="col-6 form-group m-2">
       <input
         data-testid="name-filter"
         type="text"
@@ -13,6 +14,7 @@ export default function PlanetInput() {
         placeholder="Search for your Planet"
         onChange={ ({ target }) => setFilter(target.value, 'filterByName') }
       />
+      <RemoveFilterButtons />
     </div>
   );
 }
