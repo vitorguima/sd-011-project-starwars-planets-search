@@ -11,12 +11,17 @@ function App() {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
   async function getApi() {
     const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
     const { results } = await response.json();
-    setInitState({ data: results, newData: results });
+    setInitState({
+      data: results,
+      newData: results,
+      filterByNumericValues: [],
+    });
   }
 
   useEffect(() => {
@@ -28,7 +33,6 @@ function App() {
       <Filter initstate={ initstate } setInitState={ setInitState } />
       <Table />
     </MyContext.Provider>
-
   );
 }
 

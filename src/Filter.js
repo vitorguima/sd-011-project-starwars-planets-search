@@ -29,7 +29,7 @@ function Filter({ initstate, setInitState }) {
   }
 
   function clickFilter() {
-    const { data } = initstate;
+    const { data, filterByNumericValues } = initstate;
     const { column, comparison, numberValue } = valueFilter;
 
     let newArray = [];
@@ -47,6 +47,10 @@ function Filter({ initstate, setInitState }) {
     setInitState({
       ...initstate,
       newData: newArray,
+      filterByNumericValues: [
+        ...filterByNumericValues,
+        valueFilter,
+      ],
     });
   }
 
