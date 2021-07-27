@@ -21,7 +21,7 @@ function Controls() {
   const [textFilter, setTextFilter] = useState('');
   const [numericFilter, setNumericFilter] = useState({
     numeric_field: 'population',
-    numeric_comparison: 'gt',
+    numeric_comparison: 'maior que',
     numeric_value: '',
   });
   const { addFilter, filters } = usePlanets();
@@ -29,9 +29,9 @@ function Controls() {
   const [availableNumericFilters, setAvailableNumericFilters] = useState([]);
 
   const COMPARE_OPTIONS = [
-    { translation: 'maior que', value: 'gt' },
-    { translation: 'igual a', value: 'eq' },
-    { translation: 'menor que', value: 'lt' },
+    { translation: 'maior que', value: 'maior que' },
+    { translation: 'igual a', value: 'igual a' },
+    { translation: 'menor que', value: 'menor que' },
   ];
 
   useEffect(() => {
@@ -48,7 +48,7 @@ function Controls() {
     setAvailableNumericFilters(availableFilters);
     setNumericFilter({
       numeric_field: availableFilters[0].value,
-      numeric_comparison: 'gt',
+      numeric_comparison: 'maior que',
       value: '',
     });
   }, [filters]);
@@ -59,17 +59,17 @@ function Controls() {
         type,
         filterFunc: ({ name }) => name.toLowerCase().includes(content.toLowerCase()),
       },
-      numeric_lt: {
+      numeric_menor: {
         type: `numeric/${field}`,
-        filterFunc: (planet) => planet[field] < content,
+        filterFunc: (planet) => planet[field] < content || planet[field] === 'unknown',
       },
-      numeric_eq: {
+      numeric_igual: {
         type: `numeric/${field}`,
-        filterFunc: (planet) => planet[field] === content,
+        filterFunc: (planet) => planet[field] === content || planet[field] === 'unknown',
       },
-      numeric_gt: {
+      numeric_maior: {
         type: `numeric/${field}`,
-        filterFunc: (planet) => planet[field] > content,
+        filterFunc: (planet) => planet[field] > content || planet[field] === 'unknown',
       },
     };
 
@@ -98,8 +98,8 @@ function Controls() {
     e.preventDefault();
 
     handleAddFilter({
-      type: `numeric_${numericFilter.numeric_comparison}`,
-      content: numericFilter.numeric_value,
+      type: `numeric_${numericFilter.numeric_comparison.split(' ')[0]}`,
+      content: parseInt(numericFilter.numeric_value, 10),
       field: numericFilter.numeric_field,
     });
   }

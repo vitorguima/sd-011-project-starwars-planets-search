@@ -3,6 +3,7 @@ import { usePlanets } from '../hooks/usePlanets';
 
 function Table() {
   const { loading, planets, error } = usePlanets();
+
   if (loading) {
     return <p>Carregando...</p>;
   }
