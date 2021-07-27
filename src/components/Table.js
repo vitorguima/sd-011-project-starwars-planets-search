@@ -4,13 +4,33 @@ import Context from '../context/Context';
 function Table() {
   const {
     data,
-    dataFilters: { filters: { filterByName: { name } } } } = useContext(Context);
+    dataFilters: {
+      filters:
+        {
+          filterByName: {
+            name,
+          },
+          filterByNumericValues: [
+            {
+              column,
+              comparison,
+              value,
+            },
+          ],
+        },
+    },
+  } = useContext(Context);
 
   let filteredPlanets = [];
   if (name) {
     filteredPlanets = data.filter((planet) => planet.name.toLowerCase().includes(name));
   } else {
     filteredPlanets = data;
+  }
+
+  let numericFilter = [];
+  if (column && comparison && value) {
+   // switch case
   }
 
   return (
