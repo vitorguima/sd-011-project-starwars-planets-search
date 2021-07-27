@@ -11,6 +11,7 @@ function Provider({ children }) {
   const [filterComparation, setFilterComparation] = useState('maior que');
   const [filterInput, setFilterInput] = useState('maior que');
   const [filterObject, setFilterObject] = useState([]);
+  const [listaColunas, setListaColunas] = useState([]);
 
   useEffect(() => {
     const getStar = async () => {
@@ -51,6 +52,10 @@ function Provider({ children }) {
       comparison: filterComparation,
       value: filterInput,
     });
+
+    const colunasAdicionadas = [...listaColunas];
+    colunasAdicionadas.push(filterSelect);
+    setListaColunas(colunasAdicionadas);
 
     setFilterObject(filter);
 
@@ -95,6 +100,8 @@ function Provider({ children }) {
           setFilterComparation,
           filterInput,
           setFilterInput,
+          filterObject,
+          listaColunas,
         } }
       >
         {children}

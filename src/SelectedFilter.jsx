@@ -3,7 +3,8 @@ import AppContext from './Context';
 
 function SelectedFilter() {
   const { handleClickSelect, filterSelect,
-    handleClickComparison, filterComparation } = useContext(AppContext);
+    handleClickComparison, filterComparation, listaColunas } = useContext(AppContext);
+
   return (
     <div>
       <select
@@ -11,11 +12,21 @@ function SelectedFilter() {
         value={ filterSelect }
         onChange={ handleClickSelect }
       >
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        { !listaColunas.find(
+          (item) => item === 'population',
+        ) && <option>population</option> }
+        { !listaColunas.find(
+          (item) => item === 'orbital_period',
+        ) && <option>orbital_period</option> }
+        { !listaColunas.find(
+          (item) => item === 'diameter',
+        ) && <option>diameter</option> }
+        { !listaColunas.find(
+          (item) => item === 'rotation_period',
+        ) && <option>rotation_period</option> }
+        { !listaColunas.find(
+          (item) => item === 'surface_water',
+        ) && <option>surface_water</option> }
       </select>
       <select
         data-testid="comparison-filter"
