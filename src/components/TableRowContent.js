@@ -28,7 +28,7 @@ function TableRowContent({ item }) {
       <td>{terrain}</td>
       <td>{surfaceWater}</td>
       <td>{population}</td>
-      {films.map((film, index) => <td key={ index }>{film}</td>)}
+      {films.map((film, index) => (<td key={ index }>{film}</td>))}
       <td>{created}</td>
       <td>{edited}</td>
       <td>{url}</td>

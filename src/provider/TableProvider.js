@@ -10,19 +10,14 @@ export default function TableProvider({ children }) {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [
-      {
-        column: 'population',
-        comparison: 'maior que',
-        value: '100000',
-      },
-    ],
+    filterByNumericValues: [],
   });
 
   const getPlanetsFromAPI = async () => {
     const { results } = await getPlanets();
     results.filter((item) => delete item.residents);
     setPlanetsResults(results);
+    setFilteredResult(results);
   };
 
   useEffect(() => {
@@ -39,52 +34,68 @@ export default function TableProvider({ children }) {
     });
   };
 
-  const handleSelectors = ({ target }) => {
-    const { name, value } = target;
-    setFilters({ ...filters,
-      filterByNumericValues: [
-        {
-          ...filters.filterByNumericValues[0],
-          [name]: value,
-        },
-      ],
-    });
-  };
-
   const filterResultsByName = () => {
     const { filterByName: { name } } = filters;
-    const filteredPlanets = planetsResult
+    const filteredByName = planetsResult
       .filter((item) => item.name.toLowerCase().includes(name));
-    setFilteredResult(filteredPlanets);
+    setFilteredResult(filteredByName);
   };
 
-  // const filterResultsByNumericNumbers = () => {
-  //   const { filterByNumericValues: [{ column, comparison, value }] } = filters;
-  //   const planetsFilteredByNumericValues = [];
-  //   switch (key) {
-  //     case value:
-  //       break;
-  //     default:
-  //       break;
-  //   }
-  // };
+  const filterResultsByNumericNumbers = () => {
+    const { filterByNumericValues } = filters;
+    if (filterByNumericValues.length) {
+      let currFilteredList = [...filteredResult];
+      filterByNumericValues.forEach(({ column, comparison, value }) => {
+        switch (comparison) {
+        case 'maior que':
+          currFilteredList = currFilteredList.filter((item) => Number.parseInt(item[column], 10) > Number.parseInt(value, 10));
+          break;
+        case 'menor que':
+          currFilteredList = currFilteredList.filter((item) => Number.parseInt(item[column], 10) < Number.parseInt(value, 10));
+          break;
+        case 'igual a':
+          currFilteredList = currFilteredList.filter((item) => Number.parseInt(item[column], 10) === Number.parseInt(value, 10));
+          break;
+        default:
+          break;
+        }
+      });
+      setFilteredResult(currFilteredList);
+      return currFilteredList;
+    }
+  };
 
   const filterResults = () => {
     filterResultsByName();
-    // filterResultsByNumericNumbers();
+    filterResultsByNumericNumbers();
   };
 
   useEffect(() => {
     filterResults();
   }, [filters]);
 
+  const addFilterOnList = (column, comparison, value) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues,
+        {
+          column,
+          comparison,
+          value,
+        },
+      ],
+    });
+  };
+
   const context = {
     planetsResult,
     handleFilters,
     filteredResult,
     valuePlanets: filters.filterByName.name,
-    selectorsValue: filters.filterByNumericValues,
-    handleSelectors,
+    addFilterOnList,
+    selectors: filters.filterByNumericValues,
+    filters,
   };
 
   return (

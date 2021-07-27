@@ -5,7 +5,6 @@ import TableRowContent from './TableRowContent';
 
 export default function Table() {
   const {
-    planetsResult,
     handleFilters,
     filteredResult,
     valuePlanets,
@@ -43,10 +42,9 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {filteredResult.length === 0 ? planetsResult
-            .map((item, index) => <TableRowContent item={ item } key={ index } />)
-            : filteredResult
-              .map((item, index) => <TableRowContent item={ item } key={ index } />)}
+          {filteredResult.length > 0 && filteredResult
+            .map((item, index) => (
+              <TableRowContent item={ item } key={ index } />))}
         </tbody>
       </table>
     </div>

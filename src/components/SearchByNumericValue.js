@@ -1,14 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import TableContext from '../context/TableContext';
 
-export default function SearchByNumericValue() {
-  const { handleSelectors, selectorsValue } = useContext(TableContext);
-
-  // const addFilterOnList = () => {
-  //   const li = createElement('li', {}, selectorsValue[0]);
-  //   const searchContainer = document.getElementsByClassName('search-container')[0];
-  //   searchContainer.appendChild(li);
-  // };
+function SearchByNumericValue() {
+  const { addFilterOnList } = useContext(TableContext);
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('100000');
+  const columnNames = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
 
   return (
     <div className="search-container">
@@ -17,15 +21,11 @@ export default function SearchByNumericValue() {
         <select
           id="column-filter"
           data-testid="column-filter"
-          onChange={ (event) => handleSelectors(event) }
-          value={ selectorsValue[0].column }
+          onChange={ (event) => setColumn(event.target.value) }
+          value={ column }
           name="column"
         >
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          {columnNames.map((item, index) => <option key={ index }>{item}</option>)}
         </select>
       </label>
       <label htmlFor="comparison-filter">
@@ -33,8 +33,8 @@ export default function SearchByNumericValue() {
         <select
           id="comparison-filter"
           data-testid="comparison-filter"
-          onChange={ (event) => handleSelectors(event) }
-          value={ selectorsValue[0].comparison }
+          onChange={ (event) => setComparison(event.target.value) }
+          value={ comparison }
           name="comparison"
         >
           <option>maior que</option>
@@ -48,18 +48,20 @@ export default function SearchByNumericValue() {
           id="value-filter"
           data-testid="value-filter"
           type="number"
-          onChange={ (event) => handleSelectors(event) }
-          value={ selectorsValue[0].value }
+          onChange={ (event) => setValue(event.target.value) }
+          value={ value }
           name="value"
         />
       </label>
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => addFilterOnList() }
+        onClick={ () => addFilterOnList(column, comparison, value) }
       >
         Adicionar Filtro
       </button>
     </div>
   );
 }
+
+export default SearchByNumericValue;
