@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import DeleteFiltersBtn from './DeleteFiltersBtn';
 
 const Filters = () => {
   const {
@@ -98,6 +99,7 @@ const Filters = () => {
           Filtrar
         </button>
       </form>
+      <DeleteFiltersBtn />
     </>
   );
 };
