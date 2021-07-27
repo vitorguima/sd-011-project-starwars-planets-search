@@ -1,0 +1,37 @@
+.row {
+  background-color: var(--o-primary-bg-color);
+  color: var(--primary-text-color);
+  display: flex;
+  justify-content: space-evenly;
+  padding: 1em;
+  width: 30vw;
+}
+
+.row + .row {
+  padding: 0 1em 1em;
+}
+
+.row > td {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  width: 31%;
+}
+
+.row > td:last-of-type {
+  width: 7%;
+}
+
+.button {
+  background-color: var(--primary-color);
+  border: 2px solid var(--secondary-color);
+  border-radius: 0.25em;
+  color: var(--primary-text-color);
+  cursor: pointer;
+  font-weight: 600;
+  padding: 0.5em 0.75em;
+}
+
+.button:hover {
+  background-color: var(--secondary-color);
+}

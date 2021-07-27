@@ -1,5 +1,7 @@
 import React from 'react';
 import Context from '../../utils/Context';
+import snakeCaseToCapitilized from '../../utils/utils';
+import style from './style.module.css';
 
 function AppliedFilters() {
   const { filters, setFilters } = React.useContext(Context);
@@ -14,20 +16,29 @@ function AppliedFilters() {
   };
 
   return (
-    <section>
-      {
-        filters.filterByNumericValues.map((filter, index) => (
-          <div key={ index } data-testid="filter">
-            <span>{filter.column}</span>
-            <span>{filter.comparison}</span>
-            <span>{filter.value}</span>
-            <button type="button" data-index={ index } onClick={ handleRemoveFilter }>
-              X
-            </button>
-          </div>
-        ))
-      }
-    </section>
+    <table>
+      <tbody>
+        {
+          filters.filterByNumericValues.map((filter, index) => (
+            <tr className={ style.row } key={ index } data-testid="filter">
+              <td>{snakeCaseToCapitilized(filter.column)}</td>
+              <td>{filter.comparison}</td>
+              <td>{filter.value}</td>
+              <td>
+                <button
+                  className={ style.button }
+                  type="button"
+                  data-index={ index }
+                  onClick={ handleRemoveFilter }
+                >
+                  X
+                </button>
+              </td>
+            </tr>
+          ))
+        }
+      </tbody>
+    </table>
   );
 }
 
