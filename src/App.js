@@ -1,23 +1,17 @@
-import React, { createContext } from 'react';
+import React, { useState } from 'react';
 import './App.css';
-import Forms from './components/Forms';
-
-const planetListContext = createContext();
-
-const fetchPlanetsAPI = async () => {
-  const planetList = await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
-    .then((response) => response.json())
-    .then((response) => response.results);
-  return planetList;
-};
-
-console.log(fetchPlanetsAPI());
+import Table from './components/Table';
+import planetListContext from './planetListContext';
 
 function App() {
+  const [data, setData] = useState([]);
+
   return (
     <div>
-      <planetListContext.Provider value={ fetchPlanetsAPI }>
-        <Forms />
+      <planetListContext.Provider value={ { data, setData } }>
+        <Table />
+        {/* <button onClick={ lala(setData) } />
+        <button onClick={ () => fetchPlanetsAPI().then((r) => { setData(r); }) } /> */}
       </planetListContext.Provider>
     </div>
   );
