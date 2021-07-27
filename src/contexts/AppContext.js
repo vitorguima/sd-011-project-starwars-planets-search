@@ -8,6 +8,7 @@ export function AppContextProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: {},
   });
 
   useEffect(() => {
