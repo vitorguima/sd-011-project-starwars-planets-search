@@ -27,11 +27,10 @@ export default function StarWarsProvider({ children }) {
   }
 
   const context = { data: starWarsPlanets,
+    setStarWarsPlanets,
     handleChangeInputFilter,
     planetsFilter,
     setPlanetsFilter };
-
-  console.log(planetsFilter);
 
   return (
     <ContextApi.Provider value={ context }>

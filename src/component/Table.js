@@ -1,21 +1,20 @@
 import React, { useContext } from 'react';
 import ContextApi from '../context/ContextApi';
+import FilteredNumbers from './FilteredNumbers';
 
 export default function Table() {
   const { data, handleChangeInputFilter, planetsFilter } = useContext(ContextApi);
 
   return (
     <table>
-      <input
-        data-testid="name-filter"
-        onChange={ ({ target }) => handleChangeInputFilter(target.value) }
-      />
+      <section>
+        <input
+          data-testid="name-filter"
+          onChange={ ({ target }) => handleChangeInputFilter(target.value) }
+        />
+        <FilteredNumbers />
+      </section>
       <tr>
-
-        {/* {data
-          && Object.keys(data[0]).map((item, index) => (
-            <th key={ `${item} ${index}` }>{item.toUpperCase()}</th>
-          ))} */}
 
         <th>name</th>
         <th>rotation_period</th>
