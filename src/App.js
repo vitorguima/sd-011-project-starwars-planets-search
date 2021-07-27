@@ -4,14 +4,20 @@ import Table from './components/Table';
 import planetListContext from './planetListContext';
 
 function App() {
+  const inicialFilters = { filters: {
+    filterByName: {
+      name: '',
+    },
+  },
+  };
+
   const [data, setData] = useState([]);
+  const [filter, setFilter] = useState(inicialFilters);
 
   return (
     <div>
-      <planetListContext.Provider value={ { data, setData } }>
+      <planetListContext.Provider value={ { data, setData, filter, setFilter } }>
         <Table />
-        {/* <button onClick={ lala(setData) } />
-        <button onClick={ () => fetchPlanetsAPI().then((r) => { setData(r); }) } /> */}
       </planetListContext.Provider>
     </div>
   );
