@@ -4,6 +4,7 @@ import PlanetsContext from './PlanetsContext';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [keyWord, getKeyWord] = useState('');
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -20,6 +21,9 @@ function Provider({ children }) {
 
   const obj = {
     data,
+    setData,
+    keyWord,
+    getKeyWord,
   };
   return (
     <PlanetsContext.Provider value={ obj }>
