@@ -4,10 +4,12 @@ import StarWarsContext from '../context/StarWarsContext';
 function MainPage() {
   const { filteredPlanets,
     optionsColumn,
-    formNumeric,
+    numericForm,
+    filters,
     handleFilterByName,
     handleFilterByNumericValues,
     onClickButtonNumericValues,
+    removeFromFilterByNumericValue,
   } = useContext(StarWarsContext);
 
   const planetLine = (planet) => {
@@ -48,7 +50,8 @@ function MainPage() {
   };
 
   const comparisons = ['maior que', 'menor que', 'igual a'];
-  const { column, comparison, value } = formNumeric;
+  const { column, comparison, value } = numericForm;
+  const { filterByNumericValues } = filters;
 
   return (
     <div>
@@ -108,6 +111,17 @@ function MainPage() {
             Filter
           </button>
         </form>
+        { filterByNumericValues.length > 0 && filterByNumericValues.map((item) => (
+          <div data-testid="filter" key={ item.column }>
+            <span>{item.column}</span>
+            <button
+              type="button"
+              onClick={ () => removeFromFilterByNumericValue(item) }
+            >
+              X
+            </button>
+          </div>
+        ))}
       </div>
       <table>
         <thead>

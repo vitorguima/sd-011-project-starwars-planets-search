@@ -11,8 +11,8 @@ function StarWarsProvider({ children }) {
     'rotation_period',
     'surface_water',
   ];
-  const initialState = { column: 'population', comparison: 'maior que', value: 0 };
-  const [formNumeric, setFormNumeric] = useState(initialState);
+  const initialNumericForm = { column: 'population', comparison: 'maior que', value: 0 };
+  const [numericForm, setNumericForm] = useState(initialNumericForm);
   const [planets, setPlanets] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
@@ -22,7 +22,7 @@ function StarWarsProvider({ children }) {
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   function handleFilterByNumericValues({ target: { name, value } }) {
-    setFormNumeric({ ...formNumeric, [name]: value });
+    setNumericForm({ ...numericForm, [name]: value });
   }
 
   useEffect(() => {
@@ -34,61 +34,65 @@ function StarWarsProvider({ children }) {
   }, []);
 
   // https://www.youtube.com/watch?v=Q8JyF3wpsHc
-  useEffect(() => {
-    const updateFilteredPlanetsByName = () => {
-      const { filterByName: { name } } = filters;
-      const listFilteredByName = planets.filter((planet) => (
-        planet.name.toLowerCase().includes(name.toLowerCase())
-      ));
-      setFilteredPlanets(listFilteredByName);
-    };
-    updateFilteredPlanetsByName();
-  }, [filters, planets]);
-
-  useEffect(() => {
-    const updateFilteredPlanetsBNV = () => {
-      const { filterByNumericValues: filterBNV } = filters;
-      if (filterBNV.length > 0) {
-        const planet = filterBNV[filterBNV.length - 1];
-        switch (planet.comparison) {
-        case 'maior que':
-          setFilteredPlanets([...filteredPlanets.filter((item) => (
-            Number(item[planet.column]) > Number(planet.value)
-          ))]);
-          break;
-        case 'menor que':
-          setFilteredPlanets([...filteredPlanets.filter((item) => (
-            Number(item[planet.column]) < Number(planet.value)
-          ))]);
-          break;
-        case 'igual a':
-          setFilteredPlanets([...filteredPlanets.filter((item) => (
-            Number(item[planet.column]) === Number(planet.value)
-          ))]);
-          break;
-        default:
-          break;
-        }
-      }
-    };
-    updateFilteredPlanetsBNV();
-  }, [filters]);
 
   function handleFilterByName({ target: { value } }) {
     setFilters({ ...filters, filterByName: { name: value } });
   }
 
   useEffect(() => {
-    const { filterByNumericValues: filterBNV } = filters;
-    if (filterBNV.length > 0) {
-      const index = optionsColumn.indexOf(filterBNV[filterBNV.length - 1].column);
-      optionsColumn.splice(index, 1);
-      setOptionsColumn(optionsColumn);
-      setFormNumeric({ column: optionsColumn[0], comparison: 'maior que', value: 0 });
-    } else {
-      setOptionsColumn(initalColumns);
+    const { filterByNumericValues } = filters;
+    let filteringColumns = [...initalColumns];
+
+    if (filterByNumericValues.length > 0) {
+      let tempFilteringColumns = [...filteringColumns];
+      filterByNumericValues.forEach((filter) => {
+        tempFilteringColumns = ([...filteringColumns.filter((column) => (
+          column !== filter.column))]);
+        filteringColumns = tempFilteringColumns;
+      });
     }
+    setOptionsColumn(filteringColumns);
+    setNumericForm({ column: filteringColumns[0], comparison: 'maior que', value: 0 });
   }, [filters]);
+
+  useEffect(() => {
+    let filteringPlanets = [...planets];
+    const { filterByName: { name }, filterByNumericValues } = filters;
+
+    if (name) {
+      filteringPlanets = planets.filter((planet) => (
+        planet.name.toLowerCase().includes(name.toLowerCase())
+      ));
+    }
+
+    if (filterByNumericValues.length > 0) {
+      let filteringdByNumericValues = [...filteringPlanets];
+      filterByNumericValues.forEach((filter) => {
+        switch (filter.comparison) {
+        case 'maior que':
+          filteringdByNumericValues = ([...filteringPlanets.filter((planet) => (
+            Number(planet[filter.column]) > Number(filter.value)
+          ))]);
+          break;
+        case 'menor que':
+          filteringdByNumericValues = ([...filteringPlanets.filter((planet) => (
+            Number(planet[filter.column]) < Number(filter.value)
+          ))]);
+          break;
+        case 'igual a':
+          filteringdByNumericValues = ([...filteringPlanets.filter((planet) => (
+            Number(planet[filter.column]) === Number(filter.value)
+          ))]);
+          break;
+        default:
+          break;
+        }
+        filteringPlanets = [...filteringdByNumericValues];
+      });
+    }
+
+    setFilteredPlanets(filteringPlanets);
+  }, [filters, planets]);
 
   function onClickButtonNumericValues(column, comparison, value) {
     setFilters({
@@ -99,14 +103,25 @@ function StarWarsProvider({ children }) {
       ] });
   }
 
+  function removeFromFilterByNumericValue(element) {
+    const index = filters.filterByNumericValues.indexOf(element);
+    filters.filterByNumericValues.splice(index, 1);
+    setFilters({
+      ...filters,
+      filterByNumericValues: filters.filterByNumericValues,
+    });
+  }
+
   const contextValue = {
     planets,
     filteredPlanets,
     optionsColumn,
-    formNumeric,
+    numericForm,
+    filters,
     handleFilterByName,
     handleFilterByNumericValues,
     onClickButtonNumericValues,
+    removeFromFilterByNumericValue,
   };
 
   return (
