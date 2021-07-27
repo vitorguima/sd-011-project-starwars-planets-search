@@ -10,34 +10,37 @@ function Table() {
     changeFilter,
     filters,
     keys,
+    pointName,
+    filters: { filterByNumericValues },
   } = useContext(planetsContext);
+
+  function returnComparison(column, comparison, value, planet) {
+    if (comparison === 'maior que') {
+      return parseFloat(planet[column]) > parseFloat(value);
+    }
+    if (comparison === 'menor que') {
+      return parseFloat(planet[column]) < parseFloat(value);
+    }
+    if (comparison === 'igual a') {
+      return parseFloat(planet[column]) === parseFloat(value);
+    }
+  }
   useEffect(() => {
     if (planets !== undefined) {
+      console.log(typeof (planets[0].diameter));
       const filterName = filters.filterByName.name;
-      setFilterPlanets(planets.filter(({ name }) => name.includes(filterName)));
+      let newFilter = planets.filter(({ name }) => name.includes(filterName));
+      if (filterByNumericValues.length > 0) {
+        filterByNumericValues.forEach(({ column, comparison, value }) => {
+          newFilter = newFilter.filter((planet) => (
+            returnComparison(column, comparison, value, planet)
+          ));
+        });
+      }
+      setFilterPlanets(newFilter);
     }
-  }, [filters, planets, setFilterPlanets]);
-
-  useEffect(() => {
-    if (filters.filterByNumericValues.length > 0) {
-        console.log('to aqui')
-      filters.filterByNumericValues.forEach(({ collumn, comparison, value }) => {
-       const filtred = filterPlanets.filter((planet) => {
-          switch (comparison) {
-          case 'maior que':
-            return planet[collumn] > value;
-            break;
-          case 'menor que':
-            return planet[collumn] < value;
-            break;
-          default:
-            return planet[collumn] === value;
-          }
-        })
-        setFilterPlanets(filtred);
-      });
-    }
-  }, [filters]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [planets, pointName, filters]);
 
   if (filterPlanets !== undefined && keys !== undefined) {
     return (

@@ -12,13 +12,15 @@ function PlanetsProvider({ children }) {
     },
     filterByNumericValues: [],
   });
-
+  const [pointName, setPointName] = useState();
   function changeFilter({ target: { value } }) {
     setFilters({
+      ...filters,
       filterByName: {
         name: value,
       },
     });
+    setPointName({ value });
   }
   useEffect(() => {
     const getPlanets = async () => {
@@ -39,6 +41,7 @@ function PlanetsProvider({ children }) {
     changeFilter,
     keys,
     setFilters,
+    pointName,
   };
   return (
     <planetsContext.Provider value={ context }>

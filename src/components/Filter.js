@@ -7,7 +7,11 @@ function Filter() {
     comparison: 'maior que',
     value: 0,
   });
-  const { setFilters, filters } = useContext(planetsContext);
+  const {
+    setFilters,
+    filters,
+    filters: { filterByNumericValues },
+  } = useContext(planetsContext);
 
   function changeColumn(event) {
     setFilterNumber({
@@ -36,38 +40,52 @@ function Filter() {
     });
   }
   return (
-    <form>
-      <select
-        data-testid="column-filter"
-        onChange={ (event) => changeColumn(event) }
-      >
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
-      </select>
-      <select
-        data-testid="comparison-filter"
-        onChange={ (event) => changeComparison(event) }
-      >
-        <option>maior que</option>
-        <option>menor que</option>
-        <option>igual a</option>
-      </select>
-      <input
-        type="number"
-        data-testid="value-filter"
-        onChange={ (event) => changeNumber(event) }
-      />
-      <button
-        type="reset"
-        data-testid="button-filter"
-        onClick={ () => { dispatchFilter(); } }
-      >
-        Filtrar
-      </button>
-    </form>
+    <>
+      {
+        (filterByNumericValues.length > 0) ? (
+          filterByNumericValues.map(({ column, comparison, value }, key) => (
+            <span key={ key }>
+              <p>{` ${column} ${comparison} ${value}`}</p>
+              <button type="button">X</button>
+            </span>
+          ))
+        ) : (
+          <span>sem filtro</span>
+        )
+      }
+      <form>
+        <select
+          data-testid="column-filter"
+          onChange={ (event) => changeColumn(event) }
+        >
+          <option>population</option>
+          <option>orbital_period</option>
+          <option>diameter</option>
+          <option>rotation_period</option>
+          <option>surface_water</option>
+        </select>
+        <select
+          data-testid="comparison-filter"
+          onChange={ (event) => changeComparison(event) }
+        >
+          <option>maior que</option>
+          <option>menor que</option>
+          <option>igual a</option>
+        </select>
+        <input
+          type="number"
+          data-testid="value-filter"
+          onChange={ (event) => changeNumber(event) }
+        />
+        <button
+          type="reset"
+          data-testid="button-filter"
+          onClick={ () => { dispatchFilter(); } }
+        >
+          Filtrar
+        </button>
+      </form>
+    </>
   );
 }
 
