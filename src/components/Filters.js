@@ -14,18 +14,11 @@ function Filters() {
     setDataFilters({
       ...dataFilters,
       filters: {
+        ...dataFilters.filters,
         filterByName: {
           name: value,
         },
       },
-    });
-  }
-
-  function handleSelectedOptions({ target }) {
-    const { name, value } = target;
-    setSelectedOptions({
-      ...selectedOptions,
-      [name]: value,
     });
   }
 
@@ -41,6 +34,14 @@ function Filters() {
           value,
         }],
       },
+    });
+  }
+
+  function handleSelectedOptions({ target }) {
+    const { name, value } = target;
+    setSelectedOptions({
+      ...selectedOptions,
+      [name]: value,
     });
   }
 
@@ -70,6 +71,7 @@ function Filters() {
           id="column-filter"
           name="column"
           onChange={ handleSelectedOptions }
+          required
         >
           {numericFilterOptions.map((option, index) => (
             <option key={ index } value={ option }>
@@ -83,6 +85,7 @@ function Filters() {
           data-testid="comparison-filter"
           name="comparison"
           onChange={ handleSelectedOptions }
+          required
         >
           <option>maior que</option>
           <option>menor que</option>
@@ -95,6 +98,7 @@ function Filters() {
           type="number"
           name="value"
           onChange={ handleSelectedOptions }
+          required
         />
       </label>
       <button

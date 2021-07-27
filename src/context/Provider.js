@@ -13,9 +13,9 @@ function Provider({ children }) {
       },
       filterByNumericValues: [
         {
-          column: '',
-          comparison: '',
-          value: '',
+          column: 'population',
+          comparison: 'maior que',
+          value: '0',
         },
       ],
     },
