@@ -3,7 +3,8 @@ import usePlanets from '../../hooks/usePlanets';
 import FilterButtons from '../FilterButtons';
 
 export default function Selector() {
-  const { setNumericFilter } = usePlanets();
+  const { setNumericFilter, filters } = usePlanets();
+  const { savedFilters } = filters;
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
@@ -13,18 +14,18 @@ export default function Selector() {
     setNumericFilter({ column, comparison, value });
   };
 
+  const getFilterOptions = () => (
+    <div className="col-3 m-2">
+      <select name="column" data-testid="column-filter" className="form-select">
+        {savedFilters.map((filter) => (
+          <option key={ filter } value={ filter }>{filter}</option>
+        ))}
+      </select>
+    </div>);
+
   return (
     <form className="row" onSubmit={ handleSubmit }>
-      <div className="col-3 m-2">
-        <select name="column" data-testid="column-filter" className="form-select">
-          <option hidden selected>Select your filter</option>
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
-        </select>
-      </div>
+      {getFilterOptions()}
       <div className="col-2 m-2">
         <select name="comparison" data-testid="comparison-filter" className="form-select">
           <option hidden selected>{'>'}</option>

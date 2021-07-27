@@ -12,18 +12,24 @@ export default function PlanetContext({ children }) {
         name: '',
       },
       filterByNumericValues: [],
+      savedFilters: [
+        'population',
+        'orbital_period',
+        'diameter',
+        'rotation_period',
+        'surface_water'],
     },
   };
 
   const reducer = (state, action) => {
     const { type, data, payload } = action;
-    const filtered = state.filters.filterByNumericValues.filter(
-      (filter, index) => index !== payload,
+    const filterOptions = state.filters.filterByNumericValues.filter(
+      (filter) => filter.column !== payload,
     );
+    const newSavedFilters = [...state.filters.savedFilters, payload];
 
     switch (type) {
     case 'SET_FILTERS':
-
       return {
         ...state,
         filters: { ...state.filters, ...payload },
@@ -36,10 +42,12 @@ export default function PlanetContext({ children }) {
       };
 
     case 'REMOVE_FILTERS':
+      console.log(newSavedFilters);
 
       return {
         ...state,
-        filters: { ...state.filters, filterByNumericValues: filtered } };
+        filters: { ...state.filters, filterByNumericValues: filterOptions, savedFilters: [...newSavedFilters] },
+      };
 
     default:
       return state;
@@ -48,7 +56,10 @@ export default function PlanetContext({ children }) {
 
   const [state, dispatch] = useReducer(reducer, initialState);
   const setData = (data) => dispatch({ type: 'SET_DATA', data });
-  const removeFilters = (index) => dispatch({ type: 'REMOVE_FILTERS', payload: index });
+
+  const removeFilters = (column) => {
+    dispatch({ type: 'REMOVE_FILTERS', payload: column });
+  };
   const setFilter = (name, filter) => dispatch({
     type: 'SET_FILTERS',
     payload: { [filter]: { name } } });
@@ -61,6 +72,7 @@ export default function PlanetContext({ children }) {
     dispatch({
       type: 'SET_FILTERS',
       payload: {
+        savedFilters: filters.savedFilters.filter((filter) => filter !== data.column),
         filterByNumericValues: [...newFilter, data],
       },
     });
