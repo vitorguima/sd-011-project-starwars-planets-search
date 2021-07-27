@@ -61,6 +61,7 @@ export function PlanetProvider({ children }) {
         apiResponse,
         planets,
         addFilter,
+        filters,
       } }
     >
       { children }

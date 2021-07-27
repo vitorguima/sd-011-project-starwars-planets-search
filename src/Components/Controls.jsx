@@ -3,7 +3,12 @@ import { usePlanets } from '../hooks/usePlanets';
 
 function Controls() {
   const [textFilter, setTextFilter] = useState('');
-  const { addFilter } = usePlanets();
+  const [numericFilter, setNumericFilter] = useState({
+    numeric_field: 'population',
+    numeric_comparison: 'gt',
+    numeric_value: null,
+  });
+  const { addFilter, filters } = usePlanets();
   const NUMERIC_FIELDS = [
     { translation: 'População', value: 'population' },
     { translation: 'Período Orbital', value: 'orbital_period' },
@@ -18,15 +23,27 @@ function Controls() {
     { translation: 'menor que', value: 'lt' },
   ];
 
-  function handleAddFilter({ type, content }) {
-    const filters = {
+  function handleAddFilter({ type, content, field }) {
+    const filterDict = {
       text: {
         type,
         filterFunc: ({ name }) => name.toLowerCase().includes(content.toLowerCase()),
       },
+      numeric_lt: {
+        type: `numeric/${field}`,
+        filterFunc: (planet) => planet[field] < content,
+      },
+      numeric_eq: {
+        type: `numeric/${field}`,
+        filterFunc: (planet) => planet[field] === content,
+      },
+      numeric_gt: {
+        type: `numeric/${field}`,
+        filterFunc: (planet) => planet[field] > content,
+      },
     };
 
-    addFilter(filters[type]);
+    addFilter(filterDict[type]);
   }
 
   const mapSelect = (options) => options.map(({ translation, value }) => (
@@ -37,6 +54,25 @@ function Controls() {
       { translation }
     </option>
   ));
+
+  function handleChangeNumericFilter({ target }) {
+    const { name, value } = target;
+
+    setNumericFilter((previous) => ({
+      ...previous,
+      [name]: value,
+    }));
+  }
+
+  function handleAddNumericFilter(e) {
+    e.preventDefault();
+
+    handleAddFilter({
+      type: `numeric_${numericFilter.numeric_comparison}`,
+      content: numericFilter.numeric_value,
+      field: numericFilter.numeric_field,
+    });
+  }
 
   return (
     <section>
@@ -54,30 +90,39 @@ function Controls() {
         />
       </fieldset>
 
-      <form>
+      <form
+        onChange={ handleChangeNumericFilter }
+        onSubmit={ handleAddNumericFilter }
+      >
         <fieldset>
           <legend>Filtrar por números</legend>
           <select
-            name="numeric_field"
-            title="Campo para ser comparado"
             data-testid="column-filter"
+            name="numeric_field"
             required
+            title="Campo para ser comparado"
           >
             { mapSelect(NUMERIC_FIELDS) }
           </select>
-          <select name="" data-testid="comparison-filter" title="Comparação" required>
+          <select
+            data-testid="comparison-filter"
+            name="numeric_comparison"
+            required
+            title="Comparação"
+          >
             { mapSelect(COMPARE_OPTIONS) }
           </select>
           <input
-            type="number"
-            placeholder="30000"
             data-testid="value-filter"
-            title="Valor para ser comparado"
+            name="numeric_value"
+            placeholder="30000"
             required
+            title="Valor para ser comparado"
+            type="number"
           />
           <button
-            type="submit"
             data-testid="button-filter"
+            type="submit"
           >
             Adicionar Filtro Numérico
           </button>
