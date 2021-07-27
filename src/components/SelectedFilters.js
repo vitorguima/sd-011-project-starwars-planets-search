@@ -25,6 +25,7 @@ function RendersCurrentFilters() {
         <p data-testid="filter">{ `${column} ${comparison} ${value}` }</p>
         <button
           type="button"
+          data-testid="filter"
           onClick={ () => removeFilter(column) }
         >
           x
