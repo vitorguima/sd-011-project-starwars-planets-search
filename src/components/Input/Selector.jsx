@@ -4,7 +4,7 @@ import FilterButtons from '../FilterButtons';
 
 export default function Selector() {
   const { setNumericFilter, filters } = usePlanets();
-  const { savedFilters } = filters;
+  const { savedFilters, filterByNumericValues } = filters;
   const handleSubmit = (e) => {
     e.preventDefault();
     const data = new FormData(e.target);
@@ -46,11 +46,16 @@ export default function Selector() {
         />
       </div>
       <div className="col-2 m-2">
-        <button type="submit" className="btn btn-primary" data-testid="button-filter">
+        <button
+          disabled={ filterByNumericValues.length === 5 }
+          type="submit"
+          className="btn btn-primary"
+          data-testid="button-filter"
+        >
           Filter
         </button>
+        <FilterButtons />
       </div>
-      <FilterButtons />
     </form>
   );
 }

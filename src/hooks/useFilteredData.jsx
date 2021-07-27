@@ -1,21 +1,32 @@
+import { useEffect, useState } from 'react';
 import usePlanets from './usePlanets';
 
 const useFilteredData = () => {
+  const [filteredData, setFilteredData] = useState([]);
   const { data, filters } = usePlanets();
   const { filterByName, filterByNumericValues } = filters;
   const { name } = filterByName;
-  let filteredData = data && data.filter((planet) => planet.name.includes(name));
+  useEffect(() => {
+    setFilteredData(data && data.filter((planet) => planet.name.includes(name)));
+  }, [data, name]);
+
+  let ids = filteredData;
   if (filterByNumericValues.length > 0) {
-    const { column, comparison, value } = filterByNumericValues[0];
-    const string = String(value);
-    filteredData = data && data.filter((planet) => {
-      if (comparison === 'maior que') { return planet[column] > value; }
-      if (comparison === 'menor que') { return planet[column] < value; }
-      if (comparison === 'igual a') { return planet[column] === string; }
-      return planet;
+    filterByNumericValues.forEach((filter) => {
+      const { column, comparison, value } = filter;
+      const string = String(value);
+      const newData = ids.filter((planet) => {
+        if (comparison === 'maior que') { return planet[column] > value; }
+        if (comparison === 'menor que') { return planet[column] < value; }
+        if (comparison === 'igual a') { return planet[column] === string; }
+        return planet;
+      });
+      ids = newData;
     });
+    return [[...new Set(ids)]];
   }
-  return { filteredData };
+
+  return [filteredData];
 };
 
 export default useFilteredData;

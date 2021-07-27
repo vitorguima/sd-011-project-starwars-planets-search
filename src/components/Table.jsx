@@ -4,7 +4,7 @@ import TableRow from './TableRow';
 import useFilteredData from '../hooks/useFilteredData';
 
 export default function Table() {
-  const { filteredData } = useFilteredData();
+  const [filteredData] = useFilteredData();
   const getTable = () => filteredData && filteredData.map((planet, index) => (<TableRow
     key={ index }
     planet={ planet }

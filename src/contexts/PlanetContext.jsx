@@ -46,7 +46,9 @@ export default function PlanetContext({ children }) {
 
       return {
         ...state,
-        filters: { ...state.filters, filterByNumericValues: filterOptions, savedFilters: [...newSavedFilters] },
+        filters: { ...state.filters,
+          filterByNumericValues: filterOptions,
+          savedFilters: [...newSavedFilters] },
       };
 
     default:

@@ -16,6 +16,7 @@ export default function FilterButtons() {
       <button
         type="button"
         className="mx-1 btn btn-danger"
+
         onClick={ () => handleDeleteFilter(filter.column) }
       >
         X
