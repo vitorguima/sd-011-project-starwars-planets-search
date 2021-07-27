@@ -3,11 +3,22 @@ import styled from 'styled-components';
 import StarContext from '../contexts/starContext';
 
 export default function Table() {
-  const { data, filter } = useContext(StarContext);
+  const { data, filters } = useContext(StarContext);
 
-  const filterData = data.filter(({ name }) => (
-    name.toLowerCase().includes(filter)
-  ));
+  const filterName = filters.filterByName.name;
+
+  const newData = () => {
+    let planets = [];
+    if (filterName) {
+      planets = data.filter(({ name }) => (
+        name.toLowerCase().includes(filterName)
+      ));
+    } else {
+      planets = [...data];
+    }
+
+    return planets;
+  };
 
   return (
     <StyledTable>
@@ -31,7 +42,7 @@ export default function Table() {
         </thead>
         <tbody>
           {
-            filterData.map((planet, index) => (
+            newData().map((planet, index) => (
               <tr key={ index }>
                 <td>{ planet.name }</td>
                 <td>{ planet.rotation_period }</td>

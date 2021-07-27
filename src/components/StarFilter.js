@@ -3,7 +3,13 @@ import styled from 'styled-components';
 import StarContext from '../contexts/starContext';
 
 export default function StarFilter() {
-  const { setFilter } = useContext(StarContext);
+  const { setFilters, filters } = useContext(StarContext);
+
+  const handleFilterName = ({ target: { value } }) => setFilters({
+    ...filters,
+    filterByName: { name: value },
+  });
+
   return (
     <HeaderStyle>
       <form>
@@ -12,7 +18,7 @@ export default function StarFilter() {
           name="nameFilter"
           data-testid="name-filter"
           placeholder="search"
-          onChange={ ({ target }) => setFilter(target.value) }
+          onChange={ handleFilterName }
         />
       </form>
       <h1>StarWars Planets</h1>
