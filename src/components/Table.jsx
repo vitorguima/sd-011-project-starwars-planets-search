@@ -1,35 +1,34 @@
-import React, { useState, useEffect } from 'react';
+import React, { useContext, useEffect } from 'react';
+import { Planet } from '../context/Planet';
 
 export default function Table() {
-  const [data, setData] = useState({});
-
-  function fetchData() {
-    return fetch('https://swapi-trybe.herokuapp.com/api/planets/')
-      .then((res) => res.json())
-      .then((obj) => obj)
-      .catch((err) => err);
-  }
-
+  const { setPlanets, data, filters, planets } = useContext(Planet);
   useEffect(() => {
-    const getData = async () => {
-      const dataReceived = await fetchData();
-      dataReceived.results.forEach((planet) => {
-        delete planet.residents;
-      });
-      setData(dataReceived);
-    };
-    getData();
-  }, []);
+    if (data) {
+      const planetFilter = filters.filterByName.name;
+      const { results } = data;
+      const planetsToRender = results.filter(({ name }) => (
+        name.includes(planetFilter)
+      ));
+      setPlanets(planetsToRender);
+    }
+  }, [data, filters, setPlanets]);
 
-  if (Object.keys(data).length > 0) {
+  if (data && planets) {
+    const { name } = filters.filterByName;
+    let planetsToBeRendered = data.results;
+    if (name.length > 0) {
+      planetsToBeRendered = planets;
+    }
+
     const tableTitles = () => (
-      Object.keys(data.results[0]).map((title, index) => (
+      Object.keys(planetsToBeRendered[0]).map((title, index) => (
         <th key={ index }>{ title }</th>
       ))
     );
 
     const tableContent = () => (
-      data.results.map((planet, index) => (
+      planetsToBeRendered.map((planet, index) => (
         <tr key={ index }>
           { Object.values(planet).map((item, actualIndex) => (
             <td key={ actualIndex }>{ item }</td>)) }
@@ -37,17 +36,22 @@ export default function Table() {
       ))
     );
 
+    if (planets) {
+      return (
+        <table>
+          <thead>
+            <tr>
+              { tableTitles() }
+            </tr>
+          </thead>
+          <tbody>
+            { tableContent() }
+          </tbody>
+        </table>
+      );
+    }
     return (
-      <table>
-        <thead>
-          <tr>
-            { tableTitles() }
-          </tr>
-        </thead>
-        <tbody>
-          { tableContent() }
-        </tbody>
-      </table>
+      <p>Planeta não encontrado...</p>
     );
   }
 
