@@ -11,10 +11,29 @@ function Table() {
     fetchData();
   }, [request]);
 
+  const [filter, setFilter] = React.useState(
+    { filters: { filterByName: { name: '' } } },
+  );
+
   if (loading) return <p>loading...</p>;
+
+  const filtered = data && data.results.filter(
+    (planeta) => planeta.name.toLowerCase().includes(
+      filter.filters.filterByName.name.toLowerCase(),
+    ),
+  );
 
   return (
     <main>
+      <input
+        type="text"
+        value={ filter.filters.filterByName.name }
+        data-testid="name-filter"
+        onChange={ ({ target }) => setFilter(
+          { filters: { filterByName:
+            { name: target.value } } },
+        ) }
+      />
       <table>
         <thead>
           <tr>
@@ -34,7 +53,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data && data.results.map((planeta, index) => (
+          {filtered && filtered.map((planeta, index) => (
             <tr key={ index }>
               <td>{ planeta.name }</td>
               <td>{ planeta.rotation_period }</td>
