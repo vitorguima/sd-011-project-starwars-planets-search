@@ -55,11 +55,13 @@ const PlanetsProvider = ({ children }) => {
 
   useEffect(() => {
     filterByNumericValues.forEach((filterOption) => {
-      setDefaultColunsFilters(
-        defaultColunsFilters.filter((options) => options !== filterOption.column),
-      );
+      if (defaultColunsFilters.includes(filterOption.column)) {
+        setDefaultColunsFilters(
+          defaultColunsFilters.filter((options) => options !== filterOption.column),
+        );
+      }
     });
-  }, [filterByNumericValues]);
+  }, [filterByNumericValues, defaultColunsFilters]);
 
   const setFilterByName = (name) => {
     const newFilterName = {
