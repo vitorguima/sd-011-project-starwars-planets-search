@@ -9,18 +9,18 @@ function Provider({ children }) {
       filterByName: {
         name: '',
       },
-      filterByNumericValues: [
-        {
-          column: '',
-          comparison: '',
-          value: '',
-        },
-      ],
+      filterByNumericValues: [],
     },
   });
 
+  const [numericFilter, setNumericFilter] = useState({
+    column: '',
+    comparison: '',
+    value: 0,
+  });
+
   const context = {
-    userFilter, setUserFilter,
+    userFilter, setUserFilter, numericFilter, setNumericFilter,
   };
 
   return (

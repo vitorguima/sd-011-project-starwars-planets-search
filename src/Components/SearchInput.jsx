@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import AppContext from '../ContextAPI_Configs/AppContext';
 
 function SearchInput() {
-  const { userInputFilter, setUserFilter } = useContext(AppContext);
+  const { userFilter, setUserFilter } = useContext(AppContext);
+  console.log(userFilter);
   return (
     <label htmlFor="user-input">
       <input
@@ -11,8 +12,9 @@ function SearchInput() {
         type="text"
         data-testid="name-filter"
         onChange={ (e) => setUserFilter({
-          ...userInputFilter,
+          ...userFilter,
           filters: {
+            ...userFilter.filters,
             filterByName: {
               name: e.target.value,
             },

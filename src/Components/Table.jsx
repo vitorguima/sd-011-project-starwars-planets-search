@@ -7,19 +7,20 @@ import SearchInput from './SearchInput';
 import ColumnFilter from './Filters/ColumnFilter';
 import ComparisonFilter from './Filters/ComparisonFilter';
 import ValueFilter from './Filters/ValueFilter';
-import ApplyFilterButton from './Filters/ApplyFilterButton';
+import ApplyFilter from './Filters/ApplyFilter';
 
 const errorMsg = <p>Erro ao fazer requisição! Contate o administrador do sistema!</p>;
 
 function Table() {
   const { userFilter } = useContext(AppContext);
-  const { filters: { filterByName: { name } } } = userFilter;
+  const { filters: { filterByName: { name }, filterByNumericValues } } = userFilter;
   const [data, APIerror] = GetDataFromAPI();
 
   if (data === null) return <p>Carregando...</p>;
   if (APIerror) return errorMsg;
 
   const columnInformation = Object.keys(data[0]);
+
   const planetsInformation = data.filter((planet) => planet.name.includes(name));
 
   return (
@@ -28,14 +29,33 @@ function Table() {
       <ColumnFilter />
       <ComparisonFilter />
       <ValueFilter />
-      <ApplyFilterButton />
+      <ApplyFilter />
       <table>
         <tr>
           {columnInformation
             .map((info) => <HeaderMainColumn key={ info } info={ info } />)}
         </tr>
         {planetsInformation
-          .map((planet, index) => (<PlanetsInformation key={ index } info={ planet } />))}
+          .filter((planet) => {
+            let isEqual = true;
+            filterByNumericValues.forEach((filter) => {
+              const { column, value, comparison } = filter;
+              switch (comparison) {
+              case 'menor que':
+                isEqual = Number(planet[column]) < Number(value) && isEqual;
+                break;
+              case 'maior que':
+                isEqual = Number(planet[column]) > Number(value) && isEqual;
+                break;
+              case 'igual a':
+                isEqual = Number(planet[column]) === Number(value) && isEqual;
+                break;
+              default:
+                return null;
+              }
+            });
+            return isEqual;
+          }).map((planet, index) => (<PlanetsInformation key={ index } info={ planet } />))}
       </table>
     </>
   );
