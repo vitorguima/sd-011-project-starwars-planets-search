@@ -14,10 +14,10 @@ function Provider({ children }) {
       const { results } = await fetch(endpoint)
         .then((receivedData) => receivedData.json());
       const filteredResults = Object.values(results);
-      console.log(filteredResults.map((test) => {
+      filteredResults.map((test) => {
         test.residents.splice(0, test.residents.length);
         return test;
-      }));
+      });
 
       if (name.length === 0) setData(filteredResults);
 
