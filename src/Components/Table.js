@@ -2,23 +2,50 @@ import React, { useContext } from 'react';
 import RequisitionContext from '../Context/RequisitionContext';
 
 export default function Table() {
-  const { data,
-    filters: { filterByName: { name: planetName } } } = useContext(RequisitionContext);
+  const { data, filterOn, setFilterOn, tableData, setTableData,
+    filters:
+      { filterByName:
+        { name: planetName }, filterByNumericValues } } = useContext(RequisitionContext);
+
+  const { column, comparison, value } = filterByNumericValues[0];
 
   let filteredData = [[]];
 
-  console.log(data);
+  let tablePlanets = tableData;
 
   if (data.length > 0) {
     filteredData = data.map(
       (planet) => Object.entries(planet).filter((keyName) => keyName[0] !== 'residents'),
     );
-    console.log(filteredData);
   }
 
-  const inputTextData = data.filter(
-    (planet) => planet.name.toLowerCase().includes(planetName.toLowerCase()),
-  );
+  if (filterOn) {
+    switch (comparison) {
+    case ('maior que'):
+      setTableData(
+        data.filter((planet) => parseInt(planet[column], 10) > parseInt(value, 10)),
+      );
+      break;
+    case ('menor que'):
+      setTableData(
+        data.filter((planet) => parseInt(planet[column], 10) < parseInt(value, 10)),
+      );
+      break;
+    case ('igual a'):
+      setTableData(
+        data.filter((planet) => parseInt(planet[column], 10) === parseInt(value, 10)),
+      );
+      break;
+    default:
+      break;
+    }
+    setFilterOn(false);
+  }
+
+  if (planetName !== '') {
+    tablePlanets = tableData
+      .filter((planet) => planet.name.toLowerCase().includes(planetName.toLowerCase()));
+  }
 
   return (
     <table>
@@ -28,7 +55,7 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {(planetName === '' ? data : inputTextData).map(({
+        {tablePlanets.map(({
           name,
           rotation_period: rotation,
           orbital_period: orbit,

@@ -6,6 +6,7 @@ export default function FilterByName() {
 
   return (
     <input
+      placeholder="pesquise por nome"
       data-testid="name-filter"
       type="text"
       onChange={ (e) => setFilterName(e.target.value) }
