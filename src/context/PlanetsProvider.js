@@ -8,6 +8,7 @@ function PlanetsProvider({ children }) {
   const [loading, setLoading] = useState(true);
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
+    filterByNumericValues: [],
   });
 
   useEffect(() => {
@@ -19,13 +20,11 @@ function PlanetsProvider({ children }) {
     getPlanets();
   }, []);
 
-  const handleFilterByName = (event) => {
-    const { value } = event.target;
-    setFilters({ filterByName: { name: value.toLowerCase() } });
-  };
-
   const context = {
-    data, loading, filters, handleFilterByName,
+    data,
+    loading,
+    filters,
+    setFilters,
   };
 
   return (
