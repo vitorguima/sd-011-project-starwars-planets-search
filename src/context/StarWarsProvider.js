@@ -5,7 +5,10 @@ import fetchStarWarsPlanets from '../services/StarWarsAPI';
 
 function StarWarsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: [],
+  });
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   useEffect(() => {
@@ -16,20 +19,60 @@ function StarWarsProvider({ children }) {
     getPlanets();
   }, []);
 
+  function filtrateByNumericValues(array) {
+    const { filterByNumericValues: filter } = filters;
+    switch (filter[0].comparison) {
+    case 'maior que':
+      return array.filter((item) => (Number(item[filter[0].column]) > (filter[0].value)));
+    case 'menor que':
+      return array.filter((item) => Number(item[filter[0].column]) < (filter[0].value));
+    case 'igual a':
+      return array.filter((item) => Number(item[filter[0].column]) === (filter[0].value));
+    default:
+      return array;
+    }
+  }
+
+  // function callSetFilteredPlanets(array) {
+  //   setFilteredPlanets(array);
+  // }
+
   // https://www.youtube.com/watch?v=Q8JyF3wpsHc
   useEffect(() => {
-    const { filterByName: { name } } = filters;
-    const listFilteredPlanets = planets.filter((planet) => (
-      planet.name.toLowerCase().includes(name.toLowerCase())
-    ));
-    setFilteredPlanets(listFilteredPlanets);
+    const updateFilteredPlanets = () => {
+      const { filterByName: { name }, filterByNumericValues } = filters;
+
+      const listFilteredByName = planets.filter((planet) => (
+        planet.name.toLowerCase().includes(name.toLowerCase())
+      ));
+
+      if (filterByNumericValues.length > 0) {
+        const listFilteredByNumericValues = filtrateByNumericValues(listFilteredByName);
+        setFilteredPlanets(listFilteredByNumericValues);
+      } else {
+        setFilteredPlanets(listFilteredByName);
+      }
+    };
+    updateFilteredPlanets();
   }, [filters, planets]);
 
   function handleFilterByName({ target: { value } }) {
-    setFilters({ filterByName: { name: value } });
+    setFilters({ ...filters, filterByName: { name: value } });
   }
 
-  const contextValue = { filters, handleFilterByName, filteredPlanets };
+  function onClickButtonNumericValues(column, comparison, value) {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [{ column, comparison, value: Number(value) }] });
+    // filterByNumericValues: [...filters.filterByNumericValues, { column: column, comparison: comparison, value: value }]});
+  }
+
+  const contextValue = {
+    planets,
+    filteredPlanets,
+    handleFilterByName,
+    onClickButtonNumericValues,
+  };
 
   return (
     <StarWarsContext.Provider value={ contextValue }>

@@ -1,8 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function MainPage() {
-  const { filteredPlanets, handleFilterByName } = useContext(StarWarsContext);
+  const initialState = { column: 'population', comparison: 'maior que', value: 0 };
+  const [formNumeric, setFormNumeric] = useState(initialState);
+  const { filteredPlanets,
+    handleFilterByName,
+    onClickButtonNumericValues,
+  } = useContext(StarWarsContext);
+
+  function handleFilterByNumericValues({ target: { name, value } }) {
+    setFormNumeric({ ...formNumeric, [name]: value });
+  }
 
   const planetLine = (planet) => {
     const {
@@ -41,6 +50,16 @@ function MainPage() {
     );
   };
 
+  const columns = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+  const comparisons = ['maior que', 'menor que', 'igual a'];
+  const { column, comparison, value } = formNumeric;
+
   return (
     <div>
       <div>
@@ -53,6 +72,52 @@ function MainPage() {
               data-testid="name-filter"
             />
           </label>
+        </form>
+        <form>
+          <label htmlFor="column">
+            <select
+              name="column"
+              onChange={ handleFilterByNumericValues }
+              data-testid="column-filter"
+              value={ column }
+            >
+              { columns.map((item) => (
+                <option key={ item } value={ item }>{ item }</option>
+              ))}
+            </select>
+          </label>
+          <label htmlFor="comparison">
+            <select
+              name="comparison"
+              onChange={ handleFilterByNumericValues }
+              data-testid="comparison-filter"
+              value={ comparison }
+            >
+              { comparisons.map((item) => (
+                <option key={ item } value={ item }>{ item }</option>
+              ))}
+              {/* <option value="maior que">maior que</option>
+                <option value="igual a">igual a</option>
+                <option value="menor que">menor que</option> */}
+            </select>
+          </label>
+          <label htmlFor="value">
+            <input
+              type="number"
+              name="value"
+              onChange={ handleFilterByNumericValues }
+              data-testid="value-filter"
+              value={ value }
+            />
+          </label>
+          <button
+            data-testid="button-filter"
+            type="button"
+            // disabled={ !(column && comparison) }
+            onClick={ () => onClickButtonNumericValues(column, comparison, value) }
+          >
+            Filter
+          </button>
         </form>
       </div>
       <table>
@@ -74,6 +139,9 @@ function MainPage() {
           </tr>
         </thead>
         <tbody>
+          {/* { filteredPlanets.length > 0 && filteredPlanets.map((planet) => (
+            planetLine(planet)
+          ))} */}
           { filteredPlanets.length > 0 && filteredPlanets.map((planet) => (
             planetLine(planet)
           ))}
