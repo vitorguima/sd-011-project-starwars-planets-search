@@ -1,6 +1,5 @@
 import React from 'react';
 import usePlanets from '../hooks/usePlanets';
-import OrderFilter from './Input/OrderFilter';
 
 export default function FilterButtons() {
   const { filters, removeFilters } = usePlanets();

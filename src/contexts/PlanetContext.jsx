@@ -33,6 +33,7 @@ export default function PlanetContext({ children }) {
 
     switch (type) {
     case 'SET_FILTERS':
+      console.log(payload);
       return {
         ...state,
         filters: { ...state.filters, ...payload },
@@ -45,13 +46,17 @@ export default function PlanetContext({ children }) {
       };
 
     case 'REMOVE_FILTERS':
-      console.log(newSavedFilters);
-
       return {
         ...state,
         filters: { ...state.filters,
           filterByNumericValues: filterOptions,
           savedFilters: [...newSavedFilters] },
+      };
+
+    case 'SET_ORDER':
+      return {
+        ...state,
+        filters: { ...state.filters, order: payload },
       };
 
     default:
@@ -73,13 +78,19 @@ export default function PlanetContext({ children }) {
     const { filters } = state;
     const { filterByNumericValues } = filters;
     const newFilter = filterByNumericValues;
-
     dispatch({
       type: 'SET_FILTERS',
       payload: {
         savedFilters: filters.savedFilters.filter((filter) => filter !== data.column),
         filterByNumericValues: [...newFilter, data],
       },
+    });
+  };
+
+  const setOrder = (order) => {
+    dispatch({
+      type: 'SET_ORDER',
+      payload: order,
     });
   };
 
@@ -90,7 +101,7 @@ export default function PlanetContext({ children }) {
     })();
   }, []);
 
-  const planetState = { ...state, setFilter, setNumericFilter, removeFilters };
+  const planetState = { ...state, setFilter, setNumericFilter, removeFilters, setOrder };
 
   return <Context.Provider value={ planetState }>{children}</Context.Provider>;
 }
