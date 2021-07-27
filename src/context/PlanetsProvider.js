@@ -75,8 +75,6 @@ function PlanetsProvider({ children }) {
   );
 }
 
-
-
 PlanetsProvider.propTypes = ({
   children: PropTypes.node,
 }).isRequired;
