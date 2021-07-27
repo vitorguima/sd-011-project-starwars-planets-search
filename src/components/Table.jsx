@@ -91,6 +91,22 @@ const Table = () => {
       >
         Filtrar
       </button>
+      {filter.filterByNumericValues.map(({ column, value, comparison }) => (
+        <p key={ column } data-testid="filter">
+          {`${column} ${comparison} ${value}`}
+          <button
+            type="button"
+            onClick={ () => {
+              setFilter({
+                ...filter,
+                filterByNumericValues: filter.filterByNumericValues
+                  .filter((item) => item.column !== column) });
+            } }
+          >
+            X
+          </button>
+        </p>
+      ))}
       <table>
         <thead>
           <tr>
