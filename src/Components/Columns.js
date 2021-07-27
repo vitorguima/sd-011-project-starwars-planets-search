@@ -6,27 +6,28 @@ const Columns = () => {
     filters: { filterByName: { name: planetName }, filterByNumericValues },
   } = useContext(Context);
   if (data.length === 0) return <p>loading...</p>;
-  console.log('planetName', planetName);
   return (
     <div>
       {data.length > 0 && data.filter((planet) => planet.name
         .includes(planetName)).filter(({ ...rest }) => {
         let result = true;
-        filterByNumericValues.forEach(({ column, comparison, value }) => {
-          switch (comparison) {
-          case 'maior que':
-            result = result && (Number(rest[column]) > Number(value));
-            break;
-          case 'menor que':
-            result = result && (Number(rest[column]) < Number(value));
-            break;
-          case 'igual a':
-            result = result && (Number(rest[column]) === Number(value));
-            break;
-          default:
-            result = false;
-          }
-        });
+        if (filterByNumericValues.length > 0) {
+          filterByNumericValues.forEach(({ column, comparison, value }) => {
+            switch (comparison) {
+            case 'maior que':
+              result = result && (Number(rest[column]) > Number(value));
+              break;
+            case 'menor que':
+              result = result && (Number(rest[column]) < Number(value));
+              break;
+            case 'igual a':
+              result = result && (Number(rest[column]) === Number(value));
+              break;
+            default:
+              result = false;
+            }
+          });
+        }
         return result;
       }).map(({ climate,
         created,

@@ -10,7 +10,6 @@ function Provider({ children }) {
     filterByNumericValues: [] });
 
   const handleNumberFilter = (object) => {
-    console.log(object);
     setFilters({ ...filters,
       filterByNumericValues: [...filters.filterByNumericValues, object] });
   };
@@ -27,7 +26,9 @@ function Provider({ children }) {
   }, []);
 
   return (
-    <Context.Provider value={ { data, setFilters, filters, handleNumberFilter } }>
+    <Context.Provider
+      value={ { data, setFilters, filters, handleNumberFilter } }
+    >
       {children}
     </Context.Provider>
   );

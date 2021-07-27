@@ -2,12 +2,20 @@ import React, { useContext, useState } from 'react';
 import Context from '../Context/Context';
 
 function NumberFilter() {
-  const { handleNumberFilter } = useContext(Context);
+  const { handleNumberFilter, filters: { filterByNumericValues } } = useContext(Context);
   const [numbers, setNumbers] = useState({
     column: 'population',
     comparison: 'maior que',
     value: '100000',
   });
+  const selectArr = ['population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water'];
+
+  const handleSelect = () => selectArr
+    .filter((string) => !filterByNumericValues.map((item) => item.column).includes(string));
   return (
     <div>
       <select
@@ -18,11 +26,16 @@ function NumberFilter() {
           );
         } }
       >
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        { filterByNumericValues.length === 0
+          ? selectArr.map((column, index) => (
+            <option key={ index } value={ column }>{column}</option>
+          ))
+
+          : handleSelect().map((column) => (
+            <option key={ column } value={ column }>
+              {column}
+            </option>
+          ))}
       </select>
       <select
         data-testid="comparison-filter"

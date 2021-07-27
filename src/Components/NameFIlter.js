@@ -2,15 +2,15 @@ import React, { useContext } from 'react';
 import Context from '../Context/Context';
 
 function NameFilter() {
-  const { setFilters, filters: { filterByName: { name } } } = useContext(Context);
-  console.log(setFilters);
+  const { setFilters, filters } = useContext(Context);
+  console.log(filters);
   return (
     <input
       type="text"
-      value={ name }
+      value={ filters.filterByName.name }
       data-testid="name-filter"
       onChange={ ({ target: { value } }) => {
-        setFilters({ filterByName: { name: value } });
+        setFilters({ ...filters, filterByName: { name: value } });
       } }
     />
   );
