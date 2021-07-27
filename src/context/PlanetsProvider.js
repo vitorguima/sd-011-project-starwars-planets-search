@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PlanetsContext from './PlanetsContext';
 import fetchAllPlanetsInAPI from '../services/fetchAllPlanetsInAPI';
 
 export default function Provider({ children }) {
@@ -7,8 +8,7 @@ export default function Provider({ children }) {
   useEffect(() => {
     const fetchPlanets = async () => {
       const data = await fetchAllPlanetsInAPI();
-      // setPlanets(data);
-      console.log(data);
+      setPlanets(data);
     };
     fetchPlanets();
   }, []);
@@ -18,8 +18,8 @@ export default function Provider({ children }) {
   };
 
   return (
-    <Provider value={ contextValue }>
+    <PlanetsContext.Provider value={ contextValue }>
       { children }
-    </Provider>
+    </PlanetsContext.Provider>
   );
 }

@@ -4,7 +4,6 @@ async function fetchAllPlanetsInAPI() {
   const response = await fetch(API_URL);
   const data = await response.json();
   const { results } = data;
-  console.log(results);
   return results;
 }
 
