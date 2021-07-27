@@ -2,8 +2,12 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../../context/PlanetsContext';
 
 export default function Table() {
-  const { planets } = useContext(PlanetsContext);
-  console.log(planets);
+  const { data, filters } = useContext(PlanetsContext);
+
+  const REG_EXP_TO_BY_FILTER_NAME = new RegExp(filters.filterByName.name, 'gi');
+  const filteredPlanets = data.filter(
+    (planet) => planet.name.match(REG_EXP_TO_BY_FILTER_NAME),
+  );
 
   return (
     <table>
@@ -27,7 +31,7 @@ export default function Table() {
       <tbody>
         {
           (
-            planets.map((planet) => (
+            filteredPlanets.map((planet) => (
               <tr key={ planet.name }>
                 <td>{ planet.name }</td>
                 <td>{ planet.climate }</td>

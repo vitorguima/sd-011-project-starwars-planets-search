@@ -5,28 +5,48 @@ import PlanetsContext from './PlanetsContext';
 import fetchAllPlanetsInAPI from '../services/fetchAllPlanetsInAPI';
 
 export default function Provider({ children }) {
-  const [planets, setPlanets] = useState([]);
+  const INITIAL_STATE_FILTERS = {
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [{
+      column: '',
+      comparison: '',
+      value: '',
+    }],
+    order: {
+      column: 'Name',
+      sort: 'ASC',
+    },
+  };
 
+  // # Criar um estado para os planets;
+  const [data, setData] = useState([]);
+
+  // # Criar um estado para os filtros;
+  const [filters, setFilters] = useState(INITIAL_STATE_FILTERS);
+  // # didMount - fazer a requisição API dos planetas;
   useEffect(() => {
     const fetchPlanets = async () => {
-      const data = await fetchAllPlanetsInAPI();
-      // console.log(data.results)
-      setPlanets(data.results);
+      const planets = await fetchAllPlanetsInAPI();
+      setData(planets.results);
     };
     fetchPlanets();
   }, []);
 
-  // const contextValue = {
-  //   planets,
-  // };
+  const contextValue = {
+    data,
+    filters,
+    setFilters,
+  };
 
   return (
-    <PlanetsContext.Provider value={ { planets } }>
+    <PlanetsContext.Provider value={ contextValue }>
       { children }
     </PlanetsContext.Provider>
   );
 }
 
 Provider.propTypes = {
-  children: PropTypes.element.isRequired,
+  children: PropTypes.arrayOf(PropTypes.node).isRequired,
 };
