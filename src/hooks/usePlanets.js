@@ -4,7 +4,19 @@ import { AppContext } from '../contexts/AppContext';
 function usePlanets() {
   const { data, filters, setFilters } = useContext(AppContext);
 
-  const filterName = filters.filterByName.name.trim().toLowerCase();
+  const { filterByName, filterByNumericValues } = filters;
+
+  const filterName = filterByName.name.trim().toLowerCase();
+  const { column, comparison, value } = filterByNumericValues;
+
+  function compareValues(value1, value2, comparisonName) {
+    const compare = {
+      'maior que': +value1 > +value2,
+      'menor que': +value1 < +value2,
+      'igual a': +value1 === +value2,
+    };
+    return compare[comparisonName];
+  }
 
   let planets;
 
@@ -15,6 +27,11 @@ function usePlanets() {
       }
       return true;
     });
+
+    if (value) {
+      planets = [...planets]
+        .filter((planet) => compareValues(planet[column], value, comparison));
+    }
   }
 
   return { planets, filters, setFilters };
