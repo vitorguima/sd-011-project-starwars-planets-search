@@ -8,6 +8,11 @@ function Filter({ initstate, setInitState }) {
     numberValue: '100000',
   });
   const [updateFilter, setupdateFilter] = useState(false);
+  const [colunFiltr, setColunFiltr] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const [comparationFiltr, setcomparationFiltr] = useState(
+    ['maior que', 'menor que', 'igual a'],
+  );
 
   function changeValue({ target }) {
     const { value } = target;
@@ -29,7 +34,7 @@ function Filter({ initstate, setInitState }) {
     });
   }
 
-  function clickFilter() {
+  function clickFilter(column, comparison) {
     const { filterByNumericValues } = initstate;
     setInitState({
       ...initstate,
@@ -38,6 +43,8 @@ function Filter({ initstate, setInitState }) {
         valueFilter,
       ],
     });
+    setColunFiltr(colunFiltr.filter((item) => item !== column));
+    setcomparationFiltr(comparationFiltr.filter((item) => item !== comparison));
     setupdateFilter(true);
   }
 
@@ -71,10 +78,7 @@ function Filter({ initstate, setInitState }) {
       setupdateFilter(false);
     }
   }, [initstate, setInitState, updateFilter]);
-  const colunFiltr = ['population',
-    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-  const comparisonFilter = ['maior que', 'menor que', 'igual a'];
-  // const { filterByNumericValues } = initstate;
+
   return (
     <form>
       <input
@@ -86,11 +90,14 @@ function Filter({ initstate, setInitState }) {
         { colunFiltr.map((colunItem, index) => (
 
           <option key={ index } value={ colunItem }>{ colunItem }</option>
+
         )) }
       </select>
       <select data-testid="comparison-filter" name="comparison" onChange={ sendSelect }>
-        { comparisonFilter.map((comparisonItem, index) => (
+        { comparationFiltr.map((comparisonItem, index) => (
+
           <option key={ index } value={ comparisonItem }>{ comparisonItem }</option>
+
         )) }
       </select>
       <input
@@ -102,7 +109,7 @@ function Filter({ initstate, setInitState }) {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ clickFilter }
+        onClick={ () => clickFilter(valueFilter.column, valueFilter.comparison) }
       >
         Filtrar
       </button>
