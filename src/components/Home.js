@@ -47,6 +47,17 @@ const Home = () => {
     setFilters({ ...filters, filterByNumericValues: [...byNumber, newFilter] });
   };
 
+  const renderColumns = () => {
+    const { filterByNumericValues: byNumber } = filters;
+    return (collumns.map((col) => {
+      const inUse = byNumber.find(((filt) => col === filt.column));
+      if (!inUse) {
+        return <option key={ col } value={ col }>{ col }</option>;
+      }
+      return '';
+    }));
+  };
+
   return (
     <div>
       <span>Olá</span>
@@ -62,7 +73,7 @@ const Home = () => {
             data-testid="column-filter"
             onChange={ ({ target }) => setColumn(target.value) }
           >
-            {collumns.map((col) => <option key={ col } value={ col }>{ col }</option>)}
+            { renderColumns() }
           </select>
           <select
             data-testid="comparison-filter"
