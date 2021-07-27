@@ -5,12 +5,21 @@ import fetchApi from './Service/api';
 export const GlobalContext = React.createContext();
 
 export const GlobalStorage = ({ children }) => {
+  const initialState = {
+    filters: {
+      filterByName: {
+        name: '',
+      },
+      filterByNumericValues: [],
+    },
+  };
+
   const [data, setData] = React.useState([]);
-  const [name, setName] = React.useState('');
-  const [column, setColumn] = React.useState('population');
-  const [comparison, setComparison] = React.useState('maior que');
+  const [column, setColumn] = React.useState('');
+  const [comparison, setComparison] = React.useState('');
   const [value, setValue] = React.useState(0);
-  console.log(comparison);
+  const [filters, setFilters] = React.useState(initialState);
+  console.log(filters);
   const options = ['population', 'orbital_period',
     'diameter', 'rotation_period', 'surface_water'];
 
@@ -23,7 +32,6 @@ export const GlobalStorage = ({ children }) => {
   const providerValues = {
     data,
     setData,
-    setName,
     options,
     column,
     comparison,
@@ -31,18 +39,8 @@ export const GlobalStorage = ({ children }) => {
     setColumn,
     setComparison,
     setValue,
-    filters: {
-      filterByName: {
-        name,
-      },
-      filterByNumericValues: [
-        {
-          column,
-          comparison,
-          value,
-        },
-      ],
-    },
+    filters,
+    setFilters,
   };
 
   return (

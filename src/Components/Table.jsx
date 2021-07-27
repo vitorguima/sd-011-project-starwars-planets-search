@@ -2,8 +2,9 @@ import React from 'react';
 import { GlobalContext } from '../GlobalContext';
 
 const Table = () => {
-  const { data, options, column, setColumn, comparison,
-    setComparison, value, setValue } = React.useContext(GlobalContext);
+  const { data, options, column, setColumn, comparison, setComparison,
+    value, setValue, filters, setFilters } = React
+    .useContext(GlobalContext);
   const [localValue, setLocalValue] = React.useState('');
   const [localColumn, setLocalColumn] = React.useState('population');
   const [localComparison, setLocalComparison] = React.useState('maior que');
@@ -38,6 +39,14 @@ const Table = () => {
     setColumn(localColumn);
     setComparison(localComparison);
     setValue(localNumberValue);
+    const objNumericFilter = {
+      column: localColumn,
+      comparison: localComparison,
+      value: localNumberValue,
+    };
+    setFilters({ filters: { ...filters,
+      filterByNumericValues:
+      [...filters.filterByNumericValues, objNumericFilter] } });
   }
 
   return (
@@ -46,7 +55,10 @@ const Table = () => {
         <input
           type="text"
           placeholder="Nome do Planeta"
-          onChange={ ({ target }) => setLocalValue(target.value) }
+          onChange={ ({ target }) => {
+            setLocalValue(target.value);
+            setFilters({ filters: { filterByName: { name: target.value } } });
+          } }
           data-testid="name-filter"
         />
         <select
