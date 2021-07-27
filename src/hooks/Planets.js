@@ -6,7 +6,7 @@ export default function Planets() {
   const { filterByName, filterByNumericValues } = filters;
 
   // String trim() method: https://www.techonthenet.com/js/string_trim.php
-  const filterName = filterByName.trim().toLowerCase();
+  const filterName = filterByName.name.trim().toLowerCase();
   const { column, comparison, value } = filterByNumericValues;
 
   function compareValues(valueX, valueY, comparisonName) {
