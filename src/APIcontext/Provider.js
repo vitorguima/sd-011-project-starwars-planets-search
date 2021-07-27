@@ -3,20 +3,19 @@ import PropTypes from 'prop-types';
 import Context from './Context';
 
 function Provider({ children }) {
+  // Controle O que vem da API
   const [data, setData] = useState([]);
+  // Controle Planetas filtrados
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+  // Altera Filtro - Input Campo Nome, adição e remoção de filtros numérico
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
-  useEffect(() => {
-    const filterPlanets = data.filter((planet) => planet.name
-      .includes(filters.filterByName.name));
-    setFilteredPlanets(filterPlanets);
-  }, [data, filters]);
-
+  // ComponentDidMount
   useEffect(() => {
     const fetchPlanets = async () => {
       const fetchAPI = fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -27,8 +26,21 @@ function Provider({ children }) {
     fetchPlanets();
   }, []);
 
+  // Atualizações de data ou do filtro de texto
+  useEffect(() => {
+    const filterPlanets = data.filter((planet) => planet.name
+      .includes(filters.filterByName.name));
+    setFilteredPlanets(filterPlanets);
+  }, [data, filters]);
+
   return (
-    <Context.Provider value={ { filteredPlanets, data, filters, setFilters } }>
+    <Context.Provider
+      value={ {
+        filters,
+        filteredPlanets,
+        setFilters,
+      } }
+    >
       { children }
     </Context.Provider>
   );
