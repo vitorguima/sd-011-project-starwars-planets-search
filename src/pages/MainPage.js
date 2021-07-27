@@ -1,16 +1,51 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 function MainPage() {
   const { filteredPlanets,
-    optionsColumn,
-    numericForm,
     filters,
     handleFilterByName,
-    handleFilterByNumericValues,
     onClickButtonNumericValues,
     removeFromFilterByNumericValue,
+    onClickButtonSort,
   } = useContext(StarWarsContext);
+
+  const initalColumns = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+  const initialNumericForm = { column: 'population', comparison: 'maior que', value: 0 };
+  const initialSortColumns = { columnSort: 'name', sort: 'ASC' };
+  const [numericForm, setNumericForm] = useState(initialNumericForm);
+  const [optionsColumn, setOptionsColumn] = useState(initalColumns);
+  const [sortColumns, setSortColumns] = useState(initialSortColumns);
+
+  function handleFilterByNumericValues({ target: { name, value } }) {
+    setNumericForm({ ...numericForm, [name]: value });
+  }
+
+  function handleSortOnChange({ target: { name, value } }) {
+    setSortColumns({ ...sortColumns, [name]: value });
+  }
+
+  useEffect(() => {
+    const { filterByNumericValues } = filters;
+    let filteringColumns = [...initalColumns];
+
+    if (filterByNumericValues.length > 0) {
+      let tempFilteringColumns = [...filteringColumns];
+      filterByNumericValues.forEach((filter) => {
+        tempFilteringColumns = ([...filteringColumns.filter((column) => (
+          column !== filter.column))]);
+        filteringColumns = tempFilteringColumns;
+      });
+    }
+    setOptionsColumn(filteringColumns);
+    setNumericForm({ column: filteringColumns[0], comparison: 'maior que', value: 0 });
+  }, [filters]);
 
   const planetLine = (planet) => {
     const {
@@ -30,7 +65,7 @@ function MainPage() {
     } = planet;
     return (
       <tr key={ name }>
-        <td>{name}</td>
+        <td data-testid="planet-name">{name}</td>
         <td>{rotationalPeriod}</td>
         <td>{orbitalPeriod}</td>
         <td>{diameter}</td>
@@ -52,6 +87,18 @@ function MainPage() {
   const comparisons = ['maior que', 'menor que', 'igual a'];
   const { column, comparison, value } = numericForm;
   const { filterByNumericValues } = filters;
+  const { columnSort, sort } = sortColumns;
+  const listSort = [
+    'name',
+    'rotation_period',
+    'orbital_period',
+    'diameter',
+    'climate',
+    'terrain',
+    'gravity',
+    'surface_water',
+    'population',
+  ];
 
   return (
     <div>
@@ -103,7 +150,6 @@ function MainPage() {
           <button
             data-testid="button-filter"
             type="button"
-            // disabled={ !(column && comparison) }
             onClick={ () => {
               onClickButtonNumericValues(column, comparison, value);
             } }
@@ -111,6 +157,47 @@ function MainPage() {
             Filter
           </button>
         </form>
+
+        <form>
+          <label htmlFor="columnSort">
+            <select
+              name="columnSort"
+              onChange={ handleSortOnChange }
+              data-testid="column-sort"
+              value={ columnSort }
+            >
+              { listSort.map((item) => (
+                <option key={ item } value={ item }>{ item }</option>
+              ))}
+            </select>
+          </label>
+          <label htmlFor="sort">
+            <input
+              data-testid="column-sort-input-desc"
+              type="radio"
+              name="sort"
+              value="DESC"
+              onChange={ handleSortOnChange }
+            />
+            Decrescente
+            <input
+              data-testid="column-sort-input-asc"
+              type="radio"
+              name="sort"
+              value="ASC"
+              onChange={ handleSortOnChange }
+            />
+            Crescente
+          </label>
+          <button
+            data-testid="column-sort-button"
+            type="button"
+            onClick={ () => onClickButtonSort(columnSort, sort) }
+          >
+            Ordenar
+          </button>
+        </form>
+
         { filterByNumericValues.length > 0 && filterByNumericValues.map((item) => (
           <div data-testid="filter" key={ item.column }>
             <span>{item.column}</span>
@@ -142,9 +229,6 @@ function MainPage() {
           </tr>
         </thead>
         <tbody>
-          {/* { filteredPlanets.length > 0 && filteredPlanets.map((planet) => (
-            planetLine(planet)
-          ))} */}
           { filteredPlanets.length > 0 && filteredPlanets.map((planet) => (
             planetLine(planet)
           ))}
