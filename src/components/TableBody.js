@@ -2,10 +2,14 @@ import React, { useContext } from 'react';
 import TableContext from '../context/TableContext';
 
 export default function TableBody() {
-  const { data } = useContext(TableContext);
+  const { data, userSelection } = useContext(TableContext);
+  const { name } = userSelection.filters.filterByName;
+
+  const filterByName = data.filter((planet) => planet.name.includes(name));
+
   return (
     <tbody>
-      { data.map((planet, key) => (
+      { filterByName.map((planet, key) => (
         <tr key={ key }>
           <td>{ planet.name }</td>
           <td>{ planet.rotation_period }</td>

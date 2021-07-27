@@ -4,14 +4,30 @@ import TableHeader from './TableHeader';
 import TableBody from './TableBody';
 
 export default function Table() {
-  const { isLoading } = useContext(TableContext);
+  const { isLoading, userSelection, handleChange } = useContext(TableContext);
+  const { name } = userSelection.filters.filterByName;
 
   if (isLoading) return <h2>Loading...</h2>;
 
   return (
-    <table>
-      <TableHeader />
-      <TableBody />
-    </table>
+    <div>
+      <form action="">
+        <label htmlFor="planet">
+          Planet:
+          <input
+            onChange={ (e) => handleChange(e) }
+            data-testid="name-filter"
+            value={ name }
+            placeholder="Planet name..."
+            type="text"
+            id="planet"
+          />
+        </label>
+      </form>
+      <table>
+        <TableHeader />
+        <TableBody />
+      </table>
+    </div>
   );
 }
