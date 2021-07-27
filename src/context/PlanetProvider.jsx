@@ -1,4 +1,3 @@
-/* eslint-disable array-callback-return */
 import React from 'react';
 import PropTypes from 'prop-types';
 import getApi from '../componentes/GetApi';
@@ -23,7 +22,7 @@ const PlanetProveider = ({ children }) => {
     const getPlanets = await getApi();
     if (filters.filterByNumericValues.length > 1) {
       let array = [];
-      filters.filterByNumericValues.filter((element) => {
+      filters.filterByNumericValues.forEach((element) => {
         if (id !== element.column) {
           array = getPlanets.filter((elem) => {
             const { column, comparison, value } = element;
