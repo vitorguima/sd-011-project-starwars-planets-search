@@ -8,13 +8,9 @@ function PlanetFilters() {
     setFilteredPlanets,
     planetList,
   } = useContext(SpacesContext);
-  const initialColumnList = [{ value: 'population', name: 'population' },
-    { value: 'orbital_period', name: 'orbital_period' },
-    { value: 'diameter', name: 'diameter' },
-    { value: 'rotation_period', name: 'rotation_period' },
-    { value: 'surface_water', name: 'surface_water' }];
-  const initialComparisonList = [{ value: 'maior que', name: 'maior que' },
-    { value: 'menor que', name: 'menor que' }, { value: 'igual a', name: 'igual a' }];
+  const initialColumnList = ['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  const initialComparisonList = ['maior que', 'menor que', 'igual a'];
 
   const [planetName, setPlanetName] = useState('');
   const [column, setColumn] = useState('population');
@@ -24,18 +20,18 @@ function PlanetFilters() {
   const [comparisonList, setComparisonList] = useState(initialComparisonList);
 
   function excludeColumnType() {
-    setColumnList(columnList.filter((col) => col.value !== column));
+    setColumnList(columnList.filter((col) => col !== column));
   }
 
   function excludeComparisonType() {
-    setComparisonList(comparisonList.filter((comp) => comp.value !== comparison));
+    setComparisonList(comparisonList.filter((comp) => comp !== comparison));
   }
 
   function renderColumnOptions() {
     return (
       columnList.map((col, i) => (
-        <option key={ i } value={ col.value }>
-          {col.name}
+        <option key={ i } value={ col }>
+          {col}
         </option>))
     );
   }
@@ -43,8 +39,8 @@ function PlanetFilters() {
   function renderComparisonOptions() {
     return (
       comparisonList.map((comp, i) => (
-        <option key={ i } value={ comp.value }>
-          {comp.name}
+        <option key={ i } value={ comp }>
+          {comp}
         </option>))
     );
   }
@@ -81,47 +77,47 @@ function PlanetFilters() {
   }
 
   function handleFilterButton(columnName, compareLogic, compareValue) {
-    const compareNumber = Number(compareValue);
+    const compare = Number(compareValue);
     const comparisonTypes = {
       population: {
         'maior que': planetList
-          .filter(({ population }) => Number(population) > compareNumber),
+          .filter(({ population }) => Number(population) > compare),
         'igual a': planetList
-          .filter(({ population }) => Number(population) === compareNumber),
+          .filter(({ population }) => Number(population) === compare),
         'menor que': planetList
-          .filter(({ population }) => Number(population) < compareNumber),
+          .filter(({ population }) => Number(population) < compare),
       },
       orbital_period: {
         'maior que': planetList
-          .filter(({ orbital_period: period }) => Number(period) > compareNumber),
+          .filter(({ orbital_period: period }) => Number(period) > compare),
         'igual a': planetList
-          .filter(({ orbital_period: period }) => Number(period) === compareNumber),
+          .filter(({ orbital_period: period }) => Number(period) === compare),
         'menor que': planetList
-          .filter(({ orbital_period: period }) => Number(period) < compareNumber),
+          .filter(({ orbital_period: period }) => Number(period) < compare),
       },
       diameter: {
         'maior que': planetList
-          .filter(({ diameter }) => Number(diameter) > compareNumber),
+          .filter(({ diameter }) => Number(diameter) > compare),
         'igual a': planetList
-          .filter(({ diameter }) => Number(diameter) === compareNumber),
+          .filter(({ diameter }) => Number(diameter) === compare),
         'menor que': planetList
-          .filter(({ diameter }) => Number(diameter) < compareNumber),
+          .filter(({ diameter }) => Number(diameter) < compare),
       },
       rotation_period: {
         'maior que': planetList
-          .filter(({ rotation_period: rot }) => Number(rot) > compareNumber),
+          .filter(({ rotation_period: rot }) => Number(rot) > compare),
         'igual a': planetList
-          .filter(({ rotation_period: rot }) => Number(rot) === compareNumber),
+          .filter(({ rotation_period: rot }) => Number(rot) === compare),
         'menor que': planetList
-          .filter(({ rotation_period: rot }) => Number(rot) < compareNumber),
+          .filter(({ rotation_period: rot }) => Number(rot) < compare),
       },
       surface_water: {
         'maior que': planetList
-          .filter(({ surface_water: water }) => Number(water) > compareNumber),
+          .filter(({ surface_water: water }) => Number(water) > compare),
         'igual a': planetList
-          .filter(({ surface_water: water }) => Number(water) === compareNumber),
+          .filter(({ surface_water: water }) => Number(water) === compare),
         'menor que': planetList
-          .filter(({ surface_water: water }) => Number(water) < compareNumber),
+          .filter(({ surface_water: water }) => Number(water) < compare),
       },
     };
     handleFilters();
@@ -131,6 +127,36 @@ function PlanetFilters() {
       setFilteredPlanets(planetList);
     }
     excludeColumnType(); excludeComparisonType();
+  }
+
+  function removeFilter(columnName, compareType) {
+    setFilteredPlanets(planetList);
+    setColumnList([...columnList, columnName]);
+    setComparisonList([...comparisonList, compareType]);
+    setFilters({
+      ...filters,
+      filterByNumericValues: filters.filterByNumericValues
+        .filter((filter) => filter.column !== columnName
+        && filter.comparison !== compareType),
+    });
+  }
+
+  function renderAppliedFilters() {
+    const { filterByNumericValues } = filters;
+    return (
+      filterByNumericValues.map((filter, i) => (
+        <div key={ i } data-testid="filter">
+          <span>{ filter.column }</span>
+          <span>{ filter.comparison }</span>
+          <span>{ filter.value }</span>
+          <button
+            type="button"
+            onClick={ () => removeFilter(column, comparison) }
+          >
+            X
+          </button>
+        </div>
+      )));
   }
 
   return (
@@ -189,6 +215,9 @@ function PlanetFilters() {
         >
           Filtrar
         </button>
+        <div className="applied-filters">
+          { renderAppliedFilters() }
+        </div>
       </form>
     </div>
   );
