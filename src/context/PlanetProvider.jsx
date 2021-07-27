@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 import React from 'react';
 import PropTypes from 'prop-types';
 import getApi from '../componentes/GetApi';
