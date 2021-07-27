@@ -9,6 +9,14 @@ function Filters() {
     value: '',
   });
 
+  const [availableColumnOptions, setAvailableColumnOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+
   function handleNameFilter({ target }) {
     const { value } = target;
     setDataFilters({
@@ -35,6 +43,8 @@ function Filters() {
         }],
       },
     });
+    const filteredOptions = availableColumnOptions.filter((option) => option !== column);
+    setAvailableColumnOptions(filteredOptions);
   }
 
   function handleSelectedOptions({ target }) {
@@ -44,14 +54,6 @@ function Filters() {
       [name]: value,
     });
   }
-
-  const numericFilterOptions = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
 
   return (
     <form>
@@ -73,7 +75,7 @@ function Filters() {
           onChange={ handleSelectedOptions }
           required
         >
-          {numericFilterOptions.map((option, index) => (
+          {availableColumnOptions.map((option, index) => (
             <option key={ index } value={ option }>
               {option}
             </option>

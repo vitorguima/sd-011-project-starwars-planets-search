@@ -32,10 +32,6 @@ function Table() {
     ));
   }
 
-  // column specific name
-  // comparison: menor que <; maior que >; igual a ===
-  // value specific value
-
   return (
     <div>
       {filteredPlanets.length > 0 ? (
