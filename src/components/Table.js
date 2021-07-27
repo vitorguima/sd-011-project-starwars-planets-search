@@ -11,10 +11,13 @@ function Table() {
 
     return dataReceived;
   };
-  useEffect(getData, []);
+
   const filterName = (name) => (name.includes(filter) ? name : null);
 
+  useEffect(getData, []);
+
   const mapData = data.map((linha, index) => {
+    console.log(linha.name, filter, filterName(linha.name));
     if (filter === '' || filterName(linha.name)) {
       return (
         <tr key={ index }>

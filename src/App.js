@@ -4,15 +4,16 @@ import Table from './components/Table';
 import planetListContext from './planetListContext';
 
 function App() {
-  const inicialFilters = { filters: {
-    filterByName: {
-      name: '',
-    },
-  },
-  };
+  // const inicialFilters = {
+  //   filters: {
+  //     filterByName: {
+  //       name: '',
+  //     },
+  //   },
+  // };
 
   const [data, setData] = useState([]);
-  const [filter, setFilter] = useState(inicialFilters);
+  const [filter, setFilter] = useState('');
 
   return (
     <div>
