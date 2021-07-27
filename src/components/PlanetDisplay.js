@@ -12,25 +12,27 @@ function PlanetDisplay() {
   return (
     <table>
       <thead>
-        <th>Name</th>
-        <th>Climate</th>
-        <th>Created</th>
-        <th>Diameter</th>
-        <th>Edited</th>
-        <th>Films</th>
-        <th>Gravity</th>
-        <th>Orbital_period</th>
-        <th>Population</th>
-        <th>Rotation_period</th>
-        <th>Surface_water</th>
-        <th>Terrain</th>
-        <th>Url</th>
+        <tr>
+          <th>Name</th>
+          <th>Climate</th>
+          <th>Created</th>
+          <th>Diameter</th>
+          <th>Edited</th>
+          <th>Films</th>
+          <th>Gravity</th>
+          <th>Orbital_period</th>
+          <th>Population</th>
+          <th>Rotation_period</th>
+          <th>Surface_water</th>
+          <th>Terrain</th>
+          <th>Url</th>
+        </tr>
       </thead>
       <tbody>
         {data.map((item) => (
-          <tr key={ item }>
+          <tr key={ item.name }>
             <td>{item.name}</td>
-            <td>{item.cliamte}</td>
+            <td>{item.climate}</td>
             <td>{item.created}</td>
             <td>{item.diameter}</td>
             <td>{item.edited}</td>
