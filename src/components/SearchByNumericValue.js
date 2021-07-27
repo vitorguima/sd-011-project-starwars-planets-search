@@ -1,18 +1,35 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import TableContext from '../context/TableContext';
 
 function SearchByNumericValue() {
-  const { addFilterOnList } = useContext(TableContext);
+  const { addFilterOnList, filters } = useContext(TableContext);
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('100000');
-  const columnNames = [
+  const [columnNames, setColumnNames] = useState([
     'population',
     'orbital_period',
     'diameter',
     'rotation_period',
     'surface_water',
-  ];
+  ]);
+
+  const removeColumnOption = () => {
+    let currentColumn = [...columnNames];
+    const { filterByNumericValues } = filters;
+    currentColumn = filterByNumericValues.length ? currentColumn.filter(
+      (columnName) => (
+        filterByNumericValues
+          .filter((item) => console.log(item))),
+    ) : columnNames;
+    console.log(currentColumn);
+    setColumnNames(currentColumn);
+  };
+
+  useEffect(() => {
+    removeColumnOption();
+    console.log(columnNames);
+  }, [columnNames]);
 
   return (
     <div className="search-container">
