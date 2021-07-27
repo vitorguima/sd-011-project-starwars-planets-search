@@ -7,6 +7,7 @@ export default function StarProvider({ children }) {
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
+    filterByNumericValues: [],
   });
 
   const getDataFromApi = () => {

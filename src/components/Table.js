@@ -6,15 +6,29 @@ export default function Table() {
   const { data, filters } = useContext(StarContext);
 
   const filterName = filters.filterByName.name;
+  const numberFilter = filters.filterByNumericValues;
 
   const newData = () => {
-    let planets = [];
+    let planets = [...data];
+    numberFilter.forEach((options) => {
+      if (options.comparison === 'maior que') {
+        planets = planets
+          .filter((planet) => Number(planet[options.column]) > Number(options.value));
+      }
+      if (options.comparison === 'menor que') {
+        planets = planets
+          .filter((planet) => Number(planet[options.column]) < Number(options.value));
+      }
+      if (options.comparison === 'igual a') {
+        planets = planets
+          .filter((planet) => Number(planet[options.column]) === Number(options.value));
+      }
+    });
+
     if (filterName) {
       planets = data.filter(({ name }) => (
         name.toLowerCase().includes(filterName)
       ));
-    } else {
-      planets = [...data];
     }
 
     return planets;
