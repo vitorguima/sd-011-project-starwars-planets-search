@@ -1,0 +1,8 @@
+table {
+  border: 1px solid;
+  width: 100%;
+}
+
+th, thead {
+  border: 1px solid;
+}
