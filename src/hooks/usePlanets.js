@@ -10,7 +10,7 @@ function usePlanets() {
     'surface_water',
   ];
 
-  const { data, filters, setFilters } = useContext(AppContext);
+  const { data, filters, setFilters, order, setOrder } = useContext(AppContext);
   const { filterByName, filterByNumericValues } = filters;
 
   let planets = [...data.results];
@@ -53,13 +53,29 @@ function usePlanets() {
   const availableFilterColumns = columnLabels
     .filter((label) => !usedFilterColumns.includes(label));
 
+  planets.sort((a, b) => {
+    if (Number.isNaN(Number(a[order.column]))) {
+      if (order.sort === 'ASC') {
+        return a[order.column].localeCompare(b[order.column]);
+      }
+      return b[order.column].localeCompare(a[order.column]);
+    }
+    if (order.sort === 'ASC') {
+      return Number(a[order.column]) - Number(b[order.column]);
+    }
+    return Number(b[order.column]) - Number(a[order.column]);
+  });
+
   return {
     planets,
     filters,
     setFilters,
     addFilterByNumericValues,
     removeFilter,
-    availableFilterColumns };
+    availableFilterColumns,
+    order,
+    setOrder,
+  };
 }
 
 export default usePlanets;

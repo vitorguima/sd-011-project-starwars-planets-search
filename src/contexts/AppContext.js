@@ -11,6 +11,10 @@ export function AppContextProvider({ children }) {
     },
     filterByNumericValues: [],
   });
+  const [order, setOrder] = useState({
+    column: 'name',
+    sort: 'ASC',
+  });
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -19,7 +23,7 @@ export function AppContextProvider({ children }) {
   }, []);
 
   return (
-    <AppContext.Provider value={ { data, filters, setFilters } }>
+    <AppContext.Provider value={ { data, filters, setFilters, order, setOrder } }>
       {children}
     </AppContext.Provider>
   );
