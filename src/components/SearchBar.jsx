@@ -1,24 +1,24 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../Context/PlanetsContext';
 
-function SeachBar() {
-  const { keyWord, getKeyWord } = useContext(PlanetsContext);
+function SearchBar() {
+  const { name, getName } = useContext(PlanetsContext);
 
   const handleKeyWord = (event) => {
-    getKeyWord(event.target.value);
+    getName(event.target.value);
   };
 
   return (
-    <label htmlFor="seach">
+    <label htmlFor="search">
       Filtro:
       <input
         text="text"
-        value={ keyWord }
+        value={ name }
         onChange={ handleKeyWord }
-        id="seach"
+        id="search"
       />
     </label>
   );
 }
 
-export default SeachBar;
+export default SearchBar;

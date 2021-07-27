@@ -1,18 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PlanetsContext from '../Context/PlanetsContext';
-import SeachBar from './SeachBar';
+import SearchBar from './SearchBar';
 
 function Table() {
-  const { data, keyWord, setData } = useContext(PlanetsContext);
-  useEffect(() => {
-    if (keyWord.length !== 0) {
-      const filterData = data.filter((test) => test.name === keyWord);
-      setData(filterData);
-    }
-  }, [keyWord, data, setData]);
+  const { data } = useContext(PlanetsContext);
   return (
     <div>
-      <SeachBar />
+      <SearchBar />
       <table id="table">
         <thead id="head">
           <tr>
