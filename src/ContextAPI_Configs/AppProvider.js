@@ -3,16 +3,24 @@ import propTypes from 'prop-types';
 import AppContext from './AppContext';
 
 function Provider({ children }) {
-  const [userInputFilter, setUserInputFilter] = useState({
-    filters: {
+  const [userFilter, setUserFilter] = useState({
+    filters:
+    {
       filterByName: {
         name: '',
       },
+      filterByNumericValues: [
+        {
+          column: '',
+          comparison: '',
+          value: '',
+        },
+      ],
     },
   });
 
   const context = {
-    userInputFilter, setUserInputFilter,
+    userFilter, setUserFilter,
   };
 
   return (

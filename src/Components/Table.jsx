@@ -12,8 +12,8 @@ import ApplyFilterButton from './Filters/ApplyFilterButton';
 const errorMsg = <p>Erro ao fazer requisição! Contate o administrador do sistema!</p>;
 
 function Table() {
-  const { userInputFilter } = useContext(AppContext);
-  const { filters: { filterByName: { name } } } = userInputFilter;
+  const { userFilter } = useContext(AppContext);
+  const { filters: { filterByName: { name } } } = userFilter;
   const [data, APIerror] = GetDataFromAPI();
 
   if (data === null) return <p>Carregando...</p>;

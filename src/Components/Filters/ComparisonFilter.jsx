@@ -1,5 +1,4 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 
 function ComparisonFilter() {
   const optionsForFilter = ['maior que', 'menor que', 'igual a'];
