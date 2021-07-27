@@ -6,6 +6,7 @@ import getAPI from '../services/API';
 
 function AppProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [type, setType] = useState({ filters: { filterByName: { name: '' } } });
 
   useEffect(() => {
     const respAPI = async () => {
@@ -15,8 +16,22 @@ function AppProvider({ children }) {
     respAPI();
   }, []);
 
+  const getByType = ({ target }) => {
+    const { value } = target;
+    setType({ filters: { filterByName: { name: value } } });
+  };
+
+  const filterByType = () => {
+    const { filters: { filterByName: { name } } } = type;
+    if (name) {
+      const planetNames = planets.filter((planet) => planet.name.includes(name));
+      return planetNames;
+    }
+    return planets;
+  };
+
   return (
-    <AppContext.Provider value={ { planets } }>
+    <AppContext.Provider value={ { getByType, filterByType } }>
       {children}
     </AppContext.Provider>
   );
