@@ -4,7 +4,7 @@ import Context from '../context/Context';
 function Table() {
   const { data, dataFilters: { filters } } = useContext(Context);
   const { filterByName, filterByNumericValues } = filters;
-  const { column, comparison, value } = filterByNumericValues[0];
+  //  const { column, comparison, value } = filterByNumericValues[0];
 
   let filteredPlanets = [];
   if (filterByName.name) {
@@ -14,23 +14,24 @@ function Table() {
     filteredPlanets = data;
   }
 
-  if (comparison === 'maior que') {
-    filteredPlanets = filteredPlanets.filter((planet) => (
-      Number(planet[column]) > Number(value)
-    ));
-  }
-
-  if (comparison === 'menor que') {
-    filteredPlanets = filteredPlanets.filter((planet) => (
-      Number(planet[column]) < Number(value)
-    ));
-  }
-
-  if (comparison === 'igual a') {
-    filteredPlanets = filteredPlanets.filter((planet) => (
-      Number(planet[column]) === Number(value)
-    ));
-  }
+  filterByNumericValues.forEach((e) => {
+    const { column, comparison, value } = e;
+    if (comparison === 'maior que') {
+      filteredPlanets = filteredPlanets.filter((planet) => (
+        Number(planet[column]) > Number(value)
+      ));
+    }
+    if (comparison === 'menor que') {
+      filteredPlanets = filteredPlanets.filter((planet) => (
+        Number(planet[column]) < Number(value)
+      ));
+    }
+    if (comparison === 'igual a') {
+      filteredPlanets = filteredPlanets.filter((planet) => (
+        Number(planet[column]) === Number(value)
+      ));
+    }
+  });
 
   return (
     <div>
