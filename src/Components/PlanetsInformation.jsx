@@ -2,9 +2,24 @@ import React from 'react';
 import propTypes from 'prop-types';
 
 function PlanetsInformation({ info }) {
-  console.log(info);
+  // const { climate,
+  //   created,
+  //   diameter,
+  //   edited,
+  //   films,
+  //   gravity,
+  //   name,
+  //   orbital_period,
+  //   population,
+  //   rotation_period,
+  //   surface_water,
+  //   terrain,
+  //   url } = info;
+
   return (
-    info.map((anyInfo) => <td key>{anyInfo}</td>)
+    <tr>
+      {Object.values(info).map((anyInfo) => <td key>{anyInfo}</td>)}
+    </tr>
   );
 }
 

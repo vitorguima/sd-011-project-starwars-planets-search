@@ -5,7 +5,6 @@ import HeaderMainColumn from './HeaderMainColumn';
 import PlanetsInformation from './PlanetsInformation';
 import SearchInput from './SearchInput';
 
-
 const errorMsg = <p>Erro ao fazer requisição! Contate o administrador do sistema!</p>;
 
 function Table() {
@@ -17,7 +16,7 @@ function Table() {
   if (APIerror) return errorMsg;
 
   const columnInformation = Object.keys(data[0]);
-  const planetsInformation = data.filter((planet) => planet.name.includes(name)).map((planet) => Object.values(planet));
+  const planetsInformation = data.filter((planet) => planet.name.includes(name));
 
   return (
     <>
@@ -27,13 +26,10 @@ function Table() {
           {columnInformation
             .map((info) => <HeaderMainColumn key={ info } info={ info } />)}
         </tr>
-        {planetsInformation.map((planet, index) => (
-          <tr key={ index }>
-            <PlanetsInformation info={ planet } />
-          </tr>))}
+        {planetsInformation
+          .map((planet, index) => (<PlanetsInformation key={ index } info={ planet } />))}
       </table>
     </>
-
   );
 }
 export default Table;
