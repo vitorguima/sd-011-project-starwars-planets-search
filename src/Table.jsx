@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 function Table() {
+  const [apiResultCopy, setApiResultCopy] = useState([]);
   const [apiResult, setApiResult] = useState([]);
   const num = 13;
 
@@ -9,20 +10,29 @@ function Table() {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const { results } = await fetch(endpoint).then((data) => data.json());
       setApiResult(results);
+      setApiResultCopy(results);
     };
 
     request();
   }, []);
 
-  // const filterPlanets = () => {
-  //   console.log(apiResult);
-  //   for (let indexPlanet in apiResult){
-  //     const { { name } } = apiResult[indexPlanet];
-  //   }
+  // const renderPlanetFiltered = () => {
+  //   console.log(filtOption);
+  //   return
   // };
 
+  const filterPlanets = (filText) => {
+    if (filText.length > 0) {
+      const filteredPlanets = apiResult.filter((planet) => (
+        (planet.name).includes(filText)));
+      console.log(filteredPlanets);
+      setApiResult(filteredPlanets);
+    } else {
+      setApiResult(apiResultCopy);
+    }
+  };
+
   const getHeader = () => {
-    // filterPlanets();
     const request = apiResult[0];
     if (request) {
       const get = Object.keys(request);
@@ -49,16 +59,24 @@ function Table() {
 
   return (
     <div>
-      <table>
-        <thead>
-          <tr>
-            {getHeader()}
-          </tr>
-        </thead>
-        <tbody>
-          {tableRows()}
-        </tbody>
-      </table>
+      <input
+        id="input-filter"
+        type="text"
+        data-testid="name-filter"
+        onChange={ ({ target }) => filterPlanets(target.value) }
+      />
+      <div>
+        <table>
+          <thead>
+            <tr>
+              {getHeader()}
+            </tr>
+          </thead>
+          <tbody>
+            {tableRows()}
+          </tbody>
+        </table>
+      </div>
     </div>
   );
 }
