@@ -7,6 +7,8 @@ function PlanetsProvider({ children }) {
   const [planetsFromApi, setPlanetsFromApi] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [planets, setPlanets] = useState([]);
+  const [columnFilters, setColumnFilters] = useState(['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water']);
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
     filterByNumericValues: [],
@@ -70,6 +72,8 @@ function PlanetsProvider({ children }) {
         planetsFromApi,
         isLoading,
         filters,
+        columnFilters,
+        setColumnFilters,
         fetchStarwarsPlanets,
         setFilters,
         setPlanets } }

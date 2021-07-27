@@ -1,8 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
-const columnDB = ['population', 'orbital_period',
-  'diameter', 'rotation_period', 'surface_water'];
 const comparisonDB = ['maior que', 'menor que', 'igual a'];
 
 function SelectionFilter() {
@@ -16,7 +14,9 @@ function SelectionFilter() {
     setForm({ ...form, [target.name]: target.value });
   }
 
-  const { setFilters, filters } = useContext(PlanetsContext);
+  const {
+    setFilters, filters, columnFilters, setColumnFilters,
+  } = useContext(PlanetsContext);
 
   function updateFilters() {
     setFilters({
@@ -27,6 +27,10 @@ function SelectionFilter() {
         value: form.value,
       }],
     });
+    const columnWithoutUsedFilter = columnFilters.filter(
+      (filter) => filter !== form.column,
+    );
+    setColumnFilters(columnWithoutUsedFilter);
   }
 
   return (
@@ -37,7 +41,7 @@ function SelectionFilter() {
         value={ form.column }
         onChange={ (event) => handleEventChanges(event) }
       >
-        {columnDB.map((option, index) => <option key={ index }>{ option }</option>)}
+        {columnFilters.map((option, index) => <option key={ index }>{ option }</option>)}
       </select>
       <select
         data-testid="comparison-filter"
