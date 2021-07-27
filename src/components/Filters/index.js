@@ -1,5 +1,6 @@
 import React from 'react';
 import Context from '../../utils/Context';
+import style from './style.module.css';
 
 const numericOptions = [
   'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
@@ -78,77 +79,100 @@ function Filters() {
   };
 
   return (
-    <section>
-      <input
-        value={ name }
-        onChange={ handleNameFilterChange }
-        placeholder="Planet name"
-        data-testid="name-filter"
-      />
-      <select
-        value={ column }
-        onChange={ ({ target }) => setColumn(target.value) }
-        data-testid="column-filter"
-      >
-        {
-          actualNumericOptions
-            .filter((option) => !numericFilters.includes(option))
-            .map((option) => <option key={ option }>{option}</option>)
-        }
-      </select>
-      <select
-        value={ comparison }
-        onChange={ ({ target }) => setComparison(target.value) }
-        data-testid="comparison-filter"
-      >
-        { comparisonOptions.map((option) => <option key={ option }>{option}</option>) }
-      </select>
-      <input
-        type="number"
-        value={ value }
-        onChange={ ({ target }) => setValue(target.value) }
-        placeholder="0"
-        data-testid="value-filter"
-      />
-      <button type="button" onClick={ handleFilters } data-testid="button-filter">
-        Filter
-      </button>
-      <select
-        value={ orderColumn }
-        onChange={ handleOrderColumnChange }
-        data-testid="column-sort"
-      >
-        {
-          columnOptions.map((option) => <option key={ option }>{option}</option>)
-        }
-      </select>
-      <label htmlFor="asc">
-        ASC
+    <section className={ style.container }>
+      <section>
         <input
-          type="radio"
-          id="asc"
-          name="sort"
-          value="ASC"
-          checked={ sort === 'ASC' }
-          onChange={ handleSortRadioChange }
-          data-testid="column-sort-input-asc"
+          className={ style.input }
+          value={ name }
+          onChange={ handleNameFilterChange }
+          placeholder="Enter planet name..."
+          data-testid="name-filter"
         />
-      </label>
-      <label htmlFor="desc">
-        DESC
+      </section>
+      <section className={ style.formControl }>
+        <select
+          className={ style.input }
+          value={ column }
+          onChange={ ({ target }) => setColumn(target.value) }
+          data-testid="column-filter"
+        >
+          {
+            actualNumericOptions
+              .filter((option) => !numericFilters.includes(option))
+              .map((option) => <option key={ option }>{option}</option>)
+          }
+        </select>
+        <select
+          className={ style.input }
+          value={ comparison }
+          onChange={ ({ target }) => setComparison(target.value) }
+          data-testid="comparison-filter"
+        >
+          { comparisonOptions.map((option) => <option key={ option }>{option}</option>) }
+        </select>
         <input
-          type="radio"
-          id="desc"
-          name="sort"
-          value="DESC"
-          checked={ sort === 'DESC' }
-          onChange={ handleSortRadioChange }
-          data-testid="column-sort-input-desc"
+          className={ style.input }
+          type="number"
+          value={ value }
+          onChange={ ({ target }) => setValue(target.value) }
+          placeholder="0"
+          data-testid="value-filter"
         />
-      </label>
-      <button type="button" onClick={ handleSortClick } data-testid="column-sort-button">
-        Sort
-      </button>
+        <button
+          className={ style.button }
+          type="button"
+          onClick={ handleFilters }
+          data-testid="button-filter"
+        >
+          Filter
+        </button>
+      </section>
+      <section className={ style.formControl }>
+        <select
+          className={ style.input }
+          value={ orderColumn }
+          onChange={ handleOrderColumnChange }
+          data-testid="column-sort"
+        >
+          {
+            columnOptions.map((option) => <option key={ option }>{option}</option>)
+          }
+        </select>
+        <section className={ style.radioControl }>
+          <label className={ style.label } htmlFor="asc">
+            <input
+              type="radio"
+              id="asc"
+              name="sort"
+              value="ASC"
+              checked={ sort === 'ASC' }
+              onChange={ handleSortRadioChange }
+              data-testid="column-sort-input-asc"
+            />
+            ASC
+          </label>
+          <label className={ style.label } htmlFor="desc">
+            <input
+              type="radio"
+              id="desc"
+              name="sort"
+              value="DESC"
+              checked={ sort === 'DESC' }
+              onChange={ handleSortRadioChange }
+              data-testid="column-sort-input-desc"
+            />
+            DESC
+          </label>
+        </section>
+        <button
+          className={ style.button }
+          type="button"
+          onClick={ handleSortClick }
+          data-testid="column-sort-button"
+        >
+          Sort
+        </button>
+      </section>
     </section>
   );
 }
