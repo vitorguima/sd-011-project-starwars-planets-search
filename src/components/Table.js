@@ -2,18 +2,18 @@ import React, { useContext } from 'react';
 import MyContext from './MyContext';
 
 export default function Table() {
-  const value = useContext(MyContext);
+  const { planets } = useContext(MyContext);
   // console.log(value);
   return (
     <div>
-      {value && (
+      {planets && (
         <table>
           <tr>
-            {Object.keys(value[0]).map((obj, index) => (
+            {Object.keys(planets[0]).map((obj, index) => (
               <th key={ index }>{obj}</th>
             ))}
           </tr>
-          {value && value.map((val, idx) => (
+          {planets && planets.map((val, idx) => (
             <tr key={ idx }>
               {Object.values(val).map((obj, index) => (
                 <td key={ index }>{obj}</td>
