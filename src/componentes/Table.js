@@ -2,13 +2,22 @@ import React, { useContext } from 'react';
 import StarContext from '../context/StarContext';
 
 function Table() {
-  const { planets } = useContext(StarContext);
-
+  const { filterPlanet, filterInput } = useContext(StarContext);
   return (
     <div>
+      <label htmlFor="filter">
+        Pesquisa
+        <input
+          data-testid="name-filter"
+          type="text"
+          name="text"
+          id="search_input"
+          onChange={ filterInput }
+        />
+      </label>
       <table>
         <thead>
-          <tr>
+          <tr id="table-planets">
             <th>Name</th>
             <th>Rotation_period</th>
             <th>Orbital_period</th>
@@ -24,7 +33,7 @@ function Table() {
             <th>Url</th>
           </tr>
         </thead>
-        { planets.map((planet) => (
+        { filterPlanet.map((planet) => (
           <tbody key={ planet.name }>
             <tr>
               <td>{ planet.name }</td>

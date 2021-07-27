@@ -6,7 +6,7 @@ import StarProvider from './context/StarProvider';
 function App() {
   return (
     <StarProvider>
-      Hello! App!
+      <h1>Star Wars Planets</h1>
       <Table />
     </StarProvider>
   );
