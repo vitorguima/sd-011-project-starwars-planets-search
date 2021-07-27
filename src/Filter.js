@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 
 function Filter({ initstate, setInitState }) {
@@ -7,6 +7,7 @@ function Filter({ initstate, setInitState }) {
     comparison: 'maior que',
     numberValue: '100000',
   });
+  const [updateFilter, setupdateFilter] = useState(false);
 
   function changeValue({ target }) {
     const { value } = target;
@@ -29,30 +30,47 @@ function Filter({ initstate, setInitState }) {
   }
 
   function clickFilter() {
-    const { data, filterByNumericValues } = initstate;
-    const { column, comparison, numberValue } = valueFilter;
-
-    let newArray = [];
-    if (comparison === 'menor que') {
-      newArray = data.filter((itemArray) => (
-        itemArray[column] < numberValue || itemArray[column] === 'unknown'));
-    }
-    if (comparison === 'maior que') {
-      newArray = data.filter((itemArray) => (
-        Number(itemArray[column]) > Number(numberValue)));
-    }
-    if (comparison === 'igual a') {
-      newArray = data.filter((itemArray) => itemArray[column] === numberValue);
-    }
+    const { filterByNumericValues } = initstate;
     setInitState({
       ...initstate,
-      newData: newArray,
       filterByNumericValues: [
         ...filterByNumericValues,
         valueFilter,
       ],
     });
+    setupdateFilter(true);
   }
+
+  useEffect(() => {
+    const { data, filterByNumericValues } = initstate;
+    const newItemFilter = filterByNumericValues.length - 1;
+
+    if (updateFilter) {
+      const {
+        column,
+        comparison,
+        numberValue,
+      } = filterByNumericValues[newItemFilter];
+
+      let newArray = [];
+      if (comparison === 'menor que') {
+        newArray = data.filter((itemArray) => (
+          itemArray[column] < numberValue || itemArray[column] === 'unknown'));
+      }
+      if (comparison === 'maior que') {
+        newArray = data.filter((itemArray) => (
+          Number(itemArray[column]) > Number(numberValue)));
+      }
+      if (comparison === 'igual a') {
+        newArray = data.filter((itemArray) => itemArray[column] === numberValue);
+      }
+      setInitState({
+        ...initstate,
+        newData: newArray,
+      });
+      setupdateFilter(false);
+    }
+  }, [initstate, setInitState, updateFilter]);
 
   return (
     <form>
