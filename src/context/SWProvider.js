@@ -3,10 +3,15 @@ import PropTypes from 'prop-types';
 import SWContext from './SWContext';
 
 export default function SWProvider({ children }) {
+  const initialStateFilters = {
+    filterByName: { name: '' },
+    filterByNumericValues: [],
+  };
+
   const [planets, setPlanets] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState(initialStateFilters);
 
   function savePlanets(data) {
     setPlanets(data);
@@ -23,6 +28,12 @@ export default function SWProvider({ children }) {
     setFilters(newFilter);
   }
 
+  function addFilterByNumericValue(value) {
+    const newFilterNumeric = filters;
+    newFilterNumeric.filterByNumericValues.push(value);
+    setFilters(newFilterNumeric);
+  }
+
   function saveFilteredPlanets(arrayFilteredPlanets) {
     setFilteredPlanets(arrayFilteredPlanets);
   }
@@ -36,6 +47,7 @@ export default function SWProvider({ children }) {
     setFilters: changeFiltersByName,
     planetsToFilter: planets,
     saveFilteredPlanets,
+    addFilterByNumericValue,
   };
 
   return (
