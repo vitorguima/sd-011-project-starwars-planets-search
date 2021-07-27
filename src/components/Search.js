@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-function Search({ search, handleChange, handleChangeFilter, handleClick }) {
+function Search({ search, handleChange, handleChangeFilter, handleClick, columns }) {
   return (
     <div>
       <input
@@ -16,11 +16,7 @@ function Search({ search, handleChange, handleChangeFilter, handleClick }) {
         name="column"
         onChange={ handleChangeFilter }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {columns.map((coluna) => <option key={ coluna }>{coluna}</option>)}
       </select>
       <select
         data-testid="comparison-filter"

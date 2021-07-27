@@ -6,7 +6,9 @@ function Table() {
   const data = useContext(MyContext);
   const [search, setSearch] = useState('');
   const [planetsFiltered, setPlanetsFiltered] = useState([]);
-  const [random, setRandom] = useState({ column: '', comparison: '', value: '' });
+  const [random, setRandom] = useState({
+    column: 'population', comparison: '', value: '' });
+  const [columns, setColumn] = useState([]);
   const [filters, setFilters] = useState({
     filters: {
       filterByName: {
@@ -19,6 +21,16 @@ function Table() {
   useEffect(() => {
     if (data) setPlanetsFiltered(data);
   }, [data]);
+
+  useEffect(() => {
+    setColumn([
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ]);
+  }, []);
 
   if (data.length === 0) return <p>Loading</p>;
 
@@ -64,6 +76,7 @@ function Table() {
         filterByNumericValues: [...filters.filters.filterByNumericValues,
           { column, comparison, value }] },
     });
+    setColumn(columns.filter((values) => values !== column));
   }
 
   return (
@@ -73,6 +86,7 @@ function Table() {
         handleChange={ toSearchInput }
         handleChangeFilter={ randomState }
         handleClick={ handleClickButton }
+        columns={ columns }
       />
       <table>
         <thead>
