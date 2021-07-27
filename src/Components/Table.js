@@ -29,6 +29,22 @@ export default function Table() {
     }
   });
 
+  const renderNumericFilters = () => filters.filterByNumericValues.map((el, index) => (
+    <li key={ index } data-testid="filter">
+      <span>{`${el.column} ${el.comparison} ${el.value}`}</span>
+      <button
+        type="button"
+        onClick={ () => setFilters({
+          ...filters,
+          filterByNumericValues: filters.filterByNumericValues
+            .filter((el2) => el2.column !== el.column),
+        }) }
+      >
+        X
+      </button>
+    </li>
+  ));
+
   const handleFilterOptions = (target) => {
     const { name, value } = target;
     setOptions({
@@ -93,6 +109,11 @@ export default function Table() {
       >
         Filtrar
       </button>
+      <div>
+        <ul>
+          { renderNumericFilters() }
+        </ul>
+      </div>
 
       <table>
         <thead>
