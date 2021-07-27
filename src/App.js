@@ -41,8 +41,7 @@ function App() {
   }
 
   function handleButtonFilter() {
-
-    const newFilter = [...filterByNumericValues]
+    const newFilter = [...filterByNumericValues];
     newFilter.push({
       column: firstDropdown,
       comparison: secondDropdown,
@@ -79,15 +78,14 @@ function App() {
       filteredPlanets = filteredPlanets.filter((item) => parseInt(item[column], 10)
        === parseInt(value, 10));
     }
-
   });
 
   const allColumns = filterByNumericValues.map((item) => item.column);
-  const showPopulation = !allColumns.includes(`population`);
-  const showOrbital = !allColumns.includes(`orbital_period`);
-  const showDiameter = !allColumns.includes(`diameter`);
-  const showRotation = !allColumns.includes(`rotation_period`);
-  const showSurface = !allColumns.includes(`surface_water`);
+  const showPopulation = !allColumns.includes('population');
+  const showOrbital = !allColumns.includes('orbital_period');
+  const showDiameter = !allColumns.includes('diameter');
+  const showRotation = !allColumns.includes('rotation_period');
+  const showSurface = !allColumns.includes('surface_water');
   return (
     <div>
       <input
@@ -100,10 +98,10 @@ function App() {
       <select
         data-testid="column-filter"
         onChange={ handleFirstDropdown }
-        value={firstDropdown}
+        value={ firstDropdown }
 
       >
-       {showPopulation && <option>population</option>}
+        {showPopulation && <option>population</option>}
         {showOrbital && <option>orbital_period</option>}
         {showDiameter && <option>diameter</option>}
         {showRotation && <option>rotation_period</option>}
@@ -113,7 +111,7 @@ function App() {
       <select
         data-testid="comparison-filter"
         onChange={ handleSecondDropDown }
-        value={secondDropdown}
+        value={ secondDropdown }
 
       >
         <option>maior que</option>
@@ -124,15 +122,16 @@ function App() {
       <input
         type="number"
         data-testid="value-filter"
-        value={inputNumber}
+        value={ inputNumber }
         onChange={ handleInputNumber }
       />
       <div
-        data-testid='filter'>
+        data-testid="filter"
+      >
 
         <button
           type="button"
-          onClick={handleButtonClear}
+          onClick={ handleButtonClear }
         >
           X
         </button>
