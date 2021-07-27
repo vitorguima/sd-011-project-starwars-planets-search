@@ -16,6 +16,7 @@ function SearchBar() {
         value={ name }
         onChange={ handleKeyWord }
         id="search"
+        data-testid="name-filter"
       />
     </label>
   );
