@@ -46,21 +46,28 @@ export default function Filter() {
     setFilters(newFilters);
   }
 
-  function liCreator({ filterByNumericValues }) {
+  function removeFilter(columnFilter) {
+    console.log(columnFilter);
+    const newFilters = {
+      ...filters,
+      filterByNumericValues: filters.filterByNumericValues.filter((item) => (
+        item.column !== columnFilter
+      )),
+    };
+    setFilters(newFilters);
+    setColumnsOptions(columnsOptions.concat(columnFilter));
+  }
+
+  function liFilterCreator({ filterByNumericValues }) {
     const liList = filterByNumericValues.map((filter, index) => (
-      <li key={ index }>
+      <li data-testid="filter" key={ index }>
         {`${filter.column} ${filter.comparison} ${filter.value}`}
-        <input type="button" value="X" />
+        <button onClick={ () => removeFilter(filter.column) } type="button">X</button>
       </li>
     ));
     return liList;
   }
 
-  // function optionColumnCreator() {
-
-  //   return Object.keys(data[0]).filter((option) => option !== 'films').map((item, index) => <option key={ index }>{item}</option>);
-  //   // return options;
-  // }
   return (
     <section>
       <form>
@@ -124,7 +131,7 @@ export default function Filter() {
       { (filters.filterByNumericValues.length > 0)
         ? (
           <ul>
-            {liCreator(filters)}
+            {liFilterCreator(filters)}
           </ul>
         )
         : null }
