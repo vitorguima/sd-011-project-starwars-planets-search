@@ -6,7 +6,7 @@ const filterDefault = {
   filterByName: {
     name: '',
   },
-  filterByNumericValues: []
+  filterByNumericValues: [],
 };
 
 function PlanetsProvider({ children }) {

@@ -7,7 +7,7 @@ const collumns = [
   'orbital_period',
   'diameter',
   'rotation_period',
-  'surface_water'
+  'surface_water',
 ];
 
 const comparisons = ['maior que', 'menor que', 'igual a'];
@@ -43,10 +43,10 @@ const Home = () => {
       column,
       comparison,
       value,
-    }
+    };
     setFilters({ ...filters, filterByNumericValues: [...byNumber, newFilter] });
-  }
-  
+  };
+
   return (
     <div>
       <span>Olá</span>
@@ -60,22 +60,23 @@ const Home = () => {
           <legend>Filtrar por valor:</legend>
           <select
             data-testid="column-filter"
-            onChange={({target}) => setColumn(target.value)}
+            onChange={ ({ target }) => setColumn(target.value) }
           >
             {collumns.map((col) => <option key={ col } value={ col }>{ col }</option>)}
           </select>
           <select
             data-testid="comparison-filter"
-            onChange={({target}) => setComparison(target.value)}
+            onChange={ ({ target }) => setComparison(target.value) }
           >
             {comparisons.map((com) => <option key={ com } value={ com }>{ com }</option>)}
           </select>
           <input
             type="number"
             data-testid="value-filter"
-            onChange={({target}) => setValue(target.value)}
+            onChange={ ({ target }) => setValue(target.value) }
           />
           <button
+            type="submit"
             data-testid="button-filter"
             onClick={ valueFilter }
           >
