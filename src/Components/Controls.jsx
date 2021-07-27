@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { usePlanets } from '../hooks/usePlanets';
 
+import RemoveFilter from './Controls/RemoveFilter';
+
 const NUMERIC_FIELDS = [
   { translation: 'population', value: 'population' },
   { translation: 'orbital_period', value: 'orbital_period' },
@@ -27,6 +29,7 @@ function Controls() {
   const { addFilter, filters } = usePlanets();
 
   const [availableNumericFilters, setAvailableNumericFilters] = useState([]);
+  const [usedNumericFilters, setUsedNumericFilters] = useState([]);
 
   const COMPARE_OPTIONS = [
     { translation: 'maior que', value: 'maior que' },
@@ -36,6 +39,7 @@ function Controls() {
 
   useEffect(() => {
     const usedFilters = filters.filter(({ type }) => type.includes('numeric'));
+    setUsedNumericFilters(usedFilters);
     const availableFilters = NUMERIC_FIELDS.filter((numFilter) => {
       for (let i = 0; i < usedFilters.length; i += 1) {
         const filterType = usedFilters[i].type.split('/')[1];
@@ -163,6 +167,7 @@ function Controls() {
           </button>
         </fieldset>
       </form>
+      { usedNumericFilters.map(({ type }) => <RemoveFilter key={ type } type={ type } />)}
     </section>
   );
 }

@@ -53,6 +53,10 @@ export function PlanetProvider({ children }) {
     });
   }
 
+  function removeFilter(type) {
+    setFilters((previous) => previous.filter((filter) => filter.type !== type));
+  }
+
   return (
     <PlanetContext.Provider
       value={ {
@@ -61,6 +65,7 @@ export function PlanetProvider({ children }) {
         apiResponse,
         planets,
         addFilter,
+        removeFilter,
         filters,
       } }
     >
