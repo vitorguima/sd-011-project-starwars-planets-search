@@ -13,5 +13,5 @@ function TableBody(props) {
 export default TableBody;
 
 TableBody.propTypes = {
-  planet: PropTypes.objectOf(PropTypes.string).isRequired,
+  planet: PropTypes.objectOf(PropTypes.node).isRequired,
 };

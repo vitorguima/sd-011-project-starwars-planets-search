@@ -4,6 +4,8 @@ import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
+  const [name, setname] = useState({ filters: { filterByName: { name: '' } } });
+
   useEffect(() => {
     const getPlanet = async () => {
       const fetchPlanet = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -26,6 +28,8 @@ function PlanetsProvider({ children }) {
   const contextValue = {
     data,
     setData,
+    name,
+    setname,
   };
 
   return (
@@ -38,5 +42,5 @@ function PlanetsProvider({ children }) {
 export default PlanetsProvider;
 
 PlanetsProvider.propTypes = {
-  children: PropTypes.arrayOf(PropTypes.element).isRequired,
+  children: PropTypes.arrayOf(PropTypes.node).isRequired,
 };
