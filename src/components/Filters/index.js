@@ -94,6 +94,7 @@ function Filters() {
           className={ style.input }
           value={ column }
           onChange={ ({ target }) => setColumn(target.value) }
+          disabled={ actualNumericOptions.length < 1 }
           data-testid="column-filter"
         >
           {
@@ -106,6 +107,7 @@ function Filters() {
           className={ style.input }
           value={ comparison }
           onChange={ ({ target }) => setComparison(target.value) }
+          disabled={ actualNumericOptions.length < 1 }
           data-testid="comparison-filter"
         >
           { comparisonOptions.map((option) => <option key={ option }>{option}</option>) }
@@ -116,12 +118,14 @@ function Filters() {
           value={ value }
           onChange={ ({ target }) => setValue(target.value) }
           placeholder="0"
+          disabled={ actualNumericOptions.length < 1 }
           data-testid="value-filter"
         />
         <button
           className={ style.button }
           type="button"
           onClick={ handleFilters }
+          disabled={ actualNumericOptions.length < 1 }
           data-testid="button-filter"
         >
           Filter

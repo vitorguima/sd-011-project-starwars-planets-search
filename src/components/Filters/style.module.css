@@ -54,3 +54,16 @@
 .button:hover {
   background-color: var(--secondary-color);
 }
+
+.button:disabled {
+  border: none;
+}
+
+.input:disabled, .button:disabled, .button:disabled:hover {
+  background-color: var(--secondary-text-color);
+  cursor: auto;
+}
+
+.input:disabled:hover {
+  box-shadow: none;
+}
