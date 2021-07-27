@@ -8,11 +8,18 @@ const AppProvider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [Filtredplanets, setFiltredPlanets] = useState([]);
   const [isLoading, setIsloading] = useState(true);
+  const [filterComparison, setFilterComparison] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '',
+  });
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
   });
+
+  console.log(filterComparison);
 
   useEffect(() => {
     const setApiToState = async () => {
@@ -39,6 +46,11 @@ const AppProvider = ({ children }) => {
     });
   };
 
+  const handleChangeInputs = ({ target }) => {
+    const { value, name } = target;
+    setFilterComparison({ ...filterComparison, [name]: value });
+  };
+
   useEffect(() => {
     const { filterByName: { name } } = filters;
     if (name) {
@@ -55,6 +67,8 @@ const AppProvider = ({ children }) => {
       value={ {
         Filtredplanets,
         handleChange,
+        handleChangeInputs,
+        filterComparison,
         isLoading,
         name: filters.filterByName.name,
       } }

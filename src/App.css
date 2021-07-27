@@ -58,8 +58,8 @@ Global Styles
 }
 
 body {
-  background: var(--mainBackground);
-  color: var(--mainBlack);
+  background: var(--mainBlack);
+  color: var(--mainWhite);
   font-family: -apple-system , Open Sans , Helvetica Neue , sans-serif;
   font-size: 1rem;
   font-weight: 300;
