@@ -36,9 +36,30 @@ function filterPlanetName(list, name) {
   });
 }
 
+function filterValueInfoPlanet(list, filters) {
+  const { column, comparison, value } = filters.filterByNumericValues;
+  let result;
+  switch (comparison) {
+  /**/case 'maior que':
+  /**/result = list
+    /**/.filter((planet) => parseInt(planet[column], 10) > parseInt(value, 10));
+    /**/break;
+  /**/case 'menor que':
+  /**/result = list
+    /**/.filter((planet) => parseInt(planet[column], 10) < parseInt(value, 10));
+    /**/break;
+    /**/default:
+    /**/result = list
+    /**/.filter((planet) => parseInt(planet[column], 10) === parseInt(value, 10));
+    /**/break;
+  }
+  return result;
+}
+
 function Table() {
   const { planets, filters } = useContext(PlanetsContext);
   const { name } = filters.filterByName;
+  const { column, comparison, value } = filters.filterByNumericValues;
 
   if (planets.length < 1) return <h1>Carregando...</h1>;
 
@@ -46,7 +67,16 @@ function Table() {
 
   if (name) {
     const filteredByName = filterPlanetName(planets, name);
+
+    if (column && comparison && value) {
+      return createTable(filterValueInfoPlanet(filteredByName, filters));
+    }
+
     return createTable(filteredByName);
+  }
+
+  if (column && comparison && value) {
+    return createTable(filterValueInfoPlanet(planets, filters));
   }
 
   return createTable(planets);

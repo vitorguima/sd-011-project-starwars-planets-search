@@ -6,12 +6,19 @@ import PlanetsContext from './PlanetsContext';
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [name, setName] = useState('');
+  const [filtersValues, setFiltersValues] = useState(
+    { column: '', comparison: '', value: '' },
+  );
 
   const values = {
     planets,
     setPlanets,
-    filters: { filterByName: { name } },
+    filters: {
+      filterByName: { name },
+      filterByNumericValues: filtersValues,
+    },
     setName,
+    setFiltersValues,
   };
 
   return (
