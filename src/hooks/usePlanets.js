@@ -2,12 +2,21 @@ import { useContext } from 'react';
 import { AppContext } from '../contexts/AppContext';
 
 function usePlanets() {
-  const { data, filters, setFilters } = useContext(AppContext);
+  const columnLabels = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
 
+  const { data, filters, setFilters } = useContext(AppContext);
   const { filterByName, filterByNumericValues } = filters;
 
+  let planets = [...data.results];
   const filterName = filterByName.name.trim().toLowerCase();
-  const { column, comparison, value } = filterByNumericValues;
+
+  planets = planets.filter(({ name }) => name.toLowerCase().includes(filterName));
 
   function compareValues(value1, value2, comparisonName) {
     const compare = {
@@ -18,23 +27,39 @@ function usePlanets() {
     return compare[comparisonName];
   }
 
-  let planets;
+  filterByNumericValues.forEach(({ column, comparison, value }) => {
+    planets = planets
+      .filter((planet) => compareValues(planet[column], value, comparison));
+  });
 
-  if (data.results) {
-    planets = data.results.filter(({ name }) => {
-      if (filterName) {
-        return name.toLowerCase().includes(filterName);
-      }
-      return true;
+  function addFilterByNumericValues(filter) {
+    const newFilters = [...filterByNumericValues, filter];
+    setFilters({
+      ...filters,
+      filterByNumericValues: newFilters,
     });
-
-    if (value) {
-      planets = [...planets]
-        .filter((planet) => compareValues(planet[column], value, comparison));
-    }
   }
 
-  return { planets, filters, setFilters };
+  function removeFilter(columnName) {
+    const newFilters = filterByNumericValues
+      .filter(({ column }) => column !== columnName);
+    setFilters({
+      ...filters,
+      filterByNumericValues: newFilters,
+    });
+  }
+
+  const usedFilterColumns = filterByNumericValues.map(({ column }) => column);
+  const availableFilterColumns = columnLabels
+    .filter((label) => !usedFilterColumns.includes(label));
+
+  return {
+    planets,
+    filters,
+    setFilters,
+    addFilterByNumericValues,
+    removeFilter,
+    availableFilterColumns };
 }
 
 export default usePlanets;

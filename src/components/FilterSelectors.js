@@ -2,62 +2,81 @@ import React, { useState } from 'react';
 import usePlanets from '../hooks/usePlanets';
 
 function FilterSelectors() {
-  const { filters, setFilters } = usePlanets();
+  const {
+    addFilterByNumericValues,
+    availableFilterColumns,
+    filters,
+    removeFilter,
+  } = usePlanets();
 
-  const [column, setColumn] = useState('population');
+  const [column, setColumn] = useState(availableFilterColumns[0]);
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('');
 
+  const { filterByNumericValues } = filters;
+
   function handleApplyFilter() {
-    setFilters({
-      ...filters,
-      filterByNumericValues: {
-        column,
-        comparison,
-        value,
-      },
+    addFilterByNumericValues({
+      column,
+      comparison,
+      value,
     });
+    setValue('');
+    setColumn(
+      availableFilterColumns[0] === column
+        ? availableFilterColumns[1]
+        : availableFilterColumns[0],
+    );
   }
 
   return (
-    <form>
-      <select
-        name="column"
-        value={ column }
-        onChange={ (e) => setColumn(e.target.value) }
-        data-testid="column-filter"
-      >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
-      </select>
-      <select
-        name="comparison"
-        value={ comparison }
-        onChange={ (e) => setComparison(e.target.value) }
-        data-testid="comparison-filter"
-      >
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
-      </select>
-      <input
-        name="value"
-        value={ value }
-        onChange={ (e) => setValue(e.target.value) }
-        type="number"
-        data-testid="value-filter"
-      />
-      <button
-        onClick={ handleApplyFilter }
-        type="button"
-        data-testid="button-filter"
-      >
-        Filtrar
-      </button>
-    </form>
+    <>
+      { filterByNumericValues.map((filter) => (
+        <p key={ filter.column } data-testid="filter">
+          <span>{filter.column}</span>
+          <span>{filter.comparison}</span>
+          <span>{filter.value}</span>
+          <button type="button" onClick={ () => removeFilter(filter.column) }>X</button>
+        </p>
+
+      ))}
+      <form>
+        <select
+          name="column"
+          value={ column }
+          onChange={ (e) => setColumn(e.target.value) }
+          data-testid="column-filter"
+        >
+          {availableFilterColumns.map((filterColumn) => (
+            <option key={ filterColumn } value={ filterColumn }>{filterColumn}</option>
+          ))}
+        </select>
+        <select
+          name="comparison"
+          value={ comparison }
+          onChange={ (e) => setComparison(e.target.value) }
+          data-testid="comparison-filter"
+        >
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
+          <option value="igual a">igual a</option>
+        </select>
+        <input
+          name="value"
+          value={ value }
+          onChange={ (e) => setValue(e.target.value) }
+          type="number"
+          data-testid="value-filter"
+        />
+        <button
+          onClick={ handleApplyFilter }
+          type="button"
+          data-testid="button-filter"
+        >
+          Filtrar
+        </button>
+      </form>
+    </>
   );
 }
 

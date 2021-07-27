@@ -4,12 +4,12 @@ import PropTypes from 'prop-types';
 export const AppContext = createContext({});
 
 export function AppContextProvider({ children }) {
-  const [data, setData] = useState({});
+  const [data, setData] = useState({ results: [] });
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
-    filterByNumericValues: {},
+    filterByNumericValues: [],
   });
 
   useEffect(() => {
