@@ -12,16 +12,42 @@ function Table() {
   }, [request]);
 
   const [filter, setFilter] = React.useState(
-    { filters: { filterByName: { name: '' } } },
+    { filters: { filterByName: { name: '' }, filterByNumericValues: [] } },
   );
+
+  const [filtered, setFiltered] = React.useState([]);
+  const [column, setColumn] = React.useState('population');
+  const [comparison, setComparison] = React.useState('maior que');
+  const [value, setValue] = React.useState(0);
+
+  React.useEffect(() => {
+    setFiltered(data && data.results.filter(
+      (planeta) => planeta.name.toLowerCase().includes(
+        filter.filters.filterByName.name.toLowerCase(),
+      ),
+    ));
+  }, [data, filter.filters.filterByName.name]);
+
+  function onClickFilter() {
+    switch (comparison) {
+    case 'maior que':
+      return setFiltered(filtered.filter(
+        (planeta) => Number(planeta[column]) > Number(value),
+      ));
+    case 'menor que':
+      return setFiltered(filtered.filter(
+        (planeta) => Number(planeta[column]) < Number(value),
+      ));
+    case 'igual a':
+      return setFiltered(filtered.filter(
+        (planeta) => Number(planeta[column]) === Number(value),
+      ));
+    default:
+      return true;
+    }
+  }
 
   if (loading) return <p>loading...</p>;
-
-  const filtered = data && data.results.filter(
-    (planeta) => planeta.name.toLowerCase().includes(
-      filter.filters.filterByName.name.toLowerCase(),
-    ),
-  );
 
   return (
     <main>
@@ -31,9 +57,45 @@ function Table() {
         data-testid="name-filter"
         onChange={ ({ target }) => setFilter(
           { filters: { filterByName:
-            { name: target.value } } },
+            { name: target.value },
+          filterByNumericValues: [] } },
         ) }
       />
+      <select
+        value={ column }
+        name="column-filter"
+        data-testid="column-filter"
+        onChange={ ({ target }) => setColumn(target.value) }
+      >
+        <option value="population">population</option>
+        <option value="orbital_period">orbital_period</option>
+        <option value="diameter">diameter</option>
+        <option value="rotation_period">rotation_period</option>
+        <option value="surface_water">surface_water</option>
+      </select>
+      <select
+        value={ comparison }
+        name="comparison-filter"
+        data-testid="comparison-filter"
+        onChange={ ({ target }) => setComparison(target.value) }
+      >
+        <option value="maior que">maior que</option>
+        <option value="menor que">menor que</option>
+        <option value="igual a">igual a</option>
+      </select>
+      <input
+        value={ value }
+        data-testid="value-filter"
+        type="number"
+        onChange={ ({ target }) => setValue(target.value) }
+      />
+      <button
+        onClick={ onClickFilter }
+        data-testid="button-filter"
+        type="button"
+      >
+        Filtrar
+      </button>
       <table>
         <thead>
           <tr>
