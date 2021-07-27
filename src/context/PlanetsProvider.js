@@ -1,10 +1,16 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import fetchAllPlanetsInAPI from '../services/fetchAllPlanetsInAPI';
 
 export default function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
 
   useEffect(() => {
-    console.log('ola');
+    const fetchPlanets = async () => {
+      const data = await fetchAllPlanetsInAPI();
+      // setPlanets(data);
+      console.log(data);
+    };
+    fetchPlanets();
   }, []);
 
   const contextValue = {
