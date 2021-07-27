@@ -48,13 +48,16 @@ export default function TableProvider({ children }) {
       filterByNumericValues.forEach(({ column, comparison, value }) => {
         switch (comparison) {
         case 'maior que':
-          currFilteredList = currFilteredList.filter((item) => Number.parseInt(item[column], 10) > Number.parseInt(value, 10));
+          currFilteredList = currFilteredList.filter((item) => (
+            Number.parseInt(item[column], 10) > Number.parseInt(value, 10)));
           break;
         case 'menor que':
-          currFilteredList = currFilteredList.filter((item) => Number.parseInt(item[column], 10) < Number.parseInt(value, 10));
+          currFilteredList = currFilteredList.filter((item) => (
+            Number.parseInt(item[column], 10) < Number.parseInt(value, 10)));
           break;
         case 'igual a':
-          currFilteredList = currFilteredList.filter((item) => Number.parseInt(item[column], 10) === Number.parseInt(value, 10));
+          currFilteredList = currFilteredList.filter((item) => (
+            Number.parseInt(item[column], 10) === Number.parseInt(value, 10)));
           break;
         default:
           break;
