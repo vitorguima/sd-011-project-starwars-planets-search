@@ -36,6 +36,18 @@ export default function Table() {
       [filters.filters.filterByNumericValues, { column, comparison, value }] } });
   };
 
+  // Consultei e usei o código do Julio Filizzola para me ajudar. Passava no requisito 4, mesmo repetindo o filtro.
+  const renderColumn = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ].filter((value) => {
+    const { filterByNumericValues } = filters.filters;
+    return !filterByNumericValues.some(({ column }) => column === value);
+  });
+
   const setColumn = ({ target }) => {
     setFilterNumericValues({
 
@@ -97,11 +109,8 @@ export default function Table() {
           name="column"
           onChange={ setColumn }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {renderColumn
+            .map((item, index) => (<option key={ index } value={ item }>{item}</option>))}
         </select>
 
         <select
