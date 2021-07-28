@@ -36,14 +36,24 @@ function Table() {
     setComparison(comparisonState);
     setValue(valueState);
     const newObject = {
-      columnState,
-      comparisonState,
-      valueState,
+      column: columnState,
+      comparison: comparisonState,
+      value: valueState,
     };
     setFilters({ ...filters,
       filterByNumericValues: [...filters.filterByNumericValues, newObject],
     });
     setOptions(options.filter((option) => option !== columnState));
+  }
+
+  function handleDeleteFilter(params) {
+    setComparison('');
+    const newFilter = filters.filterByNumericValues
+      .filter((filter) => filter.column !== params);
+    setFilters({
+      ...filters, filterByNumericValues: newFilter,
+    });
+    setOptions([...options, params]);
   }
 
   return (
@@ -87,9 +97,14 @@ function Table() {
       </form>
       { filters.filterByNumericValues && filters.filterByNumericValues
         .map((filter, index) => (
-          <div key={ index }>
-            <span>{filter.column}</span>
-            <button type="button" data-testid="filter">X</button>
+          <div key={ index } data-testid="filter">
+            <p>{filter.column}</p>
+            <button
+              type="button"
+              onClick={ () => handleDeleteFilter(filter.column) }
+            >
+              X
+            </button>
           </div>
         )) }
       <table>
