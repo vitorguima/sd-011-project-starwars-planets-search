@@ -5,7 +5,7 @@ import PlanetsContext from './PlanetsContext';
 import fetchAllPlanetsInAPI from '../services/fetchAllPlanetsInAPI';
 
 export default function Provider({ children }) {
-  const INITIAL_STATE_FILTERS = { 
+  const INITIAL_STATE_FILTERS = {
     filterByName: {
       name: '',
     },
