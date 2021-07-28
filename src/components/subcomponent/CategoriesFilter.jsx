@@ -2,7 +2,8 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../../Context/PlanetsContext';
 
 function CategoriesFilter() {
-  const { getColumn, getComparison, getValue, value, getButton } = useContext(PlanetsContext);
+  const { getColumn, getComparison,
+    getValue, value, getButton } = useContext(PlanetsContext);
 
   function handleChangeColumn(event) {
     getColumn(event.target.value);
