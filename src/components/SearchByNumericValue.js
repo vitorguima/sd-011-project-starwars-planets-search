@@ -13,23 +13,24 @@ function SearchByNumericValue() {
     'rotation_period',
     'surface_water',
   ]);
+  const [filteredColumn, setFilteredColumn] = useState([...columnNames]);
+  const { filterByNumericValues } = filters;
 
   const removeColumnOption = () => {
     let currentColumn = [...columnNames];
-    const { filterByNumericValues } = filters;
-    currentColumn = filterByNumericValues.length ? currentColumn.filter(
-      (columnName) => (
-        filterByNumericValues
-          .filter((item) => console.log(item))),
-    ) : columnNames;
-    console.log(currentColumn);
-    setColumnNames(currentColumn);
+    if (filterByNumericValues.length > 0) {
+      console.log('vrau');
+      currentColumn = filterByNumericValues.forEach((item) => columnNames.filter((columnName) => columnName !== item.column));
+      // currentColumn = currentColumn.filter((columnName) => (
+        // filterByNumericValues.forEach((item) => columnName !== item.column)));
+      setFilteredColumn(currentColumn);
+    }
+    return currentColumn;
   };
 
   useEffect(() => {
     removeColumnOption();
-    console.log(columnNames);
-  }, [columnNames]);
+  }, [filterByNumericValues]);
 
   return (
     <div className="search-container">
@@ -42,7 +43,7 @@ function SearchByNumericValue() {
           value={ column }
           name="column"
         >
-          {columnNames.map((item, index) => <option key={ index }>{item}</option>)}
+          {filteredColumn && filteredColumn.map((item, index) => <option key={ index }>{item}</option>)}
         </select>
       </label>
       <label htmlFor="comparison-filter">
