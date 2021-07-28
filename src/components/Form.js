@@ -5,33 +5,27 @@ function Form() {
   const {
     initialFilters,
     setInitialFilters,
+    renderOptions,
+    setRenderOptions,
   } = useContext(PlanetsContext);
 
   const { filterByNumericValues } = initialFilters;
-  const [inputNum, setInputNum] = useState('');
-  const [renderOptions, setRenderOptions] = useState([
-    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
-  ]);
-  // para realizar esta parte, utilizei como base o seguinte material: https://dev.to/anilsingh/allow-only-numbers-in-input-in-react-2m71
 
-  const handleChange = ({ target }) => {
-    const { value, name } = target;
-    const numRegexp = /^[0-9\b]+$/;
-
-    if (inputNum === '' || numRegexp.test(value)) {
-      setInputNum(value);
-    }
-    setInitialFilters({
-      ...initialFilters,
-      filterByNumericValues: [{ ...filterByNumericValues[0], [name]: value }],
-    });
-  };
+  const [columnState, setColumnState] = useState('population');
+  const [comparisonValue, setComparisonValue] = useState('filtros');
+  const [valueState, setValueState] = useState(0);
 
   const handleRenderOptions = () => {
     const filteredOptions = renderOptions
       .filter((filtered) => filtered
-      !== initialFilters.filterByNumericValues[0].column);
+      !== columnState);
     setRenderOptions(filteredOptions);
+
+    setInitialFilters({
+      ...initialFilters,
+      filterByNumericValues: [...filterByNumericValues,
+        { column: columnState, comparison: comparisonValue, value: valueState }],
+    });
   };
 
   return (
@@ -48,7 +42,7 @@ function Form() {
       <select
         name="column"
         data-testid="column-filter"
-        onChange={ (e) => handleChange(e) }
+        onChange={ ({ target: { value } }) => setColumnState(value) }
       >
         { renderOptions
           .map((option, index) => <option key={ index }>{ option }</option>) }
@@ -56,7 +50,7 @@ function Form() {
       <select
         name="comparison"
         data-testid="comparison-filter"
-        onChange={ (e) => handleChange(e) }
+        onChange={ ({ target: { value } }) => setComparisonValue(value) }
       >
         <option>filtros</option>
         <option>maior que</option>
@@ -65,10 +59,9 @@ function Form() {
       </select>
       <input
         name="value"
-        value={ inputNum }
         type="number"
         data-testid="value-filter"
-        onChange={ (e) => handleChange(e) }
+        onChange={ ({ target: { value } }) => setValueState(value) }
       />
       <button
         type="button"

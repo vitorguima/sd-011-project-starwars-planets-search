@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import FetchApi from './FetchApi';
 import PlanetsContext from '../hooks/PlanetsContext';
 import filteredNumericValues from '../helpers/filteredNumericValues';
+import DelFilters from './DelFilters';
 
 function Table() {
   const { data } = FetchApi();
@@ -26,6 +27,7 @@ function Table() {
 
   return (
     <div>
+      <DelFilters />
       <table>
         <thead>
           <tr>

@@ -8,24 +8,23 @@ const INITIAL_FILTERS = {
   filterByName: {
     name: '',
   },
-  filterByNumericValues: [
-    {
-      column: 'population',
-      comparison: 'filtros',
-      value: 0,
-    },
-  ],
+  filterByNumericValues: [],
 };
 
 function PlanetsProvider({ children }) {
   const [initialFilters, setInitialFilters] = useState(INITIAL_FILTERS);
   const [filteredInfo, setFilteredInfo] = useState([]);
+  const [renderOptions, setRenderOptions] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ]);
 
   const contextValue = {
     initialFilters,
     setInitialFilters,
     filteredInfo,
     setFilteredInfo,
+    setRenderOptions,
+    renderOptions,
   };
 
   return (
