@@ -6,6 +6,7 @@ function Provider({ children }) {
   const [data, getData] = useState([]);
   const [newData, getNewData] = useState([]);
   const [name, getName] = useState('');
+  const [button, getButton] = useState(false);
   // column, comparison, value
   const [column, getColumn] = useState('');
   const [comparison, getComparison] = useState('');
@@ -58,11 +59,17 @@ function Provider({ children }) {
       },
       filterByNumericValues,
     },
+    filterByNumericValues,
     getColumn,
     getComparison,
     getValue,
     newData,
+    column,
+    comparison,
+    value,
     getNewData,
+    button,
+    getButton,
   };
   return (
     <PlanetsContext.Provider value={ obj }>

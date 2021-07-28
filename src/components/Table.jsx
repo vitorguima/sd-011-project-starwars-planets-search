@@ -3,12 +3,27 @@ import PlanetsContext from '../Context/PlanetsContext';
 import SearchBar from './SearchBar';
 
 function Table() {
-  const { data, name } = useContext(PlanetsContext);
+  const { data, name, column, comparison, value, button } = useContext(PlanetsContext);
+
   const filterPlanets = useMemo(() => {
     const lowerCasePlanets = name.toLowerCase();
     return data.filter((element) => element.name
       .toLowerCase().includes(lowerCasePlanets));
   }, [data, name]);
+
+  const filterPlanetsNumber = useMemo(() => {
+    if (button) {
+      if (comparison === 'igual') {
+        return filterPlanets.filter((element) => element[column] === value);
+      }
+      if (comparison === 'maior') {
+        return filterPlanets.filter((element) => element[column] === value);
+      }
+      if (comparison === 'menor') {
+        return filterPlanets.filter((element) => element[column] === value);
+      }
+    }
+  }, [column, button, filterPlanets, value, comparison]);
 
   return (
     <div>
@@ -33,7 +48,7 @@ function Table() {
         </thead>
         <tbody id="body">
           {data && (
-            filterPlanets.map((planet, index) => (
+            filterPlanetsNumber.map((planet, index) => (
               <tr key={ index }>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>
