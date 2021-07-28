@@ -4,6 +4,11 @@ import Context from './Context';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [filterPlanets, setFilterPlanets] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -18,12 +23,14 @@ function Provider({ children }) {
 
   const myDataPlanets = {
     data,
+    setData,
+    filterPlanets,
+    setFilterPlanets,
   };
-  console.log(data);
 
   return (
     <Context.Provider value={ myDataPlanets }>
-      { children }
+      {children}
     </Context.Provider>
   );
 }

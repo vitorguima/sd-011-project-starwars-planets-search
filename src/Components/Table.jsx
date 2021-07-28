@@ -1,20 +1,39 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Context from '../Context/Context';
 
 export default function Table() {
-  const { data } = useContext(Context);
-  console.log(data);
+  const { data,
+    filterPlanets,
+    setFilterPlanets,
+  } = useContext(Context);
+  const [storeFilterPlanets, setStoreFilterPlanets] = useState([]);
+  const { name } = filterPlanets.filterByName;
+
+  const filterNames = ({ target }) => {
+    setFilterPlanets({
+      ...filterPlanets,
+      filterByName: { name: target.value },
+    });
+  };
+
+  useEffect(() => {
+    const getPlanetData = data.filter((planet) => planet
+      .name.toLowerCase().includes(name));
+    setStoreFilterPlanets(getPlanetData);
+  }, [data, filterPlanets, name]);
+
   return (
     <>
       <h1>In the Table</h1>
+      <label htmlFor="filter-label">
+        Filtro:
+        <input
+          type="text"
+          data-testid="name-filter"
+          onChange={ filterNames }
+        />
+      </label>
       <thead>
-        <label htmlFor="filter-label">
-          Filtro:
-          <input
-            type="text"
-            data-testid="name-filter"
-          />
-        </label>
         <tr>
           <th>Name</th>
           <th>Período de Rotação</th>
@@ -33,7 +52,7 @@ export default function Table() {
       </thead>
 
       <tbody>
-        {data.map((planets) => (
+        {storeFilterPlanets.map((planets) => (
           <tr key={ planets.name }>
             <td>{planets.name}</td>
             <td>{planets.rotation_period}</td>
