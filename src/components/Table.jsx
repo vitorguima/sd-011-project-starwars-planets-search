@@ -2,6 +2,8 @@ import React, { useContext, useEffect, useState } from 'react';
 import SWContext from '../context/SWContext';
 import getPlanetsFromAPI from '../services/Api';
 import HeaderTable from './HeaderTable';
+import RowTable from './RowTable';
+import Filters from './Filters';
 
 export default function Table() {
   const {
@@ -14,6 +16,7 @@ export default function Table() {
     planetsToFilter,
     saveFilteredPlanets,
     addFilterByNumericValue,
+    addFilterByOrder,
     removeFilterByNumericValue,
   } = useContext(SWContext);
 
@@ -47,7 +50,6 @@ export default function Table() {
     value: '',
   };
 
-  // const [arrayColumn] = useState(initialArrayColum);
   const [numericValues, setNumericValues] = useState(initialNumericValues);
   const [filteredColumn, setFilteredColumn] = useState(initialArrayColum);
 
@@ -87,7 +89,6 @@ export default function Table() {
     addFilterByNumericValue(numericValues);
     const filteredPlanetsBynumericValue = filterPlanetsByNumericValues();
     saveFilteredPlanets(filteredPlanetsBynumericValue);
-    console.log(filteredPlanetsBynumericValue);
     filterColumn();
   }
 
@@ -185,23 +186,37 @@ export default function Table() {
   }
   useEffect(setFilterNameContext, [filterName]);
 
-  function renderFilterName() {
-    return (
-      <div className="filter-name-section">
-        <input
-          type="text"
-          data-testid="name-filter"
-          onChange={ (e) => handlerChangeName(e) }
-          value={ filterName }
-        />
-      </div>
-    );
+  const [orderFilter, setOrderFilter] = useState({ column: 'name', sort: 'ASC' });
+  const [isOrdened, setIsOrdened] = useState(false);
+  function saveOrderFilter({ target }) {
+    const { name, value } = target;
+    setOrderFilter((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   }
+
+  function updateContextFilterOrder() {
+    addFilterByOrder(orderFilter);
+    setIsOrdened(false);
+  }
+
+  function startOrder() {
+    setIsOrdened(true);
+  }
+  useEffect(updateContextFilterOrder, [isOrdened]);
+
+  const dataFilter = {
+    handlerChangeName,
+    saveOrderFilter,
+    startOrder,
+    filterName,
+  };
 
   function renderTable() {
     return (
       <section>
-        { renderFilterName() }
+        <Filters filters={ dataFilter } />
         { renderFilterNumericValues() }
         { renderNumericFiltersApplied() }
         <table>
@@ -211,23 +226,7 @@ export default function Table() {
             </tr>
           </thead>
           <tbody>
-            { planets.map((planet, i) => (
-              <tr key={ i }>
-                <td>{ planet.name }</td>
-                <td>{ planet.rotation_period }</td>
-                <td>{ planet.orbital_period }</td>
-                <td>{ planet.diameter }</td>
-                <td>{ planet.climate }</td>
-                <td>{ planet.gravity }</td>
-                <td>{ planet.terrain }</td>
-                <td>{ planet.surface_water }</td>
-                <td>{ planet.population }</td>
-                <td>{ planet.films }</td>
-                <td>{ planet.created }</td>
-                <td>{ planet.edited }</td>
-                <td>{ planet.url }</td>
-              </tr>
-            ))}
+            { planets.map((planet, i) => <RowTable key={ i } planet={ planet } />) }
           </tbody>
         </table>
       </section>

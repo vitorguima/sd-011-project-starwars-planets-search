@@ -1,11 +1,13 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import SWContext from './SWContext';
+import sortPlanetsByOrder from '../helpers/order';
 
 export default function SWProvider({ children }) {
   const initialStateFilters = {
     filterByName: { name: '' },
     filterByNumericValues: [],
+    order: { column: 'name', sort: 'ASC' },
   };
 
   const [planets, setPlanets] = useState([]);
@@ -14,7 +16,8 @@ export default function SWProvider({ children }) {
   const [filters, setFilters] = useState(initialStateFilters);
 
   function savePlanets(data) {
-    setPlanets(data);
+    const ordenedData = sortPlanetsByOrder(data, filters);
+    setPlanets(ordenedData);
     setIsLoading(false);
   }
 
@@ -35,7 +38,15 @@ export default function SWProvider({ children }) {
   }
 
   function saveFilteredPlanets(arrayFilteredPlanets) {
-    setFilteredPlanets(arrayFilteredPlanets);
+    const sortedArrayFilteredPlanets = sortPlanetsByOrder(arrayFilteredPlanets, filters);
+    setFilteredPlanets(sortedArrayFilteredPlanets);
+  }
+
+  function addFilterByOrder(value) {
+    const newFilterOrder = filters;
+    newFilterOrder.order = value;
+    setFilters(newFilterOrder);
+    saveFilteredPlanets(filteredPlanets);
   }
 
   function removeFilterByNumericValue(index) {
@@ -57,6 +68,7 @@ export default function SWProvider({ children }) {
     planetsToFilter: planets,
     saveFilteredPlanets,
     addFilterByNumericValue,
+    addFilterByOrder,
     removeFilterByNumericValue,
   };
 
