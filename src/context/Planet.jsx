@@ -4,8 +4,11 @@ import PropTypes from 'prop-types';
 export const Planet = createContext({});
 
 export function Provider({ children }) {
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({ filterByName: { name: '' },
+    filterByNumericValues: [{ column: '', comparison: '', value: '' }] });
+
   const [data, setData] = useState();
+
   const [planets, setPlanets] = useState();
 
   function fetchData() {
