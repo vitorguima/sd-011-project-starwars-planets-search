@@ -2,7 +2,25 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function InputValues() {
-  const { filters, setFilters } = useContext(PlanetsContext);
+  const { filters, setFilters, exceptions } = useContext(PlanetsContext);
+
+  const columns = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
+  function renderColumns() {
+    return (columns.map((column, index) => {
+      if (!exceptions.includes(column)) {
+        return <option key={ index }>{column}</option>;
+      }
+      return '';
+    }));
+  }
+
   return (
     <div>
       <input
@@ -20,12 +38,7 @@ function InputValues() {
           setFilters({ ...filters, columnFilter: value });
         } }
       >
-        <option>Nenhuma</option>
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        { renderColumns() }
       </select>
 
       <select

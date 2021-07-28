@@ -3,7 +3,14 @@ import PlanetsContext from '../context/PlanetsContext';
 import InputValues from './InputValues';
 
 function Filters() {
-  const { filters, setToRender, data, toRender } = useContext(PlanetsContext);
+  const {
+    filters,
+    setToRender,
+    data,
+    toRender,
+    exceptions,
+    setExceptions,
+  } = useContext(PlanetsContext);
 
   useEffect(() => {
     const { inputText } = filters;
@@ -31,6 +38,7 @@ function Filters() {
           magicNumber) === parseInt(filters.value, magicNumber)));
     }
     setToRender(filteredData);
+    setExceptions([...exceptions, filters.columnFilter]);
   }
 
   return (

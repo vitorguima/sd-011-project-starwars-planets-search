@@ -7,6 +7,7 @@ const Provider = ({ children }) => {
   const [toRender, setToRender] = useState([]);
   const [objectKeys, setObjectKeys] = useState();
   const [loadingStatus, changeLoadingStatus] = useState(true);
+  const [exceptions, setExceptions] = useState([]);
   const [filters, setFilters] = useState({
     inputText: '',
     columnFilter: '',
@@ -36,6 +37,8 @@ const Provider = ({ children }) => {
     objectKeys,
     loadingStatus,
     changeLoadingStatus,
+    exceptions,
+    setExceptions,
     setFilters,
     filters,
   };
