@@ -17,11 +17,11 @@ function HeaderFilter() {
   const { column, comparison, value } = filterByNumericValues;
 
   const columnOption = [
-    'Population',
-    'Diameter',
-    'Orbital period',
-    'Rotation period',
-    'Surface water',
+    'population',
+    'diameter',
+    'orbital_period',
+    'rotation_period',
+    'surface_water',
   ];
 
   return (
