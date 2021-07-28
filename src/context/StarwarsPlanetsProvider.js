@@ -23,7 +23,9 @@ function StarwarsPlanetsProvider({ children }) {
   }
 
   return (
-    <StarwarsPlanetsContext.Provider value={ { data, requestApi, isLoading } }>
+    <StarwarsPlanetsContext.Provider
+      value={ { data, requestApi, isLoading } }
+    >
       {children}
     </StarwarsPlanetsContext.Provider>
   );
