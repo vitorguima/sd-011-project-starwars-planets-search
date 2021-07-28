@@ -56,7 +56,7 @@ function Filter({ initstate, setInitState }) {
 
         if (comparison === 'menor que') {
           newArray = data.filter((itemArray) => (
-            itemArray[column] < numberValue || itemArray[column] === 'unknown'));
+            Number(itemArray[column]) < numberValue));
         }
         if (comparison === 'maior que') {
           newArray = data.filter((itemArray) => (
