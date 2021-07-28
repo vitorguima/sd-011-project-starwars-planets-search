@@ -1,28 +1,31 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-
 import Context from './Context';
-
 import filterData from '../services/filterData';
 
 export default function Provider({ children }) {
+  // API data
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
+  // Filtro por input de nome
   const [name, setNameFilter] = useState('');
+  // Filtros numéricos
   const [filterByNumericValues, setNumericValuesFilters] = useState([]);
   const [numericValues, setNumericFilter] = useState({
     column: '',
     comparison: '',
-    value: '' });
+    value: '',
+  });
+  // Quando é feita a atualização dos filtros
   const [updateFilter, setUpdateFilter] = useState(false);
   const [removedFilter, setRemovedFilter] = useState(false);
-
-  const handleNumericFilter = ({ name: property, value }) => {
-    setNumericFilter({
-      ...numericValues,
-      [property]: value,
-    });
-  };
+  // Ordenação
+  const [order, setOrderFilter] = useState({
+    column: 'name',
+    sort: 'ASC',
+  });
+  const [orderColumn, setOrderColumn] = useState('');
+  const [sort, setSort] = useState('');
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -56,6 +59,13 @@ export default function Provider({ children }) {
     filter();
   });
 
+  const handleNumericFilter = ({ name: property, value }) => {
+    setNumericFilter({
+      ...numericValues,
+      [property]: value,
+    });
+  };
+
   const removeFilter = (index) => {
     const newData = filterByNumericValues.filter((_element, i) => i !== index);
     setNumericValuesFilters(newData);
@@ -78,20 +88,26 @@ export default function Provider({ children }) {
         name,
       },
       filterByNumericValues,
+      order,
     },
     numericValues,
     setNameFilter,
     handleNumericFilter,
     setUpdateFilter,
     removeFilter,
+    setOrderColumn,
+    setSort,
+    orderColumn,
+    sort,
+    setOrderFilter,
   };
   return (
     <Context.Provider value={ contextValue }>
-      { children }
+      {children}
     </Context.Provider>
   );
 }
 
 Provider.propTypes = {
-  children: PropTypes.object,
+  children: PropTypes.element,
 }.isRequired;

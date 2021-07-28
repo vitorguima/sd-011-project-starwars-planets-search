@@ -1,24 +1,21 @@
-import React, { useContext } from 'react';
-import Context from '../context/Context';
+import React from 'react';
 
+import NameFilter from './NameFilter';
 import NumericFilters from './NumericFilters';
+import OrderFilter from './OrderFilter';
 
 export default function Filters() {
-  const {
-    setNameFilter,
-    filters: { filterByName: { name } },
-  } = useContext(Context);
-
   return (
     <div>
-      <input
-        data-testid="name-filter"
-        value={ name }
-        onKeyUp={ ({ target }) => setNameFilter(target.value) }
-        onChange={ ({ target }) => setNameFilter(target.value) }
-      />
-      <br />
-      <NumericFilters />
+      <div>
+        <NameFilter />
+      </div>
+      <div>
+        <NumericFilters />
+      </div>
+      <div>
+        <OrderFilter />
+      </div>
     </div>
   );
 }

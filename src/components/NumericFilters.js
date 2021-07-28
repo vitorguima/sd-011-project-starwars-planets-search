@@ -39,6 +39,7 @@ export default function NumericFilters() {
         value={ column }
         onChange={ (e) => handleNumericFilter(e.target) }
       >
+        {/* <option value="">Column</option> */}
         { filters.map((actualFilter, i) => (
           <option key={ i } value={ actualFilter }>{actualFilter}</option>
         )) }
@@ -49,6 +50,7 @@ export default function NumericFilters() {
         value={ comparison }
         onChange={ (e) => handleNumericFilter(e.target) }
       >
+        {/* <option value="">Comparison</option> */}
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
         <option value="igual a">igual a</option>
@@ -64,7 +66,7 @@ export default function NumericFilters() {
         type="button"
         onClick={ () => setUpdateFilter(true) }
       >
-        Filtrar
+        Filter
       </button>
     </>
   );
