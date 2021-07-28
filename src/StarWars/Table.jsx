@@ -4,6 +4,8 @@ import handleFilters from './handleFilters';
 
 const Table = () => {
   const { results } = useContext(GlobalContext);
+  const options = ['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
   const [newPlanetFilter, setNewPlanetFilter] = React.useState({
     column: '',
     comparison: '',
@@ -16,6 +18,9 @@ const Table = () => {
     filterByNumericValues: [
     ],
   });
+
+  const usedFilters = planetFilter.filterByNumericValues
+    .map((condition) => condition.column);
 
   const handleFilterByName = ({ target }) => {
     setplanetFilter({ ...planetFilter, filterByName: { name: target.value } });
@@ -42,20 +47,36 @@ const Table = () => {
         data-testid="name-filter"
       />
       <form>
-        <select name="column" data-testid="column-filter" onChange={ handlefilterByNumericValues }>
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+        <select
+          name="column"
+          data-testid="column-filter"
+          onChange={ handlefilterByNumericValues }
+        >
+          {options.filter((toRemove) => !usedFilters.includes(toRemove))
+            .map((option) => <option key={ option }>{option}</option>)}
         </select>
-        <select name="comparison" data-testid="comparison-filter" onChange={ handlefilterByNumericValues }>
+        <select
+          name="comparison"
+          data-testid="comparison-filter"
+          onChange={ handlefilterByNumericValues }
+        >
           <option>maior que</option>
           <option>menor que</option>
           <option>igual a</option>
         </select>
-        <input name="value" type="number" data-testid="value-filter" onChange={ handlefilterByNumericValues } />
-        <button type="button" data-testid="button-filter" onClick={ handleFilterButton }>Add Filter</button>
+        <input
+          name="value"
+          type="number"
+          data-testid="value-filter"
+          onChange={ handlefilterByNumericValues }
+        />
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ handleFilterButton }
+        >
+          Add Filter
+        </button>
       </form>
       <table>
         <thead>

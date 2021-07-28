@@ -34,7 +34,7 @@ export default function handleFilters(array, filters) {
       });
       return planetCondition;
     });
-  };
+  }
 
   return result;
 }
