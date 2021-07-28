@@ -3,10 +3,13 @@ import StarwarsPlanetsContext from '../context/StarwarsPlanetsContext';
 
 function Table() {
   const { requestApi, data } = useContext(StarwarsPlanetsContext);
+  const { isLoading } = useContext(StarwarsPlanetsContext);
+
   useEffect(() => {
     requestApi();
   }, []);
-  return (
+
+  return !isLoading ? (
     <table>
       <thead>
         <tr>
@@ -45,7 +48,7 @@ function Table() {
         ))}
       </tbody>
     </table>
-  );
+  ) : <span>Carregando...</span>;
 }
 
 export default Table;
