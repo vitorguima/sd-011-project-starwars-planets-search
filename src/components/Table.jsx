@@ -1,13 +1,15 @@
 import React, { useContext } from 'react';
+import FilterNumeric from './FilterNumeric';
 import FilterString from './FilterString';
 import MyContext from './MyContext';
 
 function Table() {
-  const { arrayFiltrado } = useContext(MyContext);
+  const { newData } = useContext(MyContext);
 
   return (
     <div>
       <FilterString />
+      <FilterNumeric />
       <table>
         <thead>
           <tr>
@@ -27,7 +29,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {arrayFiltrado.map((planet, index) => (
+          {newData.map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>

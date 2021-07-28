@@ -2,10 +2,12 @@ import React, { useContext } from 'react';
 import MyContext from './MyContext';
 
 function FilterString() {
-  const { setFilters } = useContext(MyContext);
+  const { setFilters, filters, setNewData, data } = useContext(MyContext);
 
   const setText = ({ target: { value } }) => {
-    setFilters({ filterByName: { name: value.toLowerCase() } });
+    setNewData(data.filter(({ name }) => (
+      name.toLowerCase().includes(filters.filterByName.name))));
+    setFilters({ ...filters, filterByName: { name: value.toLowerCase() } });
   };
 
   return (
