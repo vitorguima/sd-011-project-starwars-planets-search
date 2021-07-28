@@ -4,8 +4,6 @@ import AppContext from '../../ContextAPI_Configs/AppContext';
 function ColumnFilter() {
   const filterName = 'column';
 
-  const { numericFilter, setNumericFilter } = useContext(AppContext);
-
   const optionsForFilter = [
     'population',
     'orbital_period',
@@ -13,6 +11,10 @@ function ColumnFilter() {
     'rotation_period',
     'surface_water'];
 
+  const { numericFilter, setNumericFilter } = useContext(AppContext);
+  const { userFilter: { filters: { filterByNumericValues } } } = useContext(AppContext);
+  const columnUseds = filterByNumericValues.map(({ column }) => column);
+  console.log(columnUseds);
   return (
     <label htmlFor="column-filter">
       <select
@@ -23,11 +25,12 @@ function ColumnFilter() {
           [filterName]: e.target.value,
         }) }
       >
-        {optionsForFilter.map((option) => (
-          <option key={ option }>
-            {option}
-          </option>
-        ))}
+        {optionsForFilter.filter((filterOption) => !columnUseds.includes(filterOption))
+          .map((option) => (
+            <option key={ option }>
+              {option}
+            </option>
+          ))}
       </select>
     </label>
   );

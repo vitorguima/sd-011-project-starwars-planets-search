@@ -14,8 +14,9 @@ function Provider({ children }) {
   });
 
   const [numericFilter, setNumericFilter] = useState({
-    column: '',
-    comparison: '',
+    // modificação significativa-
+    column: 'population',
+    comparison: 'maior que',
     value: 0,
   });
 

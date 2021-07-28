@@ -7,8 +7,6 @@ function ApplyFilter() {
     setUserFilter,
     numericFilter,
     /* setNumericFilter */ } = useContext(AppContext);
-  console.log(userFilter, numericFilter, 'alberto santo');
-
   return (
     <button
       type="button"
