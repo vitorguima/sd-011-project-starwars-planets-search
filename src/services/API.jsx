@@ -3,6 +3,7 @@ const getAPI = async () => {
   const response = await fetch(URL);
   const json = await response.json();
   const { results } = json;
+  console.log(results);
   await results.forEach((planet) => delete planet.residents);
   try {
     return results;

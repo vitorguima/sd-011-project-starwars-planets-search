@@ -18,9 +18,10 @@ const useFilteredData = () => {
   const { data, filters } = usePlanets();
   const { filterByName, filterByNumericValues, order } = filters;
   const { name } = filterByName;
+
   useEffect(() => {
     setFilteredData(data && data.filter((planet) => planet.name.includes(name)));
-  }, [data, name]);
+  }, [data, name, filters]);
 
   let ids = filteredData;
 
@@ -29,9 +30,15 @@ const useFilteredData = () => {
       const { column, comparison, value } = filter;
       const string = String(value);
       const newData = ids.filter((planet) => {
-        if (comparison === 'maior que') { return planet[column] > value; }
-        if (comparison === 'menor que') { return planet[column] < value; }
-        if (comparison === 'igual a') { return planet[column] === string; }
+        if (comparison === 'maior que') {
+          return planet[column] > value;
+        }
+        if (comparison === 'menor que') {
+          return planet[column] < value;
+        }
+        if (comparison === 'igual a') {
+          return planet[column] === string;
+        }
         return planet;
       });
       ids = newData;
@@ -40,7 +47,7 @@ const useFilteredData = () => {
   }
 
   if (ids) {
-    const newArray = (idsSorted(ids, order.column, order.sort));
+    const newArray = idsSorted(ids, order.column, order.sort);
     return [newArray];
   }
 
