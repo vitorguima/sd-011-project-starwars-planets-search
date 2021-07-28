@@ -48,7 +48,7 @@ function Table({ initstate, setInitState }) {
                 edited,
               }, index) => (
                 <tr key={ index }>
-                  <td>{ name }</td>
+                  <td data-testid="planet-name">{ name }</td>
                   <td>{ rotatioPeriod }</td>
                   <td>{ orbitalPeriod }</td>
                   <td>{ diameter }</td>

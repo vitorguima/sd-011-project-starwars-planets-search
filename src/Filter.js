@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import Order from './Order';
 
 function Filter({ initstate, setInitState }) {
   const [valueFilter, setValueFilter] = useState({
@@ -106,6 +107,7 @@ function Filter({ initstate, setInitState }) {
       >
         Filtrar
       </button>
+      <Order setInitState={ setInitState } />
     </form>
   );
 }
