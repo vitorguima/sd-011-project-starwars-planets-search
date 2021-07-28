@@ -50,20 +50,49 @@ const Provider = ({ children }) => {
   };
 
   useEffect(() => {
-    const { filterByName: { name } } = filters;
+    const {
+      filterByName: { name },
+    } = filters;
     if (name) {
-      setFiltredPlanets(planets.filter(
-        (planet) => planet.name.toLowerCase().includes(name.toLowerCase()),
-      ));
+      setFiltredPlanets(
+        planets.filter(
+          (planet) => planet.name.toLowerCase().includes(name.toLowerCase()),
+        ),
+      );
     } else {
       setFiltredPlanets(planets);
     }
   }, [filters, filters.filterByName.name, planets]);
 
+  const handleClick = () => {
+    const { column, comparison, value } = filterComparison;
+    switch (comparison) {
+    case 'maior que':
+      setFiltredPlanets(
+        planets.filter((item) => Number(item[column]) > Number(value)),
+      );
+      break;
+    case 'menor que':
+      setFiltredPlanets(
+        planets.filter((item) => Number(item[column]) < Number(value)),
+      );
+      break;
+    case 'igual a':
+      setFiltredPlanets(
+        planets.filter((item) => Number(item[column]) === Number(value)),
+      );
+      break;
+    default:
+      setFiltredPlanets(planets);
+      break;
+    }
+  };
+
   return (
     <Context.Provider
       value={ {
         handleChangeInputs,
+        handleClick,
         filterComparison,
         planets,
         Filtredplanets,

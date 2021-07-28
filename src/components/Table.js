@@ -3,9 +3,9 @@ import PropTypes from 'prop-types';
 import { useGlobalContext } from '../hooks/Context';
 
 const Table = () => {
-  const { Filtredplanets, name, isLoading } = useGlobalContext();
+  const { Filtredplanets, isLoading } = useGlobalContext();
 
-  if (name && !Filtredplanets.length) {
+  if (!Filtredplanets.length) {
     return <h1 className="loader">No results found</h1>;
   }
   if (isLoading) {
