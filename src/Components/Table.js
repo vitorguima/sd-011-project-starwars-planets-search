@@ -4,13 +4,15 @@ import MyContext from '../Context/MyContext';
 function Table() {
   const { newdata, loading } = useContext(MyContext);
   const valueArray = Object.keys(newdata[0]);
-  const planets = newdata
+  const planets = newdata;
   if (loading) return <h1>carregando...</h1>;
+
   return (
     <table>
       <tr>
         {valueArray.map((value, index) => <th key={ index }>{value}</th>)}
       </tr>
+
       {planets.map((planet, index) => (
         <tr key={ index }>
           <td>{ planet.name }</td>
