@@ -7,7 +7,11 @@ import getPlanets from './data';
 function App() {
   const [planets, setPlanets] = useState();
   const [search, setSearch] = useState();
+  const [value, setValue] = useState(0);
+  const [comparison, setComparison] = useState('maior que');
+  const [column, setColumn] = useState('population');
   const [planetList, setList] = useState();
+
   useEffect(() => {
     const getPlanetsList = async () => {
       const planetsList = await getPlanets();
@@ -30,12 +34,37 @@ function App() {
     }
   }, [search]);
 
+  const filterColumn = () => {
+    const newValue = Number.parseFloat(value);
+    const list = planets.filter((planet) => {
+      const info = Number.parseFloat(planet[column]);
+      if (comparison === 'maior que') {
+        return info > newValue;
+      }
+      if (comparison === 'menor que') {
+        return info < newValue;
+      }
+      if (comparison === 'igual a') {
+        return info === newValue;
+      }
+      return null;
+    });
+    setList(list);
+  };
+
   const contextValue = {
     planets: planetList,
     filters: {
       filterByName: {
         name: search,
       },
+      filterByNumericValue: [
+        {
+          column,
+          comparison,
+          value,
+        },
+      ],
     },
   };
 
@@ -47,6 +76,39 @@ function App() {
         value={ search }
         onChange={ ({ target }) => setSearch(target.value) }
       />
+      <select
+        data-testid="column-filter"
+        value={ column }
+        onChange={ ({ target }) => setColumn(target.value) }
+      >
+        <option>population</option>
+        <option>orbital_period</option>
+        <option>diameter</option>
+        <option>rotation_period</option>
+        <option>surface_water</option>
+      </select>
+      <select
+        data-testid="comparison-filter"
+        value={ comparison }
+        onChange={ ({ target }) => setComparison(target.value) }
+      >
+        <option>maior que</option>
+        <option>menor que</option>
+        <option>igual a</option>
+      </select>
+      <input
+        data-testid="value-filter"
+        type="number"
+        value={ value }
+        onChange={ ({ target }) => setValue(target.value) }
+      />
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ filterColumn }
+      >
+        Filtre
+      </button>
       <Table />
     </MyContext.Provider>
   );

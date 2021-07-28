@@ -9,7 +9,7 @@ export default function Table() {
       {planets && (
         <table>
           <tr>
-            {Object.keys(planets[0]).map((obj, index) => (
+            {planets[0] && Object.keys(planets[0]).map((obj, index) => (
               <th key={ index }>{obj}</th>
             ))}
           </tr>
