@@ -9,7 +9,7 @@ function Head() {
 
   return (
     <input
-      placeholder="Filtering by text"
+      placeholder="Filtering by name"
       type="text"
       onChange={ handleChange }
     />

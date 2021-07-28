@@ -8,9 +8,7 @@ function Planets() {
     err,
   } = useContext(PlanetsContext);
 
-  useEffect(() => {
-    planetsData();
-  }, []);
+  useEffect(planetsData, []);
   console.log('filterPlanet no Planet', filterPlanet);
 
   const table = () => {
@@ -58,7 +56,9 @@ function Planets() {
         </tbody>
       </table>
     );
-    if (err === undefined) return renderOnScreen;
+    if (err === undefined) {
+      return renderOnScreen;
+    }
     return (
       <div>
         { err }
