@@ -9,19 +9,17 @@ export default function FilterPlanetsByNumericValues(planets, filters) {
   if (!VALUE_FILTER) return planets;
 
   planets.forEach((planet) => {
-    // console.log(planet[COLUMN_FILTER], VALUE_FILTER);
-
-    if (COMPARISON_FILTER === 'maior_que'
-      && Number(planet[COLUMN_FILTER]) > Number(VALUE_FILTER)) {
+    if (COMPARISON_FILTER === 'maior que'
+    && Number(planet[COLUMN_FILTER]) > Number(VALUE_FILTER)) {
       filteredPlanets.push(planet);
     }
 
-    if (COMPARISON_FILTER === 'igual'
+    if (COMPARISON_FILTER === 'igual a'
       && Number(planet[COLUMN_FILTER]) === Number(VALUE_FILTER)) {
       filteredPlanets.push(planet);
     }
 
-    if (COMPARISON_FILTER === 'menor_que'
+    if (COMPARISON_FILTER === 'menor que'
       && Number(planet[COLUMN_FILTER]) < Number(VALUE_FILTER)) {
       filteredPlanets.push(planet);
     }

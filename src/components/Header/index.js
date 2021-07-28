@@ -1,7 +1,17 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext } from 'react';
 import PlanetsContext from '../../context/PlanetsContext';
 
 export default function Header() {
+  const OPTIONS_TO_COMPARISON = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
+  const [options, setOptions] = useState(OPTIONS_TO_COMPARISON);
+
   const { filters, setFilters } = useContext(PlanetsContext);
 
   const handleInputChange = ({ value }) => {
@@ -25,6 +35,9 @@ export default function Header() {
         value: Number(VALUE_FILTER.value),
       }],
     });
+
+    const newOptions = options.filter((option) => option !== COLUMN_FILTER.value);
+    setOptions(newOptions);
   };
 
   return (
@@ -41,19 +54,19 @@ export default function Header() {
           name="column-filter"
           data-testid="column-filter"
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {
+            options.map((option, index) => (
+              <option key={ index } value={ option }>{ option }</option>
+            ))
+          }
         </select>
         <select
           name="comparison-filter"
           data-testid="comparison-filter"
         >
-          <option value="maior_que">maior que</option>
-          <option value="igual">igual a</option>
-          <option value="menor_que">menor que</option>
+          <option value="maior que">maior que</option>
+          <option value="igual a">igual a</option>
+          <option value="menor que">menor que</option>
         </select>
         <input type="number" data-testid="value-filter" />
         <button type="submit" data-testid="button-filter">
