@@ -4,7 +4,7 @@ import MyContext from './MyContext';
 
 function MyProvider({ children }) {
   const [data, setData] = useState([]);
-  const [name, nameFilter] = useState('');
+  const [name, setNameFilter] = useState('');
 
   const URL_API = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
@@ -24,7 +24,7 @@ function MyProvider({ children }) {
         name,
       },
     },
-    nameFilter,
+    setNameFilter,
   };
 
   return (

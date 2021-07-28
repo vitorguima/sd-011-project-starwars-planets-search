@@ -7,7 +7,8 @@ function Table() {
   } } = useContext(MyContext);
   let planets = data;
   if (nameFilter !== '') {
-    planets = data.filter(({ name }) => name.includes(nameFilter));
+    planets = data.filter(({ name }) => name.toLowerCase()
+      .includes(nameFilter.toLowerCase())); // toLowerCase converte a string para minúsculo
   }
   return (
     <table>
