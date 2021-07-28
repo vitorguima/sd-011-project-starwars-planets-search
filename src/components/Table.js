@@ -1,6 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import FetchApi from './FetchApi';
 import PlanetsContext from '../hooks/PlanetsContext';
+import filteredNumericValues from '../helpers/filteredNumericValues';
 
 function Table() {
   const { data } = FetchApi();
@@ -12,9 +13,14 @@ function Table() {
 
   useEffect(() => {
     if (data) {
-      setFilteredInfo(data
-        .filter((item) => item.name.toLowerCase()
-          .includes(initialFilters.filterByName.name.toLowerCase())));
+      const getFilteredInfo = data.filter((item) => {
+        const { name, ...items } = item;
+        const filterName = name.toLowerCase()
+          .includes(initialFilters.filterByName.name.toLowerCase());
+        const getComparisonValue = filteredNumericValues(initialFilters, items);
+        return filterName && getComparisonValue;
+      });
+      setFilteredInfo(getFilteredInfo);
     }
   }, [initialFilters, data, setFilteredInfo]);
 

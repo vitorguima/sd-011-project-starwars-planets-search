@@ -8,6 +8,13 @@ const INITIAL_FILTERS = {
   filterByName: {
     name: '',
   },
+  filterByNumericValues: [
+    {
+      column: 'population',
+      comparison: 'filtros',
+      value: 0,
+    },
+  ],
 };
 
 function PlanetsProvider({ children }) {

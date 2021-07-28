@@ -9,7 +9,6 @@ function FetchApi() {
       const { results } = await response.json();
       setData(results);
     };
-
     getPlanets();
   }, []);
 
