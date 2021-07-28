@@ -6,6 +6,8 @@ import Api from '../helpers/Api';
 function MyProvider({ children }) {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [arrayFiltrado, setArrayFiltrado] = useState([]);
 
   useEffect(() => {
     async function requisitionApi() {
@@ -17,8 +19,18 @@ function MyProvider({ children }) {
     requisitionApi();
   }, []);
 
+  useEffect(() => {
+    function filterPlanets() {
+      const saveData = data.filter(({ name }) => (
+        name.toLowerCase().includes(filters.filterByName.name)));
+      console.log(saveData);
+      setArrayFiltrado(saveData);
+    }
+    filterPlanets();
+  }, [filters, data]);
+
   return (
-    <MyContext.Provider value={ { data, loading } }>
+    <MyContext.Provider value={ { data, loading, filters, setFilters, arrayFiltrado } }>
       { children }
     </MyContext.Provider>
   );
