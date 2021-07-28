@@ -7,6 +7,8 @@ function PlanetsProvider({ children }) {
   // requisição da API feita com o useEffect que recebe 2 params. 1 callback e 1 array. A req. vai ser feita como se fosse no didmount
   // useState seta o estado inicial;
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+
   useEffect(() => {
     const fetchPlanets = async () => {
       const endpoint = await fetch(
@@ -20,9 +22,15 @@ function PlanetsProvider({ children }) {
     fetchPlanets();
   }, []);
 
+  const valueObj = {
+    data,
+    filters,
+    setFilters,
+  };
+
   return (
     // passando o contexto para o provider - o value é o resultado da fetch:
-    <PlanetsContext.Provider value={ { data } }>
+    <PlanetsContext.Provider value={ valueObj }>
       {children}
     </PlanetsContext.Provider>
 
