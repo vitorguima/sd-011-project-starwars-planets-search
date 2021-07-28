@@ -49,6 +49,11 @@ function App() {
       }
       return null;
     });
+    contextValue.filters.filterByNumericValue.push({
+      column,
+      comparison,
+      value,
+    })
     setList(list);
   };
 
@@ -59,11 +64,6 @@ function App() {
         name: search,
       },
       filterByNumericValue: [
-        {
-          column,
-          comparison,
-          value,
-        },
       ],
     },
   };
