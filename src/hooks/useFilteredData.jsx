@@ -1,16 +1,29 @@
 import { useEffect, useState } from 'react';
 import usePlanets from './usePlanets';
 
+const idsSorted = (array, col, direction) => {
+  const magic = 1;
+  if (col === 'name') {
+    return array.sort((a, b) => (a.name < b.name ? -magic : magic));
+  }
+
+  if (direction === 'ASC') {
+    return array.sort((a, b) => a[col] - b[col]);
+  }
+  return array.sort((a, b) => b[col] - a[col]);
+};
+
 const useFilteredData = () => {
   const [filteredData, setFilteredData] = useState([]);
   const { data, filters } = usePlanets();
-  const { filterByName, filterByNumericValues } = filters;
+  const { filterByName, filterByNumericValues, order } = filters;
   const { name } = filterByName;
   useEffect(() => {
     setFilteredData(data && data.filter((planet) => planet.name.includes(name)));
   }, [data, name]);
 
   let ids = filteredData;
+
   if (filterByNumericValues.length > 0) {
     filterByNumericValues.forEach((filter) => {
       const { column, comparison, value } = filter;
@@ -26,7 +39,11 @@ const useFilteredData = () => {
     return [[...new Set(ids)]];
   }
 
-  return [filteredData];
-};
+  if (ids) {
+    const newArray = (idsSorted(ids, order.column, order.sort));
+    return [newArray];
+  }
 
+  return [ids];
+};
 export default useFilteredData;

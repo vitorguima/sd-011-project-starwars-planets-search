@@ -14,8 +14,8 @@ export default function FilterButtons() {
     <div
       key={ index }
       data-testid="filter"
-      className="alert alert-primary mx-1"
-      style={ { width: '150px' } }
+      className="d-flex justify-content-center alert alert-primary m-2"
+      style={ { maxWidth: '200px' } }
     >
       { filter.column}
       <button
@@ -30,7 +30,7 @@ export default function FilterButtons() {
   ));
 
   return (
-    <div className="col-2">
+    <div className="row ">
       {getFilters()}
     </div>
   );

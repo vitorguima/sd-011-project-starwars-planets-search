@@ -10,6 +10,7 @@ export default function OrderFilter() {
       <div className="form-check form-check-inline">
         <label className="form-check-label" htmlFor="ASCRadio">
           <input
+            data-testid="column-sort-input-asc"
             className="form-check-input"
             type="radio"
             name="sort"
@@ -22,6 +23,7 @@ export default function OrderFilter() {
       <div className="form-check form-check-inline">
         <label className="form-check-label" htmlFor="DESCRadio">
           <input
+            data-testid="column-sort-input-desc"
             className="form-check-input"
             type="radio"
             name="sort"
@@ -38,7 +40,11 @@ export default function OrderFilter() {
     <>
       Ordenar:
       <div className="col-2">
-        <select name="column" data-testid="column-filter" className="form-select ">
+        <select
+          data-testid="column-sort"
+          name="column"
+          className="form-select "
+        >
           {savedFilters.map((filter) => (
             <option key={ filter } value={ filter }>{filter}</option>
           ))}
@@ -62,7 +68,14 @@ export default function OrderFilter() {
     >
       {getFilterOptions()}
       {getByOrder()}
-      <button type="submit" className="col-2 btn btn-primary">Ordenar</button>
+      <button
+        data-testid="column-sort-button"
+        type="submit"
+        className="col-2 btn btn-primary"
+      >
+        Ordenar
+
+      </button>
     </form>
   );
 }

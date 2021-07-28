@@ -5,7 +5,7 @@ import RemoveFilterButtons from '../RemoveFilterButtons';
 export default function PlanetInput() {
   const { setFilter } = usePlanets();
   return (
-    <div className="col-6 form-group m-2">
+    <div className="col-7 form-group m-2 ">
       <input
         data-testid="name-filter"
         type="text"

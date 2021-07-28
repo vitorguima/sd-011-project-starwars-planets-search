@@ -10,7 +10,7 @@ export default function Row(props) {
     terrain, url } = planet;
   return (
     <tr>
-      <td>{name}</td>
+      <td data-testid="planet-name">{name}</td>
       <td>{planet.rotation_period}</td>
       <td>{planet.orbital_period}</td>
       <td>{diameter}</td>

@@ -1,7 +1,7 @@
 import React from 'react';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
-import useFilteredData from '../hooks/useFilteredData';
+import useFilteredData from '../../hooks/useFilteredData';
 
 export default function Table() {
   const [filteredData] = useFilteredData();

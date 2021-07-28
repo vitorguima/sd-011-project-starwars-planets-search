@@ -13,7 +13,7 @@ export default function PlanetContext({ children }) {
       },
       filterByNumericValues: [],
       order: {
-        column: 'Name',
+        column: 'name',
         sort: 'ASC' },
       savedFilters: [
         'population',
@@ -33,7 +33,6 @@ export default function PlanetContext({ children }) {
 
     switch (type) {
     case 'SET_FILTERS':
-      console.log(payload);
       return {
         ...state,
         filters: { ...state.filters, ...payload },
