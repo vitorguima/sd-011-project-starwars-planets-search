@@ -10,11 +10,13 @@ export default function StarProvider({ children }) {
     filterByNumericValues: [],
   });
 
-  const getDataFromApi = () => {
-    fetchStarwars().then((starData) => setData(starData));
-  };
-
-  useEffect(() => getDataFromApi(), []);
+  useEffect(() => {
+    async function fecthStarData() {
+      const results = await fetchStarwars();
+      return setData(results);
+    }
+    fecthStarData();
+  }, []);
 
   const context = {
     data,
