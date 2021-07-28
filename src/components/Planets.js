@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import PlanetsContext from '../../context/PlanetsContext';
+import PlanetsContext from '../context/PlanetsContext';
 
 function Planets() {
   const {
@@ -8,7 +8,7 @@ function Planets() {
     err,
   } = useContext(PlanetsContext);
 
-  useEffect(planetsData, []);
+  useEffect(() => planetsData(), []);
   console.log('filterPlanet no Planet', filterPlanet);
 
   const table = () => {

@@ -1,6 +1,6 @@
 import React from 'react';
-import Planets from './components/hooks/Planets';
-import Head from './components/hooks/Head';
+import Planets from './components/Planets';
+import Head from './components/Head';
 import PlanetsProvider from './context/PlanetsProvider';
 
 function App() {
