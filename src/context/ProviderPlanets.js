@@ -20,10 +20,10 @@ function ProviderPlanets({ children }) {
     const fetchPlanetsAPI = async () => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const { results } = await fetch(endpoint).then((data) => data.json());
-      // results.forEach((el) => {
-      //   delete el.residents;
-      return setPlanets(results);
-      // });
+      results.forEach((el) => {
+        delete el.residents;
+        return setPlanets(results);
+      });
     };
     fetchPlanetsAPI();
   }, []);

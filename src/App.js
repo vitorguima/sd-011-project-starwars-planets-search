@@ -4,7 +4,6 @@ import Table from './components/Table';
 
 function App() {
   const [planets] = useState([]);
-  console.log(planets);
   return (
     <div>
       <ContextPlanetsApi.Provider value={ { planets } }>

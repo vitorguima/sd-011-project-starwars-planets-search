@@ -4,6 +4,7 @@ import ContextPlanetsApi from '../context/ContextPlanetsApi';
 function Table() {
   const { planets } = useContext(ContextPlanetsApi);
   console.log(planets);
+
   return (
     <div>
       <table>
