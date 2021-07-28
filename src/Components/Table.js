@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import APIContext from '../Context/APIContext';
 
 function Table() {
-  const { data } = useContext(APIContext);
+  const { filteredPlanets } = useContext(APIContext);
 
   return (
     <div>
@@ -25,7 +25,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          { data.length > 0 && data.map((planet) => (
+          { filteredPlanets.length > 0 && filteredPlanets.map((planet) => (
             <tr key={ planet.name }>
               <td>{ planet.name }</td>
               <td>{ planet.rotation_period }</td>
