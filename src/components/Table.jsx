@@ -1,5 +1,7 @@
 import React from 'react';
 import Context from '../Context/Context';
+import Filter from './Filter';
+import Select from './Select';
 
 function Table() {
   const resultsApi = React.useContext(Context);
@@ -9,8 +11,18 @@ function Table() {
         name: '',
       },
       filterByNumericValues: [],
+      order: {
+        column: '',
+        sort: '',
+      },
     },
   });
+  const [isLoaded, setIsLoaded] = React.useState(true);
+  const [sort, setSort] = React.useState({ order: {
+    column: 'name',
+    sort: 'ASC',
+  } });
+
   const [filterNumericValues, setFilterNumericValues] = React.useState({
     column: 'maior que',
     comparison: '',
@@ -45,24 +57,23 @@ function Table() {
         filterByNumericValues: [
           ...filters.filters.filterByNumericValues,
         ],
+        ...filters.filters.order,
       },
     });
   }
-  const filterPlanets = allPlanets.filter((value) => {
-    if (filters.filters.filterByNumericValues.length > 0) {
-      const values = filters.filters
-        .filterByNumericValues[filters.filters.filterByNumericValues.length - 1];
-      switch (values.comparison) {
-      case 'maior que':
-        return value[values.column] > Number(values.value);
-      case 'menor que':
-        return value[values.column] < Number(values.value);
-      case 'igual a':
-        return value[values.column] === values.value;
-      default:
-        return true;
-      }
-    } return true;
+  const filterPlanets = Filter(filters, allPlanets)
+  filterPlanets.sort((planetA, planetB) => {
+    const { column } = sort.order;
+    if (sort.order.sort === 'ASC' && /^[0-9]/.test(planetA[column])) {
+      return +planetA[column] - +planetB[column];
+    }
+    if (sort.order.sort === 'ASC') {
+      return planetA[column].charCodeAt(0) - planetB[column].charCodeAt(0);
+    }
+    if (sort.order.sort === 'DESC' && /^[0-9]/.test(planetA[column])) {
+      return +planetB[column] - +planetA[column];
+    }
+    return 0;
   });
 
   const filterColumn = [
@@ -80,7 +91,13 @@ function Table() {
     const { column, comparison, value } = filterNumericValues;
     setFilters({ filters: { ...filters.filters,
       filterByNumericValues:
-      [...filters.filters.filterByNumericValues, { column, comparison, value }] } });
+      [...filters.filters.filterByNumericValues, { column, comparison, value }],
+      order: {
+        ...filters.filters.order,
+        sort: sort.order.sort,
+        column: sort.order.column,
+      },
+    } });
   }
 
   function removeParams(indexComparison) {
@@ -91,7 +108,11 @@ function Table() {
           .filter((value, index) => index !== indexComparison)],
     } });
   }
-
+  const params = { setSort,
+    filterTR,
+    sort,
+    isLoaded,
+    setIsLoaded };
   return (
     <div>
       <label htmlFor="filter">
@@ -159,6 +180,7 @@ function Table() {
       >
         Filtrar
       </button>
+      { Select(params) }
       <div>
         {filters.filters.filterByNumericValues.map((item, index) => (
           <div data-testid="filter" key={ index }>
@@ -180,7 +202,7 @@ function Table() {
         <tbody>
           {filterPlanets.map((item, index) => (
             <tr key={ index }>
-              <td>{item.name}</td>
+              <td data-testid="planet-name">{item.name}</td>
               <td>{item.rotation_period}</td>
               <td>{item.orbital_period}</td>
               <td>{item.diameter}</td>
