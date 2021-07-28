@@ -1,20 +1,31 @@
-import React, { useState } from 'react';
-import Context from './Context';
+import React, { useState, useEffect } from 'react';
+import MyContext from './MyContext';
 
 function Provider({ children }) {
-  const [stateA, setStateA] = useState('initialStateA');
-  const [stateB, setStateB] = useState('initialStateB');
+  const [planets, setPlanets] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+
+  useEffect(() => {
+    const getPlanets = async () => {
+      const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
+      const { results } = await fetch(endpoint).then((data) => data.json());
+      // Operador delete remove propriedades de objetos.
+      // Link: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete
+      setPlanets(results.filter((resp) => delete resp.residents));
+    };
+    getPlanets();
+  }, []);
+
   const contextValue = {
-    stateA,
-    setStateA,
-    stateB,
-    setStateB,
+    planets,
+    filters,
+    setFilters,
   };
 
   return (
-    <Context.Provider value={ contextValue }>
+    <MyContext.Provider value={ contextValue }>
       {children}
-    </Context.Provider>
+    </MyContext.Provider>
   );
 }
 

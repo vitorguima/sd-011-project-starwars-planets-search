@@ -1,10 +1,16 @@
 import React from 'react';
 import './App.css';
+import Provider from './context/Provider';
 import Table from './components/Table';
+import SearchBar from './components/SearchBar';
 
 function App() {
   return (
-    <Table />
+    <Provider>
+      <SearchBar />
+      <Table />
+    </Provider>
+
   );
 }
 
