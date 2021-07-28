@@ -1,14 +1,18 @@
 import React from 'react';
 import Table from './components/Table';
 import PlanetProvider from './context/PlanetProvider';
-import './App.css';
+import HandleFilters from './components/HandleFilters';
+import './styles/App.css';
 
 function App() {
   return (
-    <PlanetProvider>
-      <h1><span>Star Wars Planet Search</span></h1>
-      <Table />
-    </PlanetProvider>
+    <div>
+      <PlanetProvider>
+        <h1>Star Wars Planet Search</h1>
+        <HandleFilters />
+        <Table />
+      </PlanetProvider>
+    </div>
   );
 }
 

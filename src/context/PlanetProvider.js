@@ -5,8 +5,9 @@ import MyContext from './MyContext';
 
 const PlanetProvider = ({ children }) => {
   const [planetsResult, setPlanetsResult] = useState([]);
+  // const [filteredName, setFilteredName] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
 
-  // ComponentDidMount que traz conteúdo da tabela pela API.
   useEffect(() => {
     const fetchPlanets = async () => {
       const data = await getPlanets();
@@ -17,6 +18,11 @@ const PlanetProvider = ({ children }) => {
 
   const context = {
     planetsResult,
+    setPlanetsResult,
+    filters,
+    setFilters,
+    // filteredName,
+    // setFilteredName,
   };
 
   return (
