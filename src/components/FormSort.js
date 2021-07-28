@@ -40,14 +40,6 @@ function FormSort() {
       </label>
       <label htmlFor="sort">
         <input
-          data-testid="column-sort-input-desc"
-          type="radio"
-          name="sort"
-          value="DESC"
-          onChange={ handleSortOnChange }
-        />
-        Decrescente
-        <input
           data-testid="column-sort-input-asc"
           type="radio"
           name="sort"
@@ -55,6 +47,14 @@ function FormSort() {
           onChange={ handleSortOnChange }
         />
         Crescente
+        <input
+          data-testid="column-sort-input-desc"
+          type="radio"
+          name="sort"
+          value="DESC"
+          onChange={ handleSortOnChange }
+        />
+        Decrescente
       </label>
       <button
         data-testid="column-sort-button"

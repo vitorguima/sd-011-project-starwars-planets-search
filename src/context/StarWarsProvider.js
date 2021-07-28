@@ -1,15 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import StarWarsContext from './StarWarsContext';
-import fetchStarWarsPlanets from '../services/StarWarsAPI';
+import fetchStarWarsPlanets from '../services/starWarsAPI';
+import * as filtersServices from '../services/filtersServices';
+
+const { filtrateName, filtrateNumber, sortNumbers, sortStrings } = filtersServices;
 
 function StarWarsProvider({ children }) {
-  const [planets, setPlanets] = useState([]);
-  const [filters, setFilters] = useState({
+  const initialFilters = {
     filterByName: { name: '' },
     filterByNumericValues: [],
-    order: { columnSort: 'Name', sort: 'ASC' },
-  });
+    order: { columnSort: 'name', sort: 'ASC' },
+  };
+  const [planets, setPlanets] = useState([]);
+  const [filters, setFilters] = useState(initialFilters);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   useEffect(() => {
@@ -17,11 +21,10 @@ function StarWarsProvider({ children }) {
       const listPlanets = await fetchStarWarsPlanets();
       listPlanets.sort((a, b) => (a.name > b.name) || (a.name === b.name) - 1);
       setPlanets(listPlanets);
+      setFilteredPlanets(listPlanets);
     };
     getPlanets();
   }, []);
-
-  // https://www.youtube.com/watch?v=Q8JyF3wpsHc
 
   function handleFilterByName({ target: { value } }) {
     setFilters({ ...filters, filterByName: { name: value } });
@@ -30,34 +33,22 @@ function StarWarsProvider({ children }) {
   useEffect(() => {
     let filteringPlanets = [...planets];
     const { filterByName: { name }, filterByNumericValues } = filters;
+    const { order: { columnSort, sort } } = filters;
+    const listSortString = ['name', 'climate', 'terrain'];
+
+    if (listSortString.includes(columnSort)) {
+      filteringPlanets = sortStrings(filteringPlanets, columnSort, sort);
+    } else {
+      filteringPlanets = sortNumbers(filteringPlanets, columnSort, sort);
+    }
 
     if (name) {
-      filteringPlanets = planets.filter((planet) => (
-        planet.name.toLowerCase().includes(name.toLowerCase())
-      ));
+      filteringPlanets = filtrateName(filteringPlanets, name);
     }
 
     if (filterByNumericValues.length > 0) {
-      filterByNumericValues.forEach((filter) => {
-        switch (filter.comparison) {
-        case 'maior que':
-          filteringPlanets = (filteringPlanets.filter((planet) => (
-            Number(planet[filter.column]) > Number(filter.value)
-          )));
-          break;
-        case 'menor que':
-          filteringPlanets = (filteringPlanets.filter((planet) => (
-            Number(planet[filter.column]) < Number(filter.value)
-          )));
-          break;
-        case 'igual a':
-          filteringPlanets = (filteringPlanets.filter((planet) => (
-            Number(planet[filter.column]) === Number(filter.value)
-          )));
-          break;
-        default:
-          break;
-        }
+      filterByNumericValues.forEach(({ comparison, column, value }) => {
+        filteringPlanets = filtrateNumber(comparison, filteringPlanets, column, value);
       });
     }
 
@@ -83,29 +74,20 @@ function StarWarsProvider({ children }) {
   }
 
   function onClickButtonSort(columnSort, sort) {
-    const listSortString = [
-      'name',
-      'climate',
-      'terrain',
-      'gravity',
-      'surface_water',
-      'population'];
-    const sortedPlanets = [...filteredPlanets];
-    if (listSortString.includes(columnSort)) {
-      if (sort === 'ASC') {
-        sortedPlanets.sort((a, b) => (
-          a[columnSort] > b[columnSort]) || (a[columnSort] === b[columnSort]) - 1);
-      } else {
-        sortedPlanets.sort((a, b) => (
-          a[columnSort] < b[columnSort]) || (a[columnSort] === b[columnSort]) - 1);
-      }
-    } else if (sort === 'ASC') {
-      sortedPlanets.sort((a, b) => a[columnSort] - b[columnSort]);
-    } else {
-      sortedPlanets.sort((a, b) => b[columnSort] - a[columnSort]);
-    }
-    setFilteredPlanets(sortedPlanets);
+    setFilters({ ...filters, order: { columnSort, sort } });
   }
+
+  // useEffect(() => {
+  //   const { order: { columnSort, sort } } = filters;
+  //   const listSortString = ['name', 'climate', 'terrain'];
+  //   let sortedPlanets = [...filteredPlanets];
+  //   if (listSortString.includes(columnSort)) {
+  //     sortedPlanets = sortStrings(sortedPlanets, columnSort, sort);
+  //   } else {
+  //     sortedPlanets = sortNumbers(sortedPlanets, columnSort, sort);
+  //   }
+  //   setFilteredPlanets(sortedPlanets);
+  // }, [filters]);
 
   const contextValue = {
     filteredPlanets,
