@@ -1,20 +1,17 @@
 import React, { useContext, useState, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import DeleteFiltersBtn from './DeleteFiltersBtn';
+import useFilters from '../hooks/useFilters';
 
 const Filters = () => {
+  const { filteredColumnFilters } = useFilters();
+
   const {
     setFilterByName,
     addNewNumericFilter,
-    defaultColunsFilters,
-    filters,
   } = useContext(PlanetsContext);
 
-  // Filtros filtrados são inicialmente atribuidos ao valor padrão das opções de filtros;
-  const [
-    filteredColumnFilters,
-    setFilteredColumnFilters,
-  ] = useState(defaultColunsFilters);
+  const [isDisabled, setIsDisabled] = useState(false);
 
   // Estado criado para capturar os valores dos filtros escolhidos em cada select;
   const [selectedValues, setSelectedValues] = useState({
@@ -22,25 +19,6 @@ const Filters = () => {
     comparison: 'maior que',
     value: 0,
   });
-
-  const [isDisabled, setIsDisabled] = useState(false);
-
-  const {
-    filters: {
-      filterByNumericValues,
-    },
-  } = filters;
-
-  // Realiza a filtragem das opções disponíveis conforme filtros forem sendo adicionados pelo usuário;
-  // 1º Transforma as opções escolhidas em um array com o uso do .map();
-  // 2º Ataliza os opções de filtro filtradas retirando desse array os valores escolhidos pelo usuário.
-  useEffect(() => {
-    const filterOptions = filterByNumericValues.map((options) => options.column);
-    setFilteredColumnFilters(
-      defaultColunsFilters
-        .filter((columnFilter) => !filterOptions.includes(columnFilter)),
-    );
-  }, [filterByNumericValues, defaultColunsFilters]);
 
   useEffect(() => {
     if (filteredColumnFilters.length === 0) {

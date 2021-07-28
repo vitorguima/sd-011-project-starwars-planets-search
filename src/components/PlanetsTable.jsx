@@ -1,40 +1,10 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import useFilters from '../hooks/useFilters';
 
 const Table = () => {
-  const { data, isLoading, filters } = useContext(PlanetsContext);
-  const { results } = data;
-  const {
-    filters: {
-      filterByName: {
-        name,
-      },
-      filterByNumericValues,
-    },
-  } = filters;
-
-  const [filteredPlanetList, setFilteredPlanetList] = useState([]);
-
-  useEffect(() => {
-    filterByNumericValues.forEach((option) => {
-      setFilteredPlanetList(
-        results
-          .filter((planet) => planet.name.toLowerCase().includes(name.toLowerCase()))
-          .filter((planet) => {
-            switch (option.comparison) {
-            case 'maior que':
-              return (planet[option.column] > Number(option.value));
-            case 'menor que':
-              return (planet[option.column] < Number(option.value));
-            case 'igual a':
-              return (planet[option.column] === option.value);
-            default:
-              return true;
-            }
-          }),
-      );
-    });
-  }, [filterByNumericValues, name, results]);
+  const { isLoading } = useContext(PlanetsContext);
+  const { filteredPlanetList } = useFilters();
 
   return (
     (!isLoading)
