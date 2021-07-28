@@ -3,6 +3,7 @@ import StarWarsContext from '../context/StarWarsContext';
 
 export default function Header() {
   const { filters, setFilters } = useContext(StarWarsContext);
+  const { filterByNumericValues } = filters;
 
   const [column, setColumn] = useState('population');
   const [value, setValue] = useState('');
@@ -30,6 +31,9 @@ export default function Header() {
     'surface_water',
   ];
 
+  const columnFilter = columnBase.filter((item) => !filterByNumericValues
+    .map((element) => element.column).includes(item));
+
   return (
     <div>
       <label htmlFor="name">
@@ -45,7 +49,7 @@ export default function Header() {
         data-testid="column-filter"
         onChange={ ({ target }) => setColumn(target.value) }
       >
-        { columnBase.map((element, index) => (
+        { columnFilter.map((element, index) => (
           <option key={ index }>{ element }</option>
         )) }
       </select>
