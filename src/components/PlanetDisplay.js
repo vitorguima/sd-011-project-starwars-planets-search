@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import SWContext from '../context/SWContext';
 
 function PlanetDisplay() {
-  const { data } = useContext(SWContext);
+  const { filterPlanets } = useContext(SWContext);
 
   // console.log(data);
   // console.log(SWContext);
-  if (!data.length) {
+  if (!filterPlanets.length) {
     return <h1>Loading...</h1>;
   }
   return (
@@ -29,7 +29,7 @@ function PlanetDisplay() {
         </tr>
       </thead>
       <tbody>
-        {data.map((item) => (
+        {filterPlanets.map((item) => (
           <tr key={ item.name }>
             <td>{item.name}</td>
             <td>{item.climate}</td>
