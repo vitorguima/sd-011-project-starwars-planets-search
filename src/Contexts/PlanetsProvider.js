@@ -21,6 +21,7 @@ function PlanetsProvider({ children }) {
       const { results } = await fetch(url).then((result) => result.json());
       setData(results);
       setFiltered(results);
+      console.log(document.getElementById('column').value);
     };
 
     getPlanets();
