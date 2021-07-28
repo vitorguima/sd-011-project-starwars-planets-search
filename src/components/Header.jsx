@@ -1,11 +1,13 @@
 import React, { useContext } from 'react';
 import Context from '../context/Context';
+import Selects from './subcomponents/Selects';
 
 function Header() {
   const { filterByName } = useContext(Context);
   return (
     <div>
       <form>
+        FILTERS
         <fieldset>
           <input
             type="text"
@@ -13,25 +15,13 @@ function Header() {
             onChange={ ({ target }) => filterByName(target.value) }
           />
         </fieldset>
+        <Selects />
         <fieldset>
-          <select>
-            <option>
-              a
-            </option>
-          </select>
-          <select>
-            <option>
-              b
-            </option>
-          </select>
-          <select>
-            <option>
-              c
-            </option>
-          </select>
+          <button type="button" data-testid="button-filter" name="filterButton">
+            Filtrar
+          </button>
         </fieldset>
       </form>
-      FILTERS
     </div>
   );
 }
