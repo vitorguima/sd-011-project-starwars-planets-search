@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import SWContext from '../context/SWContext';
 
 function Tbody() {
-  const { data } = useContext(SWContext);
+  const { planets } = useContext(SWContext);
 
   return (
     <thead className="tbody">
-      {data.map((planet, index) => (
+      {planets.map((planet, index) => (
         <tr key={ index }>
           <td>{planet.name}</td>
           <td>{planet.rotation_period}</td>
