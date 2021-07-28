@@ -7,7 +7,15 @@ const PlanetsProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [filters, setFilters] = useState({ filterByName: {
     name: '',
-  } });
+  },
+  filterByNumericValues: [
+    {
+      column: 'population',
+      comparison: 'maior que',
+      value: '100000',
+    },
+  ],
+  });
   const [dataPlanets, setPlanetsResults] = useState([]);
 
   // Pega os dados da Api e modifica o state adicionando os planetas
@@ -32,7 +40,7 @@ const PlanetsProvider = ({ children }) => {
     }
   }
 
-  // Filtra pelas palavras e retorna cheio ou pelos filtrados
+  // Filtra pelas palavras e retorna cheio ou pelos
   function filterReturn() {
     if (filterForNamePlanet().length > 0) {
       return filterForNamePlanet();

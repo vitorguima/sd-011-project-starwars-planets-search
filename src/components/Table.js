@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../Providers/PlanetsContext';
 import '../App.css';
 import Filters from './Filters';
+import Select from './Select';
 
 function Table() {
   const { filterReturn } = useContext(PlanetsContext);
