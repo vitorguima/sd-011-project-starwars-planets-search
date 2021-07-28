@@ -1,6 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
-import Input from './Input';
+import Filters from './Filters';
 import TableContent from './TableContent';
 import TableHeader from './TableHeader';
 
@@ -19,7 +19,7 @@ function Table() {
   return (
     <>
       <TableHeader />
-      <Input />
+      <Filters />
       <TableContent />
     </>
   );
