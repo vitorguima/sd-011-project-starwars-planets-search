@@ -8,19 +8,23 @@ export default function NumericFilter() {
     value: '',
   });
 
-  const { columnOptions, filterOn, setFilterOn, filters:
+  const {
+    setFilterOn, filters:
     { filterByNumericValues,
       setFilterByNumericValues } } = useContext(RequisitionContext);
 
+  const columnOptions = [
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ];
+
   function makeOptions() {
-    if (filterOn) {
-      return columnOptions
+    if (filterByNumericValues[0].column !== '') {
+      const newColumnOptions = columnOptions
+        .filter((opt) => opt !== filterByNumericValues[0].column);
+      return newColumnOptions
         .map((opt, index) => <option value={ opt } key={ index }>{opt}</option>);
     }
-    console.log(filterByNumericValues[0]);
-    const newColumnOptions = columnOptions
-      .filter((opt) => opt !== filterByNumericValues[0].column);
-    return newColumnOptions
+    return columnOptions
       .map((opt, index) => <option value={ opt } key={ index }>{opt}</option>);
   }
 
