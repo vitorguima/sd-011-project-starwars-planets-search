@@ -3,6 +3,11 @@ import React, { useEffect, useState } from 'react';
 function Table() {
   const [apiResultCopy, setApiResultCopy] = useState([]);
   const [apiResult, setApiResult] = useState([]);
+  const [filterData, setFilterData] = useState([
+    { filterByName: { name: '' } },
+    { filterByNumericValues: {
+      column: 'population', comparison: 'maior que', value: '' } },
+  ]);
   const num = 13;
 
   useEffect(() => {
@@ -16,19 +21,19 @@ function Table() {
     request();
   }, []);
 
-  // const renderPlanetFiltered = () => {
-  //   console.log(filtOption);
-  //   return
-  // };
-
   const filterPlanets = (filText) => {
     if (filText.length > 0) {
+      const updateFilter = filterData;
+      updateFilter[0].filterByName.name = filText;
+      setFilterData(updateFilter);
       const filteredPlanets = apiResult.filter((planet) => (
         (planet.name).includes(filText)));
-      console.log(filteredPlanets);
       setApiResult(filteredPlanets);
     } else {
       setApiResult(apiResultCopy);
+      const updateFilter = filterData;
+      updateFilter[0].filterByName.name = '';
+      setFilterData(updateFilter);
     }
   };
 
@@ -57,6 +62,34 @@ function Table() {
     }
   };
 
+  const setSelectFilters = (targetValue, type) => {
+    const updateFilter = filterData;
+    updateFilter[1].filterByNumericValues[type] = targetValue;
+    setFilterData(updateFilter);
+    console.log(filterData);
+  };
+
+  const renderFilteredPlanets = () => {
+    const { column, comparison, value } = filterData[1].filterByNumericValues;
+    let planetsToRender;
+    if (comparison === 'maior que') {
+      planetsToRender = apiResult.filter((planet) => (
+        planet[column] > parseInt(value, 10)
+      ));
+    }
+    if (comparison === 'menor que') {
+      planetsToRender = apiResult.filter((planet) => (
+        planet[column] < parseInt(value, 10)
+      ));
+    }
+    if (comparison === 'igual a') {
+      planetsToRender = apiResult.filter((planet) => (
+        planet[column] === value
+      ));
+    }
+    setApiResult(planetsToRender);
+  };
+
   return (
     <div>
       <input
@@ -65,6 +98,36 @@ function Table() {
         data-testid="name-filter"
         onChange={ ({ target }) => filterPlanets(target.value) }
       />
+      <select
+        data-testid="column-filter"
+        onChange={ ({ target }) => setSelectFilters(target.value, 'column') }
+      >
+        <option value="population">population</option>
+        <option value="orbital_period">orbital_period</option>
+        <option value="diameter">diameter</option>
+        <option value="rotation_period">rotation_period</option>
+        <option value="surface_water">surface_water</option>
+      </select>
+      <select
+        data-testid="comparison-filter"
+        onChange={ ({ target }) => setSelectFilters(target.value, 'comparison') }
+      >
+        <option value="maior que">maior que</option>
+        <option value="menor que">menor que</option>
+        <option value="igual a">igual a</option>
+      </select>
+      <input
+        type="number"
+        data-testid="value-filter"
+        onChange={ ({ target }) => setSelectFilters(target.value, 'value') }
+      />
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ () => renderFilteredPlanets() }
+      >
+        Filter
+      </button>
       <div>
         <table>
           <thead>
