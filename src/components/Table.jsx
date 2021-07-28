@@ -1,9 +1,15 @@
-import React, { useContext } from 'react';
+import React, { useContext, useMemo } from 'react';
 import PlanetsContext from '../Context/PlanetsContext';
 import SearchBar from './SearchBar';
 
 function Table() {
-  const { data } = useContext(PlanetsContext);
+  const { data, name } = useContext(PlanetsContext);
+  const filterPlanets = useMemo(() => {
+    const lowerCasePlanets = name.toLowerCase();
+    return data.filter((element) => element.name
+      .toLowerCase().includes(lowerCasePlanets));
+  }, [data, name]);
+
   return (
     <div>
       <SearchBar />
@@ -27,7 +33,7 @@ function Table() {
         </thead>
         <tbody id="body">
           {data && (
-            data.map((planet, index) => (
+            filterPlanets.map((planet, index) => (
               <tr key={ index }>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>

@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 
 function Provider({ children }) {
-  const [data, setData] = useState([]);
-  const [name, getName] = useState([]);
+  const [data, getData] = useState([]);
+  const [newData, getNewData] = useState([]);
+  const [name, getName] = useState('');
   // column, comparison, value
   const [column, getColumn] = useState('');
   const [comparison, getComparison] = useState('');
@@ -15,42 +16,42 @@ function Provider({ children }) {
   useEffect(() => getFilterByNumericValues([{
     column, comparison, value }]), [column, comparison, value]);
 
-  // function switchCategories() {
-  //   switch (column) {
-  //   case column ===:
-  //     return true;
-  //   default:
-  //     break;d
-  //   }
-  // }
-
   useEffect(() => {
     const getPlanets = async () => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
+
+      // !requisição API
       const { results } = await fetch(endpoint)
         .then((receivedData) => receivedData.json());
       const filteredResults = Object.values(results);
-      filteredResults.map((test) => {
-        test.residents.splice(0, test.residents.length);
-        return test;
+
+      filteredResults.map((comp) => {
+        comp.residents.splice(0, comp.residents.length);
+        return comp;
       });
 
-      const condition = data.length !== 0 ? data : filteredResults;
-      if (name.length === 0) setData(condition);
-      if (name.length !== 0) {
-        const filterData = condition.filter((element) => element.name
-          .toLowerCase().includes(name.toLowerCase()));
-        setData(filterData);
-      }
+      getData(filteredResults);
     };
 
     getPlanets();
-  }, [name, data, data.length]);
+  }, []);
+
+  // useEffect(() => {
+  //   const condition = newData.length !== 0 ? newData : data;
+  //   if (name.length !== 0) {
+  //     const filterData = condition.filter((element) => element.name
+  //       .toLowerCase().includes(name.toLowerCase()));
+  //     // #Salvando data com filtro para uma futura filtragem
+  //     getNewData(filterData);
+  //     getData(filterData);
+  //   }
+  // }, [name, data, newData])
 
   const obj = {
     data,
-    setData,
+    getData,
     getName,
+    name,
     filters: {
       filterByName: {
         name,
@@ -60,6 +61,8 @@ function Provider({ children }) {
     getColumn,
     getComparison,
     getValue,
+    newData,
+    getNewData,
   };
   return (
     <PlanetsContext.Provider value={ obj }>
