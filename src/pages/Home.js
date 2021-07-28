@@ -9,8 +9,13 @@ import fecthApi from '../services/fetchPlanets';
 function Home() {
   const { setPlanets } = useContext(PlanetsContext);
 
+  async function getPlanets() {
+    const apiResult = await fecthApi();
+    setPlanets(apiResult);
+  }
+
   useEffect(() => {
-    fecthApi().then((response) => setPlanets(response.results));
+    getPlanets();
   });
 
   return (

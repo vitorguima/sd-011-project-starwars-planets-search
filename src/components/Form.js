@@ -7,47 +7,70 @@ function handleInput(setName) {
     <label htmlFor="inputSearch">
       { 'Buscar: ' }
       <input
+        placeholder="Digite o nome do planeta"
         data-testid="name-filter"
         id="inputSearch"
         onChange={ (e) => setName(e.target.value) }
-        placeholder="Insert Planet"
       />
     </label>
   );
 }
 
-function filterValues(setFiltersValues, filters, setFilters) {
+function filtersListItems(list, setFilters) {
+  return list.map((filter) => (
+    <div data-testid="filter" key={ filter.column }>
+      <p>{ `${filter.column} ${filter.comparison} ${filter.value}` }</p>
+      <button
+        type="button"
+        onClick={ () => setFilters(list
+          .filter((item) => item.column !== filter.column)) }
+      >
+        X
+      </button>
+    </div>
+  ));
+}
+
+function handleFilters(setFiltersValues, filters, filtersInputs, setFiltersInputs) {
+  const { column, comparison, value } = filtersInputs;
+  const { filterByNumericValues } = filters;
+  const listSelectColumn = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
   return (
-    <fieldset className="setfield-filter">
-      <legend>Filtros</legend>
+    <fieldset>
+
       <label htmlFor="select-column">
         { 'Coluna: ' }
         <select
-          onChange={ (e) => setFilters(
-            { ...filters, column: e.target.value },
+          value={ column }
+          onChange={ (e) => setFiltersInputs(
+            { ...filtersInputs, column: e.target.value },
           ) }
           data-testid="column-filter"
           id="select-column"
         >
-          <option>{ null }</option>
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          { listSelectColumn
+            .filter((item) => !(filterByNumericValues
+              .some((filter) => filter.column === item)))
+            .map((itemColumn) => <option key={ itemColumn }>{ itemColumn }</option>) }
         </select>
       </label>
 
       <label htmlFor="select-comparison">
         { 'Comparação: ' }
         <select
-          onChange={ (e) => setFilters(
-            { ...filters, comparison: e.target.value },
+          value={ comparison }
+          onChange={ (e) => setFiltersInputs(
+            { ...filtersInputs, comparison: e.target.value },
           ) }
           data-testid="comparison-filter"
           id="select-comparison"
         >
-          <option>{ null }</option>
           <option>maior que</option>
           <option>menor que</option>
           <option>igual a</option>
@@ -57,41 +80,48 @@ function filterValues(setFiltersValues, filters, setFilters) {
       <label htmlFor="input-filter">
         { 'Valor: ' }
         <input
-          onChange={ (e) => setFilters(
-            { ...filters, value: e.target.value },
+          type="number"
+          value={ value }
+          onChange={ (e) => setFiltersInputs(
+            { ...filtersInputs, value: e.target.value },
           ) }
           data-testid="value-filter"
           id="input-filter"
-          type="number"
         />
       </label>
 
       <button
-        data-testid="button-filter"
-        onClick={ () => setFiltersValues(filters) }
         type="button"
+        data-testid="button-filter"
+        disabled={ (!column || !comparison || !value) }
+        onClick={ () => {
+          setFiltersValues([...filterByNumericValues, filtersInputs]);
+          setFiltersInputs({ column: '', comparison: '', value: '' });
+        } }
       >
         Filtrar
       </button>
+
+      { filtersListItems(filterByNumericValues, setFiltersValues) }
 
     </fieldset>
   );
 }
 
 function Form() {
-  const [filters, setFilters] = useState(
+  const [filtersInputs, setFiltersInputs] = useState(
     {
       column: '',
       comparison: '',
       value: '',
     },
   );
-  const { setName, setFiltersValues } = useContext(PlanetsContext);
+  const { setName, setFiltersValues, filters } = useContext(PlanetsContext);
 
   return (
-    <div className="container-filters">
+    <div>
       { handleInput(setName) }
-      { filterValues(setFiltersValues, filters, setFilters) }
+      { handleFilters(setFiltersValues, filters, filtersInputs, setFiltersInputs) }
     </div>
   );
 }

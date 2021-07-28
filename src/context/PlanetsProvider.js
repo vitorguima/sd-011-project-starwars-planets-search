@@ -6,9 +6,7 @@ import PlanetsContext from './PlanetsContext';
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [name, setName] = useState('');
-  const [filtersValues, setFiltersValues] = useState(
-    { column: '', comparison: '', value: '' },
-  );
+  const [filtersValues, setFiltersValues] = useState([]);
 
   const values = {
     planets,
