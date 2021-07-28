@@ -25,7 +25,7 @@ export default function FilterValues() {
           value={ column }
           onChange={ (e) => setColumn(e.target.value) }
           data-testid="column-filter"
-          className="select-css2"
+          className="select-css"
         >
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
@@ -39,7 +39,7 @@ export default function FilterValues() {
           value={ comparison }
           onChange={ (e) => setComparison(e.target.value) }
           data-testid="comparison-filter"
-          className="select-css2"
+          className="select-css"
         >
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
@@ -52,7 +52,7 @@ export default function FilterValues() {
           onChange={ (e) => setValue(e.target.value) }
           type="number"
           data-testid="value-filter"
-          className="select-css2"
+          className="select-css"
         />
 
         <button

@@ -17,7 +17,7 @@ export default function FilterInput() {
           type="text"
           value={ nameFilter }
           onChange={ handleInputChange }
-          className="select-css2"
+          className="select-css"
           size="52"
         />
       </center>

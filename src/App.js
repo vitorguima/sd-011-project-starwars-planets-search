@@ -5,9 +5,11 @@ import Home from './pages/Home';
 
 function App() {
   return (
-    <AppContextProvider>
-      <Home />
-    </AppContextProvider>
+    <div className="back">
+      <AppContextProvider>
+        <Home />
+      </AppContextProvider>
+    </div>
   );
 }
 
