@@ -4,25 +4,36 @@ import getPlanets from '../services/fetchPlanets';
 import MyContext from './MyContext';
 
 const PlanetProvider = ({ children }) => {
-  const [planetsResult, setPlanetsResult] = useState([]);
-  // const [filteredName, setFilteredName] = useState([]);
+  const [data, setData] = useState([]); // Resposta da API.
   const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
+
+  function handleChange() {
+    const filteredNameInput = data.filter(
+      (planet) => planet.name.toLowerCase().includes(filters.filterByName.name),
+    );
+    setFilteredPlanets(filteredNameInput);
+  }
 
   useEffect(() => {
     const fetchPlanets = async () => {
-      const data = await getPlanets();
-      setPlanetsResult(data);
+      const results = await getPlanets();
+      setFilteredPlanets(results);
+      setData(results);
     };
     fetchPlanets();
   }, []);
 
+  useEffect(handleChange, [filters]);
+
   const context = {
-    planetsResult,
-    setPlanetsResult,
+    data,
+    setData,
     filters,
     setFilters,
-    // filteredName,
-    // setFilteredName,
+    filteredPlanets,
+    // setFilteredPlanets,
+    // setOnlyPlanets,
   };
 
   return (

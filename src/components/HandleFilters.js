@@ -3,22 +3,16 @@ import MyContext from '../context/MyContext';
 
 function HandleFilters() {
   const {
-    planetsResult,
-    setPlanetsResult,
-    // filters,
+    // data,
+    // setData,
     setFilters,
-    // filteredName,
-    // setFilteredName,
-    name,
+    filters,
+    // setFilteredPlanets,
+    // setData,
+    // filterPlanets,
+    // setOnlyPlanets,
+    // name,
   } = useContext(MyContext);
-
-  function filterPlanetByName({ target }) {
-    setFilters(target.value);
-    const filteredInput = planetsResult.filter(
-      (planet) => planet.name.toLowerCase().includes(target.value),
-    );
-    setPlanetsResult(filteredInput);
-  }
 
   return (
     <form>
@@ -27,9 +21,9 @@ function HandleFilters() {
         <input
           id="filter-name"
           name="filter-name"
-          data-testid="name-filter" // ({ e }) => filterPlanetByName({ ...filters, filterByName: { name: e.target.value } })
-          value={ name }
-          onChange={ filterPlanetByName }
+          data-testid="name-filter"
+          onChange={ (e) => setFilters({ ...filters,
+            filterByName: { name: e.target.value } }) }
         />
       </label>
     </form>
