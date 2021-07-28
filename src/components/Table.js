@@ -26,22 +26,7 @@ export default function Table() {
   useEffect(() => {
     setFiltered(data && data.results
       .filter((value) => value.name.includes(filter.filters.filterByName.name)));
-  }, [data, filter.filters.filterByName]);
-
-  function filterPlanets() {
-    return setFiltered(data && data.results.filter((value) => {
-      switch (filterOption.comparison) {
-      case 'maior que':
-        return Number(value[filterOption.column]) > Number(filterOption.value);
-      case 'menor que':
-        return Number(value[filterOption.column]) < Number(filterOption.value);
-      case 'igual a':
-        return Number(value[filterOption.column]) === Number(filterOption.value);
-      default:
-        return true;
-      }
-    }));
-  }
+  }, [data, filter.filters.filterByName.name]);
 
   function renderTHEAD() {
     return (
@@ -65,20 +50,53 @@ export default function Table() {
     );
   }
 
+  const [columnOptions, setColumnOptions] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  useEffect(() => {
+    if (filter.filters.filterByNumericValues.length > 0) {
+      setColumnOptions(columnOptions
+        .filter((coluna) => coluna !== filter.filters.filterByNumericValues[0].column));
+    }
+  }, [filter.filters.filterByNumericValues]);
+
+  function setFilterArray() {
+    setFilter({
+      filters: {
+        filterByName: {
+          ...filter.filters.filterByName,
+        },
+        filterByNumericValues: [...filter.filters.filterByNumericValues, filterOption],
+      },
+    });
+  }
+
+  function filterPlanets() {
+    setFilterArray();
+    return setFiltered(data && data.results.filter((value) => {
+      switch (filterOption.comparison) {
+      case 'maior que':
+        return Number(value[filterOption.column]) > Number(filterOption.value);
+      case 'menor que':
+        return Number(value[filterOption.column]) < Number(filterOption.value);
+      case 'igual a':
+        return Number(value[filterOption.column]) === Number(filterOption.value);
+      default:
+        return true;
+      }
+    }));
+  }
   function renderFilters() {
     return (
       <div>
         <select
           data-testid="column-filter"
+          value={ filterOption.column }
           onChange={ ({ target }) => setFilterOption({
             ...filterOption, column: target.value,
           }) }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {columnOptions
+            .map((column) => <option key={ column } value={ column }>{column}</option>)}
         </select>
         <select
           data-testid="comparison-filter"
@@ -127,6 +145,7 @@ export default function Table() {
               filterByName: {
                 name: target.value,
               },
+              filterByNumericValues: [...filter.filters.filterByNumericValues],
             },
           }) }
         />
