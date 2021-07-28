@@ -8,7 +8,7 @@ function Select() {
     setValue,
     handleClick } = useContext(MyContext);
   const { filterByNumericValues } = filters;
-  const { column, value, comparison } = filterByNumericValues;
+  const { value, comparison } = filterByNumericValues;
   const arrayOptions = [
     'population',
     'orbital_period',
@@ -17,6 +17,9 @@ function Select() {
     'surface_water',
   ];
 
+  const filterArrayOf = arrayOptions.filter((arrayOption) => (
+    !filterByNumericValues.map(({ column }) => column).includes(arrayOption)));
+
   return (
     <div>
       <select
@@ -24,11 +27,10 @@ function Select() {
         onChange={ ({ target }) => setColumn(target.value) }
       >
         {
-          arrayOptions
+          filterArrayOf
             .map((item, index) => (
               <option
                 key={ index }
-                value={ column }
                 name={ item }
               >
                 { item }
