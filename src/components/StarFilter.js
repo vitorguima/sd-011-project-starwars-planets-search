@@ -5,10 +5,12 @@ import StarContext from '../contexts/starContext';
 export default function StarFilter() {
   const { setFilters, filters } = useContext(StarContext);
   const [numberFilter, setNumberFilter] = useState({
-    column: 'populaion',
+    column: 'population',
     comparison: 'maior que',
     value: undefined,
   });
+
+  const numberFilters = filters.filterByNumericValues;
 
   const handleFilterName = ({ target: { value } }) => setFilters({
     ...filters,
@@ -26,6 +28,22 @@ export default function StarFilter() {
     ...filters,
     filterByNumericValues: filters.filterByNumericValues.concat(numberFilter),
   });
+
+  const renderFilters = () => numberFilters.map((element, index) => (
+    <li key={ index } data-testid="filter">
+      <span>{ `${element.column} ${element.comparison} ${element.value}` }</span>
+      <button
+        type="button"
+        onClick={ () => setFilters({
+          ...filters,
+          filterByNumericValues: filters.filterByNumericValues
+            .filter((value) => value.column !== element.column),
+        }) }
+      >
+        X
+      </button>
+    </li>
+  ));
 
   return (
     <HeaderStyle>
@@ -46,20 +64,20 @@ export default function StarFilter() {
           onChange={ handleFilterNumber }
           data-testid="column-filter"
         >
-          <option>population</option>
-          <option>orbital_period</option>
-          <option>diameter</option>
-          <option>rotation_period</option>
-          <option>surface_water</option>
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
         </select>
         <select
           name="comparison"
           onChange={ handleFilterNumber }
           data-testid="comparison-filter"
         >
-          <option>maior que</option>
-          <option>igual a</option>
-          <option>menor que</option>
+          <option value="maior que">maior que</option>
+          <option value="igual a">igual a</option>
+          <option value="menor que">menor que</option>
         </select>
         <input
           typer="number"
@@ -75,6 +93,11 @@ export default function StarFilter() {
         >
           Filtrar
         </button>
+      </div>
+      <div>
+        <ul>
+          { renderFilters() }
+        </ul>
       </div>
     </HeaderStyle>
   );
