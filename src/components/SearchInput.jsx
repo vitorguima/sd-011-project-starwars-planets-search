@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import GlobalContext from '../context/GlobalContext';
 
 function SearchInput() {
-  const { filters, setFilter } = useContext(GlobalContext);
+  const { filters, setFilters } = useContext(GlobalContext);
   const { filterByName: { name } } = filters;
 
   const updateFilterByName = ({ target: { value } }) => {
-    setFilter(
+    setFilters(
       { ...filters, filterByName: { name: value } },
     );
   };

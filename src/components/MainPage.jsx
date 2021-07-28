@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import Table from './Table';
 import GlobalContext from '../context/GlobalContext';
 import SearchInput from './SearchInput';
+import NumericFilters from './NumericFilters';
 
 function MainPage() {
   const { loading, fetchPlanets } = useContext(GlobalContext);
@@ -18,6 +19,7 @@ function MainPage() {
   return (
     <div className="table-container">
       <SearchInput />
+      <NumericFilters />
       <Table />
     </div>
   );

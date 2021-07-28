@@ -8,11 +8,18 @@ const PlanetsProvider = ({ children }) => {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
   };
 
   const [planets, setPlanets] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [filters, setFilter] = useState(filterDefault);
+  const [filters, setFilters] = useState(filterDefault);
 
   async function fetchPlanets() {
     setLoading(true);
@@ -34,7 +41,7 @@ const PlanetsProvider = ({ children }) => {
     loading,
     fetchPlanets,
     filters,
-    setFilter,
+    setFilters,
   };
 
   return (
