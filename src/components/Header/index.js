@@ -11,7 +11,6 @@ export default function Header() {
   ];
 
   const [options, setOptions] = useState(OPTIONS_TO_COMPARISON);
-
   const { filters, setFilters } = useContext(PlanetsContext);
 
   const handleInputChange = ({ value }) => {
@@ -29,11 +28,12 @@ export default function Header() {
 
     setFilters({
       ...filters,
-      filterByNumericValues: [{
-        column: COLUMN_FILTER.value,
-        comparison: COMPARISON_FILTER.value,
-        value: Number(VALUE_FILTER.value),
-      }],
+      filterByNumericValues: [...filters.filterByNumericValues,
+        {
+          column: COLUMN_FILTER.value,
+          comparison: COMPARISON_FILTER.value,
+          value: Number(VALUE_FILTER.value),
+        }],
     });
 
     const newOptions = options.filter((option) => option !== COLUMN_FILTER.value);
