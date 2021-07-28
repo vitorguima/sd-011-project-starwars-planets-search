@@ -16,6 +16,9 @@ function Head() {
         onChange={ handleChange }
       />
       <section>
+        <selection>
+          <option>1</option>
+        </selection>
       </section>
     </>
   );
