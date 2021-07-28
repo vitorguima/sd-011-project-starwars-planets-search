@@ -11,6 +11,7 @@ function Table() {
 
   return (
     <div className="demo">
+      <Select />
       <Filters />
       {myFilter
         ? (
