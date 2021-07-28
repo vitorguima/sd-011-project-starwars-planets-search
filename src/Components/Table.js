@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import context from '../Context';
 import Input from './Input';
+import DropdownInput from './DropdownInput';
 
 function Table() {
   const { filterData } = useContext(context);
@@ -8,6 +9,7 @@ function Table() {
   return (
     <header>
       <Input />
+      <DropdownInput />
       <table>
         <thead>
           <tr>

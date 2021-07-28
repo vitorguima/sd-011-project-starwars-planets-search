@@ -19,6 +19,7 @@ function Input() {
     setFilterData(
       secondData,
     );
+    console.log(secondData);
   }
 
   return (
