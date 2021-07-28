@@ -6,11 +6,13 @@ import Table from './components/PlanetsTable';
 
 function App() {
   return (
-    <PlanetsProvider>
-      <span>Project StarWars Planets Search!</span>
-      <Filters />
-      <Table />
-    </PlanetsProvider>
+    <>
+      <h1>Project StarWars Planets Search!</h1>
+      <PlanetsProvider>
+        <Filters />
+        <Table />
+      </PlanetsProvider>
+    </>
   );
 }
 
