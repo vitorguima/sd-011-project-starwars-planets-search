@@ -1,24 +1,24 @@
-export function filteredPlanets(array, object) {
-  const numericFilters = object.map((plan) => {
-    switch (plan.comparison) {
+export function filteredPlanets(array, allFilters) {
+  let filteredPlanetsByNumeric = array;
+  allFilters.forEach((filter) => {
+    switch (filter.comparison) {
     case 'maior que':
-      return array
-        .filter((newArray) => Number(newArray[plan.column]) > Number(plan.value));
+      filteredPlanetsByNumeric = filteredPlanetsByNumeric
+        .filter((newArray) => Number(newArray[filter.column]) > Number(filter.value));
+      break;
     case 'menor que':
-      return array
-        .filter((newArray) => Number(newArray[plan.column]) < Number(plan.value));
+      filteredPlanetsByNumeric = filteredPlanetsByNumeric
+        .filter((newArray) => Number(newArray[filter.column]) < Number(filter.value));
+      break;
     case 'igual a':
-      return array
-        .filter((newArray) => Number(newArray[plan.column]) === Number(plan.value));
+      filteredPlanetsByNumeric = filteredPlanetsByNumeric
+        .filter((newArray) => Number(newArray[filter.column]) === Number(filter.value));
+      break;
     default:
-      return array;
+      return filteredPlanetsByNumeric;
     }
   });
-  //   if (plan.comparison === 'maior que') {
-  //     return array
-  //       .filter((newArray) => Number(newArray[plan.column]) > Number(plan.value));
-  //   } return array;
-  return numericFilters;
+  return filteredPlanetsByNumeric;
 }
 
 export function filteredPlanetsByName(array, object) {
@@ -26,3 +26,17 @@ export function filteredPlanetsByName(array, object) {
   const filtered = array.filter((planets) => (planets.name).includes(name));
   return filtered;
 }
+
+// switch (plan.comparison) {
+//   case 'maior que':
+//     return array
+//       .filter((newArray) => Number(newArray[plan.column]) > Number(plan.value));
+//   case 'menor que':
+//     return array
+//       .filter((newArray) => Number(newArray[plan.column]) < Number(plan.value));
+//   case 'igual a':
+//     return array
+//       .filter((newArray) => Number(newArray[plan.column]) === Number(plan.value));
+//   default:
+//     return array;
+//   }

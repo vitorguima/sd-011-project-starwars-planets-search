@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import planetsContext from '../context/PlanetsContext';
 
 export default function FilterSelector() {
-  const { setSelectFilter, setNameFilter, filters } = useContext(planetsContext);
+  const { setSelectFilter, setNameFilter, filters, options } = useContext(planetsContext);
   const { filterByName: { name } } = filters;
   const [selectors, setSelectors] = useState({
     column: 'population',
@@ -41,11 +41,9 @@ export default function FilterSelector() {
         value={ column }
         data-testid="column-filter"
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {options.map((selectOption, index) => (
+          <option key={ index } value={ selectOption }>{selectOption}</option>
+        ))}
       </select>
       <select
         onChange={ handleChange }
