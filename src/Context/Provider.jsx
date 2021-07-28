@@ -5,7 +5,12 @@ import PlanetsContext from './PlanetsContext';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [name, getName] = useState([]);
-  const [keyWord, getKeyWord] = useState(data);
+  // column, comparison, value
+  const [column/* , getColumn */] = useState('');
+  const [comparison/* , getComparison */] = useState('');
+  const [value/* , getValue */] = useState();
+  const [filterByNumericValues/* , getFilterByNumericValues */] = useState([{
+    column, comparison, value }]);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -18,18 +23,17 @@ function Provider({ children }) {
         return test;
       });
 
-      const condition = keyWord.length !== 0 ? data : filteredResults;
-      if (name.length === 0) { setData(condition); getKeyWord(condition); }
+      const condition = data.length !== 0 ? data : filteredResults;
+      if (name.length === 0) setData(condition);
       if (name.length !== 0) {
         const filterData = condition.filter((element) => element.name
           .toLowerCase().includes(name.toLowerCase()));
         setData(filterData);
-        getKeyWord(filterData);
       }
     };
 
     getPlanets();
-  }, [name, data, keyWord.length]);
+  }, [name, data, data.length]);
 
   const obj = {
     data,
@@ -39,6 +43,7 @@ function Provider({ children }) {
       filterByName: {
         name,
       },
+      filterByNumericValues,
     },
   };
   return (
