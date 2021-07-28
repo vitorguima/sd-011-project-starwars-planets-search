@@ -2,7 +2,12 @@ import React from 'react';
 import { useGlobalContext } from '../context';
 
 export default function Navbar() {
-  const { handleChange, name, handleChangeInputs, filterComparison } = useGlobalContext();
+  const {
+    handleChange,
+    name,
+    handleChangeInputs,
+    filterComparison,
+    handleClick } = useGlobalContext();
   const { column, comparison, value } = filterComparison;
   return (
     <nav>
@@ -58,6 +63,9 @@ export default function Navbar() {
             data-testid="value-filter"
           />
         </label>
+        <button onClick={ handleClick } data-testid="button-filter" type="button">
+          Filtrar
+        </button>
       </form>
     </nav>
   );

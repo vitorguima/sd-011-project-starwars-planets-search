@@ -67,7 +67,7 @@ const AppProvider = ({ children }) => {
     }
   }, [filters, filters.filterByName.name, planets]);
 
-  const handleClikc = () => {
+  const handleClick = () => {
     const { column, comparison, value } = filterComparison;
     switch (comparison) {
     case 'maior que':
@@ -99,7 +99,7 @@ const AppProvider = ({ children }) => {
         handleChangeInputs,
         filterComparison,
         isLoading,
-        handleClikc,
+        handleClick,
         name: filters.filterByName.name,
       } }
     >
