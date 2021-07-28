@@ -1,9 +1,15 @@
 import React from 'react';
 import './App.css';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import Table from './Components/Table';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={ Table } />
+      </Switch>
+    </Router>
   );
 }
 
