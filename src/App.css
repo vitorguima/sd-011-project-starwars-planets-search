@@ -1,4 +1,13 @@
 .table-container {
-  background-color: rgb(175, 175, 175);
   width: 100vmax;
+}
+
+th {
+  background-color: rgb(94, 161, 248);
+  border-bottom: 1px solid #ddd;
+  color: white;
+}
+
+tr:hover {
+  background-color: rgb(189, 189, 189);
 }

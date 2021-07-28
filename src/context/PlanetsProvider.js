@@ -4,8 +4,15 @@ import GlobalContext from './GlobalContext';
 import getPlanets from '../services/StarWarsAPI';
 
 const PlanetsProvider = ({ children }) => {
+  const filterDefault = {
+    filterByName: {
+      name: '',
+    },
+  };
+
   const [planets, setPlanets] = useState([]);
   const [loading, setLoading] = useState(false);
+  const [filters, setFilter] = useState(filterDefault);
 
   async function fetchPlanets() {
     setLoading(true);
@@ -21,7 +28,14 @@ const PlanetsProvider = ({ children }) => {
     }
   }
 
-  const context = { planets, loading, setPlanets, setLoading, fetchPlanets };
+  const context = {
+    planets,
+    setPlanets,
+    loading,
+    fetchPlanets,
+    filters,
+    setFilter,
+  };
 
   return (
     <GlobalContext.Provider value={ context }>

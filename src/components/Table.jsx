@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import GlobalContext from '../context/GlobalContext';
 
 const tableHeader = ['Name', 'Rotation', 'Orbital Period',
@@ -7,7 +7,16 @@ const tableHeader = ['Name', 'Rotation', 'Orbital Period',
   'Films', 'Created', 'Edited', 'Url'];
 
 function Table() {
-  const { planets } = useContext(GlobalContext);
+  const { planets, filters } = useContext(GlobalContext);
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
+
+  useEffect(() => {
+    const { name } = filters.filterByName;
+    const searchedPlanets = planets.filter(
+      (planet) => planet.name.toLowerCase().includes(name),
+    );
+    setFilteredPlanets(searchedPlanets);
+  }, [planets, filters]);
 
   return (
     <table>
@@ -17,7 +26,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {planets.map((planet, index) => (
+        {filteredPlanets.map((planet, index) => (
           <tr key={ index }>
             <td>{ planet.name }</td>
             <td>{ planet.rotation_period }</td>
