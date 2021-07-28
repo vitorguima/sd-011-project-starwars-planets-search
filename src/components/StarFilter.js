@@ -51,7 +51,7 @@ export default function StarFilter() {
     'orbital_period',
     'rotation_period',
     'surface_water',
-  ]
+  ];
 
   const filterColumn = columnOptions
     .filter((item) => !numberFilters.map(({ column }) => column).includes(item));
