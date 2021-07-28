@@ -1,14 +1,13 @@
-import React, { useState } from 'react';
-import ContextPlanetsApi from './context/ContextPlanetsApi';
+import React from 'react';
+import ProviderPlanets from './context/ProviderPlanets';
 import Table from './components/Table';
 
 function App() {
-  const [planets] = useState([]);
   return (
     <div>
-      <ContextPlanetsApi.Provider value={ { planets } }>
+      <ProviderPlanets>
         <Table />
-      </ContextPlanetsApi.Provider>
+      </ProviderPlanets>
     </div>
   );
 }
