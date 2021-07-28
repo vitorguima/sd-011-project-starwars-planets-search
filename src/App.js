@@ -6,12 +6,12 @@ import Provider from './context/Provider';
 
 function App() {
   return (
-  /* REQUESITO 01 INSERINDO PROVIDER  */
-  <Provider>
-  <span>Hello, App!</span>
-  <Filters />
-  <Table/>
-  </Provider>
+    /* REQUESITO 01 INSERINDO PROVIDER  */
+    <Provider>
+      <span>Hello, App!</span>
+      <Filters />
+      <Table />
+    </Provider>
   );
 }
 
