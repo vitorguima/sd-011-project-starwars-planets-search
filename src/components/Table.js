@@ -1,8 +1,8 @@
 import React from 'react';
-import Planets from '../hooks/Planets';
+import Hooks from '../Hooks';
 
 export default function Table() {
-  const { planets } = Planets();
+  const { planets } = Hooks();
 
   return (
     <div>

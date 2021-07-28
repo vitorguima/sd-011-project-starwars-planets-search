@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
 export const AppContext = createContext({});
+
 export function AppContextProvider({ children }) {
   const [data, setData] = useState({});
   const [filters, setFilters] = useState({
@@ -27,3 +28,5 @@ export function AppContextProvider({ children }) {
 AppContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+export default AppContext;

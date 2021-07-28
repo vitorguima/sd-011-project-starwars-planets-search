@@ -1,13 +1,13 @@
 import React from 'react';
 import FilterInput from '../components/FilterInput';
-import FilterNumbers from '../components/FilterNumbers';
+import FilterValues from '../components/FilterValues';
 import Table from '../components/Table';
 
 export default function Home() {
   return (
     <div>
       <FilterInput />
-      <FilterNumbers />
+      <FilterValues />
       <Table />
     </div>
   );

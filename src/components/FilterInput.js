@@ -1,8 +1,8 @@
 import React from 'react';
-import Planets from '../hooks/Planets';
+import Hooks from '../Hooks';
 
 export default function FilterInput() {
-  const { filters, setFilters } = Planets();
+  const { filters, setFilters } = Hooks();
   const nameFilter = filters.filterByName.name;
 
   function handleInputChange(e) {
@@ -10,13 +10,15 @@ export default function FilterInput() {
   }
 
   return (
-    <div>
-      <input
-        data-testid="name-filter"
-        type="text"
-        value={ nameFilter }
-        onChange={ handleInputChange }
-      />
-    </div>
+    <center>
+      <div>
+        <input
+          data-testid="name-filter"
+          type="text"
+          value={ nameFilter }
+          onChange={ handleInputChange }
+        />
+      </div>
+    </center>
   );
 }
