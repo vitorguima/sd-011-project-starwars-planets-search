@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
+import testData from '../testData';
 
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
@@ -16,14 +17,16 @@ function PlanetsProvider({ children }) {
   const [order, setOrder] = useState({ column: 'name', sort: 'ASC' });
 
   useEffect(() => {
+    const FETCH_SUCCESS = 200;
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
-      .then((response) => response.json())
+      .then((response) => (
+        response.status === FETCH_SUCCESS ? response.json() : testData))
       .then((planets) => {
         const { results } = planets;
         results.forEach((planet) => { delete planet.residents; });
         setData(results);
       });
-  }, []);
+  });
 
   function handleNameFilterChange({ target: { value } }) {
     setName({ name: value });

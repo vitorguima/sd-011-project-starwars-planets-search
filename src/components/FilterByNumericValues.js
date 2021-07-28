@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import './FilterByNumericValues.css';
 
@@ -8,8 +8,14 @@ function FilterByNumericValues() {
     filters: { columnFiltersAvailable },
   } = useContext(PlanetsContext);
 
+  const [buttonDisabled, setButtonDisabled] = useState(true);
+  function handleValueIputChange() {
+    const form = document.querySelector('.filter-by-numeric-container');
+    setButtonDisabled(!form.checkValidity());
+  }
+
   return (
-    <div className="filter-by-numeric-container">
+    <form className="filter-by-numeric-container">
       <p className="filter-by-numeric-title">Outros filtros</p>
       <div className="filter-by-numeric-inputs">
         <label
@@ -46,12 +52,16 @@ function FilterByNumericValues() {
           Valor
           <input
             className="form-control"
+            required
+            onChange={ handleValueIputChange }
             type="number"
             id="value-filter"
             data-testid="value-filter"
+            pattern=".{1,}"
           />
         </label>
         <button
+          disabled={ buttonDisabled }
           type="button"
           data-testid="button-filter"
           className="btn btn-warning filter-by-numeric-btn"
@@ -60,7 +70,7 @@ function FilterByNumericValues() {
           Adicionar Filtro
         </button>
       </div>
-    </div>
+    </form>
   );
 }
 

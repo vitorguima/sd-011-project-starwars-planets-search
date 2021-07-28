@@ -8,9 +8,11 @@ import './App.css';
 function App() {
   return (
     <PlanetsProvider>
-      <FilterHeader />
-      <FiltersSelected />
-      <Table />
+      <div className="root">
+        <FilterHeader />
+        <FiltersSelected />
+        <Table />
+      </div>
     </PlanetsProvider>
   );
 }
