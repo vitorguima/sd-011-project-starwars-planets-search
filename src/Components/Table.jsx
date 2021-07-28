@@ -1,7 +1,9 @@
 import React from 'react';
 import { Context } from '../Services/Context/GlobalContext';
 import { columnOptions,
-  comparisonOptions, INITIAL_NUM_FILTER, filterComparisonNumber } from '../Services/data';
+  comparisonOptions,
+  INITIAL_NUM_FILTER,
+  filterComparisonNumber } from '../Services/data';
 
 const Table = () => {
   const { data, request } = React.useContext(Context);
@@ -89,6 +91,22 @@ const Table = () => {
       >
         Filtrar
       </button>
+      {filter.filterByNumericValues.map(({ column, value, comparison }) => (
+        <p key={ column } data-testid="filter">
+          {`${column} ${comparison} ${value}`}
+          <button
+            type="button"
+            onClick={ () => {
+              setFilter({
+                ...filter,
+                filterByNumericValues: filter.filterByNumericValues
+                  .filter((item) => item.column !== column) });
+            } }
+          >
+            X
+          </button>
+        </p>
+      ))}
       <table>
         <thead>
           <tr>
