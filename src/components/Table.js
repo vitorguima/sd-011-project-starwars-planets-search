@@ -17,6 +17,7 @@ function Table() {
 
     if (filterByNumericValues.length > 0) {
       filterByNumericValues.forEach(({ column, comparison, value }) => {
+        // Ref: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Unary_plus
         switch (comparison) {
         case 'maior que':
           planets = planets.filter((planet) => +(planet[column]) > +(value));

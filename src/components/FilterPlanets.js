@@ -13,8 +13,10 @@ function FilterPlanets() {
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
   ]);
 
+  const [usedHeadersFilters, setUsedHeadersFilters] = useState([]);
+
   const [localFilters, setLocalFilters] = useState({
-    column: '',
+    column: 'population',
     comparison: '',
     value: '',
   });
@@ -36,15 +38,41 @@ function FilterPlanets() {
     });
   };
 
+  // useEffect(() => (
+  //   setLocalFilters({
+  //     ...localFilters,
+  //     column: numericHeaders[0],
+  //   })
+  // ), [localFilters, numericHeaders]);
+
   const handleClickFilters = () => {
-    setFilters({ // modifica estado global
-      ...filters,
-      filterByNumericValues: [localFilters],
-    });
     const headers = [
       'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
     ];
-    setNumericHeaders(headers.filter((header) => header !== localFilters.column)); // modifica estado local
+    const five = 5;
+
+    setFilters({ // modifica estado global
+      ...filters,
+      filterByNumericValues: [...filters.filterByNumericValues, localFilters],
+    });
+
+    setUsedHeadersFilters([...usedHeadersFilters, localFilters.column]); // modifica estado local
+
+    setNumericHeaders(headers.filter((header) => header !== localFilters.column));
+
+    console.log(` antes: ${numericHeaders}`);
+
+    if (numericHeaders < five) {
+      setNumericHeaders(headers
+        .filter((header) => !usedHeadersFilters.includes(header))); // modifica estado local
+    }
+
+    console.log(` antes: ${numericHeaders}`);
+
+    setLocalFilters({
+      ...localFilters,
+      column: numericHeaders[0],
+    });
   };
 
   // render
@@ -69,7 +97,7 @@ function FilterPlanets() {
           name="column"
           onChange={ handleFilterLocally }
         >
-          <option>select</option>
+          {/* <option>select</option> */}
           { numericHeaders.map((header) => (
             <option key={ header }>{ header }</option>
           )) }
