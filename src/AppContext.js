@@ -28,5 +28,3 @@ export function AppContextProvider({ children }) {
 AppContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-export default AppContext;
