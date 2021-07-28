@@ -5,8 +5,7 @@ export default function Filters() {
   const {
     filters,
     setFilterByName,
-    applyFilterByName,
-    applyFilterByNumericValues,
+    applyFilters,
     columnFilterOptions,
     newFilter,
     handleChangeNewFilter,
@@ -17,12 +16,8 @@ export default function Filters() {
   const { column, comparison, value } = newFilter;
 
   useEffect(() => {
-    applyFilterByName();
-  }, [name]);
-
-  useEffect(() => {
-    applyFilterByNumericValues();
-  }, [filterByNumericValues]);
+    applyFilters();
+  }, [filters]);
 
   const renderColumnOptions = () => (
     columnFilterOptions.map((item) => <option key={ item }>{ item }</option>)

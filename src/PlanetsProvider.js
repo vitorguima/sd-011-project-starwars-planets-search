@@ -55,8 +55,8 @@ function Provider({ children }) {
     setFilters((state) => ({ ...state, filterByName: { name } }));
   };
 
-  const applyFilterByNumericValues = () => {
-    const newData = filters.filterByNumericValues.reduce((acc, curr) => {
+  const applyFilterByNumericValues = (newData) => {
+    newData = filters.filterByNumericValues.reduce((acc, curr) => {
       const { column, comparison, value } = curr;
       switch (comparison) {
       case 'maior que':
@@ -67,12 +67,17 @@ function Provider({ children }) {
         return acc.filter((item) => parseInt(item[column], 10) === parseInt(value, 10));
       default: return acc;
       }
-    }, filteredData);
-    setFilteredData(newData);
+    }, newData);
+    return newData;
   };
 
-  const applyFilterByName = () => {
-    setFilteredData(data.filter(({ name }) => name.includes(filters.filterByName.name)));
+  const applyFilterByName = () => data.filter(({ name }) => name
+    .includes(filters.filterByName.name));
+
+  const applyFilters = () => {
+    let newData = applyFilterByName();
+    newData = applyFilterByNumericValues(newData);
+    setFilteredData(newData);
   };
 
   const contextValue = {
@@ -82,8 +87,7 @@ function Provider({ children }) {
     setFilterByName,
     filteredData,
     setFilteredData,
-    applyFilterByName,
-    applyFilterByNumericValues,
+    applyFilters,
     columnFilterOptions,
     newFilter,
     handleChangeNewFilter,
