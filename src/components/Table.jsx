@@ -62,16 +62,18 @@ function Table() {
     });
   }
   const filterPlanets = Filter(filters, allPlanets);
-  filterPlanets.sort((planetA, planetB) => {
-    const { column } = sort.order;
-    if (sort.order.sort === 'ASC' && /^[0-9]/.test(planetA[column])) {
-      return +planetA[column] - +planetB[column];
+  filterPlanets.sort((A, B) => {
+    // Rodlfo Rezende e Redorigo Ruan me ajudaram.
+    if (sort.order.sort === 'ASC' && /^[0-9]/.test(A[sort.order.column])) {
+      // Esse if verifica se tem algum caracter com numeros e faz o sort dele.
+      return +A[sort.order.column] - +B[sort.order.column];
     }
     if (sort.order.sort === 'ASC') {
-      return planetA[column].charCodeAt(0) - planetB[column].charCodeAt(0);
+      // esse faz o sort com palavras
+      return A[sort.order.column].charCodeAt(0) - B[sort.order.column].charCodeAt(0);
     }
-    if (sort.order.sort === 'DESC' && /^[0-9]/.test(planetA[column])) {
-      return +planetB[column] - +planetA[column];
+    if (sort.order.sort === 'DESC' && /^[0-9]/.test(A[sort.order.column])) {
+      return +B[sort.order.column] - +A[sort.order.column];
     }
     return 0;
   });
