@@ -4,25 +4,32 @@ import StarsContext from './StarsContext';
 
 function StarsProvider({ children }) {
   const [data, setData] = useState([]);
-  // const [key, setKey] = useState('');
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   async function fetchPlanets() {
-    const url = 'https://swapi-trybe.herokuapp.com/api/planets/';
-    await fetch(url)
-      .then((res) => res.json())
-      .then((planets) => setData(planets.results));
+    const results = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+    const json = await results.json();
+    const dataWithoutResidents = json.results.filter((planet) => delete planet.residents);
+    setData(dataWithoutResidents);
+    setFilteredPlanets(dataWithoutResidents);
   }
 
   useEffect(() => {
     fetchPlanets();
   }, []);
 
-  const context = {
+  const contextValue = {
     data,
+    setData,
+    filters,
+    setFilters,
+    filteredPlanets,
+    setFilteredPlanets,
   };
 
   return (
-    <StarsContext.Provider value={ context }>
+    <StarsContext.Provider value={ contextValue }>
       {children}
     </StarsContext.Provider>
   );
