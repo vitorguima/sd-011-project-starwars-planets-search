@@ -4,9 +4,8 @@ import PlanetsContext from '../context/PlanetsContext';
 function Table() {
   const { data, setFilters, filters } = useContext(PlanetsContext);
   const [inputName, setInputName] = useState('');
-  const filterData = inputName ? data.filter((planet) => planet.name.includes(inputName)) 
-    : data;
-  // console.log(data);
+  const filterData = inputName ? data.filter((planet) => planet
+    .name.includes(inputName)) : data;
   return (
     <>
       <form>
