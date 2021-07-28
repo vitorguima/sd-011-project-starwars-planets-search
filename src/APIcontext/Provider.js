@@ -14,6 +14,8 @@ function Provider({ children }) {
     },
     filterByNumericValues: [],
   });
+  // Controle de colunas utilizadas
+  const [listColumns, setListColumns] = useState([]);
 
   // ComponentDidMount
   useEffect(() => {
@@ -31,6 +33,29 @@ function Provider({ children }) {
     const filterPlanets = data.filter((planet) => planet.name
       .includes(filters.filterByName.name));
     setFilteredPlanets(filterPlanets);
+    if (filters.filterByNumericValues.length > 0
+      && filters.filterByNumericValues !== undefined) {
+      filters.filterByNumericValues.forEach((filter) => {
+        switch (filter.comparison) {
+        case 'maior que':
+          setFilteredPlanets(filterPlanets
+            .filter((planet) => +planet[filter.column] > filter.value));
+          break;
+        case 'menor que':
+          setFilteredPlanets(filterPlanets
+            .filter((planet) => +planet[filter.column] < +filter.value));
+          break;
+        case 'igual a':
+          setFilteredPlanets(filterPlanets
+            .filter((planet) => +planet[filter.column] === +filter.value));
+          break;
+        default:
+          break;
+        }
+      });
+    } else {
+      setFilteredPlanets(filterPlanets);
+    }
   }, [data, filters]);
 
   return (
@@ -39,6 +64,8 @@ function Provider({ children }) {
         filters,
         filteredPlanets,
         setFilters,
+        listColumns,
+        setListColumns,
       } }
     >
       { children }

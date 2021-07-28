@@ -2,19 +2,35 @@ import React, { useContext, useState } from 'react';
 import Context from '../APIcontext/Context';
 
 function Selects() {
-  const { filters, setFilters } = useContext(Context);
+  const { filters, setFilters, listColumns, setListColumns } = useContext(Context);
 
   // Filtro Atual para controle dos inputs do usuário
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState(0);
+  // Controle de filtros através da coluna
 
   const SendValueToGlobalHooks = () => {
-    const currFilter = { column, comparison, value };
-    setFilters({
-      ...filters,
-      filterByNumericValues: [...filters.filterByNumericValues, currFilter],
-    });
+    // Ver se opção já foi escolhida
+    console.log(column);
+    console.log(listColumns);
+    let soma = 0;
+    for (let index = 0; index <= listColumns.length; index += 1) {
+      if (column === listColumns[index]) {
+        soma += 1;
+      }
+    }
+    if (soma > 0) {
+      console.log('deu ruim');
+    } else {
+      soma = 0;
+      setListColumns([...listColumns, column]);
+      const currFilter = { column, comparison, value };
+      setFilters({
+        ...filters,
+        filterByNumericValues: [...filters.filterByNumericValues, currFilter],
+      });
+    }
   };
 
   return (
