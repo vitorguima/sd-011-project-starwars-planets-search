@@ -4,8 +4,18 @@ import TableContext from './TableContext';
 
 export default function TableProvider({ children }) {
   const [data, setData] = useState({});
-  const [filters, setFilters] = useState({
-    filterByName: { name: '' },
+  const [filters, setFilters] = React.useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+      filterByNumericValues: [],
+    },
+  });
+  const [filterNumericValues, setFilterNumericValues] = React.useState({
+    column: '',
+    comparison: '',
+    value: 0,
   });
 
   useEffect(() => {
@@ -18,7 +28,15 @@ export default function TableProvider({ children }) {
   }, []);
 
   return (
-    <TableContext.Provider value={ { data, filters, setFilters } }>
+    <TableContext.Provider
+      value={ {
+        data,
+        filters,
+        setFilters,
+        filterNumericValues,
+        setFilterNumericValues,
+      } }
+    >
       {children}
     </TableContext.Provider>
   );
