@@ -29,7 +29,7 @@ function Provider({ children }) {
     };
 
     getPlanets();
-  }, [name, data, keyWord]);
+  }, [name, data, keyWord.length]);
 
   const obj = {
     data,
