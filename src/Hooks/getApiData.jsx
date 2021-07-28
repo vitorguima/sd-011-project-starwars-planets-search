@@ -8,7 +8,7 @@ const GetApiData = () => {
     const getPlanets = async () => {
       const { results } = await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
         .then((planetsInfo) => planetsInfo.json());
-
+      results.map((e) => delete e.residents);
       setData(results);
       setGotInfo(true);
     };
