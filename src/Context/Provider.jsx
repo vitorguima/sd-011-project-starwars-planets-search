@@ -5,7 +5,6 @@ import PlanetsContext from './PlanetsContext';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [name, getName] = useState([]);
-  // column, comparison, value
   const [column, getColumn] = useState('');
   const [comparison, getComparison] = useState('');
   const [value, getValue] = useState('');
@@ -23,6 +22,12 @@ function Provider({ children }) {
   //     break;
   //   }
   // }
+
+  const [column/* , getColumn */] = useState('');
+  const [comparison/* , getComparison */] = useState('');
+  const [value/* , getValue */] = useState();
+  const [filterByNumericValues/* , getFilterByNumericValues */] = useState([{
+    column, comparison, value }]);
 
   useEffect(() => {
     const getPlanets = async () => {

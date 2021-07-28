@@ -23,6 +23,16 @@ function SearchBar() {
       </label>
       <CategoriesFilter />
     </div>
+    <label htmlFor="search">
+      Filtro:
+      <input
+        text="text"
+        value={ name }
+        onChange={ handleKeyWord }
+        id="search"
+        data-testid="name-filter"
+      />
+    </label>
   );
 }
 
