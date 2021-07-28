@@ -1,46 +1,34 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import Context from './Context';
-import API from '../services/api';
+import API from '../services/API';
 
-class ContextProvider extends React.Component {
-  constructor() {
-    super();
+export default function ContextProvider({ children }) {
+  const [data, setData] = useState([]);
+  const [planets, setPlanets] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: {
+    name: '',
+  } });
 
-    this.state = {
-      planets: [],
-    };
-
-    this.setPlanets = this.setPlanets.bind(this);
-  }
-
-  componentDidMount() {
-    this.setPlanets();
-  }
-
-  async setPlanets() {
+  async function fetchData() {
     const arrayPlanets = await API();
-    this.setState({
-      planets: arrayPlanets,
-    });
+    setData(arrayPlanets);
+    setPlanets(arrayPlanets);
   }
 
-  render() {
-    const { children } = this.props;
-    return (
-      <Context.Provider
-        value={ {
-          ...this.state,
-        } }
-      >
-        {children}
-      </Context.Provider>
-    );
-  }
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const stateGlobal = { data, planets, setPlanets, filters, setFilters };
+
+  return (
+    <Context.Provider value={ stateGlobal }>
+      { children }
+    </Context.Provider>
+  );
 }
 
 ContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
-
-export default ContextProvider;
