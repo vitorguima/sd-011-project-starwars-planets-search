@@ -8,11 +8,14 @@ const Provider = ({ children }) => {
   const [planets, setPlanets] = useState([]);
   const [Filtredplanets, setFiltredPlanets] = useState([]);
   const [isLoading, setIsloading] = useState(true);
+  const [options, setOptions] = useState(['population', 'orbital_period',
+    'diameter', 'rotation_period', 'surface_water']);
   const [filterComparison, setFilterComparison] = useState({
     column: 'population',
     comparison: 'maior que',
     value: '',
   });
+
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -86,11 +89,16 @@ const Provider = ({ children }) => {
       setFiltredPlanets(planets);
       break;
     }
+    const newObj = { column, comparison, value };
+    setFilterComparison({ ...filterComparison, newObj });
+    setOptions(options.filter((option) => option !== filterComparison.column));
   };
 
   return (
     <Context.Provider
       value={ {
+        options,
+        setOptions,
         handleChangeInputs,
         handleClick,
         filterComparison,

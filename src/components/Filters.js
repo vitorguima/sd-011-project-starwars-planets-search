@@ -3,23 +3,14 @@ import { useGlobalContext } from '../hooks/Context';
 
 const Filter = () => {
   const {
-    // filter,
-    // setFilter,
-    // options,
-    // setOptions,
+    options,
+    setOptions,
     handleChange,
     name,
     handleChangeInputs,
     filterComparison,
     handleClick } = useGlobalContext();
   const { column, comparison, value } = filterComparison;
-
-  // function handleClickDelete(cln) {
-  //   filterComparison('');
-  //   const newFilter = filter.filterByNumericValues.filter((item) => item.column !== cln);
-  //   setFilter({ ...filter, filterByNumericValues: newFilter });
-  //   setOptions([...options, cln]);
-  // }
 
   return (
     <form>
@@ -36,11 +27,7 @@ const Filter = () => {
         onChange={ handleChangeInputs }
         data-testid="column-filter"
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {options.map((option, index) => <option key={ index }>{option}</option>)}
       </select>
       <select
         name="comparison"
@@ -62,17 +49,6 @@ const Filter = () => {
       <button type="button" onClick={ handleClick } data-testid="button-filter">
         Filter
       </button>
-      {/* {filter.filterByNumericValues && filter.filterByNumericValues.map((filters, i) => (
-        <div key={ i } data-testid="filter">
-          <p>{filter.column}</p>
-          <button
-            type="button"
-            onClick={ () => handleClickDelete(filter.column) }
-          >
-            X
-          </button>
-        </div>
-      ))} */}
     </form>
   );
 };
