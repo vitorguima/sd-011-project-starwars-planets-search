@@ -7,8 +7,8 @@ function filterByNameStep(data, nameToFilter) {
 }
 
 function filterByNumericValuesStep(filterByNumericValues, filteredPlanets) {
-  let response = [];
   if (filterByNumericValues.length > 0) {
+    let response = [];
     filterByNumericValues.forEach((filter) => {
       const { column, comparison, value } = filter;
       response = filteredPlanets.filter((planet) => {
@@ -24,8 +24,9 @@ function filterByNumericValuesStep(filterByNumericValues, filteredPlanets) {
         }
       });
     });
+    return response;
   }
-  return response.length === 0 ? filteredPlanets : response;
+  return filteredPlanets;
 }
 
 function sortByASC(orderColumn, filteredPlanets) {

@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import './FiltersSelected.css';
 
 function FiltersSelected() {
   const {
@@ -8,24 +9,28 @@ function FiltersSelected() {
   } = useContext(PlanetsContext);
 
   return (
-    <>
-      {
-        filterByNumericValues.map(({ column, comparison, value }, index) => (
-          <div key={ index } data-testid="filter">
-            <p>
-              { `${column}, ${comparison}, ${value}` }
-            </p>
-            <button
-              id={ column }
-              type="button"
-              onClick={ removeNumericValuesFilter }
-            >
-              X
-            </button>
-          </div>
-        ))
-      }
-    </>
+    <div className="filters-selected-container">
+      <p>Filtros Aplicados</p>
+      <div className="filters-container">
+        {
+          filterByNumericValues.map(({ column, comparison, value }, index) => (
+            <div key={ index } data-testid="filter" className="filter-selected">
+              <button
+                id={ column }
+                className="btn btn-dark btn-sm"
+                type="button"
+                onClick={ removeNumericValuesFilter }
+              >
+                X
+              </button>
+              <p>
+                { `${column} ${comparison} ${value}` }
+              </p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
   );
 }
 
