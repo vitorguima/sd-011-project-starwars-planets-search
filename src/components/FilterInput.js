@@ -10,15 +10,17 @@ export default function FilterInput() {
   }
 
   return (
-    <center>
-      <div>
+    <div>
+      <center>
         <input
           data-testid="name-filter"
           type="text"
           value={ nameFilter }
           onChange={ handleInputChange }
+          className="select-css2"
+          size="52"
         />
-      </div>
-    </center>
+      </center>
+    </div>
   );
 }

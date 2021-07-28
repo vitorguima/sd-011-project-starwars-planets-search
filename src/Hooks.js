@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import AppContext from './AppContext';
+import { AppContext } from './contexts/AppContext';
 
 export default function Hooks() {
   const { data, filters, setFilters } = useContext(AppContext);
@@ -35,5 +35,6 @@ export default function Hooks() {
       ));
     }
   }
+
   return { planets, filters, setFilters };
 }
