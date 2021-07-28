@@ -1,23 +1,62 @@
 import React, { useContext } from 'react';
 import GlobalContext from './Context';
+import handleFilters from './handleFilters';
 
 const Table = () => {
-  const [planetName, setPlanetName] = React.useState('');
   const { results } = useContext(GlobalContext);
+  const [newPlanetFilter, setNewPlanetFilter] = React.useState({
+    column: '',
+    comparison: '',
+    value: '',
+  });
+  const [planetFilter, setplanetFilter] = React.useState({
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [
+    ],
+  });
 
-  const handleChange = ({ target }) => {
-    setPlanetName(target.value);
+  const handleFilterByName = ({ target }) => {
+    setplanetFilter({ ...planetFilter, filterByName: { name: target.value } });
+  };
+
+  function handlefilterByNumericValues({ target }) {
+    const { name, value } = target;
+    setNewPlanetFilter({ ...newPlanetFilter, [name]: value });
+  }
+
+  const handleFilterButton = () => {
+    setplanetFilter({ ...planetFilter,
+      filterByNumericValues: [...planetFilter.filterByNumericValues, newPlanetFilter] });
   };
 
   if (!results) return <div>Loading...</div>;
+  const { name } = planetFilter;
   return (
     <div>
       <input
         type="text"
-        value={ planetName }
-        onChange={ handleChange }
+        value={ name }
+        onChange={ handleFilterByName }
         data-testid="name-filter"
       />
+      <form>
+        <select name="column" data-testid="column-filter" onChange={ handlefilterByNumericValues }>
+          <option>population</option>
+          <option>orbital_period</option>
+          <option>diameter</option>
+          <option>rotation_period</option>
+          <option>surface_water</option>
+        </select>
+        <select name="comparison" data-testid="comparison-filter" onChange={ handlefilterByNumericValues }>
+          <option>maior que</option>
+          <option>menor que</option>
+          <option>igual a</option>
+        </select>
+        <input name="value" type="number" data-testid="value-filter" onChange={ handlefilterByNumericValues } />
+        <button type="button" data-testid="button-filter" onClick={ handleFilterButton }>Add Filter</button>
+      </form>
       <table>
         <thead>
           <tr>
@@ -28,9 +67,7 @@ const Table = () => {
           </tr>
         </thead>
         <tbody>
-          {results
-            .filter((content) => content !== 'residents')
-            .filter((planet) => planet.name.includes(planetName))
+          {handleFilters(results, planetFilter)
             .map((planet, index) => (
               <tr key={ index }>
                 <td>{planet.name}</td>
