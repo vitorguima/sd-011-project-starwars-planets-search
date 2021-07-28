@@ -34,6 +34,17 @@ function App() {
     }
   }, [search]);
 
+  const contextValue = {
+    planets: planetList,
+    filters: {
+      filterByName: {
+        name: search,
+      },
+      filterByNumericValue: [
+      ],
+    },
+  };
+
   const filterColumn = () => {
     const newValue = Number.parseFloat(value);
     const list = planets.filter((planet) => {
@@ -53,19 +64,8 @@ function App() {
       column,
       comparison,
       value,
-    })
+    });
     setList(list);
-  };
-
-  const contextValue = {
-    planets: planetList,
-    filters: {
-      filterByName: {
-        name: search,
-      },
-      filterByNumericValue: [
-      ],
-    },
   };
 
   return (
