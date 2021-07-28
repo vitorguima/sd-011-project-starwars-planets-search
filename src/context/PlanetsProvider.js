@@ -4,11 +4,29 @@ import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   const [data, setPlanets] = useState([]);
-  const [searchName, setSearchName] = useState({
+  const [search, setSearch] = useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [value, setValue] = useState('');
+
+  const filterClick = () => {
+    setSearch({
+      ...search,
+      filterByNumericValues: [
+        ...search.filterByNumericValues,
+        {
+          column,
+          comparison,
+          value,
+        },
+      ],
+    });
+  };
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -23,15 +41,46 @@ function PlanetsProvider({ children }) {
     getPlanets();
   }, []);
 
-  const filterName = ({ target }) => {
-    setSearchName({
-      ...searchName,
-      filterByName: { name: target.value },
-    });
+  const filter = ({ target }) => {
+    if (value === 'name') {
+      setSearch({
+        filterByName: {
+          name: target.name },
+      });
+    } else if (value === 'value') {
+      setSearch({
+        filterByNumericValues: {
+          value: target.value },
+      });
+    } else if (value === 'column') {
+      setSearch({
+        filterByNumericValues: {
+          column: target.column },
+      });
+    } else if (value === 'comparison') {
+      setSearch({
+        filterByNumericValues: {
+          comparison: target.comparison },
+      });
+    } else {
+      setSearch({ ...search,
+        filterByName:
+        { name: target.value },
+      });
+    }
   };
 
   return (
-    <PlanetsContext.Provider value={ { data, searchName, filterName } }>
+    <PlanetsContext.Provider
+      value={ { data,
+        search,
+        setSearch,
+        filter,
+        filterClick,
+        setColumn,
+        setComparison,
+        setValue } }
+    >
       { children }
     </PlanetsContext.Provider>
   );

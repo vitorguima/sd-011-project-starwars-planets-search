@@ -3,16 +3,33 @@ import planetsContext from '../context/PlanetsContext';
 import '../css/Table.css';
 
 function Table() {
-  const { data, searchName } = useContext(planetsContext);
-  const { filterByName } = searchName;
+  const { data, search } = useContext(planetsContext);
+  const { filterByName, filterByNumericValues } = search;
   const { name } = filterByName;
   let results = [];
   if (name) {
     results = data.filter((planetName) => planetName
       .name.toLowerCase()
       .includes(name.toLowerCase()));
-  } else {
+  } else if (!name) {
     results = data;
+  }
+
+  function whatsFilter() {
+    const resultsFilters = results.filter((item) => {
+      let condition = true;
+      filterByNumericValues.forEach(({ comparison, value, column }) => {
+        if (comparison === 'maior que') {
+          condition = condition && Number(item[column]) > Number(value);
+        } else if (comparison === 'menor que') {
+          condition = condition && Number(item[column]) < Number(value);
+        } else if (comparison === 'igual a') {
+          condition = condition && Number(item[column]) === Number(value);
+        } else condition = false;
+      });
+      return condition;
+    });
+    return resultsFilters;
   }
 
   return (
@@ -32,7 +49,7 @@ function Table() {
         <th>Edited</th>
         <th>URL</th>
       </tr>
-      {results.map((item) => (
+      {whatsFilter().map((item) => (
         <tr key={ item.name }>
           <td>{ item.name }</td>
           <td>{ item.rotation_period }</td>
