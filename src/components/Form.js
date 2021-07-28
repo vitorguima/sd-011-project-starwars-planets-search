@@ -51,7 +51,7 @@ function Form() {
         onChange={ (e) => handleChange(e) }
       >
         { renderOptions
-          .map((option, index) => <option value={ option } key={ index }>{ option }</option>) }
+          .map((option, index) => <option key={ index }>{ option }</option>) }
       </select>
       <select
         name="comparison"
