@@ -4,16 +4,30 @@ import getPlanets from '../services/api';
 import PlanetContext from './PlanetContext';
 
 function PlanetProvider({ children }) {
-  const [dataPlanet, setPlanet] = useState([]);
+  const [dataPlanets, setDataPlanets] = useState([]);
+  const [planets, setPlanets] = useState([]);
+
+  const changePlanet = ({ target: { value } }) => {
+    const inputPlanetChosen = dataPlanets
+      .filter(({ name }) => name.toLowerCase()
+        .includes(value.toLowerCase()));
+
+    setPlanets(inputPlanetChosen);
+  };
 
   const contextValues = {
-    dataPlanet,
+    dataPlanets,
+    setDataPlanets,
+    planets,
+    setPlanets,
+    changePlanet,
   };
   useEffect(() => {
     getPlanets()
       .then(({ results }) => {
         results.forEach((obj) => delete obj.residents);
-        setPlanet(results);
+        setDataPlanets(results);
+        setPlanets(results);
       });
   }, []);
 
