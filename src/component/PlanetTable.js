@@ -11,23 +11,25 @@ function App() {
   const filterPlanetsInput = data
     .filter((planet) => planet.name.includes(filterByName));
 
+  let filterGeral = filterPlanetsInput;
   let filterPlanetsSelect = [];
 
   if (filterByNumericValues.length > 0) {
     filterByNumericValues.forEach((filter) => {
       const { column, comparison, value } = filter;
       if (comparison === 'maior que') {
-        filterPlanetsSelect = filterPlanetsInput.filter((planet) => (
+        filterPlanetsSelect = filterGeral.filter((planet) => (
           Number(planet[column]) > Number(value)));
       }
       if (comparison === 'menor que') {
-        filterPlanetsSelect = filterPlanetsInput.filter((planet) => (
+        filterPlanetsSelect = filterGeral.filter((planet) => (
           Number(planet[column]) < Number(value)));
       }
       if (comparison === 'igual a') {
-        filterPlanetsSelect = filterPlanetsInput.filter((planet) => (
+        filterPlanetsSelect = filterGeral.filter((planet) => (
           Number(planet[column]) === Number(value)));
       }
+      filterGeral = filterPlanetsSelect;
       return 0;
     });
   } else {
@@ -44,7 +46,7 @@ function App() {
         </tr>
       </thead>
       <tbody>
-        {filterPlanetsSelect.map((planet) => {
+        {filterGeral.map((planet) => {
           const infoPlanet = Object.values(planet);
           return (
             <tr key={ infoPlanet[0] }>
