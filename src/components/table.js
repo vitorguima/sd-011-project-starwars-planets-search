@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
 function Table({ planets }) {
   return (
@@ -42,5 +43,9 @@ function Table({ planets }) {
     </table>
   );
 }
+
+Table.propTypes = {
+  planets: PropTypes.string.isRequired,
+};
 
 export default Table;

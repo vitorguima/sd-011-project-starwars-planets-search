@@ -21,7 +21,8 @@ const App = () => {
   }, []);
 
   return (
-    Table()
+    <Table planets={ planets } />
   );
-//(alias) const App: () => JSX.Element
+};
+// (alias) const App: () => JSX.Element
 export default App;
