@@ -18,13 +18,16 @@ function SearchByNumericValue() {
 
   const removeColumnOption = () => {
     let currentColumn = [...columnNames];
+    console.log(currentColumn);
     if (filterByNumericValues.length > 0) {
       console.log('vrau');
-      currentColumn = filterByNumericValues.forEach((item) => columnNames.filter((columnName) => columnName !== item.column));
+      currentColumn = currentColumn.reduce((acc, curr) => filterByNumericValues.forEach((item) => (item.column !== curr ? acc : [])));
+      // currentColumn = filterByNumericValues.map((item) => columnNames.filter((columnName) => columnName !== item.column));
       // currentColumn = currentColumn.filter((columnName) => (
         // filterByNumericValues.forEach((item) => columnName !== item.column)));
       setFilteredColumn(currentColumn);
     }
+    console.log(currentColumn);
     return currentColumn;
   };
 
