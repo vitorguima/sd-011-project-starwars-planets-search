@@ -16,6 +16,17 @@ export function Provider({ children }) {
   }
 
   useEffect(() => {
+    if (data) {
+      const planetFilter = filters.filterByName.name;
+      const { results } = data;
+      const planetsToRender = results.filter(({ name }) => (
+        name.includes(planetFilter)
+      ));
+      setPlanets(planetsToRender);
+    }
+  }, [data, filters, setPlanets]);
+
+  useEffect(() => {
     const getData = async () => {
       const dataReceived = await fetchData();
       dataReceived.results.forEach((planet) => {

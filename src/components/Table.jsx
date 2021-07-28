@@ -1,18 +1,8 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import { Planet } from '../context/Planet';
 
 export default function Table() {
-  const { setPlanets, data, filters, planets } = useContext(Planet);
-  useEffect(() => {
-    if (data) {
-      const planetFilter = filters.filterByName.name;
-      const { results } = data;
-      const planetsToRender = results.filter(({ name }) => (
-        name.includes(planetFilter)
-      ));
-      setPlanets(planetsToRender);
-    }
-  }, [data, filters, setPlanets]);
+  const { data, filters, planets } = useContext(Planet);
 
   if (data && planets) {
     const { name } = filters.filterByName;
@@ -36,7 +26,7 @@ export default function Table() {
       ))
     );
 
-    if (planets) {
+    if (planets.length > 0) {
       return (
         <table>
           <thead>
