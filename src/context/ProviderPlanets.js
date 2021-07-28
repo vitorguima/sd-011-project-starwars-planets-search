@@ -5,19 +5,31 @@ import ContextPlanetsApi from './ContextPlanetsApi';
 
 function ProviderPlanets({ children }) {
   const [planets, setPlanets] = useState([]);
-  const contextValue = {
-    planets,
-  };
+  const [namePlanets, setNamePlanets] = useState([]);
 
   useEffect(() => {
     getPlanets().then(({ results }) => {
       results.forEach((result) => delete result.residents);
       setPlanets(results);
+      setNamePlanets(results);
     });
   }, []);
 
+  const filterPlanets = ({ target: { value } }) => {
+    const inputFindPlanet = planets.filter(({ name }) => (
+      name.toLowerCase().includes(value.toLowerCase())
+    ));
+    setNamePlanets(inputFindPlanet);
+  };
+
+  const allContexts = {
+    planets,
+    namePlanets,
+    filterPlanets,
+  };
+
   return (
-    <ContextPlanetsApi.Provider value={ contextValue }>
+    <ContextPlanetsApi.Provider value={ allContexts }>
       {children}
     </ContextPlanetsApi.Provider>
   );
