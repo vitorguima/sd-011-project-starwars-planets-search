@@ -1,9 +1,16 @@
 import React from 'react';
 import './App.css';
+import Table from './Components/Table';
+import APIProvider from './Context/APIProvider';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <div>
+      <APIProvider>
+        <span>Hello, Traveller!</span>
+        <Table />
+      </APIProvider>
+    </div>
   );
 }
 
