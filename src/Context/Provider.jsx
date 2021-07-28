@@ -4,9 +4,8 @@ import PlanetsContext from './PlanetsContext';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
-  const [name, getName] = useState('');
-  const [filterByName, getFilterByName] = useState({ name });
-  const [filters, getFilters] = useState({ filterByName });
+  const [name, getName] = useState([]);
+  const [keyWord, getKeyWord] = useState(data);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -19,12 +18,13 @@ function Provider({ children }) {
         return test;
       });
 
-      if (name.length === 0) setData(filteredResults);
-
+      const condition = keyWord.length !== 0 ? data : filteredResults;
+      if (name.length === 0) { setData(condition); getKeyWord(condition); }
       if (name.length !== 0) {
-        const filterData = filteredResults.filter((element) => element.name
+        const filterData = condition.filter((element) => element.name
           .toLowerCase().includes(name.toLowerCase()));
         setData(filterData);
+        getKeyWord(filterData);
       }
     };
 
@@ -34,12 +34,12 @@ function Provider({ children }) {
   const obj = {
     data,
     setData,
-    name,
     getName,
-    filterByName,
-    getFilterByName,
-    filters,
-    getFilters,
+    filters: {
+      filterByName: {
+        name,
+      },
+    },
   };
   return (
     <PlanetsContext.Provider value={ obj }>
