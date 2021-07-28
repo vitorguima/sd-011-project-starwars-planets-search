@@ -3,8 +3,23 @@ import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
+  const initialFilters = {
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [{
+      column: '',
+      comparison: '',
+      value: '',
+    }],
+    order: {
+      column: 'Name',
+      sort: 'ASC',
+    },
+  };
+
   const [data, setData] = useState([]);
-  const [name, setname] = useState({ filters: { filterByName: { name: '' } } });
+  const [filters, setfilters] = useState(initialFilters);
 
   useEffect(() => {
     const getPlanet = async () => {
@@ -28,8 +43,8 @@ function PlanetsProvider({ children }) {
   const contextValue = {
     data,
     setData,
-    name,
-    setname,
+    filters,
+    setfilters,
   };
 
   return (
