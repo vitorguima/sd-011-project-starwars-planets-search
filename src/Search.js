@@ -11,7 +11,7 @@ function Search() {
   } = useContext(PlanetContext);
 
   const { filterByNumericValues } = filters;
-  const { column, comparison, value } = filterByNumericValues;
+  const { comparison, value } = filterByNumericValues;
 
   const columnOption = [
     'population',
@@ -21,6 +21,10 @@ function Search() {
     'surface_water',
   ];
 
+  const ColumnFiltered = columnOption
+    .filter((item) => !filterByNumericValues
+      .map(({ column }) => column).includes(item));
+
   return (
     <div>
       <select
@@ -28,16 +32,14 @@ function Search() {
         onChange={ ({ target }) => setColumn(target.value) }
       >
         {
-          columnOption
-            .map((item, index) => (
-              <option
-                key={ index }
-                value={ column }
-                name={ item }
-              >
-                { item }
-              </option>
-            ))
+          ColumnFiltered.map((item, index) => (
+            <option
+              key={ index }
+              name={ item }
+            >
+              { item }
+            </option>
+          ))
         }
       </select>
       <select
