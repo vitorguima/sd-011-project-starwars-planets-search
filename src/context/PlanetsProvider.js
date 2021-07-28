@@ -15,6 +15,10 @@ const PlanetsProvider = ({ children }) => {
         name: '',
       },
       filterByNumericValues: [{}],
+      order: {
+        column: 'name',
+        sort: 'ASC',
+      },
     },
   });
   const [defaultColunsFilters] = useState([
@@ -94,6 +98,21 @@ const PlanetsProvider = ({ children }) => {
     setFilters(newFilter);
   };
 
+  const changeSortValue = ({ column, sort }) => {
+    const newFilter = {
+      ...filters,
+      filters: {
+        ...filters.filters,
+        order: {
+          column,
+          sort,
+        },
+      },
+    };
+
+    setFilters(newFilter);
+  };
+
   const context = {
     data,
     isLoading,
@@ -102,6 +121,7 @@ const PlanetsProvider = ({ children }) => {
     setFilterByName,
     addNewNumericFilter,
     removeNumericFilter,
+    changeSortValue,
   };
 
   return (
