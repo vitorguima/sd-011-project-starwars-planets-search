@@ -7,7 +7,7 @@ function App() {
   return (
     <div>
       <APIProvider>
-        <span>Hello, Traveller!</span>
+        <h1 className="hello">Hello, Traveller!</h1>
         <Table />
       </APIProvider>
     </div>

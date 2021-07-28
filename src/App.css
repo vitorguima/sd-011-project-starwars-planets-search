@@ -1,41 +1,26 @@
-.App {
+.hello {
+  background-color: darkgrey;
+  color: white;
+  padding: 10px;
   text-align: center;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.table-planets {
+  border-collapse: collapse;
+  font-family: monospace;
+  font-size: smaller;
+  width: 100%;
 }
 
-@media ( prefers-reduced-motion : no-preference ) {
-
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.table-planets td, .table-planets th {
+  border: 2px solid gray;
+  padding: 5px;
 }
 
-.App-header {
-  align-items: center;
-  background-color: #282c34;
+.table-planets th {
+  background-color: cornflowerblue;
   color: white;
-  display: flex;
-  flex-direction: column;
-  font-size: calc(10px + 2vmin);
-  justify-content: center;
-  min-height: 100vh;
-}
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
+  padding-bottom: 12px;
+  padding-top: 12px;
+  text-align: center;
 }
