@@ -41,16 +41,18 @@
 }
 
 .table {
-  border:1px solid #C0C0C0;
+  border: 1px solid;
   border-collapse: collapse;
-  padding:5px;
+  padding: 5px;
 }
+
 .table th {
-  border:1px solid #C0C0C0;
-  padding:5px;
-  background:#F0F0F0;
+  background: gray;
+  border: 1px solid;
+  padding: 5px;
 }
+
 .table td {
-  border:1px solid #C0C0C0;
-  padding:5px;
+  border: 1px solid;
+  padding: 5px;
 }
