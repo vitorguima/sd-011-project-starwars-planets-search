@@ -4,7 +4,6 @@ import { useGlobalContext } from '../hooks/Context';
 const Filter = () => {
   const {
     options,
-    setOptions,
     handleChange,
     name,
     handleChangeInputs,
