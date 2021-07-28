@@ -45,6 +45,17 @@ export default function StarFilter() {
     </li>
   ));
 
+  const columnOptions = [
+    'population',
+    'diameter',
+    'orbital_period',
+    'rotation_period',
+    'surface_water',
+  ]
+
+  const filterColumn = columnOptions
+    .filter((item) => !numberFilters.map(({ column }) => column).includes(item));
+
   return (
     <HeaderStyle>
       <div>
@@ -64,11 +75,16 @@ export default function StarFilter() {
           onChange={ handleFilterNumber }
           data-testid="column-filter"
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {
+            filterColumn.map((item, index) => (
+              <option
+                name={ item }
+                key={ index }
+              >
+                { item }
+              </option>
+            ))
+          }
         </select>
         <select
           name="comparison"
