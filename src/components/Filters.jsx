@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 import DeleteFiltersBtn from './DeleteFiltersBtn';
 
@@ -7,14 +7,40 @@ const Filters = () => {
     setFilterByName,
     addNewNumericFilter,
     defaultColunsFilters,
+    filters,
   } = useContext(PlanetsContext);
 
+  // Filtros filtrados são inicialmente atribuidos ao valor padrão das opções de filtros;
+  const [
+    filteredColumnFilters,
+    setFilteredColumnFilters,
+  ] = useState(defaultColunsFilters);
+
+  // Estado criado para capturar os valores dos filtros escolhidos em cada select;
   const [selectedValues, setSelectedValues] = useState({
-    column: defaultColunsFilters[0],
+    column: filteredColumnFilters[0],
     comparison: 'maior que',
     value: 0,
   });
 
+  const {
+    filters: {
+      filterByNumericValues,
+    },
+  } = filters;
+
+  // Realiza a filtragem das opções disponíveis conforme filtros forem sendo adicionados pelo usuário;
+  // 1º Transforma as opções escolhidas em um array com o uso do .map();
+  // 2º Ataliza os opções de filtro filtradas retirando desse array os valores escolhidos pelo usuário.
+  useEffect(() => {
+    const filterOptions = filterByNumericValues.map((options) => options.column);
+    setFilteredColumnFilters(
+      defaultColunsFilters
+        .filter((columnFilter) => !filterOptions.includes(columnFilter)),
+    );
+  }, [filterByNumericValues, defaultColunsFilters]);
+
+  // Função handleSelects atualiza o estado selectedValues conforme o usuário escolhe o select;
   const handleSelects = ({ target }) => {
     const { name, value } = target;
 
@@ -24,17 +50,17 @@ const Filters = () => {
     });
   };
 
+  // Envia para o context os filtros escolhidos pelo usuário;
   const submitFilter = () => {
     addNewNumericFilter(selectedValues);
-    if (defaultColunsFilters[1]) {
-      setSelectedValues({
-        column: defaultColunsFilters[1],
-        comparison: 'maior que',
-        value: 0,
-      });
-    }
+    setSelectedValues({
+      column: filteredColumnFilters[1],
+      comparison: 'maior que',
+      value: 0,
+    });
   };
 
+  // Desestruturação do estado local selectedValues criado para ser possível ter os valores do selectes controlados juntamente com o valor presente no estado local;
   const { column, comparison, value: filterValue } = selectedValues;
 
   return (
@@ -61,7 +87,7 @@ const Filters = () => {
             value={ column }
           >
             {
-              defaultColunsFilters.map((option, index) => (
+              filteredColumnFilters.map((option, index) => (
                 <option key={ index }>{ option }</option>
               ))
             }

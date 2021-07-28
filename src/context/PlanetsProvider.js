@@ -17,7 +17,7 @@ const PlanetsProvider = ({ children }) => {
       filterByNumericValues: [{}],
     },
   });
-  const [defaultColunsFilters, setDefaultColunsFilters] = useState([
+  const [defaultColunsFilters] = useState([
     'population',
     'orbital_period',
     'diameter',
@@ -46,22 +46,6 @@ const PlanetsProvider = ({ children }) => {
         setIsLoading(false);
       });
   }, []);
-
-  const {
-    filters: {
-      filterByNumericValues,
-    },
-  } = filters;
-
-  useEffect(() => {
-    filterByNumericValues.forEach((filterOption) => {
-      if (defaultColunsFilters.includes(filterOption.column)) {
-        setDefaultColunsFilters(
-          defaultColunsFilters.filter((options) => options !== filterOption.column),
-        );
-      }
-    });
-  }, [filterByNumericValues, defaultColunsFilters]);
 
   const setFilterByName = (name) => {
     const newFilterName = {
