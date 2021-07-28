@@ -5,33 +5,30 @@ import TableHeader from './TableHeader';
 
 function Table() {
   const { data, filters } = useContext(PlanetsContext);
-  const {
-    filterByName: {
-      name,
-    },
-    filterByNumericValues: [{
-      column,
-      comparison,
-      value }] } = filters;
+  const { filterByName, filterByNumericValues } = filters;
+  const { name } = filterByName;
 
   function filterName() {
-    if (name.length > 0 || column.length > 0) {
+    if (name.length > 0 || filterByNumericValues.length > 0) {
       const filteredByName = data.filter((planet) => (
         planet.name.toLowerCase().includes(name.toLowerCase())));
-      if (column.length > 0) {
-        const filteredByNumeric = filteredByName.filter((planet) => {
-          switch (comparison) {
-          case 'maior que':
-            return Number(planet[column]) > Number(value);
-          case 'menor que':
-            return Number(planet[column]) < Number(value);
-          case 'igual a':
-            return Number(planet[column]) === Number(value);
-          default:
-            return true;
-          }
+      if (filterByNumericValues.length > 0) {
+        let array = [...filteredByName];
+        filterByNumericValues.forEach(({ column, comparison, value }) => {
+          array = array.filter((planet) => {
+            switch (comparison) {
+            case 'maior que':
+              return Number(planet[column]) > Number(value);
+            case 'menor que':
+              return Number(planet[column]) < Number(value);
+            case 'igual a':
+              return Number(planet[column]) === Number(value);
+            default:
+              return true;
+            }
+          });
+          return array;
         });
-        return filteredByNumeric;
       }
       return filteredByName;
     }

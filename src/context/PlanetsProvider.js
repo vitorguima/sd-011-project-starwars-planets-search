@@ -7,11 +7,7 @@ function PlanetsProvider({ children }) {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [{
-      column: '',
-      comparison: '',
-      value: '',
-    }],
+    filterByNumericValues: [],
     order: {
       column: 'Name',
       sort: 'ASC',
