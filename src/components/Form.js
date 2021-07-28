@@ -9,7 +9,7 @@ function Form() {
     setRenderOptions,
   } = useContext(PlanetsContext);
 
-  const { filterByNumericValues, order } = initialFilters;
+  const { filterByNumericValues } = initialFilters;
 
   // estados do componente
   const [columnState, setColumnState] = useState('population');
@@ -41,7 +41,7 @@ function Form() {
       ...initialFilters,
       order: { column: columnToSortOptions, sort: sortedOptions },
     });
-  }
+  };
 
   return (
     <div>
