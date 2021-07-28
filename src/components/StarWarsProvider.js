@@ -5,18 +5,21 @@ import fetchPlanetsApi from '../services/StarWarsPlanetApi';
 
 function StarWarsProvider(props) {
   const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+  });
 
-  async function importData() {
-    const getData = await fetchPlanetsApi();
-    setData(getData);
-  }
   useEffect(() => {
-    importData();
-  }, []);
+    const getData = async () => {
+      const Data = await fetchPlanetsApi();
+      return setData(Data);
+    };
+    getData();
+  }, [filters.filterByName.name]);
 
   const { children } = props;
   return (
-    <StarWarsContext.Provider value={ { data } }>
+    <StarWarsContext.Provider value={ { setFilters, data, filters } }>
       { children }
     </StarWarsContext.Provider>
   );
