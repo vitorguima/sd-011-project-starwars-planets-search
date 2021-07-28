@@ -5,10 +5,18 @@ function FormPlanets() {
   const { filterPlanetName, setFilterPlanetName } = React.useContext(Context);
 
   const handleChange = ({ target }) => {
+    console.log({
+      ...filterPlanetName,
+      filters: {
+        filterPlanetName: {
+          name: target.value,
+        },
+      },
+    });
     setFilterPlanetName({
       ...filterPlanetName,
       filters: {
-        filterByName: {
+        filterPlanetName: {
           name: target.value,
         },
       },
