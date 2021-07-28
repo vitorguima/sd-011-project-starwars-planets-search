@@ -2,21 +2,21 @@ import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
 export default function Table() {
-  const { planets } = useContext(MyContext);
-  console.log(planets);
+  const { planetsFilter } = useContext(MyContext);
+  console.log(planetsFilter);
   return (
     <div>
-      {planets && (
+      {planetsFilter.length > 0 && (
         <table>
           <thead>
             <tr>
-              {Object.keys(planets[0]).map((obj, index) => (
+              {Object.keys(planetsFilter[0]).map((obj, index) => (
                 <th key={ index }>{obj}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {planets.map((val, index) => (
+            {planetsFilter.map((val, index) => (
               <tr key={ index }>
                 {Object.values(val).map((obj, idx) => (
                   <td key={ idx }>{obj}</td>
