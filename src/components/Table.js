@@ -2,7 +2,10 @@ import React, { useContext } from 'react';
 import ContextApp from '../context/ContextApp';
 
 function ShowTable() {
-  const { titles, data } = useContext(ContextApp);
+  const { titles, data, filters } = useContext(ContextApp);
+
+  const filtered = data.filter(({ name }) => (
+    name.toLowerCase().includes(filters))).map((planet) => planet);
 
   return (
     <table>
@@ -12,7 +15,7 @@ function ShowTable() {
         )) }
       </tr>
 
-      { data.map((contentColumn, index) => (
+      { filtered.map((contentColumn, index) => (
         <tr key={ index }>
           <td>{ contentColumn.name }</td>
           <td>{ contentColumn.rotation_period }</td>

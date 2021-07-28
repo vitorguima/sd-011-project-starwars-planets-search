@@ -6,6 +6,7 @@ import fetchAPI from '../services/apiRequest';
 const AppProvider = ({ children }) => {
   const [data, setData] = useState([]);
   const [titles, setTitles] = useState([]);
+  const [filters, setFilter] = useState([]);
 
   useEffect(() => {
     const url = 'https://swapi-trybe.herokuapp.com/api/planets';
@@ -22,7 +23,7 @@ const AppProvider = ({ children }) => {
     getPlanets();
   }, []);
 
-  const contextValue = { data, titles };
+  const contextValue = { data, titles, filters, setFilter };
 
   return (
     <ContextApp.Provider value={ contextValue }>
