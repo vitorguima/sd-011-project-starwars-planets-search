@@ -9,6 +9,7 @@ function Head() {
 
   return (
     <input
+      data-testid="name-filter"
       placeholder="Filtering by name"
       type="text"
       onChange={ handleChange }
