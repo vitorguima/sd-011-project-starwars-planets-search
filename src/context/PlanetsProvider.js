@@ -4,7 +4,15 @@ import PlanetsContext from './PlanetsContext';
 
 function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: [],
+  });
+  const [options, setOptions] = useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
+  const [column, setColumn] = useState('');
+  const [comparison, setComparison] = useState('');
+  const [value, setValue] = useState(0);
   useEffect(() => {
     const fetchPlanets = async () => {
       const endPoint = await fetch(
@@ -17,7 +25,17 @@ function PlanetsProvider({ children }) {
     fetchPlanets();
   }, []);
 
-  const objValues = { data, filters, setFilters };
+  const objValues = { data,
+    filters,
+    setFilters,
+    options,
+    setOptions,
+    column,
+    setColumn,
+    comparison,
+    setComparison,
+    value,
+    setValue };
 
   return (
     <PlanetsContext.Provider value={ objValues }>
