@@ -1,14 +1,15 @@
 import React, { useContext } from 'react';
 import '../styles/table.css';
 import PlanetsContext from '../context/PlanetsContext';
+import FilterBar from './FilterBar';
 
 function Table() {
   const { planets } = useContext(PlanetsContext);
-  console.log(planets);
 
   return (
     <div>
       <h2>Componente Tabela</h2>
+      <FilterBar />
       <table>
         <thead>
           <tr>
