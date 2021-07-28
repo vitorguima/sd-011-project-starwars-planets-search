@@ -12,7 +12,7 @@ function Header() {
   } = useContext(MyContext);
   const { filterByName, filterByNumericValues } = searchValue;
   const { name } = filterByName;
-  const { column, comparison, value } = filterByNumericValues;
+  const { comparison, value } = filterByNumericValues;
 
   const columnOption = [
     'population',
@@ -21,6 +21,9 @@ function Header() {
     'rotation_period',
     'surface_water',
   ];
+
+  const filterColumn = columnOption.filter((element) => (
+    !filterByNumericValues.map(({ column }) => column).includes(element)));
 
   return (
     <div>
@@ -40,11 +43,10 @@ function Header() {
         onChange={ ({ target }) => setColumn(target.value) }
       >
         {
-          columnOption
+          filterColumn
             .map((item, index) => (
               <option
                 key={ index }
-                value={ column }
                 name={ item }
               >
                 { item }
