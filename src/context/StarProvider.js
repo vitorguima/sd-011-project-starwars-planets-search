@@ -17,14 +17,12 @@ function StarProvider({ children }) {
       column: 'population',
       comparison: 'maior que',
       value: '',
-    }
+    },
   );
-console.log(otherFilters);
 
-  function filtersByNumbers({ target } ) {
+  function filtersByNumbers({ target }) {
     const { name, value } = target;
     setOtherFilters({ ...otherFilters, [name]: value });
-    console.log(target);
   }
 
   function filterInput({ target }) {
@@ -35,6 +33,30 @@ console.log(otherFilters);
       },
     });
   }
+
+  const filterButton = () => {
+    const { column, comparison, value } = otherFilters;
+    switch (comparison) {
+    case 'maior que':
+      setFilterPlanet(
+        planets.filter((planet) => Number(planet[column]) > Number(value)),
+      );
+      break;
+    case 'menor que':
+      setFilterPlanet(
+        planets.filter((planet) => Number(planet[column]) < Number(value)),
+      );
+      break;
+    case 'igual a':
+      setFilterPlanet(
+        planets.filter((planet) => Number(planet[column]) === Number(value)),
+      );
+      break;
+    default:
+      setFilterPlanet(planets);
+      break;
+    }
+  };
 
   useEffect(() => {
     async function fetchPlanets() {
@@ -58,7 +80,16 @@ console.log(otherFilters);
   }, [filters, planets, filters.filterByName.name]);
 
   return (
-    <StarContext.Provider value={ { planets, loading, filterInput, filterPlanet, filtersByNumbers } }>
+    <StarContext.Provider
+      value={ {
+        planets,
+        loading,
+        filterInput,
+        filterPlanet,
+        filtersByNumbers,
+        filterButton,
+      } }
+    >
       { children }
     </StarContext.Provider>
   );

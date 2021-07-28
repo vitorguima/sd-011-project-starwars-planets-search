@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import StarContext from '../context/StarContext';
 
 function Filters() {
-  const { filterInput, filtersByNumbers } = useContext(StarContext);
+  const { filterInput, filtersByNumbers, filterButton } = useContext(StarContext);
 
   return (
     <div>
@@ -33,7 +33,7 @@ function Filters() {
       >
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
-        <option value="igual">igual a</option>
+        <option value="igual a">igual a</option>
       </select>
       <label htmlFor="value-filter">
         <input
@@ -43,7 +43,13 @@ function Filters() {
           onChange={ filtersByNumbers }
         />
       </label>
-      <button type="button" data-testid="button-filter">Filtrar</button>
+      <button
+        data-testid="button-filter"
+        type="button"
+        onClick={ filterButton }
+      >
+        Filtrar
+      </button>
     </div>
   );
 }
