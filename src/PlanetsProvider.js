@@ -65,7 +65,7 @@ function Provider({ children }) {
         return acc.filter((item) => parseInt(item[column], 10) < parseInt(value, 10));
       case 'igual a':
         return acc.filter((item) => parseInt(item[column], 10) === parseInt(value, 10));
-        default: return acc;
+      default: return acc;
       }
     }, filteredData);
     setFilteredData(newData);
