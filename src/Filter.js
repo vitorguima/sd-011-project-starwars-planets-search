@@ -8,15 +8,10 @@ function Filter({ initstate, setInitState }) {
     numberValue: '100000',
   });
   const [updateFilter, setupdateFilter] = useState(false);
-  const [colunFiltr, setColunFiltr] = useState(['population',
-    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
-  const [comparationFiltr, setcomparationFiltr] = useState(
-    ['maior que', 'menor que', 'igual a'],
-  );
+  const { data, colunFilter, comparisonFilter, filterByNumericValues } = initstate;
 
   function changeValue({ target }) {
     const { value } = target;
-    const { data } = initstate;
     setInitState({
       ...initstate,
       newData: data.filter(({ name }) => name.includes(value)),
@@ -35,21 +30,21 @@ function Filter({ initstate, setInitState }) {
   }
 
   function clickFilter(column, comparison) {
-    const { filterByNumericValues } = initstate;
     setInitState({
       ...initstate,
+      colunFilter: colunFilter.filter((item) => item !== column),
+      comparisonFilter: comparisonFilter.filter((item) => item !== comparison),
       filterByNumericValues: [
         ...filterByNumericValues,
         valueFilter,
       ],
     });
-    setColunFiltr(colunFiltr.filter((item) => item !== column));
-    setcomparationFiltr(comparationFiltr.filter((item) => item !== comparison));
+    // setColunFiltr(colunFiltr.filter((item) => item !== column));
+    // setcomparationFiltr(comparationFiltr.filter((item) => item !== comparison));
     setupdateFilter(true);
   }
 
   useEffect(() => {
-    const { data, filterByNumericValues } = initstate;
     const newItemFilter = filterByNumericValues.length - 1;
 
     if (updateFilter) {
@@ -77,8 +72,7 @@ function Filter({ initstate, setInitState }) {
       });
       setupdateFilter(false);
     }
-  }, [initstate, setInitState, updateFilter]);
-
+  }, [data, filterByNumericValues, initstate, setInitState, updateFilter]);
   return (
     <form>
       <input
@@ -87,17 +81,13 @@ function Filter({ initstate, setInitState }) {
         data-testid="name-filter"
       />
       <select data-testid="column-filter" name="column" onChange={ sendSelect }>
-        { colunFiltr.map((colunItem, index) => (
-
+        { colunFilter.map((colunItem, index) => (
           <option key={ index } value={ colunItem }>{ colunItem }</option>
-
         )) }
       </select>
       <select data-testid="comparison-filter" name="comparison" onChange={ sendSelect }>
-        { comparationFiltr.map((comparisonItem, index) => (
-
+        { comparisonFilter.map((comparisonItem, index) => (
           <option key={ index } value={ comparisonItem }>{ comparisonItem }</option>
-
         )) }
       </select>
       <input
