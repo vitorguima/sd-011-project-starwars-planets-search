@@ -2,12 +2,11 @@ import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Table() {
-  const { data, setFilters, filters, options, column, setColumn, comparison,
+  const { data, setFilters, filters, options, setOptions, column, setColumn, comparison,
     setComparison, value, setValue } = useContext(PlanetsContext);
   const [columnState, setColumnState] = useState('population');
   const [comparisonState, setComparisonState] = useState('maior que');
   const [valueState, setValueState] = useState(0);
-  console.log(typeof valueState);
 
   const [inputName, setInputName] = useState('');
   const filterData = inputName ? data.filter((planet) => planet
@@ -44,6 +43,7 @@ function Table() {
     setFilters({ ...filters,
       filterByNumericValues: [...filters.filterByNumericValues, newObject],
     });
+    setOptions(options.filter((option) => option !== columnState));
   }
 
   return (
@@ -62,7 +62,7 @@ function Table() {
           data-testid="column-filter"
           onChange={ ({ target }) => setColumnState(target.value) }
         >
-          {options.map((option) => <option key={ option }>{option}</option>)}
+          {options.map((option, index) => <option key={ index }>{option}</option>)}
         </select>
         <select
           data-testid="comparison-filter"
@@ -85,6 +85,13 @@ function Table() {
           Filter
         </button>
       </form>
+      { filters.filterByNumericValues && filters.filterByNumericValues
+        .map((filter, index) => (
+          <div key={ index }>
+            <span>{filter.column}</span>
+            <button type="button" data-testid="filter">X</button>
+          </div>
+        )) }
       <table>
         <caption>Planets</caption>
         <thead>
