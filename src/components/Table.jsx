@@ -61,7 +61,7 @@ function Table() {
       },
     });
   }
-  const filterPlanets = Filter(filters, allPlanets)
+  const filterPlanets = Filter(filters, allPlanets);
   filterPlanets.sort((planetA, planetB) => {
     const { column } = sort.order;
     if (sort.order.sort === 'ASC' && /^[0-9]/.test(planetA[column])) {
