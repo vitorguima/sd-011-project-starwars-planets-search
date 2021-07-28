@@ -23,12 +23,6 @@ function Provider({ children }) {
   //   }
   // }
 
-  const [column/* , getColumn */] = useState('');
-  const [comparison/* , getComparison */] = useState('');
-  const [value/* , getValue */] = useState();
-  const [filterByNumericValues/* , getFilterByNumericValues */] = useState([{
-    column, comparison, value }]);
-
   useEffect(() => {
     const getPlanets = async () => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
