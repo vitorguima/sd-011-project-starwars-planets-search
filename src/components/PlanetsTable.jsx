@@ -1,10 +1,10 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
-import useFilters from '../hooks/useFilters';
+import useSort from '../hooks/useSort';
 
 const Table = () => {
   const { isLoading } = useContext(PlanetsContext);
-  const { filteredPlanetList } = useFilters();
+  const { planetListSorted } = useSort();
 
   return (
     (!isLoading)
@@ -28,10 +28,10 @@ const Table = () => {
             </tr>
           </thead>
           <tbody>
-            { filteredPlanetList
+            { planetListSorted
               .map((planet, index) => (
                 <tr key={ index }>
-                  <td>{ planet.name }</td>
+                  <td data-testid="planet-name">{ planet.name }</td>
                   <td>{ planet.rotation_period }</td>
                   <td>{ planet.orbital_period }</td>
                   <td>{ planet.diameter }</td>

@@ -10,6 +10,7 @@ const useFilters = () => {
         name,
       },
       filterByNumericValues,
+      order,
     },
   } = filters;
 
@@ -40,7 +41,7 @@ const useFilters = () => {
           }),
       );
     });
-  }, [filterByNumericValues, name, results]);
+  }, [filterByNumericValues, name, results, order]);
 
   // Realiza a filtragem das opções disponíveis conforme filtros forem sendo adicionados pelo usuário;
   // 1º Transforma as opções escolhidas em um array com o uso do .map();
