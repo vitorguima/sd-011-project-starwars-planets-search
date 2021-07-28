@@ -36,8 +36,6 @@ const Table = () => {
     });
   }, [filterByNumericValues, name, results]);
 
-  // console.log(filteredPlanetList, filterByNumericValues, name, results);
-
   return (
     (!isLoading)
       ? (
