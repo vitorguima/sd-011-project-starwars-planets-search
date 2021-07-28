@@ -47,6 +47,15 @@ function Provider({ children }) {
       .filter((item) => item !== newFilter.column));
   };
 
+  const removeFilterByNumericValues = (column) => {
+    setFilters((state) => ({
+      ...state,
+      filterByNumericValues: state.filterByNumericValues
+        .filter((item) => column !== item.column),
+    }));
+    setColumnFilterOptions((state) => [column, ...state]);
+  };
+
   useEffect(() => {
     setNewFilter({ column: columnFilterOptions[0], comparison: 'maior que', value: 0 });
   }, [columnFilterOptions]);
@@ -92,6 +101,7 @@ function Provider({ children }) {
     newFilter,
     handleChangeNewFilter,
     setFilterByNumericValues,
+    removeFilterByNumericValues,
   };
 
   return (

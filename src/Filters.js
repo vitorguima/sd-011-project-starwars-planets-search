@@ -10,6 +10,7 @@ export default function Filters() {
     newFilter,
     handleChangeNewFilter,
     setFilterByNumericValues,
+    removeFilterByNumericValues,
   } = useContext(PlanetsContext);
 
   const { filterByName: { name }, filterByNumericValues } = filters;
@@ -24,7 +25,7 @@ export default function Filters() {
   );
 
   const renderFilters = () => filterByNumericValues.map((item) => (
-    <div key={ item.column }>
+    <div key={ item.column } data-testid="filter">
       <p>
         {item.column}
         {' '}
@@ -32,6 +33,12 @@ export default function Filters() {
         {' '}
         {item.value}
       </p>
+      <button
+        type="button"
+        onClick={ () => removeFilterByNumericValues(item.column) }
+      >
+        X
+      </button>
     </div>
   ));
 
