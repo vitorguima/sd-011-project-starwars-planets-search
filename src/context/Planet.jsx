@@ -19,9 +19,12 @@ export function Provider({ children }) {
     if (data) {
       const planetFilter = filters.filterByName.name;
       const { results } = data;
-      const planetsToRender = results.filter(({ name }) => (
-        name.includes(planetFilter)
-      ));
+      const planetsToRender = results.filter(({ name }) => {
+        const nameInLowerCase = name.toLowerCase();
+        return (
+          nameInLowerCase.includes(planetFilter)
+        );
+      });
       setPlanets(planetsToRender);
     }
   }, [data, filters, setPlanets]);
