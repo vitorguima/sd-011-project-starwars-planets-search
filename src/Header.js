@@ -11,9 +11,9 @@ function Header() {
 
   return (
     <div>
-      <header>
-        <h1>Star Wars Planets</h1>
+      <header className="header">
         <label htmlFor="Name">
+          <h1>Star Wars Planets</h1>
           <input
             data-testid="name-filter"
             type="text"

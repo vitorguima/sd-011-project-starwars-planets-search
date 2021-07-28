@@ -29,6 +29,15 @@ function PlanetsProvider({ children }) {
     });
   }
 
+  function handleResetClick() {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filters.filterByNumericValues.filter((element) => element.column !== column),
+      ],
+    });
+  }
+
   useEffect(() => {
     const getAPI = async () => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -62,6 +71,7 @@ function PlanetsProvider({ children }) {
     data,
     filters,
     handleChange,
+    handleResetClick,
     handleClick,
     setColumn,
     setComparison,

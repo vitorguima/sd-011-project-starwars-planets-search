@@ -34,41 +34,41 @@ function Table() {
   };
 
   return (
-    <div>
+    <div className="table">
       <table>
         <thead>
           <tr>
-            <th>Name</th>
-            <th>Rottion Period</th>
-            <th>Orbital Period</th>
-            <th>Diameter</th>
-            <th>Climate</th>
-            <th>Gravity</th>
-            <th>Terrain</th>
-            <th>Surface Water</th>
-            <th>Population</th>
-            <th>Films</th>
-            <th>Created</th>
-            <th>Edited</th>
-            <th>Residents</th>
+            <th className="table-header">Name</th>
+            <th className="table-header">Rottion Period</th>
+            <th className="table-header">Orbital Period</th>
+            <th className="table-header">Diameter</th>
+            <th className="table-header">Climate</th>
+            <th className="table-header">Gravity</th>
+            <th className="table-header">Terrain</th>
+            <th className="table-header">Surface Water</th>
+            <th className="table-header">Population</th>
+            <th className="table-header">Films</th>
+            <th className="table-header">Created</th>
+            <th className="table-header">Edited</th>
+            <th className="residents">Residents</th>
           </tr>
         </thead>
         <tbody>
           { condition().map((planet) => (
             <tr key={ planet.name }>
-              <td>{ planet.name }</td>
-              <td>{ planet.rotation_period }</td>
-              <td>{ planet.orbital_period }</td>
-              <td>{ planet.diameter }</td>
-              <td>{ planet.climate }</td>
-              <td>{ planet.gravity }</td>
-              <td>{ planet.terrain }</td>
-              <td>{ planet.surface_water }</td>
-              <td>{ planet.population }</td>
-              <td>{ planet.films }</td>
-              <td>{ planet.created }</td>
-              <td>{ planet.edited }</td>
-              <td>{ planet.residents }</td>
+              <td className="table-lines-name table-lines">{ planet.name }</td>
+              <td className="table-lines table-lines">{ planet.rotation_period }</td>
+              <td className="table-lines table-lines">{ planet.orbital_period }</td>
+              <td className="table-lines table-lines">{ planet.diameter }</td>
+              <td className="table-lines table-lines">{ planet.climate }</td>
+              <td className="table-lines table-lines">{ planet.gravity }</td>
+              <td className="table-lines table-lines">{ planet.terrain }</td>
+              <td className="table-lines table-lines">{ planet.surface_water }</td>
+              <td className="table-lines table-lines">{ planet.population }</td>
+              <td className="table-lines table-lines">{ planet.films }</td>
+              <td className="table-lines table-lines">{ planet.created }</td>
+              <td className="table-lines table-lines">{ planet.edited }</td>
+              <td className="residents">{ planet.residents }</td>
             </tr>
           ))}
         </tbody>

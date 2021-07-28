@@ -5,6 +5,7 @@ function Search() {
   const {
     filters,
     handleClick,
+    handleResetClick,
     setColumn,
     setComparison,
     setValue,
@@ -26,7 +27,7 @@ function Search() {
       .map(({ column }) => column).includes(item));
 
   return (
-    <div>
+    <div className="search">
       <select
         data-testid="column-filter"
         onChange={ ({ target }) => setColumn(target.value) }
@@ -63,6 +64,20 @@ function Search() {
         onClick={ () => handleClick() }
       >
         Search
+      </button>
+      {/* <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ () => handleClick() }
+      >
+        Filtrar
+      </button> */}
+      <button
+        type="button"
+        data-testid="filter"
+        onClick={ () => handleResetClick() }
+      >
+        X
       </button>
     </div>
   );
