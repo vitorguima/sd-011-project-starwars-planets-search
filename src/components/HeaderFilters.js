@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import '../css/HeaderFilters.css';
 
 function HeaderFilter() {
   const {
@@ -16,11 +17,11 @@ function HeaderFilter() {
   const { column, comparison, value } = filterByNumericValues;
 
   const columnOption = [
-    'population',
-    'diameter',
-    'orbital_period',
-    'rotation_period',
-    'surface_water',
+    'Population',
+    'Diameter',
+    'Orbital period',
+    'Rotation period',
+    'Surface water',
   ];
 
   return (

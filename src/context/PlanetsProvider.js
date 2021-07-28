@@ -75,11 +75,12 @@ function PlanetsProvider({ children }) {
       value={ { data,
         search,
         setSearch,
+        setValue,
         filter,
         filterClick,
         setColumn,
         setComparison,
-        setValue } }
+      } }
     >
       { children }
     </PlanetsContext.Provider>

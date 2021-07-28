@@ -8,7 +8,7 @@ function Table() {
   const { name } = filterByName;
   let results = [];
   if (name) {
-    results = data.filter((planetName) => planetName
+    results = data.filter((planet) => planet
       .name.toLowerCase()
       .includes(name.toLowerCase()));
   } else if (!name) {
@@ -16,21 +16,20 @@ function Table() {
   }
 
   function whatsFilter() {
-    const resultsFilters = results.filter((item) => {
-      let condition = [];
+    const resultsFilters = results.filter((planet) => {
+      let condition = true;
       filterByNumericValues.forEach(({ comparison, value, column }) => {
         if (comparison === 'maior que') {
-          condition = Number(item[column]) > Number(value);
+          condition = Number(planet[column]) > Number(value);
         } else if (comparison === 'menor que') {
-          condition = Number(item[column]) < Number(value);
+          condition = Number(planet[column]) < Number(value);
         } else if (comparison === 'igual a') {
-          condition = Number(item[column]) === Number(value);
+          condition = Number(planet[column]) === Number(value);
         }
       });
       console.log(condition);
       return condition;
     });
-    console.log(resultsFilters);
     return resultsFilters;
   }
 

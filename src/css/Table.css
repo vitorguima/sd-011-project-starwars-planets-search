@@ -5,6 +5,8 @@ th, tr, td {
 }
 
 table {
+  background-color: rgb(55, 53, 53);
   border-style: solid;
+  color: white;
   margin: auto;
 }
