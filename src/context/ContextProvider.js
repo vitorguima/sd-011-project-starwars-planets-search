@@ -3,12 +3,23 @@ import PropTypes from 'prop-types';
 import Context from './Context';
 import API from '../services/API';
 
+const initialFilter = {
+  filterByName: {
+    name: '',
+  },
+  filterByNumericValues: [
+    {
+      column: '',
+      comparison: '',
+      value: '',
+    },
+  ],
+};
+
 export default function ContextProvider({ children }) {
   const [data, setData] = useState([]);
   const [planets, setPlanets] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: {
-    name: '',
-  } });
+  const [filters, setFilters] = useState(initialFilter);
 
   async function fetchData() {
     const arrayPlanets = await API();

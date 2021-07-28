@@ -3,11 +3,21 @@ import Context from '../context/Context';
 
 export default function Table() {
   const { planets, filters } = useContext(Context);
-  const { filterByName: { name } } = filters;
+  const { filterByName: { name }, filterByNumericValues } = filters;
 
   const array = planets.filter((planet) => {
+    const { column, comparison, value } = filterByNumericValues[0];
     const searchName = planet.name.toLowerCase().includes(name.toLowerCase());
-    return searchName;
+    switch (comparison) {
+    case 'maior que':
+      return parseInt(planet[column], 10) > parseInt(value, 10) && searchName;
+    case 'menor que':
+      return parseInt(planet[column], 10) < parseInt(value, 10) && searchName;
+    case 'igual a':
+      return parseInt(planet[column], 10) === parseInt(value, 10) && searchName;
+    default:
+      return searchName;
+    }
   });
 
   return (
