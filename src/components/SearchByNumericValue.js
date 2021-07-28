@@ -3,10 +3,10 @@ import TableContext from '../context/TableContext';
 
 function SearchByNumericValue() {
   const { addFilterOnList, filters } = useContext(TableContext);
-  const [column, setColumn] = useState('population');
+  const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('maior que');
-  const [value, setValue] = useState('100000');
-  const [columnNames, setColumnNames] = useState([
+  const [value, setValue] = useState('');
+  const [columnNames] = useState([
     'population',
     'orbital_period',
     'diameter',
@@ -17,17 +17,24 @@ function SearchByNumericValue() {
   const { filterByNumericValues } = filters;
 
   const removeColumnOption = () => {
-    let currentColumn = [...columnNames];
+    let currentColumn = [...filteredColumn];
     console.log(currentColumn);
     if (filterByNumericValues.length > 0) {
       console.log('vrau');
-      currentColumn = currentColumn.reduce((acc, curr) => filterByNumericValues.forEach((item) => (item.column !== curr ? acc : [])));
+      console.log(filterByNumericValues);
+      currentColumn = currentColumn.filter(
+        (columnName) => !(filterByNumericValues.find(
+          (item) => item.column === columnName,
+        )),
+      );
+      // currentColumn = filterByNumericValues.filter((item) => item.column !== currentColumn);
+      // currentColumn = currentColumn.reduce((acc, curr) => filterByNumericValues.forEach((item) => (item.column !== curr ? acc : [])));
       // currentColumn = filterByNumericValues.map((item) => columnNames.filter((columnName) => columnName !== item.column));
       // currentColumn = currentColumn.filter((columnName) => (
-        // filterByNumericValues.forEach((item) => columnName !== item.column)));
+      //   filterByNumericValues.map((item) => item.column !== columnName)));
       setFilteredColumn(currentColumn);
+      console.log(currentColumn);
     }
-    console.log(currentColumn);
     return currentColumn;
   };
 
@@ -46,7 +53,9 @@ function SearchByNumericValue() {
           value={ column }
           name="column"
         >
-          {filteredColumn && filteredColumn.map((item, index) => <option key={ index }>{item}</option>)}
+          {filteredColumn && filteredColumn.map(
+            (item, index) => <option key={ index }>{item}</option>,
+          )}
         </select>
       </label>
       <label htmlFor="comparison-filter">
