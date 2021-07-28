@@ -286,57 +286,57 @@ describe('4 - Não utilize filtros repetidos', () => {
   });
 });
 
-// describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos dados da tabela ao clicar no ícone de `X` de um dos filtros', () => {
-//   beforeAll(mockFetch);
-//   beforeEach(cleanup);
+describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos dados da tabela ao clicar no ícone de `X` de um dos filtros', () => {
+  beforeAll(mockFetch);
+  beforeEach(cleanup);
 
-//   const removeFilter = async () => {
-//     const filters = await screen.findAllByTestId(REMOVE_FILTER_SELECTOR);
-//     fireEvent.click(filters[0].querySelector('button'));
-//   };
+  const removeFilter = async () => {
+    const filters = await screen.findAllByTestId(REMOVE_FILTER_SELECTOR);
+    fireEvent.click(filters[0].querySelector('button'));
+  };
 
-//   it('Adicione um filtro e verifique se a tabela foi atualizada com as informações filtradas, depois remova o filtro e verifice se os valores da tabela voltaram ao original', async () => {
-//     await act(async () => {
-//       render(<App />);
-//     });
-//     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
+  it('Adicione um filtro e verifique se a tabela foi atualizada com as informações filtradas, depois remova o filtro e verifice se os valores da tabela voltaram ao original', async () => {
+    await act(async () => {
+      render(<App />);
+    });
+    expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
 
-//     fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'diameter' }});
-//     fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
-//     fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8900' }});
-//     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
-//     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
+    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'diameter' }});
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
+    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8900' }});
+    fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
+    expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
 
-//     await removeFilter();
+    await removeFilter();
 
-//     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
-//   });
+    expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
+  });
 
-//   it('Adicione dois filtros e verifique se a tabela foi atualizada com as informações filtradas, depois remova os filtros e verifique se os valores da tabela voltaram ao original', async () => {
-//     await act(async () => {
-//       render(<App />);
-//     });
-//     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
+  it('Adicione dois filtros e verifique se a tabela foi atualizada com as informações filtradas, depois remova os filtros e verifique se os valores da tabela voltaram ao original', async () => {
+    await act(async () => {
+      render(<App />);
+    });
+    expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
 
-//     fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'diameter' }});
-//     fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
-//     fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8900' }});
-//     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
-//     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
+    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'diameter' }});
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
+    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8900' }});
+    fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
+    expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
 
-//     fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'population' }});
-//     fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'menor que' }});
-//     fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '1000000' }});
-//     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
-//     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(3);
+    fireEvent.change(await screen.findByTestId(COLUMN_FILTER_SELECTOR), { target: { value: 'population' }});
+    fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'menor que' }});
+    fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '1000000' }});
+    fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
+    expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(3);
 
-//     await removeFilter();
+    await removeFilter();
 
-//     await removeFilter();
+    await removeFilter();
 
-//     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
-//   });
-// });
+    expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(11);
+  });
+});
 
 // describe('6 - Ordene as colunas de forma ascendente ou descendente', () => {
 //   beforeAll(mockFetch);
