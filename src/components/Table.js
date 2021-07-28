@@ -1,7 +1,7 @@
 import React, { useContext, useEffect } from 'react';
 import FetchApi from './FetchApi';
 import PlanetsContext from '../hooks/PlanetsContext';
-import filteredNumericValues from '../helpers/filteredNumericValues';
+import { filteredNumericValues, sortColumns } from '../helpers/Filters';
 import DelFilters from './DelFilters';
 
 function Table() {
@@ -14,6 +14,7 @@ function Table() {
 
   useEffect(() => {
     if (data) {
+      sortColumns(initialFilters, data);
       const getFilteredInfo = data.filter((item) => {
         const { name, ...items } = item;
         const filterName = name.toLowerCase()

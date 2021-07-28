@@ -9,6 +9,10 @@ const INITIAL_FILTERS = {
     name: '',
   },
   filterByNumericValues: [],
+  order: {
+    column: 'name',
+    sort: 'ASC',
+  },
 };
 
 function PlanetsProvider({ children }) {

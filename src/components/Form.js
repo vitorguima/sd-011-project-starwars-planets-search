@@ -9,11 +9,19 @@ function Form() {
     setRenderOptions,
   } = useContext(PlanetsContext);
 
-  const { filterByNumericValues } = initialFilters;
+  const { filterByNumericValues, order } = initialFilters;
 
+  // estados do componente
   const [columnState, setColumnState] = useState('population');
   const [comparisonValue, setComparisonValue] = useState('filtros');
   const [valueState, setValueState] = useState(0);
+  const [columnToSortOptions, setColumnToSortOptions] = useState('name');
+  const [sortedOptions, setSortedOptions] = useState('ASC');
+  //
+  const columnsOptionsToSort = ['name', 'rotation_period', 'orbital_period',
+    'diameter', 'climate', 'gravity', 'terrain', 'surface_water', 'population',
+    'films', 'created',
+    'edited', 'url'];
 
   const handleRenderOptions = () => {
     const filteredOptions = renderOptions
@@ -28,17 +36,22 @@ function Form() {
     });
   };
 
+  const handleSortedOptions = () => {
+    setInitialFilters({
+      ...initialFilters,
+      order: { column: columnToSortOptions, sort: sortedOptions },
+    });
+  }
+
   return (
     <div>
-      <label htmlFor="planetName">
-        <input
-          type="text"
-          id="planetName"
-          data-testid="name-filter"
-          onChange={ ({ target }) => setInitialFilters({
-            ...initialFilters, filterByName: { name: target.value } }) }
-        />
-      </label>
+      <input
+        type="text"
+        id="planetName"
+        data-testid="name-filter"
+        onChange={ ({ target }) => setInitialFilters({
+          ...initialFilters, filterByName: { name: target.value } }) }
+      />
       <select
         name="column"
         data-testid="column-filter"
@@ -69,6 +82,44 @@ function Form() {
         onClick={ () => handleRenderOptions() }
       >
         Filtrar
+      </button>
+      <select
+        data-testid="column-sort"
+        onChange={ ({ target: { value } }) => setColumnToSortOptions(value) }
+      >
+        { columnsOptionsToSort.map((option, i) => (
+          <option key={ i }>
+            { option }
+          </option>
+        )) }
+      </select>
+      <label htmlFor="inputRadio">
+        ASC
+        <input
+          type="radio"
+          id="inputRadio"
+          name="inputRadio"
+          data-testid="column-sort-input-asc"
+          checked={ sortedOptions === 'ASC' }
+          onChange={ () => setSortedOptions('ASC') }
+        />
+      </label>
+      <label htmlFor="inputRadio">
+        DESC
+        <input
+          type="radio"
+          id="inputRadio"
+          name="inputRadio"
+          data-testid="column-sort-input-desc"
+          onChange={ () => setSortedOptions('DESC') }
+        />
+      </label>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => handleSortedOptions() }
+      >
+        Ordenar
       </button>
     </div>
   );
