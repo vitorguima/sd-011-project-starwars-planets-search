@@ -3,11 +3,18 @@ import Context from '../Context/Context';
 
 export default function Table() {
   const { data } = useContext(Context);
-  console.log(data)
+  console.log(data);
   return (
     <>
       <h1>In the Table</h1>
       <thead>
+        <label htmlFor="filter-label">
+          Filtro:
+          <input
+            type="text"
+            data-testid="name-filter"
+          />
+        </label>
         <tr>
           <th>Name</th>
           <th>Período de Rotação</th>

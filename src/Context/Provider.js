@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
-import Context from '../Context/Context';
+import Context from './Context';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
