@@ -2,23 +2,17 @@ import React, { useContext } from 'react';
 import { Planet } from '../context/Planet';
 
 export default function Table() {
-  const { data, filters, planets } = useContext(Planet);
+  const { data, planets } = useContext(Planet);
 
   if (data && planets) {
-    const { name } = filters.filterByName;
-    let planetsToBeRendered = data.results;
-    if (name.length > 0) {
-      planetsToBeRendered = planets;
-    }
-
     const tableTitles = () => (
-      Object.keys(planetsToBeRendered[0]).map((title, index) => (
+      Object.keys(planets[0]).map((title, index) => (
         <th key={ index }>{ title }</th>
       ))
     );
 
     const tableContent = () => (
-      planetsToBeRendered.map((planet, index) => (
+      planets.map((planet, index) => (
         <tr key={ index }>
           { Object.values(planet).map((item, actualIndex) => (
             <td key={ actualIndex }>{ item }</td>)) }

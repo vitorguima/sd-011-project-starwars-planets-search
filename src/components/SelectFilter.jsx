@@ -1,49 +1,17 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { Planet } from '../context/Planet';
 
 export default function SelectFilter() {
-  const { data, setFilters, filters, planets, setPlanets } = useContext(Planet);
-
-  const [activateFilter, setActivateFilter] = useState(false);
+  const { filterByNumericValues } = useContext(Planet);
 
   const [filter, setFilter] = useState(
     {
       column: 'rotation_period',
       comparison: 'maior que',
-      value: '',
+      value: '0',
     },
   );
 
-  function filterPlanetsByNumericValues() {
-    console.log('rodou');
-    const { column, comparison, value } = filter;
-    if (activateFilter && value) {
-      console.log('passou aqui');
-      const planetsToRender = planets.filter((planet) => {
-        switch (comparison) {
-        case 'maior que':
-          console.log(`${Number(planet[column])} maior que ${Number(value)}`);
-          return (Number(planet[column]) > Number(value));
-        case 'menor que':
-          console.log(`${Number(planet[column])} menor que ${Number(value)}`);
-          return (Number(planet[column]) < Number(value));
-        case 'igual a':
-          console.log(`${Number(planet[column])} igual a ${Number(value)}`);
-          return (Number(planet[column]) === Number(value));
-        default:
-          return console.log('nao deu');
-        }
-      });
-      setPlanets(planetsToRender);
-    }
-  }
-
-  useEffect(filterPlanetsByNumericValues,
-    [activateFilter, filter.value, filter.column, filter.comparison]);
-
-  function handleClick() {
-    setActivateFilter(!activateFilter);
-  }
   function handleChange(event) {
     const { name, value } = event.target;
     setFilter({ ...filter, [name]: value });
@@ -84,9 +52,11 @@ export default function SelectFilter() {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ handleClick }
+        onClick={
+          () => filterByNumericValues(filter.column, filter.comparison, filter.value)
+        }
       >
-        { activateFilter ? 'Cancelar filtro' : 'filtrar'}
+        Filtrar
       </button>
     </>
   );

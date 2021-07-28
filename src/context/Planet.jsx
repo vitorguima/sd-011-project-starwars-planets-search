@@ -32,6 +32,24 @@ export function Provider({ children }) {
     }
   }, [data, filters, setPlanets]);
 
+  function filterByNumericValues(column, comparison, value) {
+    if (column && comparison && value) {
+      const planetsToRender = planets.filter((planet) => {
+        switch (comparison) {
+        case 'maior que':
+          return (Number(planet[column]) > Number(value));
+        case 'menor que':
+          return (Number(planet[column]) < Number(value));
+        case 'igual a':
+          return (Number(planet[column]) === Number(value));
+        default:
+          return null;
+        }
+      });
+      setPlanets(planetsToRender);
+    }
+  }
+
   useEffect(() => {
     const getData = async () => {
       const dataReceived = await fetchData();
@@ -43,7 +61,14 @@ export function Provider({ children }) {
     getData();
   }, []);
 
-  const value = { data, setFilters, planets, filters, setPlanets };
+  const value = {
+    data,
+    setFilters,
+    planets,
+    filters,
+    setPlanets,
+    filterByNumericValues,
+  };
 
   return (
     <Planet.Provider value={ value }>
