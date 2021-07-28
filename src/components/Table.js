@@ -1,62 +1,63 @@
 import React from 'react';
-import { Context } from '../hooks/Context';
+import PropTypes from 'prop-types';
+import { useGlobalContext } from '../hooks/Context';
 
 const Table = () => {
-  const { data } = React.useContext(Context);
-  const [value, setValue] = React.useState('');
-  const currentData = value
-    ? data.filter((planet) => planet.name.toLowerCase().includes(value)) : data;
+  const { Filtredplanets, name, isLoading } = useGlobalContext();
 
+  if (name && !Filtredplanets.length) {
+    return <h1 className="loader">No results found</h1>;
+  }
+  if (isLoading) {
+    return <h1 className="loader">Loading...</h1>;
+  }
   return (
-    <div className="table">
-      <form>
-        <input
-          type="text"
-          placeholder="Nome do Planeta"
-          onChange={ ({ target }) => setValue(target.value) }
-          data-testid="name-filter"
-        />
-      </form>
-      <table>
-        <thead>
-          <tr>
-            <th>Name</th>
-            <th>Rotation Period</th>
-            <th>Orbital Period</th>
-            <th>Diameter</th>
-            <th>Climate</th>
-            <th>Gravity</th>
-            <th>Terrain</th>
-            <th>Surface Water</th>
-            <th>Population</th>
-            <th>Films</th>
-            <th>Created</th>
-            <th>Edited</th>
-            <th>Url</th>
+    <table>
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Período de Rotação</th>
+          <th>Período de Órbita</th>
+          <th>Diâmetro</th>
+          <th>Clima</th>
+          <th>Gravidade</th>
+          <th>Terreno</th>
+          <th>Água na Superfície</th>
+          <th>População</th>
+          <th>Filmes</th>
+          <th>Criado</th>
+          <th>Editado</th>
+          <th>Url</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Filtredplanets.map((planet) => (
+          <tr key={ planet.name }>
+            <td>{ planet.name }</td>
+            <td>{ planet.rotation_period }</td>
+            <td>{ planet.orbital_period }</td>
+            <td>{ planet.diameter }</td>
+            <td>{ planet.climate }</td>
+            <td>{ planet.gravity }</td>
+            <td>{ planet.terrain }</td>
+            <td>{ planet.surface_water }</td>
+            <td>{ planet.population }</td>
+            <td>
+              {planet.films
+                .map((film, idx) => <div key={ idx }>{film}</div>)}
+            </td>
+            <td>{ planet.created }</td>
+            <td>{ planet.edited }</td>
+            <td>{ planet.url }</td>
           </tr>
-        </thead>
-        <tbody>
-          {currentData.map((info, index) => (
-            <tr key={ index }>
-              <td>{ info.name }</td>
-              <td>{ info.rotation_period }</td>
-              <td>{ info.orbital_period }</td>
-              <td>{ info.diameter }</td>
-              <td>{ info.climate }</td>
-              <td>{ info.gravity }</td>
-              <td>{ info.terrain }</td>
-              <td>{ info.surface_water }</td>
-              <td>{ info.population }</td>
-              <td>{ info.films }</td>
-              <td>{ info.created }</td>
-              <td>{ info.edited }</td>
-              <td>{ info.url }</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
 };
+
+Table.propTypes = {
+  filtredPlanets: PropTypes.arrayOf(PropTypes.object),
+}.isRequired;
 
 export default Table;

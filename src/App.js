@@ -1,15 +1,15 @@
 import React from 'react';
 import './App.css';
 import Table from './components/Table';
-import { GlobalStorage } from './hooks/Context';
-// import Filters from './components/Filters';
+import { Provider } from './hooks/Context';
+import Filter from './components/Filters';
 
 function App() {
   return (
-    <GlobalStorage>
-      {/* <Filters /> */}
+    <Provider>
+      <Filter />
       <Table />
-    </GlobalStorage>
+    </Provider>
   );
 }
 

@@ -1,39 +1,86 @@
-import React from 'react';
+import React, { createContext, useContext, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import fetchApi from '../service/Api';
 
-export const Context = React.createContext();
+const Context = createContext();
 
-export const GlobalStorage = ({ children }) => {
-  const [data, setData] = React.useState([]);
-  const [name, setName] = React.useState('');
+const Provider = ({ children }) => {
+  const [planets, setPlanets] = useState([]);
+  const [Filtredplanets, setFiltredPlanets] = useState([]);
+  const [isLoading, setIsloading] = useState(true);
+  const [filterComparison, setFilterComparison] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '',
+  });
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
-  const setApiToState = () => {
-    fetchApi().then((results) => setData(results));
+  const handleChangeInputs = ({ target }) => {
+    const { value, name } = target;
+    setFilterComparison({ ...filterComparison, [name]: value });
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
+    const setApiToState = async () => {
+      setIsloading(true);
+      try {
+        const data = await fetchApi();
+        setPlanets(data);
+        setIsloading(false);
+      } catch (error) {
+        setIsloading(false);
+        console.log(error.message);
+      }
+    };
     setApiToState();
   }, []);
 
-  const providerValues = {
-    data,
-    setData,
-    setName,
-    filters: {
+  const handleChange = ({ target }) => {
+    const { value } = target;
+    setFilters({
+      ...filters,
       filterByName: {
-        name,
+        name: value,
       },
-    },
+    });
   };
 
+  useEffect(() => {
+    const { filterByName: { name } } = filters;
+    if (name) {
+      setFiltredPlanets(planets.filter(
+        (planet) => planet.name.toLowerCase().includes(name.toLowerCase()),
+      ));
+    } else {
+      setFiltredPlanets(planets);
+    }
+  }, [filters, filters.filterByName.name, planets]);
+
   return (
-    <Context.Provider value={ providerValues }>
+    <Context.Provider
+      value={ {
+        handleChangeInputs,
+        filterComparison,
+        planets,
+        Filtredplanets,
+        handleChange,
+        isLoading,
+        name: filters.filterByName.name,
+      } }
+    >
       {children}
     </Context.Provider>
   );
 };
 
-GlobalStorage.propTypes = {
+export const useGlobalContext = () => (useContext(Context));
+
+export { Context, Provider };
+
+Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
