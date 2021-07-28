@@ -1,4 +1,4 @@
-/* REQUESITO 01  CRIANDO CONTEXTO*/
+/* REQUESITO 01  CRIANDO CONTEXTO */
 import { createContext } from 'react';
 
 const PlanetsContext = createContext();
