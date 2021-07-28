@@ -5,10 +5,11 @@ function Filter({ initstate, setInitState }) {
   const [valueFilter, setValueFilter] = useState({
     column: 'population',
     comparison: 'maior que',
-    numberValue: '100000',
+    numberValue: '',
   });
-  const [updateFilter, setupdateFilter] = useState(false);
-  const { data, colunFilter, comparisonFilter, filterByNumericValues } = initstate;
+
+  const { data, colunFilter, comparisonFilter,
+    filterByNumericValues, updateFilter } = initstate;
 
   function changeValue({ target }) {
     const { value } = target;
@@ -29,50 +30,52 @@ function Filter({ initstate, setInitState }) {
     });
   }
 
-  function clickFilter(column, comparison) {
+  function clickFilter(column) {
     setInitState({
       ...initstate,
       colunFilter: colunFilter.filter((item) => item !== column),
-      comparisonFilter: comparisonFilter.filter((item) => item !== comparison),
+      updateFilter: true,
       filterByNumericValues: [
         ...filterByNumericValues,
         valueFilter,
       ],
     });
-    // setColunFiltr(colunFiltr.filter((item) => item !== column));
-    // setcomparationFiltr(comparationFiltr.filter((item) => item !== comparison));
-    setupdateFilter(true);
   }
 
   useEffect(() => {
-    const newItemFilter = filterByNumericValues.length - 1;
-
     if (updateFilter) {
-      const {
-        column,
-        comparison,
-        numberValue,
-      } = filterByNumericValues[newItemFilter];
-
+      const newItemFilter = filterByNumericValues.length - 1;
       let newArray = [];
-      if (comparison === 'menor que') {
-        newArray = data.filter((itemArray) => (
-          itemArray[column] < numberValue || itemArray[column] === 'unknown'));
-      }
-      if (comparison === 'maior que') {
-        newArray = data.filter((itemArray) => (
-          Number(itemArray[column]) > Number(numberValue)));
-      }
-      if (comparison === 'igual a') {
-        newArray = data.filter((itemArray) => itemArray[column] === numberValue);
+      const idArray = -1;
+      if (newItemFilter !== idArray) {
+        const {
+          column,
+          comparison,
+          numberValue,
+        } = filterByNumericValues[newItemFilter];
+
+        if (comparison === 'menor que') {
+          newArray = data.filter((itemArray) => (
+            itemArray[column] < numberValue || itemArray[column] === 'unknown'));
+        }
+        if (comparison === 'maior que') {
+          newArray = data.filter((itemArray) => (
+            Number(itemArray[column]) > Number(numberValue)));
+        }
+        if (comparison === 'igual a') {
+          newArray = data.filter((itemArray) => itemArray[column] === numberValue);
+        }
+      } else {
+        newArray = data;
       }
       setInitState({
         ...initstate,
         newData: newArray,
+        updateFilter: false,
       });
-      setupdateFilter(false);
     }
   }, [data, filterByNumericValues, initstate, setInitState, updateFilter]);
+
   return (
     <form>
       <input
@@ -99,7 +102,7 @@ function Filter({ initstate, setInitState }) {
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => clickFilter(valueFilter.column, valueFilter.comparison) }
+        onClick={ () => clickFilter(valueFilter.column) }
       >
         Filtrar
       </button>
