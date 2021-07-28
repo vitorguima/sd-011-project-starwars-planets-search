@@ -9,6 +9,7 @@ function PlanetsProvider({ children }) {
   const [err, setErr] = useState(undefined);
   const [filterUpdated, setFilterUpdated] = useState([
     { filterByName: {} },
+    { filterByNumericValues: [] },
   ]);
 
   const handleContextApi = ({ results }) => {
@@ -35,8 +36,6 @@ function PlanetsProvider({ children }) {
 
   const filterByName = (newFilter) => {
     const gettingFilter = filterUpdated;
-    console.log('newFilter', newFilter);
-    console.log('filterUpdated', filterUpdated);
     gettingFilter[0] = {
       filterByName: { newFilter },
     };
@@ -48,6 +47,44 @@ function PlanetsProvider({ children }) {
     setFilterPlanet(returnNewList);
   };
 
+  const filteringByParams = () => {
+    const { filterByNumericValues } = filterUpdated[1];
+    let api = dataApi;
+    console.log(filterByNumericValues);
+    filterByNumericValues.forEach((e) => {
+      api = api.filter((apiNumeric) => {
+        if (e.comparison === 'maior que') {
+          console.log(apiNumeric[e.column]);
+          return (
+            parseInt(apiNumeric[e.column], 10) > parseInt(e.value, 10)
+          );
+        }
+        if (e.comparison === 'menor que') {
+          return (
+            parseInt(apiNumeric[e.column], 10) < parseInt(e.value, 10)
+          );
+        }
+        if (e.comparison === 'igual a') {
+          return (
+            parseInt(apiNumeric[e.column], 10) === parseInt(e.value, 10)
+          );
+        }
+        return null;
+      });
+    });
+    setFilterPlanet(api);
+    console.log(api);
+  };
+
+  const filterByNumericValues = (newFeatures) => {
+    const gettingFilter = filterUpdated;
+    console.log('newFeatures', newFeatures);
+    gettingFilter[1].filterByNumericValues.push(newFeatures);
+    // setFilterPlanet(gettingFilter[1]);
+    console.log('filterByNumericValues', gettingFilter[1].filterByNumericValues);
+    filteringByParams();
+  };
+
   return (
     <PlanetsContext.Provider
       value={ {
@@ -55,6 +92,7 @@ function PlanetsProvider({ children }) {
         err,
         filterByName,
         setFilterPlanet,
+        filterByNumericValues,
       } }
     >
       {children}
