@@ -8,8 +8,21 @@ export default function NumericFilter() {
     value: '',
   });
 
-  const { setFilterOn, filters:
-    { setFilterByNumericValues } } = useContext(RequisitionContext);
+  const { columnOptions, filterOn, setFilterOn, filters:
+    { filterByNumericValues,
+      setFilterByNumericValues } } = useContext(RequisitionContext);
+
+  function makeOptions() {
+    if (filterOn) {
+      return columnOptions
+        .map((opt, index) => <option value={ opt } key={ index }>{opt}</option>);
+    }
+    console.log(filterByNumericValues[0]);
+    const newColumnOptions = columnOptions
+      .filter((opt) => opt !== filterByNumericValues[0].column);
+    return newColumnOptions
+      .map((opt, index) => <option value={ opt } key={ index }>{opt}</option>);
+  }
 
   const formHandleChange = (event) => {
     const { target: { id, value: selectValue } } = event;
@@ -32,11 +45,7 @@ export default function NumericFilter() {
         id="column"
         onChange={ (e) => formHandleChange(e) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {makeOptions()}
       </select>
       <select
         data-testid="comparison-filter"

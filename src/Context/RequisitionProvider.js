@@ -17,6 +17,10 @@ export default function RequisitionProvider({ children }) {
     value: '',
   }]);
 
+  const columnOptions = [
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ];
+
   useEffect(() => {
     const planets = async () => {
       const getSWInfo = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
@@ -31,6 +35,7 @@ export default function RequisitionProvider({ children }) {
     data: contextState,
     tableData,
     setTableData,
+    columnOptions,
     filterOn,
     setFilterOn,
     filters: {
