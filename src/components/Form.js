@@ -9,6 +9,9 @@ function Form() {
 
   const { filterByNumericValues } = initialFilters;
   const [inputNum, setInputNum] = useState('');
+  const [renderOptions, setRenderOptions] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ]);
   // para realizar esta parte, utilizei como base o seguinte material: https://dev.to/anilsingh/allow-only-numbers-in-input-in-react-2m71
 
   const handleChange = ({ target }) => {
@@ -22,6 +25,13 @@ function Form() {
       ...initialFilters,
       filterByNumericValues: [{ ...filterByNumericValues[0], [name]: value }],
     });
+  };
+
+  const handleRenderOptions = () => {
+    const filteredOptions = renderOptions
+      .filter((filtered) => filtered
+      !== initialFilters.filterByNumericValues[0].column);
+    setRenderOptions(filteredOptions);
   };
 
   return (
@@ -40,11 +50,8 @@ function Form() {
         data-testid="column-filter"
         onChange={ (e) => handleChange(e) }
       >
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
+        { renderOptions
+          .map((option, index) => <option value={ option } key={ index }>{ option }</option>) }
       </select>
       <select
         name="comparison"
@@ -66,7 +73,7 @@ function Form() {
       <button
         type="button"
         data-testid="button-filter"
-        // onClick={ () => }
+        onClick={ () => handleRenderOptions() }
       >
         Filtrar
       </button>
