@@ -38,28 +38,26 @@ function StarWarsProvider({ children }) {
     }
 
     if (filterByNumericValues.length > 0) {
-      let filteringdByNumericValues = [...filteringPlanets];
       filterByNumericValues.forEach((filter) => {
         switch (filter.comparison) {
         case 'maior que':
-          filteringdByNumericValues = ([...filteringPlanets.filter((planet) => (
+          filteringPlanets = (filteringPlanets.filter((planet) => (
             Number(planet[filter.column]) > Number(filter.value)
-          ))]);
+          )));
           break;
         case 'menor que':
-          filteringdByNumericValues = ([...filteringPlanets.filter((planet) => (
+          filteringPlanets = (filteringPlanets.filter((planet) => (
             Number(planet[filter.column]) < Number(filter.value)
-          ))]);
+          )));
           break;
         case 'igual a':
-          filteringdByNumericValues = ([...filteringPlanets.filter((planet) => (
+          filteringPlanets = (filteringPlanets.filter((planet) => (
             Number(planet[filter.column]) === Number(filter.value)
-          ))]);
+          )));
           break;
         default:
           break;
         }
-        filteringPlanets = [...filteringdByNumericValues];
       });
     }
 
