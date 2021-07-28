@@ -1,17 +1,19 @@
 .demo {
-  border:1px sólido #C59191;
-  border-collapse:colapso;
-  border-spacing:2px;
-  padding:5px;
+  border: 1px sólido rgb( green, blue);
+  border-collapse: colapso;
+  border-spacing: 2px;
+  padding: 5px;
 }
+
 .demo th {
-  border:1px sólido #C59191;
-  padding:5px;
-  background:#F0F0F0;
+  border: 1px sólido rgb(red, green, blue);
+  padding: 5px;
+  background: #F0F0F0;
 }
+
 .demo td {
-  border:1px sólido #C59191;
-  padding:5px;
+  border: 1px sólido #C59191;
+  padding: 5px;
 }
 
 .App {

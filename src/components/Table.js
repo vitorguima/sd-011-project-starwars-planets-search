@@ -9,11 +9,11 @@ function Table() {
   const loading = <p>Loading...</p>;
 
   return (
-    <div>
+    <div className="demo">
       <Filters />
       {myFilter
         ? (
-          <table className="demo">
+          <table>
             <caption>StarWars Table</caption>
             <thead>
               <tr>
