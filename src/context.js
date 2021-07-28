@@ -20,6 +20,7 @@ const AppProvider = ({ children }) => {
   });
 
   console.log(filterComparison);
+  console.log(Filtredplanets);
 
   useEffect(() => {
     const setApiToState = async () => {
@@ -30,7 +31,7 @@ const AppProvider = ({ children }) => {
         setIsloading(false);
       } catch (error) {
         setIsloading(false);
-        console.log(error.message);
+        console.log(error);
       }
     };
     setApiToState();
@@ -52,15 +53,43 @@ const AppProvider = ({ children }) => {
   };
 
   useEffect(() => {
-    const { filterByName: { name } } = filters;
+    const {
+      filterByName: { name },
+    } = filters;
     if (name) {
-      setFiltredPlanets(planets.filter(
-        (planet) => planet.name.toLowerCase().includes(name.toLowerCase()),
-      ));
+      setFiltredPlanets(
+        planets.filter(
+          (planet) => planet.name.toLowerCase().includes(name.toLowerCase()),
+        ),
+      );
     } else {
       setFiltredPlanets(planets);
     }
   }, [filters, filters.filterByName.name, planets]);
+
+  const handleClikc = () => {
+    const { column, comparison, value } = filterComparison;
+    switch (comparison) {
+    case 'maior que':
+      setFiltredPlanets(
+        planets.filter((item) => Number(item[column]) > Number(value)),
+      );
+      break;
+    case 'menor que':
+      setFiltredPlanets(
+        planets.filter((item) => Number(item[column]) < Number(value)),
+      );
+      break;
+    case 'igual a':
+      setFiltredPlanets(
+        planets.filter((item) => Number(item[column]) === Number(value)),
+      );
+      break;
+    default:
+      setFiltredPlanets(planets);
+      break;
+    }
+  };
 
   return (
     <AppContext.Provider
@@ -70,15 +99,16 @@ const AppProvider = ({ children }) => {
         handleChangeInputs,
         filterComparison,
         isLoading,
+        handleClikc,
         name: filters.filterByName.name,
       } }
     >
-      { children }
+      {children}
     </AppContext.Provider>
   );
 };
 
-export const useGlobalContext = () => (useContext(AppContext));
+export const useGlobalContext = () => useContext(AppContext);
 
 export { AppContext, AppProvider };
 
