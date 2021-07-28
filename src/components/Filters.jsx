@@ -23,6 +23,8 @@ const Filters = () => {
     value: 0,
   });
 
+  const [isDisabled, setIsDisabled] = useState(false);
+
   const {
     filters: {
       filterByNumericValues,
@@ -39,6 +41,14 @@ const Filters = () => {
         .filter((columnFilter) => !filterOptions.includes(columnFilter)),
     );
   }, [filterByNumericValues, defaultColunsFilters]);
+
+  useEffect(() => {
+    if (filteredColumnFilters.length === 0) {
+      setIsDisabled(true);
+    } else {
+      setIsDisabled(false);
+    }
+  }, [filteredColumnFilters]);
 
   // Função handleSelects atualiza o estado selectedValues conforme o usuário escolhe o select;
   const handleSelects = ({ target }) => {
@@ -121,6 +131,7 @@ const Filters = () => {
           data-testid="button-filter"
           type="button"
           onClick={ () => submitFilter() }
+          disabled={ isDisabled }
         >
           Filtrar
         </button>
