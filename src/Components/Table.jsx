@@ -55,7 +55,8 @@ function Table() {
               }
             });
             return isEqual;
-          }).map((planet, index) => (<PlanetsInformation key={ index } info={ planet } />))}
+          })
+          .map((planet, index) => (<PlanetsInformation key={ index } info={ planet } />))}
       </table>
     </>
   );
