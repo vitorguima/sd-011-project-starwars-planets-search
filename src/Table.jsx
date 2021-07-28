@@ -66,7 +66,11 @@ function Table() {
     const updateFilter = filterData;
     updateFilter[1].filterByNumericValues[type] = targetValue;
     setFilterData(updateFilter);
-    console.log(filterData);
+    const removeSelection = document.getElementById(targetValue);
+    console.log(removeSelection);
+    if (removeSelection) {
+      removeSelection.remove();
+    }
   };
 
   const renderFilteredPlanets = () => {
@@ -102,11 +106,11 @@ function Table() {
         data-testid="column-filter"
         onChange={ ({ target }) => setSelectFilters(target.value, 'column') }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        <option value="population" id="population">population</option>
+        <option value="orbital_period" id="orbital_period">orbital_period</option>
+        <option value="diameter" id="diameter">diameter</option>
+        <option value="rotation_period" id="rotation_period">rotation_period</option>
+        <option value="surface_water" id="surface_water">surface_water</option>
       </select>
       <select
         data-testid="comparison-filter"
