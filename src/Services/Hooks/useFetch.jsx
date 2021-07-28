@@ -4,7 +4,6 @@ const useFetch = () => {
   const [data, setData] = React.useState(null);
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(null);
-
   const request = React.useCallback(async () => {
     let response;
     let json;
@@ -18,12 +17,14 @@ const useFetch = () => {
       json = null;
       setError(err.message);
     } finally {
-      setData(json);
+      const filteredResults = json.results.map((item) => {
+        delete item.residents;
+        return item;
+      });
+      setData(filteredResults);
       setLoading(false);
     }
   }, []);
-
   return { data, loading, error, request };
 };
-
 export default useFetch;

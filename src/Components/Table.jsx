@@ -1,21 +1,32 @@
 import React from 'react';
 import { Context } from '../Services/Context/GlobalContext';
+import { columnOptions,
+  comparisonOptions, INITIAL_NUM_FILTER, filterComparisonNumber } from '../Services/data';
 
-const Home = () => {
+const Table = () => {
   const { data, request } = React.useContext(Context);
   const [filteredData, setFilteredData] = React.useState([]);
   const [filter, setFilter] = React.useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
+  const [filterComparison, setFilterComparison] = React.useState(INITIAL_NUM_FILTER);
+
   React.useEffect(() => { request(); }, [request]);
-  React.useEffect(() => { if (data) setFilteredData(data.results); }, [data]);
+  React.useEffect(() => { if (data) setFilteredData(data); }, [data]);
   React.useEffect(() => {
     if (data) {
-      setFilteredData(data.results.filter((item) => item.name.toLowerCase()
-        .includes(filter.filterByName.name.toLowerCase())));
+      const newArray = data.filter((planet) => {
+        const { name, ...rest } = planet;
+        const nameContains = name.toLowerCase()
+          .includes(filter.filterByName.name.toLowerCase());
+        const comparisonValue = filterComparisonNumber(filter, rest);
+        return comparisonValue && nameContains;
+      });
+      setFilteredData(newArray);
     }
   }, [filter, data]);
 
@@ -25,19 +36,59 @@ const Home = () => {
 
   let headerTable = [];
   if (filteredData.length > 0) {
-    headerTable = Object.keys(filteredData[0]).filter((key) => key !== 'residents');
+    headerTable = Object.keys(filteredData[0]);
   }
 
+  function numbericFilter({ target: { value, name } }) {
+    setFilterComparison({ ...filterComparison, [name]: value });
+  }
+
+  const filteredColumnOptions = columnOptions
+    .filter((item) => !filter.filterByNumericValues
+      .map(({ column }) => column).includes(item));
   return (
     <div>
       <input
         data-testid="name-filter"
         type="text"
-        onChange={ ({ target: { value } }) => setFilter(
-          { ...filter, filterByName: { name: value } },
-        ) }
+        onChange={ ({ target }) => setFilter({
+          ...filter, filterByName: { name: target.value } }) }
       />
-      {filter.filterByName.name}
+      <select
+        name="column"
+        data-testid="column-filter"
+        onChange={ (e) => numbericFilter(e) }
+      >
+        {filteredColumnOptions
+          .map((option) => (<option key={ option }>{option}</option>))}
+      </select>
+      <select
+        name="comparison"
+        data-testid="comparison-filter"
+        onChange={ (e) => numbericFilter(e) }
+      >
+        {comparisonOptions.map((option) => (<option key={ option }>{option}</option>))}
+      </select>
+      <input
+        type="number"
+        data-testid="value-filter"
+        name="value"
+        value={ filterComparison.value }
+        onChange={ (e) => numbericFilter(e) }
+      />
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ () => {
+          setFilter({
+            ...filter,
+            filterByNumericValues: [...filter.filterByNumericValues, filterComparison],
+          });
+          setFilterComparison(INITIAL_NUM_FILTER);
+        } }
+      >
+        Filtrar
+      </button>
       <table>
         <thead>
           <tr>
@@ -85,4 +136,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Table;
