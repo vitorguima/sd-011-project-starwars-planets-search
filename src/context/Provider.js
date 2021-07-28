@@ -5,6 +5,13 @@ import fetchApi from '../service/api';
 
 const Provider = ({ children }) => {
   const [data, setData] = useState([]);
+  const [filterName, setFilterName] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+    },
+  });
 
   const fetchApi2 = async () => {
     const response = await fetchApi();
@@ -13,7 +20,7 @@ const Provider = ({ children }) => {
 
   useEffect(() => { fetchApi2(); }, []);
 
-  const globalState = { data, setData };
+  const globalState = { data, setData, filterName, setFilterName };
 
   return (
     <Context.Provider value={ globalState }>

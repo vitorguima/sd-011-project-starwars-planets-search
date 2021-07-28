@@ -1,10 +1,11 @@
 import React from 'react';
 import Context from '../context/Context';
-// import FetchApi from '../service/api';
 
 const Table = () => {
-  const { data } = React.useContext(Context);
-
+  const { data, filterName: { filters } } = React.useContext(Context);
+  const filteredPlanets = data.filter((planet) => planet.name
+    .toLowerCase().includes(filters.filterByName.name.toLowerCase()));
+  // vídeo que ajudou com o racional do filtro https://www.youtube.com/watch?v=5Tq4-UgPTDs
   if (data.length === 0) return <div>Loading...</div>;
 
   return (
@@ -17,7 +18,7 @@ const Table = () => {
         </tr>
       </thead>
       <tbody>
-        { data.map((planet, index) => (
+        { filteredPlanets.map((planet, index) => (
           <tr key={ index }>
             <td>{ planet.name }</td>
             <td>{ planet.rotation_period }</td>
