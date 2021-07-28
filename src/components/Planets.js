@@ -1,14 +1,12 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 function Planets() {
   const {
-    planetsData,
     filterPlanet,
     err,
   } = useContext(PlanetsContext);
 
-  useEffect(() => planetsData(), []);
   console.log('filterPlanet no Planet', filterPlanet);
 
   const table = () => {

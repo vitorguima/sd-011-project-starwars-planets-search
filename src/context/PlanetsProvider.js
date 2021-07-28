@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
 import { getPlanets } from '../services/data';
@@ -20,14 +20,18 @@ function PlanetsProvider({ children }) {
     setErr(message);
   };
 
-  const planetsData = async () => {
-    try {
-      const dataJson = await getPlanets();
-      handleContextApi(dataJson);
-    } catch (errMsg) {
-      handleError(errMsg);
-    }
-  };
+  useEffect(() => {
+    const planetsData = async () => {
+      try {
+        const dataJson = await getPlanets();
+        handleContextApi(dataJson);
+      } catch (errMsg) {
+        handleError(errMsg);
+      }
+    };
+
+    planetsData();
+  }, []);
 
   const filterByName = (newFilter) => {
     const gettingFilter = filterUpdated;
@@ -47,7 +51,6 @@ function PlanetsProvider({ children }) {
   return (
     <PlanetsContext.Provider
       value={ {
-        planetsData,
         filterPlanet,
         err,
         filterByName,
