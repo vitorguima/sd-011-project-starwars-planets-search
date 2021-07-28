@@ -4,7 +4,7 @@ import PlanetsContext from '../context/PlanetsContext';
 
 function createTableTitles(titles) {
   return (
-    <tr>
+    <tr key={ titles }>
       { titles.map((title, index) => <th key={ index }>{ title }</th>) }
     </tr>
   );
@@ -12,19 +12,23 @@ function createTableTitles(titles) {
 
 function createInfosPlanetsTable(info) {
   return (
-    <tr>
-      { info.map((value, index) => <td key={ index }>{ value }</td>) }
-    </tr>
+    info.map((value, index) => <td key={ index }>{ value }</td>)
   );
 }
 
 function createTable(planets) {
   if (planets.length < 1) return <span>Planeta não encontrado.</span>;
   return (
-    <div>
-      { createTableTitles(Object.keys(planets[0])) }
-      { planets.map((planet) => createInfosPlanetsTable(Object.values(planet))) }
-    </div>
+    <table>
+      <tbody>
+        { createTableTitles(Object.keys(planets[0])) }
+        { planets.map((planet, index) => (
+          <tr key={ index }>
+            { createInfosPlanetsTable(Object.values(planet)) }
+          </tr>
+        )) }
+      </tbody>
+    </table>
   );
 }
 

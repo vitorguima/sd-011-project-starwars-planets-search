@@ -4,19 +4,17 @@ import Form from '../components/Form';
 import Table from '../components/Table';
 
 import PlanetsContext from '../context/PlanetsContext';
-import fecthApi from '../services/fetchPlanets';
 
 function Home() {
   const { setPlanets } = useContext(PlanetsContext);
 
-  async function getPlanets() {
-    const apiResult = await fecthApi();
-    setPlanets(apiResult);
-  }
-
   useEffect(() => {
-    getPlanets();
-  });
+    fetch('https://swapi-trybe.herokuapp.com/api/planets/')
+      .then((r) => r.json())
+      .then((json) => {
+        setPlanets(json.results);
+      });
+  }, [setPlanets]);
 
   return (
     <div>
