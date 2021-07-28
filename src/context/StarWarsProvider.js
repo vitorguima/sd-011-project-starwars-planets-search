@@ -5,23 +5,31 @@ import StarWarsContext from './StarWarsContext';
 
 export default function StarWarsProvider({ children }) {
   const [data, setData] = useState([]);
+  const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
   useEffect(() => {
-    const { allPlanets } = fetchPlanets().then((results) => setData(results));
+    const { allPlanets } = fetchPlanets().then((results) => {
+      setData(results); setFilteredPlanets(results);
+    });
     return allPlanets;
   }, []);
 
-  const handleChange = ({ target }) => {
-    setFilters({ ...filters, filterByName: { name: target.value } });
+  const context = {
+    data,
+    filters,
+    setFilters,
+    filteredPlanets,
+    setFilteredPlanets,
   };
 
   return (
-    <StarWarsContext.Provider value={ { data, filters, handleChange } }>
+    <StarWarsContext.Provider value={ context }>
       { children }
     </StarWarsContext.Provider>
   );

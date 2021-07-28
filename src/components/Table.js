@@ -2,13 +2,37 @@ import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
 export default function Table() {
-  const { data, filters } = useContext(StarWarsContext);
-  const { filterByName } = filters;
+  const { filters, filteredPlanets } = useContext(StarWarsContext);
+  const { filterByName, filterByNumericValues } = filters;
   const { name } = filterByName;
 
-  const filterName = (!name) ? data : data
+  const filterName = (!name) ? filteredPlanets : filteredPlanets
     .filter((planet) => planet.name.toLowerCase()
       .includes(name.toLowerCase()));
+
+  const filtersCombination = () => {
+    const newFilter = filterName.filter((element) => {
+      let condition = true;
+      filterByNumericValues.forEach(({ comparison, value, column }) => {
+        switch (comparison) {
+        case 'maior que':
+          condition = condition && (Number(element[column]) > Number(value));
+          break;
+        case 'menor que':
+          condition = condition && (Number(element[column]) < Number(value));
+          break;
+        case 'igual a':
+          condition = condition && (Number(element[column]) === Number(value));
+          break;
+        default:
+          condition = false;
+          break;
+        }
+      });
+      return condition;
+    });
+    return newFilter;
+  };
 
   return (
     <table>
@@ -31,7 +55,7 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {filterName.map((planet) => (
+        { filtersCombination().map((planet) => (
           <tr key={ planet.name }>
             <td>{ planet.name }</td>
             <td>{ planet.rotation_period }</td>
