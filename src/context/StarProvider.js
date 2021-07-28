@@ -12,6 +12,20 @@ function StarProvider({ children }) {
       name: '',
     },
   });
+  const [otherFilters, setOtherFilters] = useState(
+    {
+      column: 'population',
+      comparison: 'maior que',
+      value: '',
+    }
+  );
+console.log(otherFilters);
+
+  function filtersByNumbers({ target } ) {
+    const { name, value } = target;
+    setOtherFilters({ ...otherFilters, [name]: value });
+    console.log(target);
+  }
 
   function filterInput({ target }) {
     const { value } = target;
@@ -44,7 +58,7 @@ function StarProvider({ children }) {
   }, [filters, planets, filters.filterByName.name]);
 
   return (
-    <StarContext.Provider value={ { planets, loading, filterInput, filterPlanet } }>
+    <StarContext.Provider value={ { planets, loading, filterInput, filterPlanet, filtersByNumbers } }>
       { children }
     </StarContext.Provider>
   );
