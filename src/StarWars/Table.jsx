@@ -4,8 +4,8 @@ import handleFilters from './handleFilters';
 
 const Table = () => {
   const { results } = useContext(GlobalContext);
-  const options = ['population',
-    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  const [options, setOptions] = React.useState(['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water']);
   const [newPlanetFilter, setNewPlanetFilter] = React.useState({
     column: '',
     comparison: '',
@@ -19,8 +19,8 @@ const Table = () => {
     ],
   });
 
-  const usedFilters = planetFilter.filterByNumericValues
-    .map((condition) => condition.column);
+  // const usedFilters = planetFilter.filterByNumericValues
+  //   .map((condition) => condition.column);
 
   const handleFilterByName = ({ target }) => {
     setplanetFilter({ ...planetFilter, filterByName: { name: target.value } });
@@ -34,6 +34,14 @@ const Table = () => {
   const handleFilterButton = () => {
     setplanetFilter({ ...planetFilter,
       filterByNumericValues: [...planetFilter.filterByNumericValues, newPlanetFilter] });
+    setOptions(options.filter((option) => option !== newPlanetFilter.column));
+  };
+
+  const handleClick = (param) => {
+    const newFilter = planetFilter.filterByNumericValues
+      .filter((filter) => filter.column !== param);
+    setplanetFilter({ ...planetFilter, filterByNumericValues: newFilter });
+    setOptions([...options, param]);
   };
 
   if (!results) return <div>Loading...</div>;
@@ -52,8 +60,7 @@ const Table = () => {
           data-testid="column-filter"
           onChange={ handlefilterByNumericValues }
         >
-          {options.filter((toRemove) => !usedFilters.includes(toRemove))
-            .map((option) => <option key={ option }>{option}</option>)}
+          {options.map((option) => <option key={ option }>{option}</option>)}
         </select>
         <select
           name="comparison"
@@ -78,6 +85,12 @@ const Table = () => {
           Add Filter
         </button>
       </form>
+      { planetFilter.filterByNumericValues && planetFilter.filterByNumericValues
+        .map((filter, index) => (
+          <div key={ index } data-testid="filter">
+            <p>{filter.column}</p>
+            <button type="button" onClick={ () => handleClick(filter.column) }>X</button>
+          </div>))}
       <table>
         <thead>
           <tr>
