@@ -77,7 +77,13 @@ function Table() {
           data-testid="value-filter"
           onChange={ ({ target }) => setValueState(target.value) }
         />
-        <button type="button" data-testid="button-filter" onClick={ handleClick }>Filter</button>
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ handleClick }
+        >
+          Filter
+        </button>
       </form>
       <table>
         <caption>Planets</caption>
