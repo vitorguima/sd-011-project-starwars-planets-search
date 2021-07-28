@@ -9,15 +9,21 @@ const Filters = () => {
   const {
     setFilterByName,
     addNewNumericFilter,
+    changeSortValue,
   } = useContext(PlanetsContext);
 
   const [isDisabled, setIsDisabled] = useState(false);
 
   // Estado criado para capturar os valores dos filtros escolhidos em cada select;
-  const [selectedValues, setSelectedValues] = useState({
+  const [filterSelectedValues, setFilterSelectedValues] = useState({
     column: filteredColumnFilters[0],
     comparison: 'maior que',
     value: 0,
+  });
+
+  const [selectedSortValues, setSelectedSortValues] = useState({
+    column: 'name',
+    sort: 'ASC',
   });
 
   useEffect(() => {
@@ -28,28 +34,37 @@ const Filters = () => {
     }
   }, [filteredColumnFilters]);
 
-  // Função handleSelects atualiza o estado selectedValues conforme o usuário escolhe o select;
-  const handleSelects = ({ target }) => {
+  // Função handleFilterSelects atualiza o estado filterSelectedValues conforme o usuário escolhe o select;
+  const handleFilterSelects = ({ target }) => {
     const { name, value } = target;
 
-    setSelectedValues({
-      ...selectedValues,
+    setFilterSelectedValues({
+      ...filterSelectedValues,
+      [name]: value,
+    });
+  };
+
+  const handleSortFilterSelect = ({ target }) => {
+    const { name, value } = target;
+
+    setSelectedSortValues({
+      ...selectedSortValues,
       [name]: value,
     });
   };
 
   // Envia para o context os filtros escolhidos pelo usuário;
   const submitFilter = () => {
-    addNewNumericFilter(selectedValues);
-    setSelectedValues({
+    addNewNumericFilter(filterSelectedValues);
+    setFilterSelectedValues({
       column: filteredColumnFilters[1],
       comparison: 'maior que',
       value: 0,
     });
   };
 
-  // Desestruturação do estado local selectedValues criado para ser possível ter os valores do selectes controlados juntamente com o valor presente no estado local;
-  const { column, comparison, value: filterValue } = selectedValues;
+  // Desestruturação do estado local filterSelectedValues criado para ser possível ter os valores do selectes controlados juntamente com o valor presente no estado local;
+  const { column, comparison, value: filterValue } = filterSelectedValues;
 
   return (
     <>
@@ -71,7 +86,7 @@ const Filters = () => {
             data-testid="column-filter"
             id="column-filter"
             name="column"
-            onChange={ handleSelects }
+            onChange={ handleFilterSelects }
             value={ column }
           >
             {
@@ -86,7 +101,7 @@ const Filters = () => {
             data-testid="comparison-filter"
             id="comparison-filter"
             name="comparison"
-            onChange={ handleSelects }
+            onChange={ handleFilterSelects }
             value={ comparison }
           >
             <option>maior que</option>
@@ -101,7 +116,7 @@ const Filters = () => {
             min="0"
             type="number"
             name="value"
-            onChange={ handleSelects }
+            onChange={ handleFilterSelects }
             value={ filterValue }
           />
         </label>
@@ -112,6 +127,63 @@ const Filters = () => {
           disabled={ isDisabled }
         >
           Filtrar
+        </button>
+      </form>
+      <form>
+        <label htmlFor="column-sort">
+          Ordenar a coluna:
+          <select
+            data-testid="column-sort"
+            id="column-sort"
+            name="column"
+            onChange={ handleSortFilterSelect }
+          >
+            <option value="name">Nome</option>
+            <option value="rotation_period">Período de Rotação</option>
+            <option value="orbital_period">Período Orbital</option>
+            <option value="diameter">Diâmetro</option>
+            <option value="climate">Clima</option>
+            <option value="gravity">Gravidade</option>
+            <option value="terrain">Terreno</option>
+            <option value="surface_water">Água de Superfície</option>
+            <option value="population">População</option>
+            <option value="films">Filmes</option>
+            <option value="created">Criado</option>
+            <option value="edited">Editado</option>
+            <option value="url">URL</option>
+          </select>
+        </label>
+        <label htmlFor="sort">
+          Por valores:
+          <label htmlFor="column-sort-input-asc">
+            Crescente
+            <input
+              id="column-sort-input-asc"
+              data-testid="column-sort-input-asc"
+              name="sort"
+              onChange={ handleSortFilterSelect }
+              type="radio"
+              value="ASC"
+            />
+          </label>
+          <label htmlFor="column-sort-input-desc">
+            Decrescente
+            <input
+              id="column-sort-input-desc"
+              data-testid="column-sort-input-desc"
+              name="sort"
+              onChange={ handleSortFilterSelect }
+              type="radio"
+              value="DESC"
+            />
+          </label>
+        </label>
+        <button
+          data-testid="column-sort-button"
+          onClick={ () => changeSortValue(selectedSortValues) }
+          type="button"
+        >
+          Ordenar
         </button>
       </form>
       <DeleteFiltersBtn />
