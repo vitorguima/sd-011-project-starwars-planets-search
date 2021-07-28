@@ -20,17 +20,27 @@ const Table = () => {
 
   function renderMap() {
     if (localValue) {
+      console.log(comparison);
+      console.log('Retornou currentData');
       return currentData;
     }
     if (comparison === 'maior que') {
+      console.log(comparison);
+      console.log('Retornou filterByMoreThan');
       return filterByMoreThan;
     }
     if (comparison === 'menor que') {
+      console.log(comparison);
+      console.log('Retornou filterByLessThan');
       return filterByLessThan;
     }
     if (comparison === 'igual a') {
+      console.log(comparison);
+      console.log('Retornou filterByEqual');
       return filterByEqual;
     }
+    console.log(comparison);
+    console.log('Retornou data');
     return data;
   }
 
@@ -49,6 +59,13 @@ const Table = () => {
     setOptions(options.filter((option) => option !== localColumn));
   }
 
+  function handleClickDelete(cln) {
+    setComparison('');
+    const newFilter = filters.filterByNumericValues.filter((item) => item.column !== cln);
+    setFilters({ ...filters, filterByNumericValues: newFilter });
+    setOptions([...options, cln]);
+  }
+
   return (
     <>
       <form>
@@ -62,11 +79,11 @@ const Table = () => {
           data-testid="name-filter"
         />
         <select
+          className="column"
           data-testid="column-filter"
-          selected="population"
           onChange={ ({ target }) => setLocalColumn(target.value) }
         >
-          {options.map((opt, i) => <option key={ i }>{opt}</option>)}
+          {options.map((opt, i) => (<option key={ i }>{opt}</option>))}
         </select>
 
         <select
@@ -93,6 +110,17 @@ const Table = () => {
           Add filter
         </button>
       </form>
+      {filters.filterByNumericValues && filters.filterByNumericValues.map((filter, i) => (
+        <div key={ i } data-testid="filter">
+          <p>{filter.column}</p>
+          <button
+            type="button"
+            onClick={ () => handleClickDelete(filter.column) }
+          >
+            X
+          </button>
+        </div>
+      ))}
       <table>
         <thead>
           <tr>

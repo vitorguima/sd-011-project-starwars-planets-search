@@ -19,7 +19,6 @@ export const GlobalStorage = ({ children }) => {
   const [filters, setFilters] = React.useState(initialState);
   const [options, setOptions] = React.useState(['population', 'orbital_period',
     'diameter', 'rotation_period', 'surface_water']);
-
   const setApiToState = () => {
     fetchApi().then((results) => setData(results));
   };
