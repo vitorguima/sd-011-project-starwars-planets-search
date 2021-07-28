@@ -47,6 +47,37 @@ function Table() {
     }
   }
 
+  function onClickTwoFunctions() {
+    setFilter({ filters: {
+      filterByName: { ...filter.filters.filterByName },
+      filterByNumericValues: [...filter.filters.filterByNumericValues,
+        { column, comparison, value }],
+    } });
+    onClickFilter();
+  }
+
+  const [columnArray, setColumnArray] = React.useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+
+  const comparisonArray = [
+    'maior que',
+    'menor que',
+    'igual a',
+  ];
+
+  React.useEffect(() => {
+    if (filter.filters.filterByNumericValues.length > 0) {
+      setColumnArray(columnArray.filter(
+        (colum) => colum !== filter.filters.filterByNumericValues[0].column,
+      ));
+    }
+  }, [filter.filters.filterByNumericValues]);
+
   if (loading) return <p>loading...</p>;
 
   return (
@@ -67,11 +98,9 @@ function Table() {
         data-testid="column-filter"
         onChange={ ({ target }) => setColumn(target.value) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {columnArray.map((colum, index) => (
+          <option key={ index } value={ colum }>{ colum }</option>
+        ))}
       </select>
       <select
         value={ comparison }
@@ -79,9 +108,9 @@ function Table() {
         data-testid="comparison-filter"
         onChange={ ({ target }) => setComparison(target.value) }
       >
-        <option value="maior que">maior que</option>
-        <option value="menor que">menor que</option>
-        <option value="igual a">igual a</option>
+        {comparisonArray.map((comparacao, index) => (
+          <option key={ index } value={ comparacao }>{ comparacao }</option>
+        ))}
       </select>
       <input
         value={ value }
@@ -90,7 +119,7 @@ function Table() {
         onChange={ ({ target }) => setValue(target.value) }
       />
       <button
-        onClick={ onClickFilter }
+        onClick={ onClickTwoFunctions }
         data-testid="button-filter"
         type="button"
       >
