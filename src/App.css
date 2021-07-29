@@ -2,13 +2,24 @@
   text-align: center;
 }
 
-.cell {
+.thead {
+  background-color: black;
   border: 10px solid rgb(199, 12, 12);
+
   /* margin:12px; */
   border-spacing: 10px;
+  color: white;
   padding: 10px;
-  color:white;
-  background-color: black;
+}
+
+.cell {
+  background-color: rgb(240, 233, 233);
+  border: 10px solid rgb(12, 99, 199);
+
+  /* margin:12px; */
+  border-spacing: 10px;
+  color: rgb(22, 21, 21);
+  padding: 10px;
 }
 
 .App-logo {
