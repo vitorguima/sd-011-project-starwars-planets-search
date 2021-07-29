@@ -4,9 +4,8 @@ import SWContext from './SWContext';
 
 function Provider({ children }) {
   const myfilter = {
-    filterByName: {
-      name: '',
-    },
+    filterByName: { name: '' },
+    filterByNumericValues: [],
   };
 
   const [data, setData] = useState([]);
@@ -21,15 +20,40 @@ function Provider({ children }) {
     setPlanets(results);
   };
 
-  const filterPlanets = () => {
+  const filterPlanetsByName = () => {
     if (filters.filterByName.name.length > 0) {
       const filteredPlanets = data.filter((planet) => (
         planet.name.includes(filters.filterByName.name)
       ));
-      console.log(filteredPlanets);
       setPlanets(filteredPlanets);
     } else {
       setPlanets(data);
+    }
+  };
+
+  const filterPlanetByNumericValues = () => {
+    if (filters.filterByNumericValues.length > 0) {
+      filters.filterByNumericValues.forEach((option) => {
+        switch (option.comparsion) {
+        case 'maior que':
+          setPlanets(planets.filter(
+            (planet) => Number(planet[option.column]) > Number(option.value),
+          ));
+          break;
+        case 'menor que':
+          setPlanets(planets.filter(
+            (planet) => Number(planet[option.column]) < Number(option.value),
+          ));
+          break;
+        case 'igual a':
+          setPlanets(planets.filter(
+            (planet) => Number(planet[option.column]) === Number(option.value),
+          ));
+          break;
+        default:
+          break;
+        }
+      });
     }
   };
 
@@ -38,7 +62,8 @@ function Provider({ children }) {
   }, []);
 
   useEffect(() => {
-    filterPlanets();
+    filterPlanetsByName();
+    filterPlanetByNumericValues();
   }, [filters]);
 
   const contextValue = { data, filters, setFilters, planets, setPlanets };
