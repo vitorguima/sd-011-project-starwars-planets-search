@@ -4,9 +4,16 @@ import getPlanets from '../services/fetchPlanets';
 import MyContext from './MyContext';
 
 const PlanetProvider = ({ children }) => {
-  const [data, setData] = useState([]); // Resposta da API.
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
-  const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const initialState = {
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [],
+  };
+
+  const [data, setData] = useState([]);
+  const [filters, setFilters] = useState(initialState);
+  const [filteredPlanets, setFilteredPlanets] = useState([]); // Planetas filtrados pelo nome.
 
   function handleChange() {
     const filteredNameInput = data.filter(
@@ -24,7 +31,7 @@ const PlanetProvider = ({ children }) => {
     fetchPlanets();
   }, []);
 
-  useEffect(handleChange, [filters]);
+  useEffect(handleChange, [filters]); // Ajuda do Diegão com a sintaxe. Não precisa de colocar a HandleChange em callback, da pra chama-la diretamente.
 
   const context = {
     data,
@@ -32,8 +39,6 @@ const PlanetProvider = ({ children }) => {
     filters,
     setFilters,
     filteredPlanets,
-    // setFilteredPlanets,
-    // setOnlyPlanets,
   };
 
   return (

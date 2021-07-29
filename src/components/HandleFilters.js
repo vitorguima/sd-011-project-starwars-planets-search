@@ -3,15 +3,8 @@ import MyContext from '../context/MyContext';
 
 function HandleFilters() {
   const {
-    // data,
-    // setData,
     setFilters,
     filters,
-    // setFilteredPlanets,
-    // setData,
-    // filterPlanets,
-    // setOnlyPlanets,
-    // name,
   } = useContext(MyContext);
 
   return (
@@ -21,11 +14,35 @@ function HandleFilters() {
         <input
           id="filter-name"
           name="filter-name"
+          type="text"
           data-testid="name-filter"
           onChange={ (e) => setFilters({ ...filters,
             filterByName: { name: e.target.value } }) }
         />
       </label>
+
+      <select data-testid="column-filter">
+        <option>population</option>
+        <option>orbital_period</option>
+        <option>diameter</option>
+        <option>rotation_period</option>
+        <option>surface_water</option>
+      </select>
+
+      <select data-testid="comparison-filter">
+        <option>maior que</option>
+        <option>menor que</option>
+        <option>igual a</option>
+      </select>
+
+      <input data-testid="value-filter" type="number" />
+
+      <button
+        type="button"
+        data-testid="button-filter"
+      >
+        Filtrar
+      </button>
     </form>
   );
 }
