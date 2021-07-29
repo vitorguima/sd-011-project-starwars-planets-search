@@ -3,10 +3,17 @@ import Context from '../context/Context';
 
 const Selectors = () => {
   const { filterName,
-    setFilterName, filterName: { filters } } = React.useContext(Context); // Uso o context criado
+    setFilterName, filterName: { filters } } = React.useContext(Context);
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior');
   const [value, setValue] = useState(0);
+  const [columnOptions, setColumnOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   const handleChange = ({ target }) => {
     const { name } = target;
@@ -19,6 +26,7 @@ const Selectors = () => {
       setValue(target.value);
     }
   };
+  // console.log(column);
 
   function handleClick() {
     setFilterName({ ...filterName,
@@ -30,8 +38,9 @@ const Selectors = () => {
           value,
         }],
       } });
-    // console.log('checkFilters', filters)
-    // console.log('checkfilterName', filterName)
+    const filteredColumn = columnOptions.filter((option) => option !== column);
+    setColumnOptions(filteredColumn);
+    // console.log('checfilteredColumn', columnOptions)
   }
 
   return (
@@ -42,11 +51,11 @@ const Selectors = () => {
         value={ column }
         onChange={ handleChange }
       >
-        <option value="population" name="population">population</option>
-        <option value="orbital_period" name="orbital_period">orbital_period</option>
-        <option value="diameter" name="diameter">diameter</option>
-        <option value="rotation_period" name="rotation_period">rotation_period</option>
-        <option value="surface_water" name="surface_water">surface_water</option>
+        {columnOptions.map((option, index) => (
+          <option key={ index } value={ option }>
+            {option}
+          </option>
+        ))}
       </select>
       <select
         data-testid="comparison-filter"
