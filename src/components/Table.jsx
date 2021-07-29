@@ -2,12 +2,14 @@ import React, { useContext } from 'react';
 import MyContext from '../context/MyContext';
 
 function Table() {
-  const { data, filters: {
+  const { data, filterData, filters: {
     filterByName: { name: nameFilter },
   } } = useContext(MyContext);
-  let planets = data;
+  let planets;
+  if (filterData.length === 0) planets = data;
+  else planets = filterData;
   if (nameFilter !== '') {
-    planets = data.filter(({ name }) => name.toLowerCase()
+    planets = planets.filter(({ name }) => name.toLowerCase()
       .includes(nameFilter.toLowerCase())); // toLowerCase converte a string para minúsculo
   }
   return (
