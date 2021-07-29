@@ -23,12 +23,12 @@ function Filter() {
     setParseValue(0);
   };
 
-  const resetFilters = () => {
-    setFilters({
-      filterByName: { name: '' },
-      filterByNumericValues: [],
-    });
-  };
+  // const resetFilters = () => {
+  //   setFilters({
+  //     filterByName: { name: '' },
+  //     filterByNumericValues: [],
+  //   });
+  // };
 
   const setIdDisabledOption = () => {
     filters.filterByNumericValues.forEach((filter) => {
@@ -38,7 +38,7 @@ function Filter() {
 
   useEffect(() => {
     setIdDisabledOption();
-  }, [filters, setIdDisabledOption]);
+  }, [filters]);
 
   const applyFilter = () => {
     setFilters({
