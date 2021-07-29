@@ -1,20 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/Filters.css';
+import logo from '../star-wars-logo.png';
 
 export default function Filters({ filters }) {
   return (
     <div className="filter-top-section">
       <div className="filter-name-section">
-        <input
-          type="text"
-          data-testid="name-filter"
-          onChange={ (e) => filters.handlerChangeName(e) }
-          value={ filters.filterName }
-        />
+        <label htmlFor="name-filter">
+          Filter by name:
+          <input
+            type="text"
+            data-testid="name-filter"
+            onChange={ (e) => filters.handlerChangeName(e) }
+            value={ filters.filterName }
+          />
+        </label>
       </div>
       <div className="filter-order-section">
         <label htmlFor="column-sort">
-          Filter by :
+          Order by :
           <select
             data-testid="column-sort"
             name="column"
@@ -56,6 +61,11 @@ export default function Filters({ filters }) {
           Sort
         </button>
       </div>
+      <div className="logo-section">
+        <img className="logo" src={ logo } alt="logo star wars" />
+        <span className="logo-planets">PLANETS</span>
+      </div>
+
     </div>
   );
 }

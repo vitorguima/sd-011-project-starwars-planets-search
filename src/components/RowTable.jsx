@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import '../styles/RowTable.css';
 
 export default function RowTable({ planet }) {
   return (
-    <tr>
+    <tr className="row-section">
       <td data-testid="planet-name">{ planet.name }</td>
       <td>{ planet.rotation_period }</td>
       <td>{ planet.orbital_period }</td>

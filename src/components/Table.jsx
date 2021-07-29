@@ -4,6 +4,8 @@ import getPlanetsFromAPI from '../services/Api';
 import HeaderTable from './HeaderTable';
 import RowTable from './RowTable';
 import Filters from './Filters';
+import filterPlanetsByNumericValues from '../helpers/filter';
+import '../styles/Table.css';
 
 export default function Table() {
   const {
@@ -45,8 +47,8 @@ export default function Table() {
   ];
 
   const initialNumericValues = {
-    column: '',
-    comparison: '',
+    column: 'population',
+    comparison: 'maior que',
     value: '',
   };
 
@@ -62,32 +64,12 @@ export default function Table() {
     setFilteredColumn(unusedColumns);
   }
 
-  function filterPlanetsByNumericValues() {
-    const { comparison, column, value } = numericValues;
-    switch (comparison) {
-    case 'maior que':
-      return (
-        planets.filter((planet) => (
-          parseFloat(planet[column]) > parseFloat(value)))
-      );
-    case 'menor que':
-      return (
-        planets.filter((planet) => (
-          parseFloat(planet[column]) < parseFloat(value)))
-      );
-    case 'igual a':
-      return (
-        planets.filter((planet) => (
-          parseFloat(planet[column]) === parseFloat(value)))
-      );
-    default:
-      break;
-    }
-  }
-
   function saveNewFilterNumeric() {
     addFilterByNumericValue(numericValues);
-    const filteredPlanetsBynumericValue = filterPlanetsByNumericValues();
+    const filteredPlanetsBynumericValue = filterPlanetsByNumericValues(
+      planets,
+      numericValues,
+    );
     saveFilteredPlanets(filteredPlanetsBynumericValue);
     filterColumn();
   }
@@ -111,7 +93,7 @@ export default function Table() {
   }
   useEffect(removeFilter, [index]);
 
-  useEffect(filterPlanetsByName, [filterName, planetsToFilter, numericValues, index]);
+  useEffect(filterPlanetsByName, [filterName, planetsToFilter, index]);
 
   function renderNumericFiltersApplied() {
     return (
@@ -136,20 +118,24 @@ export default function Table() {
   function renderFilterNumericValues() {
     return (
       <div className="filter-numeric-section">
-        <select
-          name="column"
-          data-testid="column-filter"
-          onChange={ (e) => handlerNumericValues(e) }
-        >
-          { filteredColumn.map((column, i) => (
-            <option
-              key={ i }
-              value={ column }
-            >
-              { column }
-            </option>
-          ))}
-        </select>
+        <label htmlFor="column-filter">
+          Filter by:
+
+          <select
+            name="column"
+            data-testid="column-filter"
+            onChange={ (e) => handlerNumericValues(e) }
+          >
+            { filteredColumn.map((column, i) => (
+              <option
+                key={ i }
+                value={ column }
+              >
+                { column }
+              </option>
+            ))}
+          </select>
+        </label>
         <select
           name="comparison"
           data-testid="comparison-filter"
@@ -217,13 +203,13 @@ export default function Table() {
     return (
       <section>
         <Filters filters={ dataFilter } />
-        { renderFilterNumericValues() }
-        { renderNumericFiltersApplied() }
+        <div className="filter-section">
+          { renderFilterNumericValues() }
+          { renderNumericFiltersApplied() }
+        </div>
         <table>
           <thead>
-            <tr>
-              <HeaderTable />
-            </tr>
+            <HeaderTable />
           </thead>
           <tbody>
             { planets.map((planet, i) => <RowTable key={ i } planet={ planet } />) }

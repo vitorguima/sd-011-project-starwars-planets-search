@@ -1,8 +1,9 @@
 import React from 'react';
+import '../styles/HeaderTable.css';
 
 export default function HeaderTable() {
   return (
-    <>
+    <tr className="header-table-section">
       <th>name</th>
       <th>rotation_period</th>
       <th>orbital_period</th>
@@ -16,6 +17,6 @@ export default function HeaderTable() {
       <th>created</th>
       <th>edited</th>
       <th>url</th>
-    </>
+    </tr>
   );
 }
