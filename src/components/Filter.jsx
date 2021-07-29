@@ -13,6 +13,26 @@ function Filter() {
     setParseValue(0);
   };
 
+  const optionDisabled = {
+    population: false,
+    orbital_period: false,
+    diameter: false,
+    rotation_period: false,
+    surface_water: false,
+  };
+
+  const [isDisabled, setIsDisabled] = useState(optionDisabled);
+
+  const setIsDisabledOption = () => {
+    filters.filterByNumericValues.forEach((filter) => {
+      setIsDisabled({ ...isDisabled, [filter.column]: true });
+    });
+  };
+
+  useEffect(() => {
+    setIsDisabledOption();
+  }, [filters]);
+
   // const resetFilters = () => {
   //   setFilters({
   //     filterByName: { name: '' },
@@ -45,21 +65,27 @@ function Filter() {
           name="column"
           onChange={ (e) => setColumn(e.target.value) }
         >
-          <option value="population">
-            population
-          </option>
-          <option value="orbital_period">
-            orbital_period
-          </option>
-          <option value="diameter">
-            diameter
-          </option>
-          <option value="rotation_period">
-            rotation_period
-          </option>
-          <option value="surface_water">
-            surface_water
-          </option>
+          {
+            isDisabled.population === false
+            && <option value="population">population</option>
+
+          }
+          {
+            isDisabled.orbital_period === false
+            && <option value="orbital_period">orbital_period</option>
+          }
+          {
+            isDisabled.diameter === false
+            && <option value="diameter">diameter</option>
+          }
+          {
+            isDisabled.rotation_period === false
+            && <option value="rotation_period">rotation_period</option>
+          }
+          {
+            isDisabled.surface_water === false
+            && <option value="surface_water">surface_water</option>
+          }
         </select>
       </label>
 

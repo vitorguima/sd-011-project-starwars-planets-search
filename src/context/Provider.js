@@ -8,10 +8,6 @@ function Provider({ children }) {
     filterByNumericValues: [],
   };
 
-  const columnFilterr = [
-    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
-  ];
-
   const [data, setData] = useState([]);
   const [planets, setPlanets] = useState([]);
   const [filters, setFilters] = useState(myfilter);
