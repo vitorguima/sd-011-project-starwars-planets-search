@@ -1,11 +1,12 @@
 import React from 'react';
-import Context from '../context/Context';
+import MyContext from '../context/MyContext';
 
 function Table() {
   return (
-    <Context.Consumer>
+    <MyContext.Consumer>
       {(data) => (
         <table>
+
           <thead>
             <tr>
               <th>Nome</th>
@@ -23,6 +24,7 @@ function Table() {
               <th>URL</th>
             </tr>
           </thead>
+
           <tbody>
             {data.map((planet) => (
               <tr key={ planet.name }>
@@ -45,7 +47,7 @@ function Table() {
 
         </table>
       )}
-    </Context.Consumer>
+    </MyContext.Consumer>
   );
 }
 
