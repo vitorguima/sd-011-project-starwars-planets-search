@@ -3,7 +3,7 @@ import MyContext from '../context/MyContext';
 
 export default function Table() {
   const { planetsFilter } = useContext(MyContext);
-  console.log(planetsFilter);
+  /* console.log(planetsFilter); */
   return (
     <div>
       {planetsFilter.length > 0 && (
