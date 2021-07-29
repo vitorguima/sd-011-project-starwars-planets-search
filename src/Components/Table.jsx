@@ -1,14 +1,16 @@
-import React from 'react';
-import getApiData from '../Hooks/getApiData';
+import React, { useContext } from 'react';
+import StarWarsContext from '../Context/StarWarsContext';
 import Loading from './Loading';
 import './Table.css';
+import Filters from './Filters';
 
 function Table() {
-  const [data, gotInfo] = getApiData();
+  const { data, gotInfo } = useContext(StarWarsContext);
   return !gotInfo ? (
     <Loading />
   ) : (
     <div>
+      <Filters />
       <table>
         <tbody>
           <tr>
