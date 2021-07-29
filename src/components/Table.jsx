@@ -18,31 +18,19 @@ export default function Table() {
     setFilteredPlanets(nameSearch);
   }
 
-  // function inputSearch() {
-  //   return filteredPlanets.map((planet, index) => (
-  //     <tr key={ index }>
-  //       {Object.values(planet).map((info) => (
-  //         <td key={ info.name }>
-  //           {info}
-  //         </td>
-  //       ))}
-  //     </tr>
-  //   ));
-  // }
-
   return (
     <div>
+      <label htmlFor="search">
+        Procure alguma informação
+        <input
+          type="text"
+          id="search"
+          data-testid="name-filter"
+          onChange={ handleChange }
+        />
+      </label>
+      <Form />
       <table>
-        <label htmlFor="search">
-          Procure alguma informação
-          <input
-            type="text"
-            id="search"
-            data-testid="name-filter"
-            onChange={ handleChange }
-          />
-        </label>
-        <Form />
         <thead>
           <tr>
             {data.length > 0
