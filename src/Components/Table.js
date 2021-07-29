@@ -1,17 +1,20 @@
 import React, { useContext } from 'react';
+
 import MyContext from '../Context/MyContext';
+import filter from '../hooks/filter';
 
 function Table() {
-  const { newdata, loading } = useContext(MyContext);
-  const valueArray = Object.keys(newdata[0]);
-  const planets = newdata;
-  if (loading) return <h1>carregando...</h1>;
+  const { data } = useContext(MyContext);
+  const valueArray = Object.keys(data[0]);
+  const planets = filter();
 
   return (
     <table>
-      <tr>
-        {valueArray.map((value, index) => <th key={ index }>{value}</th>)}
-      </tr>
+      <thead>
+        <tr>
+          {valueArray.map((value, index) => <th key={ index }>{value}</th>)}
+        </tr>
+      </thead>
 
       {planets.map((planet, index) => (
         <tr key={ index }>
