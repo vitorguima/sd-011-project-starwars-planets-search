@@ -26,7 +26,6 @@ function MyProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    // function teste() {
     let newSaveData = newData;
     if (filters.filterByNumericValues.length > 0) {
       filters.filterByNumericValues.forEach((filter) => {
@@ -39,21 +38,19 @@ function MyProvider({ children }) {
         case 'maior que':
           newSaveData = newSaveData
             .filter((item) => parseInt(item[filter.column], 10)
-            > parseInt(filter.value, 10));
+              > parseInt(filter.value, 10));
           break;
         case 'menor que':
           newSaveData = newSaveData
             .filter((item) => parseInt(item[filter.column], 10)
-            < parseInt(filter.value, 10));
+                < parseInt(filter.value, 10));
           break;
         default:
           break;
         }
-        setNewData(newSaveData);
       });
+      setNewData(newSaveData);
     }
-    // }
-    // teste();
   }, [filters]);
 
   return (

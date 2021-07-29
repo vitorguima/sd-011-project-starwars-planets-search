@@ -30,12 +30,12 @@ function FilterNumeric() {
   return (
     <div>
       <label htmlFor="column">
-        Propriedade:
+        Filtro:
         <select
           data-testid="column-filter"
           name="column"
           id="column"
-          onClick={ (e) => Column(e) }
+          onChange={ (e) => Column(e) }
         >
           <option value={ vazio }>{vazio}</option>
           <option
@@ -66,12 +66,11 @@ function FilterNumeric() {
         </select>
       </label>
       <label htmlFor="comparison">
-        Operador:
         <select
           data-testid="comparison-filter"
           name="comparison"
           id="comparison"
-          onClick={ (e) => Comparison(e) }
+          onChange={ (e) => Comparison(e) }
         >
           <option value={ vazio }>{vazio}</option>
           <option
@@ -92,7 +91,6 @@ function FilterNumeric() {
         </select>
       </label>
       <label htmlFor="value">
-        Valor:
         <input
           id="value"
           type="number"
