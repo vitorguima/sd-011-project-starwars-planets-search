@@ -80,7 +80,6 @@ function PlanetsProvider({ children }) {
     const gettingFilter = filterUpdated;
     console.log('newFeatures', newFeatures);
     gettingFilter[1].filterByNumericValues.push(newFeatures);
-    // setFilterPlanet(gettingFilter[1]);
     console.log('filterByNumericValues', gettingFilter[1].filterByNumericValues);
     filteringByParams();
   };
