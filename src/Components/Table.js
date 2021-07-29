@@ -1,8 +1,7 @@
-import React, { Component } from 'react';
-import PlanetsContext from './PlanetsContext';
+import React from 'react';
+import PropTypes from 'prop-types';
 
 function Table({ dataForTable }) {
-  console.log(dataForTable);
   const columns = dataForTable[0] && Object.keys(dataForTable[0]);
   return (
     <table>
@@ -29,36 +28,8 @@ function Table({ dataForTable }) {
   );
 }
 
-export default Table;
+Table.propTypes = {
+  dataForTable: PropTypes.arrayOf(PropTypes.object),
+}.isRequired;
 
-// class Table extends Component {
-//   render() {
-//     return (
-//       <PlanetsContext.Consumer>
-//         {({ planet }) => (
-//           <div>
-//             <table>
-//               <thead>
-//                 <tr>
-//                   <th>name</th>
-//                   <th>rotation_period</th>
-//                   <th>orbital_period</th>
-//                   <th>diameter</th>
-//                   <th>climate</th>
-//                   <th>gravity</th>
-//                   <th>terrain</th>
-//                   <th>surface_water</th>
-//                   <th>population</th>
-//                   <th>films</th>
-//                   <th>created</th>
-//                   <th>edited</th>
-//                   <th>url</th>
-//                 </tr>
-//               </thead>
-//             </table>
-//           </div>
-//         )}
-//       </PlanetsContext.Consumer>
-//     );
-//   }
-// }
+export default Table;
