@@ -3,20 +3,26 @@ import PropTypes from 'prop-types';
 import SWContext from './SWContext';
 import getPlanets from '../services/API';
 
-function SWProvider({ children }) {
-  // const options = [
-  //   population,
-  //   orbital_period,
-  //   diameter,
-  //   rotation_period,
-  //   surface_water
-  // ];
+const options = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
 
+function SWProvider({ children }) {
   const [data, setData] = useState([]);
 
-  const [filterPlanets, setFilterPlanets] = useState([]);
+  const [filterPlanets, setFilterPlanets] = useState(data);
 
-  // const [] = useState([]);
+  const [optionFilter, setOpitionfilters] = useState(options);
+
+  const [filterByNumbers, setFilterByNumbers] = useState({
+    column: optionFilter[0],
+    comparsion: 'maior que',
+    value: 0,
+  });
 
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
@@ -28,6 +34,23 @@ function SWProvider({ children }) {
       val.name.includes(filters.filterByName.name)));
     setFilterPlanets(result);
   };
+
+  function handleButtonClick() {
+    setFilters((state) => (
+      { ...state,
+        filterByNumericValues: [...state.filterByNumericValues, filterByNumbers],
+      }));
+    setOpitionfilters((state) => state
+      .filter((item) => item !== filterByNumbers.column));
+  }
+
+  useEffect(() => {
+    setFilterByNumbers({
+      column: optionFilter[0],
+      comparsion: 'maior que',
+      value: 0,
+    });
+  }, [optionFilter]);
 
   useEffect(() => {
     const dataPlanets = async () => {
@@ -43,6 +66,10 @@ function SWProvider({ children }) {
     filterPlanets,
     applyFilter,
     setFilters,
+    optionFilter,
+    filterByNumbers,
+    setFilterByNumbers,
+    handleButtonClick,
   };
 
   return (
