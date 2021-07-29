@@ -27,7 +27,7 @@ function AppProvider({ children }) {
         filters: {
           ...state.filters,
           filterByNumericValues:
-            [{ ...payload }],
+            [...state.filters.filterByNumericValues, { ...payload }],
         },
       };
     default:
