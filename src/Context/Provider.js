@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import Context from './Context';
-import MockApiData from '../Components/mock';
 
 function PlanetsProvider({ children }) {
-  const [planets, setPlanets] = useState([]);
+  const [planets, setPlanets] = useState(undefined);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [filters, setFilters] = useState([]);
 
   const filtersByName = (text) => {
-    const filterPlanets = MockApiData.results.filter(({ name }) => (
+    const filterPlanets = planets.results.filter(({ name }) => (
       name.toLowerCase().includes(text.toLowerCase())
     ));
     setFilteredPlanets(filterPlanets);
@@ -18,7 +18,6 @@ function PlanetsProvider({ children }) {
     setPlanets(Planets);
   };
 
-  const [filters, setFilters] = useState([]);
   const getFilter = (filterType) => {
     setFilters(filterType);
   };
