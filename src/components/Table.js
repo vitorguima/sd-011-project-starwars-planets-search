@@ -47,8 +47,10 @@ const exibeResultado = (lista) => lista.map((line, index) => (
 
 const aplicaFiltro = (filtro, listaDeEntrada) => {
   let list = [];
+
   if (filtro.comparison === 'maior que') {
-    list = listaDeEntrada.filter((item) => item[filtro.column] >= filtro.value);
+    list = listaDeEntrada.filter((item) => parseInt(item[filtro.column], 10)
+    > parseInt(filtro.value, 10));
   }
   if (filtro.comparison === 'menor que') {
     list = listaDeEntrada.filter((item) => item[filtro.column] <= filtro.value);
@@ -78,18 +80,18 @@ const filtraResultados = (resultados, nomeBuscado, arrayDeFiltrosDeNumeros) => {
   return lista;
 };
 
-const tiraOptionSelecionada = (filterByNumericValues) => {
-  const selected = document.getElementById('column-filter');
-  if (selected.value === filterByNumericValues.column) {
-    document.getElementById(filterByNumericValues.column).setAttribute('disable');
-  }
-};
+// const tiraOptionSelecionada = (filterByNumericValues) => {
+//   const selected = document.getElementById('column-filter');
+//   if (selected.value === filterByNumericValues.column) {
+//     document.getElementById(filterByNumericValues.column).setAttribute('disable');
+//   }
+// };
 
-const criaNovoFiltro = (objeto, setaNovoObjeto, filterByNumericValues) => {
+const criaNovoFiltro = (objeto, setaNovoObjeto) => {
   setaNovoObjeto(
     (prevState) => ([...prevState, objeto]),
   );
-  tiraOptionSelecionada(filterByNumericValues);
+  // tiraOptionSelecionada(filterByNumericValues);
 };
 
 function Table() {
