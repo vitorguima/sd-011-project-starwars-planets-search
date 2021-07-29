@@ -1,12 +1,12 @@
 import React from 'react';
 import DataProvider from './context/DataProvider';
-import ListPlanets from './components/ListPlanets';
+import Load from './components/Load';
 import './App.css';
 
 function App() {
   return (
     <DataProvider>
-      <ListPlanets />
+      <Load />
     </DataProvider>
 
   );
