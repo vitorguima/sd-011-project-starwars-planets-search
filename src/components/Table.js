@@ -1,5 +1,6 @@
 import React, { useContext, useState } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import FilterByNumbers from './FilterByNumbers';
 // import PlanetsContext from '../context/PlanetsContext';
 // articles https://edrodrigues.com.br/blog/criando-tabelas-com-filtros-%E2%80%8B%E2%80%8Busando-react/#:~:text=Criando%20Uma%20Tabela%20Com%20O,listando%20uma%20linha%20por%20produto.&text=Aqui%2C%20aceitamos%20uma%20variedade%20de,em%20loop%20em%20nossa%20tabela.
 // Agradecimentos especiais à Carol, Islene, Leonardo
@@ -8,22 +9,31 @@ export default function Table() {
   // as infos do fetch serão transmitidas para a table pelo contexto. UseContext recebe como param. o contexto usado.
   // os dados - data- usados no map da tabela vem lá do fetch que está no provider que, por sua vez é acessado pelo context.
   // Ainda não passamos o setData, pq, no momento -requ. 1- , a função não será necessária. useContext funciona com 1 argumento.
-  const { data, setFilters } = useContext(PlanetsContext);
+  const { setFilters, filters } = useContext(PlanetsContext);
+  const { newData } = filters;
+  // setando initial state do input
   const [inputName, setInputName] = useState('');
-  const namePlanets = inputName ? data
-    .filter((planet) => planet.name.includes(inputName)) : data;
+  // esse ternário verifica o input. Se houver algo, ele faz o filter. Se estiver vazia, retorna tudo.
+  const namePlanets = inputName ? newData
+    .filter((planet) => planet.name.includes(inputName)) : newData;
 
+  function searchPlanetsByText({ target }) {
+    const { value } = target;
+    setFilters({
+      ...filters,
+      filterByName: { name: value },
+    });
+    setInputName(value);
+  }
   return (
     <>
       <form>
         <input
           type="text"
           data-testid="name-filter"
-          onChange={ ({ target }) => {
-            setInputName(target.value);
-            setFilters({ filterByName: { name: target.value } });
-          } }
+          onChange={ searchPlanetsByText }
         />
+        <FilterByNumbers />
       </form>
       <table>
         <thead>

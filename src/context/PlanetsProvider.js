@@ -6,8 +6,52 @@ import PlanetsContext from './PlanetsContext';
 function PlanetsProvider({ children }) {
   // requisição da API feita com o useEffect que recebe 2 params. 1 callback e 1 array. A req. vai ser feita como se fosse no didmount
   // useState seta o estado inicial;
-  const [data, setData] = useState([]);
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  // const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({
+    filterByName: { name: '' },
+    filterByNumericValues: [],
+    data: [],
+    newData: [],
+    update: false,
+    colunFilter: ['population',
+      'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+    comparisonFilter: ['maior que', 'menor que', 'igual a'],
+  });
+  // useEffect para
+  const { update, filterByNumericValues, data, newData } = filters;
+
+  useEffect(() => {
+    if (update === true) {
+      let searchData = [];
+      const magicNumber = -1;
+      const itemArray = filterByNumericValues.length - 1;
+
+      if (itemArray !== magicNumber) {
+        const { comparison, value, column } = filterByNumericValues[itemArray];
+        if (comparison === 'menor que') {
+          searchData = data.filter((elementValue) => (
+            Number(elementValue[column]) < value
+          ));
+        }
+        if (comparison === 'maior que') {
+          searchData = data.filter((elementValue) => (
+            Number(elementValue[column]) > Number(value)
+          ));
+        }
+        if (comparison === 'igual a') {
+          searchData = data.filter((elementValue) => (
+            Number(elementValue[column]) === Number(value)
+          ));
+        }
+      }
+
+      setFilters({
+        ...filters,
+        newData: searchData,
+        update: false,
+      });
+    }
+  }, [filterByNumericValues, update, filters, newData, data]);
 
   useEffect(() => {
     const fetchPlanets = async () => {
@@ -16,14 +60,22 @@ function PlanetsProvider({ children }) {
       );
       // filtra o resultado e deleta as infos indesejadas - residents
       const { results } = await endpoint.json();
-      results.filter((result) => delete result.residents);
-      setData(results);
+      // results.filter((result) => delete result.residents);
+      setFilters({
+        filterByName: { name: '' },
+        filterByNumericValues: [],
+        data: results,
+        newData: results,
+        update: false,
+        colunFilter: ['population',
+          'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+        comparisonFilter: ['maior que', 'menor que', 'igual a'],
+      });
     };
     fetchPlanets();
   }, []);
 
   const valueObj = {
-    data,
     filters,
     setFilters,
   };
