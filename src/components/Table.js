@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import ContextPlanetsApi from '../context/ContextPlanetsApi';
 
 function Table() {
-  const { namePlanets, options, filters, setFilters, column, setColumn,
+  const { namePlanets, options, setOptions, filters, setFilters, column, setColumn,
     comparison, setComparison, value, setValue } = useContext(ContextPlanetsApi);
   const [nameFilter, setNameFilter] = useState('');
   const [columnFilter, setColumnFilter] = useState('population');
@@ -49,8 +49,9 @@ function Table() {
     setFilters({
       ...filters,
       filterByNumericValues:
-        [...filters.filterByNumericValues, objectNumbers],
+      [...filters.filterByNumericValues, objectNumbers],
     });
+    setOptions(options.filter((option) => option !== columnFilter));
   }
 
   return (
