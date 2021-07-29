@@ -3,8 +3,8 @@ import React from 'react';
 import { useTable } from '../contexts/TableContext';
 
 export default function Table() {
-  const { data } = useTable();
-  console.log(data);
+  const { filteredData } = useTable();
+
   return (
     <div>
       <table>
@@ -26,9 +26,9 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          { data.length === 0
-            ? <p>Carregando...</p>
-            : data.map((item, index) => (
+          { filteredData.length === 0
+            ? <tr><td>Carregando...</td></tr>
+            : filteredData.map((item, index) => (
               <tr key={ index }>
                 <td>{item.name}</td>
                 <td>{item.rotation_period}</td>
