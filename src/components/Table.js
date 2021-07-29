@@ -2,12 +2,14 @@ import React, { useContext, useEffect } from 'react';
 import StarwarsPlanetsContext from '../context/StarwarsPlanetsContext';
 
 function Table() {
-  const { requestApi, data } = useContext(StarwarsPlanetsContext);
-  const { isLoading } = useContext(StarwarsPlanetsContext);
+  const { data, isLoading, filters } = useContext(StarwarsPlanetsContext);
+  const { name } = filters.filters.filterByName;
+  const filterPlanet = data.filter((item) => item.name.toLowerCase()
+    .includes(name.toLocaleLowerCase()));
 
   useEffect(() => {
-    requestApi();
-  }, []);
+
+  }, [name]);
 
   return !isLoading ? (
     <table>
@@ -29,7 +31,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {data.map((planet, index) => (
+        {filterPlanet.map((planet, index) => (
           <tr key={ index }>
             <td>{ planet.name }</td>
             <td>{ planet.rotation_period }</td>

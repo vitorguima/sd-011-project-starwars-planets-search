@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import StarwarsPlanetsContext from './StarwarsPlanetsContext';
 import fetchStarwarsAPI from '../services/fetchStarwarsAPI';
@@ -6,6 +6,20 @@ import fetchStarwarsAPI from '../services/fetchStarwarsAPI';
 function StarwarsPlanetsProvider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [filters, setFilters] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+      filterByNumericValues: [
+        {
+          column: 'population',
+          comparison: 'maior que',
+          value: 0,
+        },
+      ],
+    },
+  });
 
   function requestApiSuccess(response) {
     setData(response);
@@ -22,9 +36,13 @@ function StarwarsPlanetsProvider({ children }) {
     }
   }
 
+  useEffect(() => {
+    requestApi();
+  }, []);
+
   return (
     <StarwarsPlanetsContext.Provider
-      value={ { data, requestApi, isLoading } }
+      value={ { data, requestApi, isLoading, filters, setFilters } }
     >
       {children}
     </StarwarsPlanetsContext.Provider>
