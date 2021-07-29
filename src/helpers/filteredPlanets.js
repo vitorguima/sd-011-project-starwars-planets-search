@@ -26,17 +26,3 @@ export function filteredPlanetsByName(array, object) {
   const filtered = array.filter((planets) => (planets.name).includes(name));
   return filtered;
 }
-
-// switch (plan.comparison) {
-//   case 'maior que':
-//     return array
-//       .filter((newArray) => Number(newArray[plan.column]) > Number(plan.value));
-//   case 'menor que':
-//     return array
-//       .filter((newArray) => Number(newArray[plan.column]) < Number(plan.value));
-//   case 'igual a':
-//     return array
-//       .filter((newArray) => Number(newArray[plan.column]) === Number(plan.value));
-//   default:
-//     return array;
-//   }

@@ -2,7 +2,10 @@ import React, { useContext, useState } from 'react';
 import planetsContext from '../context/PlanetsContext';
 
 export default function FilterSelector() {
-  const { setSelectFilter, setNameFilter, filters, options } = useContext(planetsContext);
+  const { setSelectFilter,
+    setNameFilter,
+    filters,
+    options, filteredOptions, getNameToRemoveFilter } = useContext(planetsContext);
   const { filterByName: { name } } = filters;
   const [selectors, setSelectors] = useState({
     column: 'population',
@@ -16,14 +19,19 @@ export default function FilterSelector() {
     setNameFilter(nameValue);
   }
 
-  function handleChange({ target }) {
+  function handleFilterChange({ target }) {
     const { id } = target;
     const selectValue = target.type === 'checkbox' ? target.checked : target.value;
     setSelectors({ ...selectors, [id]: selectValue });
   }
 
-  function handleClick() {
+  function handleAddFilter() {
     setSelectFilter(selectors);
+  }
+
+  function handleFilterRemoval({ target }) {
+    const { id } = target;
+    getNameToRemoveFilter(id);
   }
 
   return (
@@ -36,7 +44,7 @@ export default function FilterSelector() {
         onChange={ handleNameChange }
       />
       <select
-        onChange={ handleChange }
+        onChange={ handleFilterChange }
         id="column"
         value={ column }
         data-testid="column-filter"
@@ -46,7 +54,7 @@ export default function FilterSelector() {
         ))}
       </select>
       <select
-        onChange={ handleChange }
+        onChange={ handleFilterChange }
         id="comparison"
         value={ comparison }
         data-testid="comparison-filter"
@@ -56,15 +64,30 @@ export default function FilterSelector() {
         <option value="igual a">igual a</option>
       </select>
       <input
-        onChange={ handleChange }
+        onChange={ handleFilterChange }
         id="value"
         value={ value }
         type="number"
         data-testid="value-filter"
       />
-      <button onClick={ handleClick } type="button" data-testid="button-filter">
+      <button onClick={ handleAddFilter } type="button" data-testid="button-filter">
         Adicionar filtro
       </button>
+      {filteredOptions.map((filterToList, index) => (
+        <div data-testid="filter" key={ index }>
+          <span>{filterToList}</span>
+          <button
+            id={ filterToList }
+            type="button"
+            onClick={ handleFilterRemoval }
+          >
+            X
+          </button>
+        </div>
+      ))}
+      {/* <button type="button" onClick={ console.log(filteredData, filters) }>
+        view filters e array de planetas
+      </button> */}
     </div>
   );
 }
