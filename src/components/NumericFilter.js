@@ -7,17 +7,18 @@ const initial = {
   value: '',
 };
 
+const initialColumn = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
+
 export default function NumericFilter() {
   const [thisFilter, setThisFilter] = useState(initial);
+  const [thisColumn, setThisColumn] = useState(initialColumn);
   const { filters, setFilters } = useContext(Context);
-
-  const column = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
 
   const comparison = [
     'maior que',
@@ -37,14 +38,8 @@ export default function NumericFilter() {
       ...filters,
       filterByNumericValues: [thisFilter],
     });
+    setThisColumn(thisColumn.filter((column) => thisFilter.column !== column));
   };
-
-  // const testehandleclick = () => {
-  //   const { column } = filters.filterByNumericValues[0];
-  //   const tes = planets[0];
-  //   console.log(tes[column]);
-  //   // console.log(tes);
-  // };
 
   return (
     <div>
@@ -53,7 +48,7 @@ export default function NumericFilter() {
         data-testid="column-filter"
         onChange={ handleChange }
       >
-        {column.map((option) => (
+        {thisColumn.map((option) => (
           <option key={ option }>{option}</option>
         ))}
       </select>
