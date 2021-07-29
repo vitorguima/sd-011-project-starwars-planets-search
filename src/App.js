@@ -45,10 +45,15 @@ function App() {
     getApi();
   }, []);
 
+  const stateProps = {
+    initstate,
+    setInitState,
+  };
+
   return (
-    <MyContext.Provider value={ initstate }>
-      <Filter initstate={ initstate } setInitState={ setInitState } />
-      <Table initstate={ initstate } setInitState={ setInitState } />
+    <MyContext.Provider value={ stateProps }>
+      <Filter />
+      <Table />
     </MyContext.Provider>
   );
 }

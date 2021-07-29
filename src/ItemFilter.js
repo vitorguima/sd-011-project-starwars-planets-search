@@ -1,8 +1,10 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
+import MyContext from './MyContext';
 
-function ItemFilter({ filterByNumericValues, initstate, setInitState }) {
-  const { colunFilter } = initstate;
+function ItemFilter() {
+  const { initstate, setInitState } = useContext(MyContext);
+  const { colunFilter, filterByNumericValues } = initstate;
+
   function removeItemFilter(column) {
     setInitState({
       ...initstate,
@@ -13,6 +15,7 @@ function ItemFilter({ filterByNumericValues, initstate, setInitState }) {
       ],
     });
   }
+
   return (
     <div className="typefilter" data-testid="filter">
       { filterByNumericValues.map(({ column, comparison, numberValue }, index) => (
@@ -33,9 +36,3 @@ function ItemFilter({ filterByNumericValues, initstate, setInitState }) {
 }
 
 export default ItemFilter;
-
-ItemFilter.propTypes = {
-  initstate: PropTypes.shape().isRequired,
-  setInitState: PropTypes.func.isRequired,
-  filterByNumericValues: PropTypes.arrayOf(PropTypes.object).isRequired,
-};

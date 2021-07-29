@@ -1,17 +1,16 @@
 import React, { useContext } from 'react';
-import PropTypes from 'prop-types';
 import MyContext from './MyContext';
 
-function Order({ setInitState }) {
+function Order() {
   const colunFilter = ['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
-  const context = useContext(MyContext);
-  const { order, newData } = context;
+  const { initstate, setInitState } = useContext(MyContext);
+  const { order, newData } = initstate;
 
   function sortASC() {
     const { column } = order;
     setInitState({
-      ...context,
+      ...initstate,
       newData: newData.sort((a, b) => Number(a[column]) - Number(b[column])),
     });
   }
@@ -19,7 +18,7 @@ function Order({ setInitState }) {
   function sortDESC() {
     const { column } = order;
     setInitState({
-      ...context,
+      ...initstate,
       newData: newData.sort((a, b) => Number(b[column]) - Number(a[column])),
     });
   }
@@ -33,7 +32,7 @@ function Order({ setInitState }) {
   function orderType({ target }) {
     const { value, name } = target;
     setInitState({
-      ...context,
+      ...initstate,
       order: {
         ...order,
         [name]: value,
@@ -69,7 +68,6 @@ function Order({ setInitState }) {
           onChange={ orderType }
         />
       </label>
-
       <button
         data-testid="column-sort-button"
         type="button"
@@ -82,7 +80,3 @@ function Order({ setInitState }) {
 }
 
 export default Order;
-
-Order.propTypes = {
-  setInitState: PropTypes.func.isRequired,
-};

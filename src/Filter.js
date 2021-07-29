@@ -1,16 +1,17 @@
-import React, { useState, useEffect } from 'react';
-import PropTypes from 'prop-types';
+import React, { useState, useEffect, useContext } from 'react';
 import Order from './Order';
+import MyContext from './MyContext';
 
-function Filter({ initstate, setInitState }) {
+function Filter() {
+  const { initstate, setInitState } = useContext(MyContext);
+  const { data, colunFilter, comparisonFilter,
+    filterByNumericValues, updateFilter } = initstate;
+
   const [valueFilter, setValueFilter] = useState({
     column: 'population',
     comparison: 'maior que',
     numberValue: '',
   });
-
-  const { data, colunFilter, comparisonFilter,
-    filterByNumericValues, updateFilter } = initstate;
 
   function changeValue({ target }) {
     const { value } = target;
@@ -107,14 +108,9 @@ function Filter({ initstate, setInitState }) {
       >
         Filtrar
       </button>
-      <Order setInitState={ setInitState } />
+      <Order />
     </form>
   );
 }
 
 export default Filter;
-
-Filter.propTypes = {
-  initstate: PropTypes.shape().isRequired,
-  setInitState: PropTypes.func.isRequired,
-};
