@@ -3,6 +3,37 @@ import PropTypes from 'prop-types';
 
 const PlanetContext = createContext({});
 
+const SORTERS = {
+  A_BEFORE: -1,
+  B_BEFORE: 1,
+  KEEP: 0,
+};
+
+const SORT_ALPHABETICALLY = {
+  ASC: (a, b) => {
+    if (a.name > b.name) {
+      return SORTERS.B_BEFORE;
+    }
+
+    if (b.name > a.name) {
+      return SORTERS.A_BEFORE;
+    }
+
+    return SORTERS.KEEP;
+  },
+  DESC: (a, b) => {
+    if (b.name > a.name) {
+      return SORTERS.B_BEFORE;
+    }
+
+    if (a.name > b.name) {
+      return SORTERS.A_BEFORE;
+    }
+
+    return SORTERS.KEEP;
+  },
+};
+
 const BASE_URL = 'https://swapi-trybe.herokuapp.com/api/planets';
 
 const combineFilters = ([head, ...tail]) => (
@@ -15,9 +46,7 @@ export function PlanetProvider({ children }) {
   const [apiResponse, setApiResponse] = useState(null);
   const [planets, setPlanets] = useState([]);
   const [filters, setFilters] = useState([]);
-  const [orderPlanets, setOrderPlanets] = useState({
-    func: (a, b) => a.name > b.name,
-  });
+  const [orderPlanets, setOrderPlanets] = useState({ func: SORT_ALPHABETICALLY.ASC });
 
   function fetchAndUpdate(url) {
     setLoading(true);
@@ -38,9 +67,8 @@ export function PlanetProvider({ children }) {
     const { results } = apiResponse;
 
     if (!filters.length) {
-      const sorted = [...apiResponse.results].sort((a, b) => a.name > b.name);
-      console.log(sorted);
-      setPlanets([...results.sort(orderPlanets.func)]);
+      const sorted = results.sort(orderPlanets.func);
+      setPlanets([...sorted.sort(orderPlanets.func)]);
       return;
     }
 
@@ -66,8 +94,8 @@ export function PlanetProvider({ children }) {
 
   function changeOrder({ field, order }) {
     const nameSorters = {
-      ASC: { func: (a, b) => a.name > b.name },
-      DESC: { func: (a, b) => a.name < b.name },
+      ASC: SORT_ALPHABETICALLY.ASC,
+      DESC: SORT_ALPHABETICALLY.DESC,
     };
 
     const numericSorters = {
