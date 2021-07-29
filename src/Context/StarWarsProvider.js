@@ -7,11 +7,19 @@ function StarWarsProvider({ children }) {
   const [filteredData, setFilteredData] = useState([]);
   const [gotInfo, setGotInfo] = useState(false);
   const [filterByName, setName] = useState({ name: '' });
+  const [filterByNumericValues, setNumericValues] = useState([
+    {
+      column: '',
+      comparison: '',
+      value: 0,
+    },
+  ]);
 
   useEffect(() => {
     const getPlanets = async () => {
-      const { results } = await fetch('https://swapi-trybe.herokuapp.com/api/planets/')
-        .then((planetsInfo) => planetsInfo.json());
+      const { results } = await fetch(
+        'https://swapi-trybe.herokuapp.com/api/planets/',
+      ).then((planetsInfo) => planetsInfo.json());
       results.map((e) => delete e.residents); // Deleta os residents de cada um dos objetos, conforme pede no requisito.
       setData(results);
       setFilteredData(results);
@@ -20,15 +28,59 @@ function StarWarsProvider({ children }) {
     getPlanets();
   }, []);
 
+  function updateFilteredDataWithFilters() {
+    if (filterByNumericValues.comparison === 'maior que') {
+      setFilteredData(
+        filteredData.filter(
+          (e) => e[filterByNumericValues.column] > filterByNumericValues.value,
+        ),
+      );
+    }
+    if (filterByNumericValues.comparison === 'menor que') {
+      setFilteredData(
+        filteredData.filter(
+          (e) => e[filterByNumericValues.column] < filterByNumericValues.value,
+        ),
+      );
+    }
+    if (filterByNumericValues.comparison === 'igual a') {
+      setFilteredData(
+        filteredData.filter(
+          (e) => parseFloat(e[filterByNumericValues.column])
+            === filterByNumericValues.value,
+        ),
+      );
+    }
+  }
+
+  function handleFilterByNumbers() {
+    const column = document.getElementById('filterByCategory').value;
+    const comparison = document.getElementById('comparisonField').value;
+    const informedValue = document.getElementById('valueField').value;
+    setNumericValues({
+      column,
+      comparison,
+      value: parseFloat(informedValue),
+    });
+  }
+
+  useEffect(() => {
+    updateFilteredDataWithFilters();
+  }, [filterByNumericValues]);
+
   const contextValue = {
+    updateFilteredDataWithFilters,
+    handleFilterByNumbers,
     filteredData,
     setFilteredData,
     setData,
     data,
     gotInfo,
     setName,
+    setNumericValues,
     filters: {
       filterByName,
+      filterByNumericValues,
     },
   };
 
