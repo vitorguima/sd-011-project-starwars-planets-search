@@ -173,7 +173,7 @@ function Table() {
         data-testid="button-filter"
         type="button"
         onClick={ () => criaNovoFiltro(
-          filterByNumericValues, setArrayDeFiltrosDeNumeros, filterByNumericValues,
+          filterByNumericValues, setArrayDeFiltrosDeNumeros,
         ) }
       >
         Filtrar
