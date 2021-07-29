@@ -7,16 +7,6 @@ function Filter() {
   const [comparsion, setComparsion] = useState('maior que');
   const [parseValue, setParseValue] = useState(0);
 
-  const optionDisabled = {
-    population: false,
-    orbital_period: false,
-    diameter: false,
-    rotation_period: false,
-    surface_water: false,
-  };
-
-  const [isDisabled, setIsDisabled] = useState(optionDisabled);
-
   const resetAllOptionsFilter = () => {
     setColumn('population');
     setComparsion('maior que');
@@ -29,16 +19,6 @@ function Filter() {
   //     filterByNumericValues: [],
   //   });
   // };
-
-  const setIdDisabledOption = () => {
-    filters.filterByNumericValues.forEach((filter) => {
-      setIsDisabled({ ...isDisabled, [filter.column]: true });
-    });
-  };
-
-  useEffect(() => {
-    setIdDisabledOption();
-  }, [filters]);
 
   const applyFilter = () => {
     setFilters({
@@ -63,22 +43,21 @@ function Filter() {
         <select
           data-testid="column-filter"
           name="column"
-          value={ column }
           onChange={ (e) => setColumn(e.target.value) }
         >
-          <option disabled={ isDisabled.population } value="orbital_period">
-            Population
+          <option value="population">
+            population
           </option>
-          <option disabled={ isDisabled.orbital_period } value="orbital_period">
+          <option value="orbital_period">
             orbital_period
           </option>
-          <option disabled={ isDisabled.diameter } value="diameter">
+          <option value="diameter">
             diameter
           </option>
-          <option disabled={ isDisabled.rotation_period } value="rotation_period">
+          <option value="rotation_period">
             rotation_period
           </option>
-          <option disabled={ isDisabled.surface_water } value="surface_water">
+          <option value="surface_water">
             surface_water
           </option>
         </select>
