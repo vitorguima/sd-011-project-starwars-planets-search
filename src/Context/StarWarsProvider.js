@@ -4,8 +4,9 @@ import StarWarsContext from './StarWarsContext';
 
 function StarWarsProvider({ children }) {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
   const [gotInfo, setGotInfo] = useState(false);
-  const [name, setName] = useState('');
+  const [filterByName, setName] = useState({ name: '' });
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -13,16 +14,22 @@ function StarWarsProvider({ children }) {
         .then((planetsInfo) => planetsInfo.json());
       results.map((e) => delete e.residents); // Deleta os residents de cada um dos objetos, conforme pede no requisito.
       setData(results);
+      setFilteredData(results);
       setGotInfo(true);
     };
     getPlanets();
   }, []);
 
   const contextValue = {
+    filteredData,
+    setFilteredData,
+    setData,
     data,
     gotInfo,
     setName,
-    name,
+    filters: {
+      filterByName,
+    },
   };
 
   return (

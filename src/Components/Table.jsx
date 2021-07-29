@@ -5,7 +5,7 @@ import './Table.css';
 import Filters from './Filters';
 
 function Table() {
-  const { data, gotInfo } = useContext(StarWarsContext);
+  const { filteredData, gotInfo } = useContext(StarWarsContext);
   return !gotInfo ? (
     <Loading />
   ) : (
@@ -14,11 +14,11 @@ function Table() {
       <table>
         <tbody>
           <tr>
-            {Object.keys(data[0]).map((headerInfo, index) => (
+            {Object.keys(filteredData[0]).map((headerInfo, index) => (
               <th key={ index }>{headerInfo}</th>
             ))}
           </tr>
-          {data.map((planetInfo, index) => (
+          {filteredData.map((planetInfo, index) => (
             <tr key={ index }>
               {Object.values(planetInfo).map((e, index2) => (
                 <td key={ index2 }>{e}</td>
