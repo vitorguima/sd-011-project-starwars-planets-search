@@ -1,31 +1,32 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import PlanetsContext from '../Providers/PlanetsContext';
 
 function Select() {
   const { filters, setFilters } = useContext(PlanetsContext);
 
+  const [nameSelect, setName] = useState('');
+  const [nameCompare, setCompare] = useState('');
+  const [nameNumber, setNumber] = useState('');
+
   function handleChangeSelectName({ target }) {
     const { value } = target;
-    return value;
+    setName(value);
   }
 
   function handleChangeSelecCompare({ target }) {
     const { value } = target;
-    return value;
+    setCompare(value);
   }
 
   function handleChangeNumber({ target }) {
     const { value } = target;
-    return value;
+    setNumber(value);
   }
 
   function handleClickSetValues() {
-    const valueName = handleChangeSelectName();
-    const valueCompare = handleChangeSelecCompare();
-    const valueNumber = handleChangeNumber();
     setFilters({ ...filters,
-      filterByName: [...filterByNumericValues,
-        { column: valueName, comparison: valueCompare, value: valueNumber }] });
+      filterByNumericValues:
+        [{ column: nameSelect, comparison: nameCompare, value: nameNumber }] });
   }
 
   return (
@@ -47,7 +48,7 @@ function Select() {
       >
         <option value="maior que">Maior que</option>
         <option value="menor que">Menor que</option>
-        <option value="Igual a">Igual a</option>
+        <option value="igual a">Igual a</option>
       </select>
       <input
         type="number"
