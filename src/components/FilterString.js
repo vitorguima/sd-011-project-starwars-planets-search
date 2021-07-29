@@ -6,7 +6,7 @@ function FilterString() {
 
   const setText = ({ target: { value } }) => {
     setNewData(data.filter(({ name }) => (
-      name.toLowerCase().includes(filters.filterByName.name))));
+      name.toLowerCase().includes(value))));
     setFilters({ ...filters, filterByName: { name: value.toLowerCase() } });
   };
 

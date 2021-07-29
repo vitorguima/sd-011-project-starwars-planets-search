@@ -5,9 +5,9 @@ import Api from '../helpers/Api';
 
 function MyProvider({ children }) {
   const [data, setData] = useState([]);
+  const [vazio, setVazio] = useState('');
   const [newData, setNewData] = useState([]);
   const [loading, setLoading] = useState(false);
-  const [arrayFiltrado, setArrayFiltrado] = useState([]);
   const [filters, setFilters] = useState({
     filterByName:
     { name: '' },
@@ -26,41 +26,47 @@ function MyProvider({ children }) {
   }, []);
 
   useEffect(() => {
+    // function teste() {
     let newSaveData = newData;
     if (filters.filterByNumericValues.length > 0) {
       filters.filterByNumericValues.forEach((filter) => {
         switch (filter.comparison) {
+        case 'igual a':
+          newSaveData = newSaveData
+            .filter((item) => parseInt(item[filter.column], 10)
+            === parseInt(filter.value, 10));
+          break;
         case 'maior que':
           newSaveData = newSaveData
-            .filter((item) => parseInt(item[filter.column], 10) > filter.value);
+            .filter((item) => parseInt(item[filter.column], 10)
+            > parseInt(filter.value, 10));
           break;
         case 'menor que':
           newSaveData = newSaveData
-            .filter((item) => parseInt(item[filter.column], 10) < filter.value);
-          break;
-        case 'igual a':
-          newSaveData = newSaveData
-            .filter((item) => parseInt(item[filter.column], 10) === filter.value);
+            .filter((item) => parseInt(item[filter.column], 10)
+            < parseInt(filter.value, 10));
           break;
         default:
           break;
         }
+        setNewData(newSaveData);
       });
-      setNewData(newSaveData);
     }
+    // }
+    // teste();
   }, [filters]);
 
   return (
     <MyContext.Provider
       value={ {
+        vazio,
+        setVazio,
         data,
-        loading,
         setFilters,
         filters,
-        arrayFiltrado,
-        setArrayFiltrado,
         newData,
         setNewData,
+        loading,
       } }
     >
       { children }

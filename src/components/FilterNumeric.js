@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import MyContext from './MyContext';
 
 function FilterNumeric() {
-  const { setFilters, filters } = useContext(MyContext);
+  const { setFilters, filters, vazio } = useContext(MyContext);
   const [coluna, setColumn] = useState({});
   const [comparacao, setComparison] = useState({});
   const [valor, setValue] = useState({});
@@ -31,33 +31,34 @@ function FilterNumeric() {
     <div>
       <label htmlFor="column">
         Propriedade:
-        <select name="column" id="column" onClick={ (e) => Column(e) }>
+        <select
+          data-testid="column-filter"
+          name="column"
+          id="column"
+          onClick={ (e) => Column(e) }
+        >
+          <option value={ vazio }>{vazio}</option>
           <option
-            data-testid="column-filter"
             value="population"
           >
             population
           </option>
           <option
-            data-testid="column-filter"
             value="orbital_period"
           >
             orbital_period
           </option>
           <option
-            data-testid="column-filter"
             value="diameter"
           >
             diameter
           </option>
           <option
-            data-testid="column-filter"
             value="rotation_period"
           >
             rotation_period
           </option>
           <option
-            data-testid="column-filter"
             value="surface_water"
           >
             surface_water
@@ -66,21 +67,24 @@ function FilterNumeric() {
       </label>
       <label htmlFor="comparison">
         Operador:
-        <select name="comparison" id="comparison" onClick={ (e) => Comparison(e) }>
+        <select
+          data-testid="comparison-filter"
+          name="comparison"
+          id="comparison"
+          onClick={ (e) => Comparison(e) }
+        >
+          <option value={ vazio }>{vazio}</option>
           <option
-            data-testid="comparison-filter"
             value="maior que"
           >
             maior que
           </option>
           <option
-            data-testid="comparison-filter"
             value="menor que"
           >
             menor que
           </option>
           <option
-            data-testid="comparison-filter"
             value="igual a"
           >
             igual a
@@ -100,6 +104,7 @@ function FilterNumeric() {
         value="button"
         id="button"
         type="button"
+        data-testid="button-filter"
         onClick={ createObj }
       >
         Aplicar
