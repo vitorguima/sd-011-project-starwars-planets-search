@@ -1,6 +1,7 @@
 import React, { useEffect, useContext } from 'react';
 import Context from '../Context/Context';
 import TableHead from './Thead';
+// import MockApiData from './mock';
 
 function Table() {
   const { planets } = useContext(Context);
@@ -16,14 +17,15 @@ function Table() {
     const fetchPlanets = async () => {
       const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
       const data = await fetch(endpoint).then((datas) => datas.json());
-      getPlanets(data);
+      return getPlanets(data.results);
     };
     fetchPlanets();
-  }, [getPlanets]);
+  }, [getPlanets, filteredPlanets]);
 
   const tableFiltered = () => {
-    if (filteredPlanets === undefined) {
-      return (planets.map(({
+    console.log(planets);
+    if (filteredPlanets.length > 1) {
+      return (filteredPlanets.map(({
         name,
         climate,
         created,
@@ -52,9 +54,11 @@ function Table() {
           <td className="planet">{terrain}</td>
           <td className="planet">{films}</td>
           <td className="planet">{url}</td>
-        </tr>)));
+        </tr>))
+      );
     }
-    return (filteredPlanets.map(({
+
+    return (planets.map(({
       name,
       climate,
       created,
@@ -83,8 +87,7 @@ function Table() {
         <td className="planet">{terrain}</td>
         <td className="planet">{films}</td>
         <td className="planet">{url}</td>
-      </tr>))
-    );
+      </tr>)));
   };
 
   return (
