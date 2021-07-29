@@ -1,11 +1,12 @@
 import React, { useContext } from 'react';
 import StarsContext from '../context/StarsContext';
+import Form from './Form';
+import FilteredCategories from './FilteredCategories';
 
 export default function Table() {
   const {
     data,
     filters,
-    filteredPlanets,
     setFilters,
     setFilteredPlanets,
   } = useContext(StarsContext);
@@ -17,30 +18,31 @@ export default function Table() {
     setFilteredPlanets(nameSearch);
   }
 
-  function inputSearch() {
-    return filteredPlanets.map((planet, index) => (
-      <tr key={ index }>
-        {Object.values(planet).map((info) => (
-          <td key={ info.name }>
-            {info}
-          </td>
-        ))}
-      </tr>
-    ));
-  }
+  // function inputSearch() {
+  //   return filteredPlanets.map((planet, index) => (
+  //     <tr key={ index }>
+  //       {Object.values(planet).map((info) => (
+  //         <td key={ info.name }>
+  //           {info}
+  //         </td>
+  //       ))}
+  //     </tr>
+  //   ));
+  // }
 
   return (
     <div>
-      <label htmlFor="search">
-        Procure alguma informação
-        <input
-          type="text"
-          id="search"
-          data-testid="name-filter"
-          onChange={ handleChange }
-        />
-      </label>
       <table>
+        <label htmlFor="search">
+          Procure alguma informação
+          <input
+            type="text"
+            id="search"
+            data-testid="name-filter"
+            onChange={ handleChange }
+          />
+        </label>
+        <Form />
         <thead>
           <tr>
             {data.length > 0
@@ -50,7 +52,7 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {inputSearch()}
+          <FilteredCategories />
         </tbody>
       </table>
     </div>
