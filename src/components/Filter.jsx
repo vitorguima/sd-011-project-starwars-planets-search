@@ -7,10 +7,10 @@ export default function Filter() {
   return (
     <div>
       <input
-        data-testid="name-filter"
         type="text"
         onChange={ ({ target: { value } }) => setTextInput(value) }
         value={ textInput }
+        data-testid="name-filter"
       />
     </div>
   );
