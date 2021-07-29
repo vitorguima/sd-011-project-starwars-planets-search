@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
-import { PlanetsContext } from '../contexts/PlanetsContext.js';
-import { getStarWarsPlanets } from '../services/starwarAPI.js';
+// import { getStarWarsPlanets } from '../services/starwarAPI.js';
 
 function PlanetsProvider({ children }) {
 

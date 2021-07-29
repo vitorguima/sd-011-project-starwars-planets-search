@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { PlanetsContext } from './contexts/PlanetsContext.js';
 import './App.css';
 import Table from './components/Table';
@@ -15,9 +15,9 @@ const [isFetching, setisFetching]= useState(true);
 useEffect(fetchAPI, []);
 
 useEffect(() => {
-  console.log('data do provider após query à API:')
+  console.log('Retorn Ok da API em App.js:')
   console.log(fetchSuccess);
-  console.log('error do provider após query à API:')
+  console.log('Retorn Error da API em App.js:')
   console.log(fetchError);
 });
 
