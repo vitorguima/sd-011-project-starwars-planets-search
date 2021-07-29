@@ -9,14 +9,41 @@ const tableHeader = ['Name', 'Rotation', 'Orbital Period',
 function Table() {
   const { planets, filters } = useContext(GlobalContext);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const { filters: { filterByNumericValues } } = useContext(GlobalContext);
+  const { name } = filters.filterByName;
 
   useEffect(() => {
-    const { name } = filters.filterByName;
-    const searchedPlanets = planets.filter(
-      (planet) => planet.name.toLowerCase().includes(name),
-    );
-    setFilteredPlanets(searchedPlanets);
-  }, [planets, filters]);
+    // O Gabriel Carvalho da turma 11 me ajudou na implementação dessa função
+    const searchedPlanets = () => {
+      if (filterByNumericValues[0]) {
+        const { colum, comparison, value } = filterByNumericValues[0];
+        switch (comparison) {
+        case 'maior que':
+          return planets.filter(
+            (planet) => planet.name.toLowerCase().includes(name)
+            && parseInt(planet[colum], 0) > parseInt(value, 0),
+          );
+        case 'menor que':
+          console.log('menor');
+          return planets.filter(
+            (planet) => planet.name.toLowerCase().includes(name)
+            && parseInt(planet[colum], 0) < parseInt(value, 0),
+          );
+        case 'igual a':
+          console.log('igual');
+          return planets.filter(
+            (planet) => planet.name.toLowerCase().includes(name)
+            && parseInt(planet[colum], 0) === parseInt(value, 0),
+          );
+        default:
+        }
+      }
+      return planets.filter(
+        (planet) => planet.name.toLowerCase().includes(name),
+      );
+    };
+    setFilteredPlanets(searchedPlanets());
+  }, [planets, filters, filterByNumericValues, name]);
 
   return (
     <table>

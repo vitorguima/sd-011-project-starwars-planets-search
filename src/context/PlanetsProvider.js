@@ -8,13 +8,7 @@ const PlanetsProvider = ({ children }) => {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [
-      {
-        column: '',
-        comparison: '',
-        value: '',
-      },
-    ],
+    filterByNumericValues: [],
   };
 
   const [planets, setPlanets] = useState([]);

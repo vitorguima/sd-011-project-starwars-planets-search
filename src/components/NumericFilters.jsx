@@ -7,9 +7,6 @@ function NumericFilters() {
   const [comparison, setComparisonFilter] = useState('maior que');
   const [value, setValueFilter] = useState('');
 
-  console.log(colum, comparison, value);
-  console.log(filters);
-
   const updateNumericFilters = () => {
     const selectedfilters = {
       colum,
@@ -17,7 +14,7 @@ function NumericFilters() {
       value,
     };
     setFilters(
-      { ...filters, filterByNumericValues: selectedfilters },
+      { ...filters, filterByNumericValues: [selectedfilters] },
     );
   };
 
