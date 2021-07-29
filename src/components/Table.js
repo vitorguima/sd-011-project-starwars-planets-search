@@ -1,9 +1,10 @@
-import { useContext } from 'react';
-import PlanetsContext from '../contexts/PlanetsContext';
+import React from 'react';
 
 function Table() {
     return (
-        null
+        <div>
+            <h1>Eu sou o table</h1>
+        </div>
     )
 }
 
