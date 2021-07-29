@@ -1,9 +1,12 @@
 import React from 'react';
 import './App.css';
+import Data from './Components/Data';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <div>
+      <Data />
+    </div>
   );
 }
 
