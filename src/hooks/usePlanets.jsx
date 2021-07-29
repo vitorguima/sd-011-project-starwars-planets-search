@@ -38,9 +38,8 @@ export function PlanetProvider({ children }) {
     const { results } = apiResponse;
 
     if (!filters.length) {
-      const sorted = [...apiResponse.results].sort((a, b) => a.name > b.name);
-      console.log(sorted);
-      setPlanets([...results.sort(orderPlanets.func)]);
+      const sorted = [...apiResponse.results].sort((a, b) => {return (a.name > b.name) ? 1 : ((b.name > a.name) ? -1 : 0)});
+      setPlanets([...sorted.sort(orderPlanets.func)]);
       return;
     }
 
