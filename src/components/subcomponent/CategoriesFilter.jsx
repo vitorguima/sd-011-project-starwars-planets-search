@@ -3,7 +3,7 @@ import PlanetsContext from '../../Context/PlanetsContext';
 
 function CategoriesFilter() {
   const { getColumn, getComparison,
-    getValue, value, getButton } = useContext(PlanetsContext);
+    getValue, value, getButton/* , getOnChangeInputs */ } = useContext(PlanetsContext);
 
   function handleChangeColumn(event) {
     getColumn(event.target.value);
@@ -20,7 +20,10 @@ function CategoriesFilter() {
   return (
     <div>
       <select
-        onChange={ handleChangeColumn }
+        onChange={ (e) => {
+          handleChangeColumn(e);
+          // getOnChangeInputs(false);
+        } }
         data-testid="column-filter"
       >
         <option value="surface_water">Surface water</option>
@@ -30,7 +33,10 @@ function CategoriesFilter() {
         <option value="rotation_period">Rotation period</option>
       </select>
       <select
-        onChange={ handleChangeComparison }
+        onChange={ (e) => {
+          handleChangeComparison(e);
+          // getOnChangeInputs(false);
+        } }
         data-testid="comparison-filter"
       >
         <option value="igual">igual a</option>
@@ -41,15 +47,18 @@ function CategoriesFilter() {
         <input
           type="number"
           value={ value }
-          onChange={ handleChangeValue }
+          onChange={ (e) => {
+            handleChangeValue(e);
+            // getOnChangeInputs(false);
+          } }
           id="numberInput"
           data-testid="value-filter"
         />
       </label>
       <button
         type="button"
-        onMouseDown={ () => getButton(true) }
-        onMouseUp={ () => getButton(false) }
+        onClick={ () => getButton(true) }
+        // onMouseUp={ () => getButton(false) }
         data-testid="button-filter"
       >
         Enviar
