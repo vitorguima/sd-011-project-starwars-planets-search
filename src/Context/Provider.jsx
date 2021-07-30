@@ -37,17 +37,6 @@ function Provider({ children }) {
     getPlanets();
   }, []);
 
-  // useEffect(() => {
-  //   const condition = newData.length !== 0 ? newData : data;
-  //   if (name.length !== 0) {
-  //     const filterData = condition.filter((element) => element.name
-  //       .toLowerCase().includes(name.toLowerCase()));
-  //     // #Salvando data com filtro para uma futura filtragem
-  //     getNewData(filterData);
-  //     getData(filterData);
-  //   }
-  // }, [name, data, newData])
-
   const obj = {
     data,
     getData,

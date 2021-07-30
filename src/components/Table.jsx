@@ -11,19 +11,24 @@ function Table() {
       .toLowerCase().includes(lowerCasePlanets));
   }, [data, name]);
 
-  const filterPlanetsNumber = useMemo(() => {
-    if (button) {
-      if (comparison === 'igual') {
-        return filterPlanets.filter((element) => element[column] === value);
-      }
-      if (comparison === 'maior') {
-        return filterPlanets.filter((element) => element[column] === value);
-      }
-      if (comparison === 'menor') {
-        return filterPlanets.filter((element) => element[column] === value);
-      }
+  const filterByCategory = useMemo(() => filterPlanets.filter((element) => {
+    let results = null;
+    if (comparison === 'menor') {
+      results = Number(element[column]) < value;
     }
-  }, [column, button, filterPlanets, value, comparison]);
+    if (comparison === 'maior') {
+      results = Number(element[column]) > value;
+    }
+    if (comparison === 'igual') {
+      results = Number(element[column]) === value;
+    }
+    return results;
+  }), [filterPlanets, column, value, comparison]);
+    // "200000"
+    // 6000000
+  console.log(button);
+
+  const test = button ? filterByCategory : filterPlanets;
 
   return (
     <div>
@@ -47,8 +52,8 @@ function Table() {
           </tr>
         </thead>
         <tbody id="body">
-          {data && (
-            filterPlanetsNumber.map((planet, index) => (
+          {(filterPlanets || filterByCategory) && (
+            test.map((planet, index) => (
               <tr key={ index }>
                 <td>{planet.name}</td>
                 <td>{planet.rotation_period}</td>

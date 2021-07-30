@@ -48,7 +48,8 @@ function CategoriesFilter() {
       </label>
       <button
         type="button"
-        onClick={ getButton(true) }
+        onMouseDown={ () => getButton(true) }
+        onMouseUp={ () => getButton(false) }
         data-testid="button-filter"
       >
         Enviar
