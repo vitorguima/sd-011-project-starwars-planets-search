@@ -4,7 +4,20 @@ import PlanetsContext from '../Providers/PlanetsContext';
 function Select() {
   const { filters, setFilters } = useContext(PlanetsContext);
 
-  const [nameSelect, setName] = useState('orbital_period');
+  const select = [
+    {
+      population: 'population',
+      orbital_period: 'orbital_period',
+      diameter: 'diameter',
+      rotation_period: 'rotation_period',
+      surface_water: 'surface_water',
+    },
+  ];
+  const { column } = filters.filterByNumericValues[0];
+  const filterCases = Object.keys(select[0]);
+  const filterSelect = filterCases.filter((item) => item !== column);
+
+  const [nameSelect, setName] = useState('population');
   const [nameCompare, setCompare] = useState('maior que');
   const [nameNumber, setNumber] = useState(0);
 
@@ -36,12 +49,11 @@ function Select() {
         data-testid="column-filter"
         onChange={ handleChangeSelectName }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {filterSelect.map((itens, key) => (
+          <option value={ itens } key={ key }>{itens}</option>
+        ))}
       </select>
+
       <select
         data-testid="comparison-filter"
         onChange={ handleChangeSelecCompare }

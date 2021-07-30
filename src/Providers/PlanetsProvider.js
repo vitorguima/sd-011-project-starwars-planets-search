@@ -10,8 +10,8 @@ const PlanetsProvider = ({ children }) => {
   },
   filterByNumericValues: [
     {
-      column: 'orbital_period',
-      comparison: 'maior que',
+      column: '',
+      comparison: '',
       value: 0,
     },
   ],
@@ -32,14 +32,16 @@ const PlanetsProvider = ({ children }) => {
   }, []);
 
   // Filtra pelos dados que vem do input
-  function filterForNamePlanet() {
+  function filterForNamePlanet(filter) {
     // Ajuda de Leonardo Funabashi para entender implementar essa parte
     const { name } = filters.filterByName;
     const newResults = dataPlanets.filter((item) => item.name.toLowerCase()
       .includes(name.toLowerCase()));
 
     let filterByName = newResults;
-    if (filters.filterByNumericValues.length !== 0) {
+    console.log('Filtro', filter);
+    if (filter === 1) {
+      console.log('byname', filterByName);
       const { column, comparison, value } = filters.filterByNumericValues[0];
       switch (comparison) {
       case 'maior que':
@@ -67,9 +69,18 @@ const PlanetsProvider = ({ children }) => {
     setResults(filterByName);
   }
 
+  const { column } = filters.filterByNumericValues[0];
+
   useEffect(() => {
-    filterForNamePlanet();
-  }, [filters]);
+    const filterUm = 1;
+    filterForNamePlanet(filterUm);
+  }, [column]);
+
+  const { name } = filters.filterByName;
+  useEffect(() => {
+    const filterZero = 0;
+    filterForNamePlanet(filterZero);
+  }, [name]);
 
   function filterFunc() {
     if (dataResults.length > 0) {
