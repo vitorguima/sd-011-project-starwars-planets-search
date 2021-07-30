@@ -2,6 +2,7 @@ import React, { useContext, useEffect } from 'react';
 import DataContext from '../context/DataContext';
 import fetchPlanets from '../services/api';
 import Table from './Table';
+import NumFilter from './NumFilter';
 import Filter from './Filter';
 
 const Load = () => {
@@ -23,6 +24,7 @@ const Load = () => {
         : (
           <>
             <Filter />
+            <NumFilter />
             <Table />
           </>
         )}
