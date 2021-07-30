@@ -1,13 +1,14 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
 export const TableContext = createContext({});
 
 export function TableContextProvider({ children }) {
   const [data, setData] = useState([]);
-  const [textInput, setTextInput] = useState('');
   const [filteredData, setFilteredData] = useState([]);
-  const [filters, setFilters] = useState({});
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('Maior que');
+  const [value, setValue] = useState(0);
 
   useEffect(() => {
     const requestData = async () => {
@@ -19,26 +20,61 @@ export function TableContextProvider({ children }) {
     requestData();
   }, []);
 
-  useEffect(() => {
-    if (textInput.length !== 0) {
-      setFilters({ filterByName: { name: textInput } });
-      const filter = data.filter((item) => (
-        item.name.toLowerCase().includes(textInput.toLowerCase())
-      ));
-      setFilteredData(filter);
-      return;
+  const filtersInitialState = {
+    filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [],
+  };
+
+  const filtersReducer = (state, action) => {
+    switch (action.type) {
+    case 'NAME':
+      return {
+        ...state,
+        filterByName: { name: action.payload },
+      };
+    case 'VALUE':
+      return {
+        ...state,
+        filterByNumericValues: [
+          ...state.filterByNumericValues, {
+            column: action.payload.column,
+            comparison: action.payload.comparison,
+            value: action.payload.value,
+          },
+        ],
+      };
+    default:
+      break;
     }
-    setFilteredData(data);
-  }, [textInput, data]);
+  };
+
+  const [filters, setFilters] = useReducer(filtersReducer, filtersInitialState);
+
+  useEffect(() => {
+    if (filters.filterByName.name.length === 0) {
+      setFilteredData(data);
+    }
+    const filter = data.filter((item) => (
+      item.name.toLowerCase().includes(filters.filterByName.name.toLowerCase())
+    ));
+    setFilteredData(filter);
+  }, [filters, data]);
 
   return (
     <TableContext.Provider
       value={ {
         data,
-        textInput,
         filteredData,
         filters,
-        setTextInput,
+        column,
+        comparison,
+        value,
+        setFilters,
+        setColumn,
+        setComparison,
+        setValue,
       } }
     >
       {children}

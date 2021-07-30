@@ -27,7 +27,7 @@ export default function Table() {
         </thead>
         <tbody>
           { filteredData.length === 0
-            ? <tr><td>Carregando...</td></tr>
+            ? <tr><td>Nada encontrado</td></tr>
             : filteredData.map((item, index) => (
               <tr key={ index }>
                 <td>{item.name}</td>
