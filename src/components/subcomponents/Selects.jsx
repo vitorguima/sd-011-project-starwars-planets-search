@@ -1,10 +1,17 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
 import comparisonFilter from '../../helpers/comparisonFilter';
 import columnFilter from '../../helpers/columnFilter';
+import Context from '../../context/Context';
 
 function Selects(props) {
   const { selects, setSelects } = props;
+  const { filters } = useContext(Context);
+  const { filterByNumericValues } = filters;
+  const columnOptions = columnFilter
+    .filter((column) => !filterByNumericValues
+      .map((filter) => filter.column)
+      .includes(column));
 
   const changeColumn = ({ target }) => {
     setSelects({ ...selects, column: target.value });
@@ -23,9 +30,10 @@ function Selects(props) {
       <select
         data-testid="column-filter"
         onChange={ ({ target }) => changeColumn({ target }) }
+        onClick={ ({ target }) => changeColumn({ target }) }
         defaultValue={ columnFilter[0] }
       >
-        {columnFilter.map((option) => (<option key={ option }>{ option }</option>))}
+        {columnOptions.map((option) => (<option key={ option }>{ option }</option>))}
       </select>
       <select
         data-testid="comparison-filter"

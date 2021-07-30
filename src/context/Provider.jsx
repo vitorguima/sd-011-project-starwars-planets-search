@@ -15,7 +15,15 @@ function Provider({ children }) {
   };
 
   const filterByNumericValues = ({ column, comparison, value }) => {
-    setFilters({ ...filters, filterByNumericValues: [{ column, comparison, value }] });
+    if (filters.filterByNumericValues[0].column) {
+      setFilters({ ...filters,
+        filterByNumericValues: [...filters.filterByNumericValues,
+          { column, comparison, value }] });
+    } else {
+      setFilters({ ...filters,
+        filterByNumericValues: [
+          { column, comparison, value }] });
+    }
   };
 
   const contextValue = {
