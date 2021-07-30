@@ -4,9 +4,18 @@ import StarWarsContext from './StarWarsContext';
 
 function PlanetProvider({ children }) {
   const [data, setData] = useState([]);
-  const [filters] = useState({ filterByName: { name: '' } });
   const [filterPlanet, setFilterPlanet] = useState([]);
+  const [filters, setFilters] = useState(
+    {
+      filterByName: {
+        name: '',
+      },
+      filterByNumericValues: [],
+    },
+  );
 
+  const { filterByName, filterByNumericValues } = filters;
+  const { name } = filterByName;
   useEffect(() => {
     const endpointPlanets = 'https://swapi-trybe.herokuapp.com/api/planets/';
     const getPlanets = async () => {
@@ -20,13 +29,43 @@ function PlanetProvider({ children }) {
 
   const filterPlanets = ({ target }) => {
     const { value } = target;
-    const planetsFiltereds = data.filter((planet) => planet.name
-      .toLowerCase().includes(value));
-    setFilterPlanet(planetsFiltereds);
+    setFilters({ ...filters, filterByName: { name: value } });
   };
 
+  useEffect(() => {
+    console.log('entrou no effect');
+    let planetsFiltereds = data.filter((planet) => planet.name
+      .toLowerCase().includes(name));
+    if (filterByNumericValues.length > 0) {
+      planetsFiltereds = planetsFiltereds.filter((planet) => {
+        let bool = true;
+        filterByNumericValues.forEach(({ column, comparison, value }) => {
+          switch (comparison) {
+          case 'maior que':
+            bool = Number(planet[column]) > Number(value) && bool;
+            break;
+          case 'menor que':
+            bool = Number(planet[column]) < Number(value) && bool;
+            break;
+          case 'igual a':
+            bool = Number(planet[column]) === Number(value) && bool;
+            break;
+          default:
+            bool = false;
+          }
+        });
+        return bool;
+      });
+    }
+    setFilterPlanet(planetsFiltereds);
+  }, [data, name, filters, filterByNumericValues]);
+
+  const setNumericFilters = (newObj) => {
+    setFilters({ ...filters,
+      filterByNumericValues: [...filters.filterByNumericValues, newObj] });
+  };
   // meu contexto com informações para passar pros próximos componentes
-  const context = { data, filterPlanets, filters, filterPlanet };
+  const context = { data, filterPlanets, filters, filterPlanet, name, setNumericFilters };
   return (
     <StarWarsContext.Provider value={ context }>
       { children }
