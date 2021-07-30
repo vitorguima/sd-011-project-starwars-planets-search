@@ -30,7 +30,7 @@ function Table() {
     // "200000"
     // 6000000
 
-  const condition = button/* && !onChangeInputs */ ? filterByCategory : filterPlanets;
+  const condition = button/* && !onChangeInputss */ ? filterByCategory : filterPlanets;
 
   return (
     <div>
