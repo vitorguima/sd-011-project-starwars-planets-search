@@ -25,6 +25,13 @@ export function TableContextProvider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    filterColumns: [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ],
   };
 
   const filtersReducer = (state, action) => {
@@ -34,7 +41,7 @@ export function TableContextProvider({ children }) {
         ...state,
         filterByName: { name: action.payload },
       };
-    case 'VALUE':
+    case 'VALUE_ADD':
       return {
         ...state,
         filterByNumericValues: [
@@ -44,6 +51,17 @@ export function TableContextProvider({ children }) {
             value: action.payload.value,
           },
         ],
+        filterColumns: state.filterColumns.filter((item) => (
+          item !== action.payload.column
+        )),
+      };
+    case 'VALUE_REMOVE':
+      return {
+        ...state,
+        filterByNumericValues: state.filterByNumericValues.filter((item) => (
+          item.column !== action.payload
+        )),
+        filterColumns: [...state.filterColumns, action.payload],
       };
     default:
       break;

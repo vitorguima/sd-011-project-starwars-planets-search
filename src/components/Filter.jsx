@@ -25,11 +25,30 @@ export default function Filter() {
         data-testid="name-filter"
         placeholder="Digite o nome do planeta"
       />
+      {
+        filters.filterByNumericValues.length !== 0
+          ? (filters.filterByNumericValues.map((values, index) => (
+            <button
+              type="button"
+              key={ index }
+              onClick={ (event) => setFilters({
+                type: 'VALUE_REMOVE',
+                payload: event.target.value,
+              }) }
+              value={ values.column }
+            >
+              {values.column}
+            </button>
+          )))
+          : (
+            <p>sem filtros</p>
+          )
+      }
       <form
         onSubmit={ (event) => {
           event.preventDefault();
           setFilters({
-            type: 'VALUE',
+            type: 'VALUE_ADD',
             payload: {
               column,
               comparison,
@@ -45,11 +64,11 @@ export default function Filter() {
             value={ column }
             onChange={ (event) => setColumn(event.target.value) }
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {
+              filters.filterColumns.map((item, index) => (
+                <option key={ index } value={ item }>{ item }</option>
+              ))
+            }
           </select>
         </label>
 
