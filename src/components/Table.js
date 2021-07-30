@@ -5,15 +5,15 @@ import Filters from './Filters';
 import Select from './Select';
 
 function Table() {
-  const { filterReturn } = useContext(PlanetsContext);
-  const myFilter = filterReturn();
+  const { filterFunc } = useContext(PlanetsContext);
+  const dataResults = filterFunc();
   const loading = <p>Loading...</p>;
 
   return (
     <div className="demo">
       <Select />
       <Filters />
-      {myFilter
+      {dataResults
         ? (
           <table>
             <caption>StarWars Table</caption>
@@ -35,7 +35,7 @@ function Table() {
               </tr>
             </thead>
             <tbody>
-              {myFilter.map((itens, key) => (
+              {dataResults.map((itens, key) => (
                 <tr key={ key }>
                   <td>{itens.name}</td>
                   <td>{itens.rotation_period}</td>
@@ -44,7 +44,7 @@ function Table() {
                   <td>{itens.climate}</td>
                   <td>{itens.gravity}</td>
                   <td>{itens.terrain}</td>
-                  <td>{itens.surfaceWater}</td>
+                  <td>{itens.surface_water}</td>
                   <td>{itens.population}</td>
                   <td>{itens.films}</td>
                   <td>{itens.created}</td>

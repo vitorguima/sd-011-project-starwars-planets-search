@@ -4,9 +4,9 @@ import PlanetsContext from '../Providers/PlanetsContext';
 function Select() {
   const { filters, setFilters } = useContext(PlanetsContext);
 
-  const [nameSelect, setName] = useState('');
-  const [nameCompare, setCompare] = useState('');
-  const [nameNumber, setNumber] = useState('');
+  const [nameSelect, setName] = useState('orbital_period');
+  const [nameCompare, setCompare] = useState('maior que');
+  const [nameNumber, setNumber] = useState(0);
 
   function handleChangeSelectName({ target }) {
     const { value } = target;
@@ -33,7 +33,7 @@ function Select() {
     <div>
       Filtros:
       <select
-        data-testid="name-filter"
+        data-testid="column-filter"
         onChange={ handleChangeSelectName }
       >
         <option value="population">population</option>
@@ -46,9 +46,9 @@ function Select() {
         data-testid="comparison-filter"
         onChange={ handleChangeSelecCompare }
       >
-        <option value="maior que">Maior que</option>
-        <option value="menor que">Menor que</option>
-        <option value="igual a">Igual a</option>
+        <option value="maior que">maior que</option>
+        <option value="menor que">menor que</option>
+        <option value="igual a">igual a</option>
       </select>
       <input
         type="number"
