@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import DataContext from '../context/DataContext';
 
 const Table = () => {
-  const { data } = useContext(DataContext);
+  const { filtered } = useContext(DataContext);
 
   const headerTitles = [
     'Name',
@@ -22,15 +22,15 @@ const Table = () => {
 
   return (
     <table>
-      <tr>
-        { headerTitles.map((title, index) => (
-          <th key={ index }>
-            {title}
-          </th>
-        ))}
-      </tr>
       <tbody>
-        { data.map((planet, index) => (
+        <tr>
+          { headerTitles.map((title, index) => (
+            <th key={ index }>
+              {title}
+            </th>
+          ))}
+        </tr>
+        { filtered.map((planet, index) => (
           <tr key={ index }>
             <td>
               {planet.name}

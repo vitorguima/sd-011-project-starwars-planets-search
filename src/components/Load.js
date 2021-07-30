@@ -1,16 +1,31 @@
 import React, { useContext, useEffect } from 'react';
 import DataContext from '../context/DataContext';
+import fetchPlanets from '../services/api';
 import Table from './Table';
+import Filter from './Filter';
 
 const Load = () => {
-  const { loading, getPlanets } = useContext(DataContext);
+  const { setData, loading, setLoading } = useContext(DataContext);
+
   useEffect(() => {
+    async function getPlanets() {
+      setLoading(true);
+      const planetsAPI = await fetchPlanets();
+      setData(planetsAPI);
+      setLoading(false);
+    }
     getPlanets();
-  }, []); // componentDidMount
+  }, []);
 
   return (
     <div>
-      { loading ? 'loading' : <Table /> }
+      { loading ? 'loading'
+        : (
+          <>
+            <Filter />
+            <Table />
+          </>
+        )}
     </div>
   );
 };
