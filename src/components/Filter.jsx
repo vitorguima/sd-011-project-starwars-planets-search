@@ -40,6 +40,7 @@ export default function Filter() {
       >
         <label htmlFor="column">
           <select
+            data-testid="column-filter"
             id="column"
             value={ column }
             onChange={ (event) => setColumn(event.target.value) }
@@ -54,24 +55,25 @@ export default function Filter() {
 
         <label htmlFor="comparison">
           <select
-            id="comparison"
             data-testid="comparison-filter"
+            id="comparison"
             onChange={ (event) => setComparison(event.target.value) }
           >
-            <option value="maior">Maior que</option>
-            <option value="menor">Menor que</option>
-            <option value="igual">Igual a</option>
+            <option value="maior que">maior que</option>
+            <option value="igual a">igual a</option>
+            <option value="menor que">menor que</option>
           </select>
         </label>
 
         <label htmlFor="value">
           <input
+            data-testid="value-filter"
             type="text"
             value={ value }
             onChange={ (event) => setValue(event.target.value) }
           />
         </label>
-        <input type="submit" value="filtrar" />
+        <button type="submit" data-testid="button-filter">filtrar</button>
       </form>
     </div>
   );

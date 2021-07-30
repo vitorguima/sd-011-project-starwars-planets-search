@@ -7,8 +7,8 @@ export function TableContextProvider({ children }) {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState([]);
   const [column, setColumn] = useState('population');
-  const [comparison, setComparison] = useState('Maior que');
-  const [value, setValue] = useState(0);
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('');
 
   useEffect(() => {
     const requestData = async () => {
@@ -53,14 +53,46 @@ export function TableContextProvider({ children }) {
   const [filters, setFilters] = useReducer(filtersReducer, filtersInitialState);
 
   useEffect(() => {
-    if (filters.filterByName.name.length === 0) {
-      setFilteredData(data);
-    }
-    const filter = data.filter((item) => (
+    const filterByName = data.filter((item) => (
       item.name.toLowerCase().includes(filters.filterByName.name.toLowerCase())
     ));
-    setFilteredData(filter);
+
+    setFilteredData(filterByName);
   }, [filters, data]);
+
+  useEffect(() => {
+    const filtersValue = filters.filterByNumericValues;
+    const receivedFilteredData = [];
+
+    if (filtersValue.length === 0) {
+      setFilteredData(data);
+      return;
+    }
+
+    filtersValue.forEach((filter) => {
+      switch (filter.comparison) {
+      case 'maior que':
+        receivedFilteredData.push(data.filter((item) => (
+          parseFloat(item[filter.column]) > parseFloat(filter.value)
+        )));
+        break;
+      case 'menor que':
+        receivedFilteredData.push(data.filter((item) => (
+          parseFloat(item[filter.column]) < parseFloat(filter.value)
+        )));
+        break;
+      case 'igual a':
+        receivedFilteredData.push(data.filter((item) => (
+          parseFloat(item[filter.column]) === parseFloat(filter.value)
+        )));
+        break;
+      default:
+        break;
+      }
+      const lastIndex = receivedFilteredData.length - 1;
+      setFilteredData(receivedFilteredData[lastIndex]);
+    });
+  }, [filters.filterByNumericValues, data]);
 
   return (
     <TableContext.Provider
