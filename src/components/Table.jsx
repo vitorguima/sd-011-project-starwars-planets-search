@@ -9,14 +9,26 @@ function Table() {
   if (!data) return <span>Loading</span>;
   if (error) return <span>{JSON.stringify(error)}</span>;
 
-  const { filterByName: { name } } = filters;
+  const {
+    filterByName: { name },
+    filterByNumericValues: [{ column, comparison, value }],
+  } = filters;
 
   const keysFilter = ['residents'];
   const tableHead = Object.keys(data[0]).filter((key) => !keysFilter.includes(key));
-  const tableBody = data.map((planet) => {
+  const tableBody = data.filter((planet) => {
+    if (comparison === 'maior que') {
+      return (Number((planet[column]) > Number(value)) && planet.name.includes(name));
+    } if (comparison === 'menor que') {
+      return (Number((planet[column]) < Number(value)) && planet.name.includes(name));
+    } if (comparison === 'igual a') {
+      return ((Number(planet[column]) === Number(value)) && planet.name.includes(name));
+    }
+    return (planet.name.includes(name));
+  }).map((planet) => {
     keysFilter.forEach((filter) => delete planet[filter]);
     return Object.values(planet);
-  }).filter((planet) => planet[0].includes(name));
+  });
 
   return (
     <table>

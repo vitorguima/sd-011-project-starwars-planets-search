@@ -14,11 +14,16 @@ function Provider({ children }) {
     setFilters({ ...filters, filterByName: { name } });
   };
 
+  const filterByNumericValues = ({ column, comparison, value }) => {
+    setFilters({ ...filters, filterByNumericValues: [{ column, comparison, value }] });
+  };
+
   const contextValue = {
     data,
     error,
     filters,
     filterByName,
+    filterByNumericValues,
   };
 
   return (

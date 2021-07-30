@@ -1,9 +1,12 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import Context from '../context/Context';
 import Selects from './subcomponents/Selects';
 
 function Header() {
-  const { filterByName } = useContext(Context);
+  const { filterByName, filterByNumericValues } = useContext(Context);
+  const initialSelects = { column: '', comparison: '', value: '' };
+  const [selects, setSelects] = useState(initialSelects);
+
   return (
     <div>
       <form>
@@ -15,9 +18,15 @@ function Header() {
             onChange={ ({ target }) => filterByName(target.value) }
           />
         </fieldset>
-        <Selects />
         <fieldset>
-          <button type="button" data-testid="button-filter" name="filterButton">
+          <Selects selects={ selects } setSelects={ setSelects } />
+          <button
+            type="button"
+            data-testid="button-filter"
+            name="filterButton"
+            onClick={ () => filterByNumericValues(selects) }
+            /* disabled={ !(initialSelects.column && initialSelects.comparison && initialSelects.value) } */
+          >
             Filtrar
           </button>
         </fieldset>
