@@ -3,7 +3,8 @@ import PlanetsContext from '../Context/PlanetsContext';
 import SearchBar from './SearchBar';
 
 function Table() {
-  const { data, name, column, comparison, value, onChangeInputs } = useContext(PlanetsContext);
+  const { data, name, column, comparison,
+    value, onChangeInputs } = useContext(PlanetsContext);
 
   // *Filtra através do nome dos planetas
   const filterPlanets = useMemo(() => {
