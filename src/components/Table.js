@@ -10,11 +10,27 @@ export default function Table() {
     return planet;
   });
 
+  const handleCompare = (toCompare, filter) => {
+    const dictionaryToCompare = {
+      'maior que': (a, b) => a > b,
+      'menor que': (a, b) => a < b,
+      'igual a': (a, b) => a === b,
+    };
+    return dictionaryToCompare[filter.comparison](
+      parseFloat(toCompare), parseFloat(filter.value),
+    );
+  };
+
   const filterPlanets = () => {
     let list = removeResidents([...planets]);
-    if (filters.filters.filterByName.name) {
-      const regex = new RegExp(`${filters.filters.filterByName.name}`, 'gi');
+    if (filters.filterByName.name) {
+      const regex = new RegExp(`${filters.filterByName.name}`, 'gi');
       list = list.filter((planet) => planet.name.match(regex));
+    }
+    if (filters.filterByNumericValues.length > 0) {
+      const filter = filters.filterByNumericValues[
+        filters.filterByNumericValues.length - 1];
+      list = list.filter((planet) => handleCompare(planet[filter.column], filter));
     }
     return list;
   };
