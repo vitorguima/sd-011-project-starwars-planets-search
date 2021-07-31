@@ -17,13 +17,13 @@ function Table() {
   const filterByCategory = useMemo(() => filterPlanets.filter((element) => {
     let results = null;
     if (comparison === 'menor') {
-      results = Number(element[column]) < value;
+      results = Number(element[column]) < Number(value);
     }
     if (comparison === 'maior') {
-      results = Number(element[column]) > value;
+      results = Number(element[column]) > Number(value);
     }
     if (comparison === 'igual') {
-      results = Number(element[column]) === value;
+      results = Number(element[column]) === Number(value);
     }
     return results;
   }), [filterPlanets, column, value, comparison]);

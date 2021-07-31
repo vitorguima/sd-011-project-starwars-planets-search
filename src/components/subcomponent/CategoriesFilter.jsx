@@ -26,7 +26,7 @@ function CategoriesFilter() {
         } }
         data-testid="column-filter"
       >
-        <option value="surface_water">Surface water</option>
+        <option selected value="surface_water">Surface water</option>
         <option value="diameter">Diameter</option>
         <option value="population">Population</option>
         <option value="orbital_period">Orbital period</option>
@@ -39,7 +39,7 @@ function CategoriesFilter() {
         } }
         data-testid="comparison-filter"
       >
-        <option value="igual">igual a</option>
+        <option selected value="igual">igual a</option>
         <option value="maior">maior que</option>
         <option value="menor">menor que</option>
       </select>

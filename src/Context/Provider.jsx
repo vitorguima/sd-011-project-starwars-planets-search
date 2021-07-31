@@ -4,7 +4,7 @@ import PlanetsContext from './PlanetsContext';
 
 function Provider({ children }) {
   const [data, getData] = useState([]);
-  const [onChangeInputs, getOnChangeInputs] = useState(true);
+  const [, getOnChangeInputs] = useState(false);
   const [newData, getNewData] = useState([]);
   const [name, getName] = useState('');
   const [button, getButton] = useState(false);
@@ -60,7 +60,6 @@ function Provider({ children }) {
     getNewData,
     button,
     getButton,
-    onChangeInputs,
     getOnChangeInputs,
   };
   return (
