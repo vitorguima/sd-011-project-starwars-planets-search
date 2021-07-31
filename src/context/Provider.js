@@ -10,6 +10,13 @@ const Provider = ({ children }) => {
       filterByName: {
         name: '',
       },
+      filterByNumericValues: [
+        {
+          column: 'population',
+          comparison: 'maior que',
+          value: '1',
+        },
+      ],
     },
   });
 

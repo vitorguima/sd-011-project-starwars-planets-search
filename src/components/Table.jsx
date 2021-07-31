@@ -8,8 +8,26 @@ const tableHeader = ['Name', 'Rotation', 'Orbital Period',
 
 const Table = () => {
   const { data, filterName: { filters } } = useContext(Context);
-  const filteredPlanets = data.filter((planet) => planet.name
+  const { comparison, column, value } = filters.filterByNumericValues;
+  const preFilteredPlanets = data.filter((planet) => planet.name
     .toLowerCase().includes(filters.filterByName.name.toLowerCase()));
+  let filteredPlanets = preFilteredPlanets;
+  switch (comparison) {
+  case 'maior que':
+    filteredPlanets = preFilteredPlanets.filter((planet) => (
+      parseFloat(planet[column]) > parseFloat(value)));
+    break;
+  case 'menor que':
+    filteredPlanets = preFilteredPlanets.filter((planet) => (
+      parseFloat(planet[column]) < parseFloat(value)));
+    break;
+  case 'igual a':
+    filteredPlanets = preFilteredPlanets.filter((planet) => (
+      parseFloat(planet[column]) === parseFloat(value)));
+    break;
+  default:
+    break;
+  }
   if (!data) return <div>loading...</div>;
   return (
     <table>
