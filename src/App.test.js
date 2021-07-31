@@ -249,7 +249,7 @@ describe.only('3 - Crie um filtro para valores numéricos', () => {
   });
 });
 
-describe('4 - Não utilize filtros repetidos', () => {
+describe.only('4 - Não utilize filtros repetidos', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 
@@ -338,7 +338,7 @@ describe.only('5 - Apague o filtro de valores numéricos e desfaça as filtragen
   });
 });
 
-describe('6 - Ordene as colunas de forma ascendente ou descendente', () => {
+describe.only('6 - Ordene as colunas de forma ascendente ou descendente', () => {
   beforeAll(mockFetch);
   beforeEach(cleanup);
 

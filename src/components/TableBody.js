@@ -7,9 +7,11 @@ export default function TableBody() {
     userSelection,
     dropdown: { column, comparison, value },
   } = useContext(TableContext);
-  const { name } = userSelection.filters.filterByName;
+  const { filterByName: { name }, order: { sort, column: col } } = userSelection.filters;
 
-  const filterByName = data.filter((planet) => planet.name.includes(name));
+  const filterByName = data
+    .filter((planet) => planet.name.includes(name));
+
   const finalFilter = filterByName.filter((planet) => {
     const { filterByNumericValues } = userSelection.filters;
 
@@ -23,13 +25,34 @@ export default function TableBody() {
       'menor que': nPlanet < nValue,
       'igual a': nPlanet === nValue,
     }[comparison];
+  }).sort((planetA, planetB) => {
+    const options = { numeric: true };
+    if (sort === 'ASC') {
+      return new Intl.Collator(undefined, options).compare(planetA[col], planetB[col]);
+    }
+    if (sort === 'DESC') {
+      return new Intl.Collator(undefined, options).compare(planetB[col], planetA[col]);
+    }
+    return 0;
   });
+
+  // console.log(finalFilter.sort((a, b) => {
+  //   if (a[column] < b[column]) {
+  //     return -1;
+  //   }
+  //   if (a[column] > b[column]) {
+  //     return 1;
+  //   }
+  //   return 0;
+  // }));
 
   return (
     <tbody>
       { finalFilter.map((planet, key) => (
         <tr key={ key }>
-          { Object.keys(planet).map((k) => <td key={ k }>{ planet[k] }</td>) }
+          <td data-testid="planet-name">{ planet.name }</td>
+          { Object.keys(planet).slice(1)
+            .map((k) => <td key={ k }>{ planet[k] }</td>) }
           {/* <td>{ planet.name }</td>
           <td>{ planet.rotation_period }</td>
           <td>{ planet.orbital_period }</td>

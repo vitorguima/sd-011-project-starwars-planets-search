@@ -3,11 +3,15 @@ import TableContext from '../context/TableContext';
 
 export default function Form() {
   const {
+    data,
     userSelection,
     handleInputChange,
     handleDropdownChange,
     addDropdownFilter,
     removeFilter,
+    handleRadioOrderChange,
+    handleColumnNameChange,
+    handleColumnOrderChange,
   } = useContext(TableContext);
   const { filterByName: { name }, filterByNumericValues } = userSelection.filters;
 
@@ -53,6 +57,44 @@ export default function Form() {
       >
         Filter
       </button>
+      <select data-testid="column-sort" onChange={ handleColumnNameChange }>
+        {
+          data.map((planet, key) => {
+            const tag = Object.keys(planet).filter((pName) => pName !== 'residents')[key];
+            return <option key={ key }>{ tag }</option>;
+          })
+        }
+      </select>
+      <label htmlFor="ASC">
+        ASC
+        <input
+          onClick={ handleRadioOrderChange }
+          data-testid="column-sort-input-asc"
+          value="ASC"
+          id="ASC"
+          name="sort-radio"
+          type="radio"
+          // checked
+        />
+      </label>
+      <label htmlFor="DESC">
+        DESC
+        <input
+          onClick={ handleRadioOrderChange }
+          data-testid="column-sort-input-desc"
+          value="DESC"
+          id="DESC"
+          name="sort-radio"
+          type="radio"
+        />
+      </label>
+      <button
+        onClick={ handleColumnOrderChange }
+        data-testid="column-sort-button"
+        type="button"
+      >
+        Ordenar
+      </button>
       { filterByNumericValues.map(({ column, comparison, value }, key) => (
         <div style={ { display: 'flex' } } data-testid="filter" key={ key }>
           <h4>
@@ -67,7 +109,6 @@ export default function Form() {
             Valor:
             <span>{ value }</span>
           </h4>
-
           <button onClick={ () => removeFilter(key) } type="button">x</button>
         </div>
       )) }

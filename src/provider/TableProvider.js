@@ -5,6 +5,8 @@ import TableContext from '../context/TableContext';
 export default function TableProvider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [order, setOrder] = useState('ASC');
+  const [column, setColumn] = useState('name');
   const [dropdown, setDropdown] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -15,7 +17,7 @@ export default function TableProvider({ children }) {
     filters: {
       filterByName: { name: '' },
       filterByNumericValues: [],
-      order: { column: 'Name', sort: 'ASC' },
+      order: { column: 'name', sort: 'ASC' },
     },
   });
 
@@ -73,6 +75,22 @@ export default function TableProvider({ children }) {
     });
   };
 
+  const handleColumnNameChange = ({ target }) => setColumn(target.value);
+
+  const handleRadioOrderChange = ({ target }) => setOrder(target.value);
+
+  const handleColumnOrderChange = () => {
+    setUserSelection({
+      filters: {
+        ...userSelection.filters,
+        order: {
+          column,
+          sort: order,
+        },
+      },
+    });
+  };
+
   useEffect(() => {
     fetchPlanets();
   }, []);
@@ -82,6 +100,10 @@ export default function TableProvider({ children }) {
     isLoading,
     userSelection,
     dropdown,
+    column,
+    handleRadioOrderChange,
+    handleColumnOrderChange,
+    handleColumnNameChange,
     handleInputChange,
     handleDropdownChange,
     setDropdown,
