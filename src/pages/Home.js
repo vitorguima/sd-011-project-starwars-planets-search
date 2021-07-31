@@ -3,6 +3,7 @@ import AppContext from '../utils/AppContext';
 import FetchPlanets from '../services';
 import Table from '../components/Table';
 import FiltersInUse from '../components/FiltersInUse';
+import Ordenator from '../components/Ordenator';
 
 function Home() {
   const {
@@ -98,6 +99,7 @@ function Home() {
         Filtrar
       </button>
       <FiltersInUse />
+      <Ordenator />
       <Table />
     </div>
   );

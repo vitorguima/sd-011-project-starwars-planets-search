@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import AppContext from '../utils/AppContext';
 
 function FilterInUse() {
-  const { filters, setFilters } = useContext(AppContext);
+  const { filters, setFilters, setFiltersToUse, filtersToUse } = useContext(AppContext);
 
   const removeFilter = ({ target: { parentElement } }) => {
     setFilters({
@@ -12,6 +12,7 @@ function FilterInUse() {
           (filter) => filter.column !== parentElement.id,
         ),
     });
+    setFiltersToUse([...filtersToUse, parentElement.id]);
   };
 
   const renderLi = (filter, key) => (

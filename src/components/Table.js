@@ -1,14 +1,15 @@
 import React, { useContext } from 'react';
 import AppContext from '../utils/AppContext';
+import orderPlanets from '../utils/orderPlanets';
+
+// Font: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete
+export const removeResidents = (planetsArr) => planetsArr.map((planet) => {
+  delete planet.residents;
+  return planet;
+});
 
 export default function Table() {
   const { planets, filters } = useContext(AppContext);
-
-  // Font: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/delete
-  const removeResidents = (planetsArr) => planetsArr.map((planet) => {
-    delete planet.residents;
-    return planet;
-  });
 
   const handleCompare = (toCompare, filter) => {
     const a = parseFloat(toCompare);
@@ -36,6 +37,7 @@ export default function Table() {
         list = list.filter((planet) => handleCompare(planet[filter.column], filter));
       });
     }
+    if (Object.keys(filters.order).length > 0) list = orderPlanets(list, filters);
     return list;
   };
 
@@ -54,8 +56,12 @@ export default function Table() {
         {
           listOfPlanets.map((planet, index) => (
             <tr key={ `${planet}--${index}` }>
-              { Object.values(planet).map((value, innerIndex) => (
-                <td key={ `${index}--${innerIndex}` }>{value}</td>
+              { Object.values(planet).map((value, i) => (
+                i === 0
+                  ? (
+                    <td key={ `${index}--${i}` } data-testid="planet-name">{value}</td>
+                  )
+                  : <td key={ `${index}--${i}` }>{value}</td>
               )) }
             </tr>
           ))

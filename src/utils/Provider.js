@@ -17,6 +17,10 @@ function Provider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
   const [filtersToUse, setFiltersToUse] = useState(selectsColuns);
   const contextValue = {
