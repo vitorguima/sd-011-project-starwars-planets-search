@@ -2,76 +2,171 @@ import React, { useContext, useState } from 'react';
 import Context from '../APIcontext/Context';
 
 function Selects() {
-  const { filters, setFilters, listColumns, setListColumns } = useContext(Context);
-
-  // Filtro Atual para controle dos inputs do usuário
+  const { filters, setFilters, listColumns, setListColumns,
+    filteredPlanets, setFilteredPlanets, columns, setColumns } = useContext(Context);
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState(0);
-  // Controle de filtros através da coluna
+  const [currOrder, setOrder] = useState('ASC');
+  const [currOption, setCurrOption] = useState('name');
 
   const SendValueToGlobalHooks = () => {
-    // Ver se opção já foi escolhida
-    console.log(column);
-    console.log(listColumns);
-    let soma = 0;
-    for (let index = 0; index <= listColumns.length; index += 1) {
-      if (column === listColumns[index]) {
-        soma += 1;
-      }
-    }
-    if (soma > 0) {
-      console.log('deu ruim');
+    setColumns([...columns, ...columns.splice(columns.indexOf(column), 1)]);
+    setColumns(columns);
+    setColumn(columns[0]);
+    console.log(columns);
+    setListColumns([...listColumns, column]);
+    const currFilter = { column, comparison, value };
+    setFilters({
+      ...filters,
+      filterByNumericValues: [...filters.filterByNumericValues, currFilter],
+    });
+  };
+
+  const handleChangeOption = (target) => {
+    setCurrOption(target.value);
+  };
+
+  const handleInputChange = (target) => {
+    setOrder(target.value);
+  };
+
+  const orderByNumeric = (column, sort) => {
+    if (sort === 'ASC') {
+      (filteredPlanets.sort((a, b) => {
+        const inversion = -1;
+        if (+a[column] > +b[column]) return 1;
+        if (+a[column] < +b[column]) return inversion;
+        return 0;
+      }));
     } else {
-      soma = 0;
-      setListColumns([...listColumns, column]);
-      const currFilter = { column, comparison, value };
-      setFilters({
-        ...filters,
-        filterByNumericValues: [...filters.filterByNumericValues, currFilter],
-      });
+      (filteredPlanets.sort((a, b) => {
+        const inversion = -1;
+        if (+a[column] < +b[column]) return 1;
+        if (+a[column] > +b[column]) return inversion;
+        return 0;
+      }));
+    }
+    setFilteredPlanets(filteredPlanets);
+  };
+
+  const orderByTextual = (column, sort) => {
+    if (sort === 'ASC') {
+      (filteredPlanets.sort((a, b) => {
+        const inversion = -1;
+        if (a[column] > b[column]) return 1;
+        if (a[column] < b[column]) return inversion;
+        return 0;
+      }));
+    } else {
+      (filteredPlanets.sort((a, b) => {
+        const inversion = -1;
+        if (a[column] < b[column]) return 1;
+        if (a[column] > b[column]) return inversion;
+        return 0;
+      }));
+    }
+    setFilteredPlanets(filteredPlanets);
+  };
+
+  const setFilter = () => {
+    setFilters({
+      ...filters,
+      order: { name: currOption, order: currOrder },
+    });
+    if (currOption === 'rotation_period'
+      || currOption === 'diameter'
+      || currOption === 'population'
+      || currOption === 'orbital_period'
+      || currOption === 'surface_water') {
+      orderByNumeric(currOption, currOrder);
+    } else {
+      orderByTextual(currOption, currOrder);
     }
   };
 
   return (
     <div>
-      <label htmlFor="column">
-        <select
-          data-testid="column-filter"
-          name="column"
-          onChange={ ({ target }) => setColumn(target.value) }
+      <div>
+        <label htmlFor="column">
+          <select
+            data-testid="column-filter"
+            name="column"
+            onChange={ ({ target }) => setColumn(target.value) }
+          >
+            {columns.map((column) => (
+              <option
+                key={ column }
+                value={ column }
+              >
+                {column}
+              </option>
+            ))}
+          </select>
+        </label>
+        <label htmlFor="comparison">
+          <select
+            data-testid="comparison-filter"
+            name="comparison"
+            onChange={ ({ target }) => setComparison(target.value) }
+          >
+            <option key="maior que" value="maior que">maior que</option>
+            <option key="menor que" value="menor que">menor que</option>
+            <option key="igual a" value="igual a">igual a</option>
+          </select>
+        </label>
+        <input
+          data-testid="value-filter"
+          name="value"
+          type="number"
+          onChange={ ({ target }) => setValue(target.value) }
+        />
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ SendValueToGlobalHooks }
         >
-          <option key="population" value="population">population</option>
-          <option key="orbital_period" value="orbital_period">orbital_period</option>
-          <option key="diameter" value="diameter">diameter</option>
-          <option key="rotation_period" value="rotation_period">rotation_period</option>
-          <option key="surface_water" value="surface_water">surface_water</option>
-        </select>
-      </label>
-      <label htmlFor="comparison">
-        <select
-          data-testid="comparison-filter"
-          name="comparison"
-          onChange={ ({ target }) => setComparison(target.value) }
+          Filtrar
+        </button>
+      </div>
+      <div>
+        <label htmlFor="order">
+          <select
+            onChange={ ({ target }) => handleChangeOption(target) }
+            data-testid="column-sort"
+            name="order"
+            aria-label="coluna"
+          >
+            {filteredPlanets.length > 0
+              ? Object.keys(filteredPlanets[0]).map((coluna) => (
+                <option key={ coluna } value={ coluna }>{coluna}</option>
+              )) : <option disabled>Empty</option> }
+          </select>
+        </label>
+        <input
+          type="radio"
+          data-testid="column-sort-input-asc"
+          name="order"
+          value="ASC"
+          onChange={ ({ target }) => handleInputChange(target) }
+        />
+        ASCENDENTE
+        <input
+          type="radio"
+          data-testid="column-sort-input-desc"
+          name="order"
+          value="DESC"
+          onChange={ ({ target }) => handleInputChange(target) }
+        />
+        DESCENDENTE
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ setFilter }
         >
-          <option key="maior que" value="maior que">maior que</option>
-          <option key="menor que" value="menor que">menor que</option>
-          <option key="igual a" value="igual a">igual a</option>
-        </select>
-      </label>
-      <input
-        data-testid="value-filter"
-        name="value"
-        type="number"
-        onChange={ ({ target }) => setValue(target.value) }
-      />
-      <button
-        type="button"
-        data-testid="button-filter"
-        onClick={ SendValueToGlobalHooks }
-      >
-        Filtrar
-      </button>
+          Ordenar
+        </button>
+      </div>
     </div>
   );
 }

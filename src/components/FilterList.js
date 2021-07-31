@@ -3,9 +3,10 @@ import Context from '../APIcontext/Context';
 
 function FilterList() {
   const { filters, filters: { filterByNumericValues },
-    setFilters, listColumns, setListColumns } = useContext(Context);
+    setFilters, listColumns, setListColumns, columns, setColumns } = useContext(Context);
 
   const removeFilter = ({ target: { value } }) => {
+    setColumns([...columns, value]);
     setListColumns(listColumns.filter(((column) => column !== value)));
     const newFilter = filterByNumericValues.filter((filter) => filter.column !== value);
     setFilters({
