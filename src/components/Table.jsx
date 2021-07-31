@@ -16,13 +16,13 @@ function Table() {
   // *Filtra através da categoria inserida
   const filterByCategory = useMemo(() => filterPlanets.filter((element) => {
     let results = null;
-    if (comparison === 'menor') {
+    if (comparison === 'menor que') {
       results = Number(element[column]) < Number(value);
     }
-    if (comparison === 'maior') {
+    if (comparison === 'maior que') {
       results = Number(element[column]) > Number(value);
     }
-    if (comparison === 'igual') {
+    if (comparison === 'igual a') {
       results = Number(element[column]) === Number(value);
     }
     return results;
