@@ -10,8 +10,9 @@ export default function Table() {
     handleChange,
     handleDropdownChange,
     addDropdownFilter,
+    removeFilter,
   } = useContext(TableContext);
-  const { name } = userSelection.filters.filterByName;
+  const { filterByName: { name }, filterByNumericValues } = userSelection.filters;
 
   if (isLoading) return <h2>Loading...</h2>;
 
@@ -58,6 +59,24 @@ export default function Table() {
         >
           Filter
         </button>
+        { filterByNumericValues.map(({ column, comparison, value }, key) => (
+          <div style={ { display: 'flex' } } data-testid="filter" key={ key }>
+            <h4>
+              Coluna:
+              <span>{ column }</span>
+            </h4>
+            <h4>
+              Comparação:
+              <span>{ comparison }</span>
+            </h4>
+            <h4>
+              Valor:
+              <span>{ value }</span>
+            </h4>
+
+            <button onClick={ () => removeFilter(key) } type="button">x</button>
+          </div>
+        )) }
       </form>
       <table>
         <TableHeader />

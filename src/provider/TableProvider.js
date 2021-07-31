@@ -58,6 +58,20 @@ export default function TableProvider({ children }) {
     });
   };
 
+  const removeFilter = (key) => {
+    setUserSelection({
+      filters: {
+        ...userSelection.filters,
+        filterByNumericValues: [
+          ...userSelection
+            .filters
+            .filterByNumericValues
+            .filter((_, idx) => key !== idx),
+        ],
+      },
+    });
+  };
+
   useEffect(() => {
     fetchPlanets();
   }, []);
@@ -71,6 +85,7 @@ export default function TableProvider({ children }) {
     handleDropdownChange,
     setDropdown,
     addDropdownFilter,
+    removeFilter,
   };
 
   return (
