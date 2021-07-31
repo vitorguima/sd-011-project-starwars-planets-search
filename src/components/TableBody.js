@@ -18,13 +18,11 @@ export default function TableBody() {
     const nPlanet = Number(planet[column]);
     const nValue = Number(value);
 
-    const filters = {
+    return {
       'maior que': nPlanet > nValue,
       'menor que': nPlanet < nValue,
       'igual a': nPlanet === nValue,
-    };
-
-    return filters[comparison];
+    }[comparison];
   });
 
   return (

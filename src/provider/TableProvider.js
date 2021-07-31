@@ -15,6 +15,7 @@ export default function TableProvider({ children }) {
     filters: {
       filterByName: { name: '' },
       filterByNumericValues: [],
+      order: { column: 'Name', sort: 'ASC' },
     },
   });
 
@@ -30,7 +31,7 @@ export default function TableProvider({ children }) {
     setIsLoading(false);
   };
 
-  const handleChange = ({ target }) => {
+  const handleInputChange = ({ target }) => {
     setUserSelection({
       filters: {
         ...userSelection.filters,
@@ -81,7 +82,7 @@ export default function TableProvider({ children }) {
     isLoading,
     userSelection,
     dropdown,
-    handleChange,
+    handleInputChange,
     handleDropdownChange,
     setDropdown,
     addDropdownFilter,
