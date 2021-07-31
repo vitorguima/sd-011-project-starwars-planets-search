@@ -6,7 +6,15 @@ const InputSearch = () => {
   const { filterName, setFilterName } = useContext(Context);
   const handleFilterSearching = ({ target }) => {
     setHandleSearch(target.value);
-    setFilterName({ ...filterName, filters: { filterByName: { name: target.value } } });
+    setFilterName({ ...filterName,
+      filters:
+      { filterByName: { name: target.value },
+        filterByNumericValues: {
+          column: 'population',
+          comparison: 'maior que',
+          value: '1',
+        },
+      } });
   };
 
   return (
