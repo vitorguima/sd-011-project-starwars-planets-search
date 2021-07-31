@@ -2,20 +2,26 @@ import React, { useContext, useState } from 'react';
 import MyContext from '../context/MyContext';
 
 function SearchBar() {
-  const { filters: { filterByName: { name } },
+  const { filters: { filterByName: { name }, filterByNumericValues },
     setFilterByName, setFilters } = useContext(MyContext);
 
   const [column, setColumn] = useState('');
   const [comparison, setComparison] = useState('');
   const [value, setValue] = useState(0);
+  const optionsColumnInitial = ['population',
+    'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+
+  const optionsColumn = !column ? optionsColumnInitial
+    : optionsColumnInitial.filter((resp) => resp !== column);
 
   const handleFilterButton = () => {
-    const obj = {
+    const stateFilter = {
       column,
       comparison,
       value,
     };
-    setFilters([obj]);
+
+    setFilters([...filterByNumericValues, stateFilter]);
   };
 
   return (
@@ -31,11 +37,9 @@ function SearchBar() {
         value={ column }
         onChange={ ({ target }) => setColumn(target.value) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {optionsColumn.map((option, index) => (
+          <option key={ index } value={ option }>{option}</option>
+        ))}
       </select>
 
       <select
