@@ -10,8 +10,8 @@ const InputSearch = () => {
       filters:
       { filterByName: { name: target.value },
         filterByNumericValues: {
-          column: 'population',
-          comparison: 'maior que',
+          column: '',
+          comparison: '',
           value: '1',
         },
       } });
