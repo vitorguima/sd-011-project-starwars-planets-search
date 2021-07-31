@@ -5,6 +5,16 @@ import Table from '../components/Table';
 
 function Home() {
   const { setPlanets, setFilters, filters } = useContext(AppContext);
+
+  const selectsColuns = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+  const [filtersToUse, setFiltersToUse] = useState(selectsColuns);
+
   const [inputsFilters, setInputsFilters] = useState({
     column: 'population',
     comparison: 'maior que',
@@ -15,6 +25,10 @@ function Home() {
     FetchPlanets().then((data) => setPlanets(data));
   }, [setPlanets]);
 
+  useEffect(() => {
+    setInputsFilters({ ...inputsFilters, column: filtersToUse[0] });
+  }, [filtersToUse]);
+
   const filterByName = ({ target: { name, value } }) => {
     setFilters({
       ...filters,
@@ -23,24 +37,21 @@ function Home() {
   };
 
   const filterByNumericValues = (newFilter) => {
+    if (setFiltersToUse.length > 0) {
+      setFiltersToUse(filtersToUse.filter((filter) => filter !== newFilter.column));
+    }
     setFilters({
       ...filters,
       filterByNumericValues: [...filters.filterByNumericValues, newFilter],
     });
   };
 
-  const handleSetInputs = ({ target: { name, value } }) => setInputsFilters({
-    ...inputsFilters,
-    [name]: value,
-  });
-
-  const selectsColuns = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
+  const handleSetInputs = ({ target: { name, value } }) => {
+    setInputsFilters({
+      ...inputsFilters,
+      [name]: value,
+    });
+  };
 
   const selectsCompare = [
     'maior que',
@@ -62,7 +73,7 @@ function Home() {
         data-testid="column-filter"
         onChange={ handleSetInputs }
       >
-        {selectsColuns.map((value, index) => (
+        {filtersToUse.map((value, index) => (
           <option value={ value } key={ index }>{value}</option>
         ))}
       </select>

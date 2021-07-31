@@ -11,14 +11,18 @@ export default function Table() {
   });
 
   const handleCompare = (toCompare, filter) => {
-    const dictionaryToCompare = {
-      'maior que': (a, b) => a > b,
-      'menor que': (a, b) => a < b,
-      'igual a': (a, b) => a === b,
-    };
-    return dictionaryToCompare[filter.comparison](
-      parseFloat(toCompare), parseFloat(filter.value),
-    );
+    const a = parseFloat(toCompare);
+    const b = parseFloat(filter.value);
+    switch (filter.comparison) {
+    case 'maior que':
+      return a > b;
+    case 'menor que':
+      return a < b;
+    case 'igual a':
+      return a === b;
+    default:
+      return console.log(`${a} ${b}`);
+    }
   };
 
   const filterPlanets = () => {
@@ -28,9 +32,9 @@ export default function Table() {
       list = list.filter((planet) => planet.name.match(regex));
     }
     if (filters.filterByNumericValues.length > 0) {
-      const filter = filters.filterByNumericValues[
-        filters.filterByNumericValues.length - 1];
-      list = list.filter((planet) => handleCompare(planet[filter.column], filter));
+      filters.filterByNumericValues.forEach((filter) => {
+        list = list.filter((planet) => handleCompare(planet[filter.column], filter));
+      });
     }
     return list;
   };
@@ -49,7 +53,7 @@ export default function Table() {
       <tbody>
         {
           listOfPlanets.map((planet, index) => (
-            <tr key={ planet }>
+            <tr key={ `${planet}--${index}` }>
               { Object.values(planet).map((value, innerIndex) => (
                 <td key={ `${index}--${innerIndex}` }>{value}</td>
               )) }
