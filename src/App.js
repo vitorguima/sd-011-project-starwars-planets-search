@@ -10,6 +10,7 @@ function App() {
   return (
     <StarWarsProvider>
       <Filters />
+      <hr />
       <Table />
     </StarWarsProvider>
   );

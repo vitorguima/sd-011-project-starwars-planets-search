@@ -26,7 +26,7 @@ export default fetchApi;
 //   'URL',
 // ];
 
-// export const dropDrawComparation = [
+// export const dropDownComparation = [
 //   'population',
 //   'orbital_period',
 //   'diameter',
