@@ -2,18 +2,16 @@ import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../utils/AppContext';
 import FetchPlanets from '../services';
 import Table from '../components/Table';
+import FiltersInUse from '../components/FiltersInUse';
 
 function Home() {
-  const { setPlanets, setFilters, filters } = useContext(AppContext);
-
-  const selectsColuns = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water',
-  ];
-  const [filtersToUse, setFiltersToUse] = useState(selectsColuns);
+  const {
+    setPlanets,
+    setFilters,
+    filters,
+    filtersToUse,
+    setFiltersToUse,
+  } = useContext(AppContext);
 
   const [inputsFilters, setInputsFilters] = useState({
     column: 'population',
@@ -99,6 +97,7 @@ function Home() {
       >
         Filtrar
       </button>
+      <FiltersInUse />
       <Table />
     </div>
   );
