@@ -20,11 +20,11 @@ function CategoriesFilter() {
   return (
     <div>
       <select
+        data-testid="column-filter"
         onChange={ (e) => {
           handleChangeColumn(e);
           getOnChangeInputs(false);
         } }
-        data-testid="column-filter"
       >
         <option selected value="surface_water">Surface water</option>
         <option value="diameter">Diameter</option>
@@ -33,36 +33,34 @@ function CategoriesFilter() {
         <option value="rotation_period">Rotation period</option>
       </select>
       <select
+        data-testid="comparison-filter"
         onChange={ (e) => {
           handleChangeComparison(e);
           getOnChangeInputs(false);
         } }
-        data-testid="comparison-filter"
       >
         <option selected value="igual">igual a</option>
         <option value="maior">maior que</option>
         <option value="menor">menor que</option>
       </select>
-      <label htmlFor="numberInput">
-        <input
-          type="number"
-          value={ value }
-          onChange={ (e) => {
-            handleChangeValue(e);
-            getOnChangeInputs(false);
-          } }
-          id="numberInput"
-          data-testid="value-filter"
-        />
-      </label>
+      <input
+        data-testid="value-filter"
+        type="number"
+        value={ value }
+        onChange={ (e) => {
+          handleChangeValue(e);
+          getOnChangeInputs(false);
+        } }
+        id="numberInput"
+      />
       <button
+        data-testid="button-filter"
         type="button"
         onClick={ () => {
           getButton(true);
           getOnChangeInputs(true);
         } }
         // onMouseUp={ () => getButton(false) }
-        data-testid="button-filter"
       >
         Enviar
       </button>
