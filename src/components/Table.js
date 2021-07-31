@@ -12,7 +12,7 @@ function Table() {
 
   useEffect(() => {
     getPlanetsData();
-  }, []);
+  }, [getPlanetsData]);
 
   useEffect(() => {}, []);
   if (loadingStatus) return <div>Loading...</div>;

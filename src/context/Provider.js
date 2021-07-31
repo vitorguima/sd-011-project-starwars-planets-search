@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
-// import testData from '../testData';
 
 const Provider = ({ children }) => {
   const [data, setPlanets] = useState([]);
@@ -18,14 +18,12 @@ const Provider = ({ children }) => {
   const getPlanetsData = async () => {
     const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
     const { results } = await fetch(endpoint).then((value) => value.json());
-    // const { results } = testData;
     setPlanets(results);
     setToRender(results);
     delete results[0].residents;
     const renderKeys = Object.keys(results[0]);
     setObjectKeys(renderKeys);
     changeLoadingStatus(false);
-    // console.log(results)
   };
 
   const context = {
@@ -48,6 +46,10 @@ const Provider = ({ children }) => {
       { children }
     </PlanetsContext.Provider>
   );
+};
+
+Provider.propTypes = {
+  children: PropTypes.node.isRequired,
 };
 
 export default Provider;
