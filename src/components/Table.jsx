@@ -4,7 +4,7 @@ import SearchBar from './SearchBar';
 
 function Table() {
   const { data, name, column, comparison, value,
-    button/* , onChangeInputs */ } = useContext(PlanetsContext);
+    button, onChangeInputs } = useContext(PlanetsContext);
 
   // *Filtra através do nome dos planetas
   const filterPlanets = useMemo(() => {
@@ -30,7 +30,7 @@ function Table() {
     // "200000"
     // 6000000
 
-  const condition = button/* && !onChangeInputss */ ? filterByCategory : filterPlanets;
+  const condition = onChangeInputs ? filterByCategory : filterPlanets;
 
   return (
     <div>

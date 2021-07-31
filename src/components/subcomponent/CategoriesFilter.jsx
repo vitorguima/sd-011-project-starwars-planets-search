@@ -3,7 +3,7 @@ import PlanetsContext from '../../Context/PlanetsContext';
 
 function CategoriesFilter() {
   const { getColumn, getComparison,
-    getValue, value, getButton/* , getOnChangeInputs */ } = useContext(PlanetsContext);
+    getValue, value, getButton, getOnChangeInputs } = useContext(PlanetsContext);
 
   function handleChangeColumn(event) {
     getColumn(event.target.value);
@@ -22,7 +22,7 @@ function CategoriesFilter() {
       <select
         onChange={ (e) => {
           handleChangeColumn(e);
-          // getOnChangeInputs(false);
+          getOnChangeInputs(false);
         } }
         data-testid="column-filter"
       >
@@ -35,7 +35,7 @@ function CategoriesFilter() {
       <select
         onChange={ (e) => {
           handleChangeComparison(e);
-          // getOnChangeInputs(false);
+          getOnChangeInputs(false);
         } }
         data-testid="comparison-filter"
       >
@@ -49,7 +49,7 @@ function CategoriesFilter() {
           value={ value }
           onChange={ (e) => {
             handleChangeValue(e);
-            // getOnChangeInputs(false);
+            getOnChangeInputs(false);
           } }
           id="numberInput"
           data-testid="value-filter"
@@ -57,7 +57,10 @@ function CategoriesFilter() {
       </label>
       <button
         type="button"
-        onClick={ () => getButton(true) }
+        onClick={ () => {
+          getButton(true);
+          getOnChangeInputs(true);
+        } }
         // onMouseUp={ () => getButton(false) }
         data-testid="button-filter"
       >
