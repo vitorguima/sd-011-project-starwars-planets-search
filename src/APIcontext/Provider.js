@@ -5,6 +5,7 @@ import Context from './Context';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
@@ -12,9 +13,13 @@ function Provider({ children }) {
     filterByNumericValues: [],
     order: { column: 'name', sort: 'ASC' },
   });
+
   const [listColumns, setListColumns] = useState([]);
   const [columns, setColumns] = useState(['population', 'orbital_period',
     'diameter', 'rotation_period', 'surface_water']);
+
+  const [currOrder, setOrder] = useState('ASC');
+  const [currOption, setCurrOption] = useState('name');
 
   // ComponentDidMount
   useEffect(() => {
@@ -58,6 +63,60 @@ function Provider({ children }) {
     }
   }, [data, filters.filterByNumericValues, filters.filterByName]);
 
+  const orderByNumeric = (column, sort) => {
+    if (sort === 'ASC') {
+      (filteredPlanets.sort((a, b) => {
+        const inversion = -1;
+        if (+a[column] > +b[column]) return 1;
+        if (+a[column] < +b[column]) return inversion;
+        return 0;
+      }));
+    } else {
+      (filteredPlanets.sort((a, b) => {
+        const inversion = -1;
+        if (+a[column] < +b[column]) return 1;
+        if (+a[column] > +b[column]) return inversion;
+        return 0;
+      }));
+    }
+    setFilteredPlanets(filteredPlanets);
+  };
+
+  const orderByTextual = (column, sort) => {
+    if (sort === 'ASC') {
+      (filteredPlanets.sort((a, b) => {
+        const inversion = -1;
+        if (a[column] > b[column]) return 1;
+        if (a[column] < b[column]) return inversion;
+        return 0;
+      }));
+    } else {
+      (filteredPlanets.sort((a, b) => {
+        const inversion = -1;
+        if (a[column] < b[column]) return 1;
+        if (a[column] > b[column]) return inversion;
+        return 0;
+      }));
+    }
+    setFilteredPlanets(filteredPlanets);
+  };
+
+  const setFilter = () => {
+    setFilters({
+      ...filters,
+      order: { name: currOption, order: currOrder },
+    });
+    if (currOption === 'rotation_period'
+      || currOption === 'diameter'
+      || currOption === 'population'
+      || currOption === 'orbital_period'
+      || currOption === 'surface_water') {
+      orderByNumeric(currOption, currOrder);
+    } else {
+      orderByTextual(currOption, currOrder);
+    }
+  };
+
   return (
     <Context.Provider
       value={ {
@@ -70,6 +129,11 @@ function Provider({ children }) {
         setListColumns,
         columns,
         setColumns,
+        setFilter,
+        currOrder,
+        setOrder,
+        currOption,
+        setCurrOption,
       } }
     >
       { children }

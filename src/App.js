@@ -3,14 +3,14 @@ import './App.css';
 import Provider from './APIcontext/Provider';
 import Table from './components/Table';
 import NameInput from './components/NameInput';
-import Selects from './components/Selects';
+import Options from './components/Options';
 import FilterList from './components/FilterList';
 
 function App() {
   return (
     <Provider>
       <NameInput />
-      <Selects />
+      <Options />
       <FilterList />
       <Table />
     </Provider>
