@@ -6,13 +6,22 @@ import getCurrentPlanetsAPI from '../services/planetsApi';
 const PlanetsProvider = ({ children }) => {
   // criando os estados
   const [data, setData] = useState([]);
-  const [filterName, setFiltername] = useState([]);
+  const [titles, setTitles] = useState([]);
+  const [filtered, setFiltered] = useState([]);
+  const [filters, setFilters] = useState(
+    {
+      filterByName: { name: '' },
+      filterByNumericValues: [],
+    },
+  );
 
   // fazendo requisição da api e excluindo titulo: residents
   const fetchPlanets = async () => {
     const { results } = await getCurrentPlanetsAPI();
     results.filter((element) => delete element.residents);
     setData(results);
+    setFiltered(results);
+    setTitles(Object.keys(results[0]));
   };
 
   // lidando com efeitos
@@ -20,12 +29,7 @@ const PlanetsProvider = ({ children }) => {
     fetchPlanets();
   }, []);
 
-  // setando filtro para input name
-  const HandleInput = ({ target: { value } }) => {
-    setFiltername(value);
-  };
-
-  const myContext = { data, filterName, HandleInput };
+  const myContext = { data, titles, filters, setFilters, filtered };
 
   // children - filhos do componente
   return (
