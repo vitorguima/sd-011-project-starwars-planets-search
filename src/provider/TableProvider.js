@@ -5,6 +5,12 @@ import TableContext from '../context/TableContext';
 export default function TableProvider({ children }) {
   const [data, setData] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [dropdown, setDropdown] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '',
+  });
+
   const [userSelection, setUserSelection] = useState({
     filters: {
       filterByName: { name: '' },
@@ -18,7 +24,6 @@ export default function TableProvider({ children }) {
       const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
       const planets = await response.json();
       setData(data.concat(planets.results));
-      setIsLoading(false);
     } catch (err) {
       console.log(err);
     }
@@ -34,6 +39,25 @@ export default function TableProvider({ children }) {
     });
   };
 
+  const handleDropdownChange = ({ target }) => {
+    setDropdown({
+      ...dropdown,
+      [target.id]: target.value,
+    });
+  };
+
+  const addDropdownFilter = () => {
+    setUserSelection({
+      filters: {
+        ...userSelection.filters,
+        filterByNumericValues: [
+          ...userSelection.filters.filterByNumericValues,
+          dropdown,
+        ],
+      },
+    });
+  };
+
   useEffect(() => {
     fetchPlanets();
   }, []);
@@ -42,7 +66,11 @@ export default function TableProvider({ children }) {
     data,
     isLoading,
     userSelection,
+    dropdown,
     handleChange,
+    handleDropdownChange,
+    setDropdown,
+    addDropdownFilter,
   };
 
   return (
