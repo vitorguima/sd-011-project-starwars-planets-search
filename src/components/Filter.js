@@ -10,13 +10,14 @@ function Filter() {
     filterByNumbers,
     setFilterByNumbers,
     handleButtonClick,
+    removeFilter,
 
   } = useContext(SWContext);
 
   const { filterByName: { name } } = filters;
 
   function handleChangeFilterByName(target) {
-    setFilters((state) => ({ ...state, filterByName: { name: target.value } }));
+    setFilters({ ...filters, filterByName: { name: target.value } });
   }
 
   function handleFilterByNumber(target) {
@@ -30,13 +31,13 @@ function Filter() {
   function renderFilter() {
     return (filters.filterByNumericValues
       .map((item) => (
-        <div key={ item.column }>
+        <div data-testid="filter" key={ item.column }>
           <p>
             {item.column}
             {item.comparsion}
             {item.value}
           </p>
-          <button type="button">X</button>
+          <button type="button" onClick={ () => removeFilter(item.column) }>X</button>
         </div>
       )));
   }
@@ -69,10 +70,10 @@ function Filter() {
           {optionFilter.map((item, index) => <option key={ index }>{ item }</option>)}
         </select>
       </label>
-      <label htmlFor="comparsion-filter">
+      <label htmlFor="comparison-filter">
         <select
           name="comparsion"
-          data-testid="comparsion-filter"
+          data-testid="comparison-filter"
           onChange={ ({ target }) => handleFilterByNumber(target) }
           value={ comparsion }
         >

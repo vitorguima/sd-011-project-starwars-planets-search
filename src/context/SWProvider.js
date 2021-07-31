@@ -70,6 +70,13 @@ function SWProvider({ children }) {
       .filter((item) => item !== filterByNumbers.column));
   }
 
+  function removeFilter(column) {
+    setFilters({ ...filters,
+      filterByNumericValues: filters.filterByNumericValues
+        .filter((item) => item.column !== column) });
+    setOpitionfilters([...optionFilter, column]);
+  }
+
   useEffect(() => {
     setFilterByNumbers({
       column: optionFilter[0],
@@ -96,6 +103,7 @@ function SWProvider({ children }) {
     filterByNumbers,
     setFilterByNumbers,
     handleButtonClick,
+    removeFilter,
   };
 
   return (
