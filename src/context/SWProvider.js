@@ -29,11 +29,37 @@ function SWProvider({ children }) {
     filterByNumericValues: [],
   });
 
-  const applyFilter = () => {
+  const applyFilterByOptions = (result) => {
+    let newResult = result;
+    newResult = filters.filterByNumericValues.reduce((acc, curr) => {
+      switch (curr.comparsion) {
+      case 'maior que':
+        return acc
+          .filter((item) => parseInt(item[curr.column], 10) > parseInt(curr.value, 10));
+      case 'menor que':
+        return acc
+          .filter((item) => parseInt(item[curr.column], 10) < parseInt(curr.value, 10));
+      case 'igual a':
+        return acc
+          .filter((item) => parseInt(item[curr.column], 10) === parseInt(curr.value, 10));
+      default:
+        return acc;
+      }
+    }, newResult);
+    return newResult;
+  };
+
+  function apllyFilterByName() {
     const result = data.filter((val) => (
       val.name.includes(filters.filterByName.name)));
-    setFilterPlanets(result);
-  };
+    return result;
+  }
+
+  function applyFilter() {
+    let totalData = apllyFilterByName();
+    totalData = applyFilterByOptions(totalData);
+    setFilterPlanets(totalData);
+  }
 
   function handleButtonClick() {
     setFilters((state) => (

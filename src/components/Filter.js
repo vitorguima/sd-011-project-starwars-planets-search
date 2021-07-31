@@ -12,6 +12,7 @@ function Filter() {
     handleButtonClick,
 
   } = useContext(SWContext);
+
   const { filterByName: { name } } = filters;
 
   function handleChangeFilterByName(target) {
