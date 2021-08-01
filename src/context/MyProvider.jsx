@@ -11,6 +11,7 @@ function MyProvider({ children }) {
     comparison: '',
     value: '',
   });
+  const [usedFilters, setUsedFilters] = useState([]);
   const [addFilter, setAddFilter] = useState(false);
 
   const handleNumericFilter = (target) => {
@@ -31,8 +32,7 @@ function MyProvider({ children }) {
   }, []);
   // array de dependencias para o componente nao renderizar mais de uma vez, sem ele o componente é diparado toda vez que renderiza
 
-  const filteredData = () => {
-    const { column, comparison, value } = filterByNumericValues;
+  const filteredData = ({ column, comparison, value }) => {
     const newData = data.filter((planet) => {
       switch (comparison) {
       case 'maior que':
@@ -48,9 +48,11 @@ function MyProvider({ children }) {
 
   useEffect(() => {
     const filter = () => {
+      const { column } = filterByNumericValues;
       if (addFilter) {
-        const newData = filteredData();
+        const newData = filteredData(filterByNumericValues);
         setFilterData(newData);
+        setUsedFilters([...usedFilters, column]);
         setAddFilter(false);
       }
     };
@@ -61,6 +63,9 @@ function MyProvider({ children }) {
   const contextValue = {
     data,
     filterData,
+    allFilters: [
+      'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+    usedFilters,
     filters: {
       filterByName: {
         name,

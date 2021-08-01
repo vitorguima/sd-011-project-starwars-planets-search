@@ -5,10 +5,15 @@ function Filters() {
   const {
     setNameFilter,
     filters: { filterByName: { name } },
+    allFilters,
+    usedFilters,
     handleNumericFilter,
     setAddFilter,
   } = useContext(MyContext);
   // console.log(setAddFilter);
+
+  const filters = allFilters.filter((filter) => !usedFilters.includes(filter));
+  // O método includes() determina se um conjunto de caracteres pode ser encontrado dentro de outra string, retornando true ou false.
 
   return (
     <form>
@@ -29,11 +34,10 @@ function Filters() {
           name="column"
           onChange={ (e) => handleNumericFilter(e.target) }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {
+            filters.map((currentFilter, index) => (
+              <option key={ index } value={ currentFilter }>{currentFilter}</option>))
+          }
         </select>
       </label>
       <label htmlFor="comparison-filter">
