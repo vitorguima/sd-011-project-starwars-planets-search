@@ -6,7 +6,14 @@ function APIProvider({ children }) {
   // Dados salvos da API de planetas
   const [data, setData] = useState([]);
   // Cria state para salvar só os filtros
-  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [filters, setFilters] = useState(
+    { filterByName: {
+      name: '',
+    },
+    filterByNumericValues: [],
+    },
+  );
+
   // Cria state para salvar planetas filtrados
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
