@@ -1,15 +1,18 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import StarWarsContext from './StarWarsContext';
+import Options from './ComparisonOptions';
 
 function Table() {
   const { infos } = useContext(StarWarsContext);
-  const { planetName, setPlanetName, data, column, setColum, comparison,
-    setComparison, value, setValue, filterToApply, setFilterToApply,
-    FilteredResults, setFilteredResults,
+  const { planetName, setPlanetName, data, setColum,
+    setComparison, setValue, filterToApply,
+    FilteredResults, addedFiltersArray,
+    FilteredOptions, setFilteredOptions, removeFilter, filterBtnOnClickHandler,
   } = infos;
 
-  const filerByName = data.filter((item) => (
-    item.name.toLowerCase().includes(planetName.toLowerCase())));
+  useEffect(() => {
+    setFilteredOptions(Options);
+  }, []);
 
   function getKeys() {
     if (data[0]) {
@@ -18,22 +21,6 @@ function Table() {
         keys.map((item, index) => <th key={ index }>{item}</th>)
       );
     }
-  }
-
-  function columSelectRender() {
-    return (
-      <select
-        id="setColum"
-        data-testid="column-filter"
-        onChange={ (e) => setColum(e.target.value) }
-      >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
-      </select>
-    );
   }
 
   function comparisonSelectRender() {
@@ -50,6 +37,20 @@ function Table() {
     );
   }
 
+  function columSelectRender() {
+    return (
+      <select
+        id="setColum"
+        data-testid="column-filter"
+        onChange={ (e) => setColum(e.target.value) }
+      >
+        {FilteredOptions.map((item, index2) => (
+          <option key={ index2 } value={ item }>{item}</option>
+        ))}
+      </select>
+    );
+  }
+
   function valueFieldInputRender() {
     return (
       <input
@@ -61,26 +62,12 @@ function Table() {
     );
   }
 
-  function filterBtnOnClickHandler() {
-    setFilterToApply(true);
-    if (comparison === 'maior que') {
-      const filteredByFilters = data
-        .filter((item) => Number(item[column]) > Number(value));
-      return setFilteredResults(filteredByFilters);
-    } if (comparison === 'menor que') {
-      const filteredByFilters = data
-        .filter((item) => Number(item[column]) < Number(value));
-      return setFilteredResults(filteredByFilters);
-    } if (comparison === 'igual a') {
-      const filteredByFilters = data
-        .filter((item) => Number(item[column]) === Number(value));
-      return setFilteredResults(filteredByFilters);
-    }
-  }
+  const filerByName = data.filter((item) => (
+    item.name.toLowerCase().includes(planetName.toLowerCase())));
 
   function applyFiltersBtnRender() {
     return (
-      <div>
+      <div id="filterApplyBtn">
         <button
           data-testid="button-filter"
           type="button"
@@ -103,6 +90,24 @@ function Table() {
       { comparisonSelectRender() }
       { valueFieldInputRender() }
       { applyFiltersBtnRender() }
+      {
+        addedFiltersArray.map((item, index) => (
+          <div
+            data-testid="filter"
+            key={ index }
+            style={ { padding: '10px' } }
+          >
+            <span>{item.column}</span>
+            <button
+              type="button"
+              onClick={ () => removeFilter(index) }
+            >
+              X
+            </button>
+
+          </div>
+        ))
+      }
       <table>
         <thead>
           <tr>

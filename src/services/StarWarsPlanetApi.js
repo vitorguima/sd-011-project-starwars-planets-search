@@ -8,7 +8,6 @@ async function fetchPlanetsApi() {
       delete item.residents;
       return item;
     });
-    console.log(deleteResidents);
     return deleteResidents;
   } catch (error) {
     return error.message;
