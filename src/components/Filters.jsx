@@ -5,10 +5,10 @@ function Filters() {
   const {
     setNameFilter,
     filters: { filterByName: { name } },
-    handleFilter,
-    addFilter,
+    handleNumericFilter,
+    setAddFilter,
   } = useContext(MyContext);
-  // console.log(addFilter);
+  // console.log(setAddFilter);
 
   return (
     <form>
@@ -27,7 +27,7 @@ function Filters() {
         <select
           data-testid="column-filter"
           name="column"
-          onChange={ (e) => handleFilter(e.target) }
+          onChange={ (e) => handleNumericFilter(e.target) }
         >
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
@@ -40,8 +40,8 @@ function Filters() {
         Filtar por faixa de valor:
         <select
           data-testid="comparison-filter"
-          onChange={ (e) => handleFilter(e.target) }
           name="comparison"
+          onChange={ (e) => handleNumericFilter(e.target) }
         >
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
@@ -52,14 +52,14 @@ function Filters() {
         <input
           data-testid="value-filter"
           type="number"
-          onChange={ (e) => handleFilter(e.target) }
           name="value"
+          onChange={ (e) => handleNumericFilter(e.target) }
         />
       </label>
       <button
         type="button"
         data-testid="button-filter"
-        onClick={ () => addFilter(true) }
+        onClick={ () => setAddFilter(true) }
       >
         Filtrar
       </button>

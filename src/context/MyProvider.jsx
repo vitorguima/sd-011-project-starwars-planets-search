@@ -6,16 +6,16 @@ function MyProvider({ children }) {
   const [data, setData] = useState([]);
   const [filterData, setFilterData] = useState([]);
   const [name, setNameFilter] = useState('');
-  const [filterColumn, setFilterColumn] = useState({
+  const [filterByNumericValues, setNumericFilter] = useState({
     column: '',
     comparison: '',
     value: '',
   });
   const [addFilter, setAddFilter] = useState(false);
 
-  const handleFilter = (target) => {
-    setFilterColumn({
-      ...filterColumn,
+  const handleNumericFilter = (target) => {
+    setNumericFilter({
+      ...filterByNumericValues,
       [target.name]: target.value,
     });
   };
@@ -32,7 +32,7 @@ function MyProvider({ children }) {
   // array de dependencias para o componente nao renderizar mais de uma vez, sem ele o componente é diparado toda vez que renderiza
 
   const filteredData = () => {
-    const { column, comparison, value } = filterColumn;
+    const { column, comparison, value } = filterByNumericValues;
     const newData = data.filter((planet) => {
       switch (comparison) {
       case 'maior que':
@@ -65,11 +65,11 @@ function MyProvider({ children }) {
       filterByName: {
         name,
       },
-      filterColumn: [{ ...filterColumn }],
+      filterByNumericValues: [{ ...filterByNumericValues }],
     },
     setNameFilter,
-    handleFilter,
-    addFilter,
+    handleNumericFilter,
+    setAddFilter,
   };
 
   return (
