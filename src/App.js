@@ -3,14 +3,32 @@ import PlanetsContext from './contexts/PlanetsContext';
 import './App.css';
 import Table from './components/Table';
 
+// Falta, também, criar um compponente de campo de Buscar, igual MovieLibrary stantful
+
 const STARWAR_PLANETS = 'https://swapi-trybe.herokuapp.com/api/planets/?format=json'; // Teste Local
 
 function App() {
-  const [fetchSuccess, setFetchSuccess] = useState({});
-  const [fetchError, setFetchError] = useState('');
-  const [isFetching, setisFetching] = useState(true);
+  // [ REFERÊNCIAS p/ ESTADOS]:
+  // const { movies, searchText, bookmarkedOnly, selectedGenre } = this.state;
+  const [choosenPlanets, setChoosenPlanets] = useState([]); // Recebe os resultados dos filtros
+  const [fetchSuccess, setFetchSuccess] = useState({}); // Recebe retorno OK da API. Equivale ao movies
+  const [fetchError, setFetchError] = useState(''); // Recebe retorno Erro da API
+  const [isFetching, setisFetching] = useState(true); // Para controlar um componente "Loading" durante query a API
+  const [filters, setFilters] = useState({ // Suas chaves equivalem a campos controlados:
+    filterByName: {
+      name: 'Tatoo',
+      // Outro: algo,
+    },
+    // filterByNumericValues: [
+    //   {
+    //     column: 'population',
+    //     comparison: 'maior que',
+    //     value: '100000',
+    //   },
+    // ],
+  });
 
-  function fetchAPI() {
+  function fetchAPI() { // Implementação da requisição para API.
     const fetchPlanets = () => {
       setisFetching(true); // Implemtar depois no DOM
       return fetch(STARWAR_PLANETS)
@@ -22,10 +40,32 @@ function App() {
       .catch((error) => setFetchError(error));
   }
 
-  useEffect(fetchAPI, []); // Faz o fetch para API
+  useEffect(fetchAPI, []); // Execução da requisição à API.
+
+  function planetsFiltered() { // Modificar
+    let arrayPlanets = fetchSuccess.filter((item) => ( // Adaptar
+      (item.title.includes(searchText))
+      || (item.subtitle.includes(searchText))
+      || (item.storyline.includes(searchText))));
+
+    if (selectedGenre !== '') { // Adaptar
+      arrayPlanets = arrayPlanets.filter((item) => (
+        (item.genre === selectedGenre)));
+    }
+
+    if (bookmarkedOnly) { // Adaptar
+      arrayPlanets = arrayPlanets.filter((item) => (
+        (item.bookmarked === true)));
+    }
+
+    // return arrayPlanets;
+    setChoosenPlanets(arrayPlanets);
+  }
 
   const context = {
-    fetchSuccess,
+    filters,
+    setFilters,
+    choosenPlanets,
     fetchError,
     isFetching,
   };

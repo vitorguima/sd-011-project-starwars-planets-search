@@ -4,6 +4,7 @@ import PlanetsContext from '../contexts/PlanetsContext';
 
 function Table() {
   const { fetchSuccess: { results } } = useContext(PlanetsContext);
+
   return (
     <div>
       <h1>Eu sou o table</h1>
