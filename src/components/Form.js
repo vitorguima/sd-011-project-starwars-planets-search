@@ -15,6 +15,13 @@ export default function Form() {
   } = useContext(TableContext);
   const { filterByName: { name }, filterByNumericValues } = userSelection.filters;
 
+  const availableDropdownColumns = [
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ];
+
+  const filteredDropdown = availableDropdownColumns
+    .filter((col) => !filterByNumericValues.find(({ column }) => col === column));
+
   return (
     <form action="">
       <label htmlFor="planet">
@@ -29,11 +36,11 @@ export default function Form() {
         />
       </label>
       <select onChange={ handleDropdownChange } data-testid="column-filter" id="column">
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {
+          filteredDropdown.map((column, key) => (
+            <option value={ column } key={ key }>{ column }</option>
+          ))
+        }
       </select>
       <select
         onChange={ handleDropdownChange }

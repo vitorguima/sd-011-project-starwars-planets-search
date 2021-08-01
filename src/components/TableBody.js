@@ -36,16 +36,6 @@ export default function TableBody() {
     return 0;
   });
 
-  // console.log(finalFilter.sort((a, b) => {
-  //   if (a[column] < b[column]) {
-  //     return -1;
-  //   }
-  //   if (a[column] > b[column]) {
-  //     return 1;
-  //   }
-  //   return 0;
-  // }));
-
   return (
     <tbody>
       { finalFilter.map((planet, key) => (

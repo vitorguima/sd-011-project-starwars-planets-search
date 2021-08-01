@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import TableContext from '../context/TableContext';
+import fetchPlanets from '../services';
 
 export default function TableProvider({ children }) {
   const [data, setData] = useState([]);
@@ -21,15 +22,10 @@ export default function TableProvider({ children }) {
     },
   });
 
-  const fetchPlanets = async () => {
+  const getPlanets = async () => {
     setIsLoading(true);
-    try {
-      const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
-      const planets = await response.json();
-      setData(data.concat(planets.results));
-    } catch (err) {
-      console.log(err);
-    }
+    const planets = await fetchPlanets();
+    setData(planets);
     setIsLoading(false);
   };
 
@@ -92,7 +88,7 @@ export default function TableProvider({ children }) {
   };
 
   useEffect(() => {
-    fetchPlanets();
+    getPlanets();
   }, []);
 
   const sharedProperties = {
