@@ -2,7 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import PlanetsContext from './PlanetsContext';
 
 export default function Table() {
-  const { filteredData, fetchData, data, setFilteredData } = useContext(PlanetsContext);
+  const { filteredData, fetchData, data,
+    setFilteredData, applyFilters } = useContext(PlanetsContext);
 
   useEffect(() => {
     const getData = async () => {
@@ -13,11 +14,12 @@ export default function Table() {
 
   useEffect(() => {
     setFilteredData(data);
+    applyFilters();
   }, [data]);
 
   const renderTableRows = () => filteredData.map((item) => (
     <tr key={ item.name }>
-      <td>{item.name}</td>
+      <td data-testid="planet-name">{item.name}</td>
       <td>{item.rotation_period}</td>
       <td>{item.orbital_period}</td>
       <td>{item.diameter}</td>

@@ -4,6 +4,8 @@ import PlanetsContext from './PlanetsContext';
 export default function Filters() {
   const {
     filters,
+    setFilters,
+    data,
     setFilterByName,
     applyFilters,
     columnFilterOptions,
@@ -11,6 +13,8 @@ export default function Filters() {
     handleChangeNewFilter,
     setFilterByNumericValues,
     removeFilterByNumericValues,
+    newOrder,
+    setNewOrder,
   } = useContext(PlanetsContext);
 
   const { filterByName: { name }, filterByNumericValues } = filters;
@@ -96,6 +100,46 @@ export default function Filters() {
         onClick={ setFilterByNumericValues }
       >
         Adicionar filtro
+      </button>
+      <select
+        data-testid="column-sort"
+        value={ newOrder.column }
+        onChange={ (event) => setNewOrder({ ...newOrder, column: event.target.value }) }
+      >
+        {data.length
+          ? Object.keys(data[0]).map((item) => <option key={ item }>{ item }</option>)
+          : ''}
+      </select>
+      <label htmlFor="asc">
+        ascendente:
+        <input
+          type="radio"
+          id="asc"
+          name="sort"
+          data-testid="column-sort-input-asc"
+          value="ASC"
+          checked={ newOrder.sort === 'ASC' }
+          onChange={ () => setNewOrder({ ...newOrder, sort: 'ASC' }) }
+        />
+      </label>
+      <label htmlFor="desc">
+        Descendente:
+        <input
+          type="radio"
+          id="desc"
+          name="sort"
+          data-testid="column-sort-input-desc"
+          value="DESC"
+          checked={ newOrder.sort === 'DESC' }
+          onChange={ () => setNewOrder({ ...newOrder, sort: 'DESC' }) }
+        />
+      </label>
+      <button
+        type="button"
+        data-testid="column-sort-button"
+        onClick={ () => setFilters({ ...filters, order: newOrder }) }
+      >
+        Ordenar
       </button>
       {renderFilters()}
     </div>

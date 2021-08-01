@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import PlanetsContext from './PlanetsContext';
-import response from './testData';
 
 const options = [
   'population',
@@ -16,6 +15,7 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [filteredData, setFilteredData] = useState(data);
   const [columnFilterOptions, setColumnFilterOptions] = useState(options);
+  const [newOrder, setNewOrder] = useState({ column: 'name', sort: 'ASC' });
   const [newFilter, setNewFilter] = useState({ column: columnFilterOptions[0],
     comparison: 'maior que',
     value: 0,
@@ -23,11 +23,12 @@ function Provider({ children }) {
   const [filters, setFilters] = useState({
     filterByName: { name: '' },
     filterByNumericValues: [],
+    order: { column: 'name', sort: 'ASC' },
   });
 
   const fetchData = () => fetch(url)
     .then((result) => result.json())
-    .then(() => setData(response.results.map((element) => {
+    .then((response) => setData(response.results.map((element) => {
       delete element.residents;
       return element;
     })))
@@ -80,12 +81,30 @@ function Provider({ children }) {
     return newData;
   };
 
+  const orderData = (newData) => {
+    const { column, sort } = filters.order;
+    const sortedData = newData.sort((a, b) => {
+      if (sort === 'ASC') {
+        return a[column].localeCompare(b[column], undefined, {
+          numeric: true,
+          sensitivity: 'base',
+        });
+      }
+      return b[column].localeCompare(a[column], undefined, {
+        numeric: true,
+        sensitivity: 'base',
+      });
+    });
+    return sortedData;
+  };
+
   const applyFilterByName = () => data.filter(({ name }) => name
     .includes(filters.filterByName.name));
 
   const applyFilters = () => {
     let newData = applyFilterByName();
     newData = applyFilterByNumericValues(newData);
+    newData = orderData(newData);
     setFilteredData(newData);
   };
 
@@ -93,6 +112,7 @@ function Provider({ children }) {
     data,
     fetchData,
     filters,
+    setFilters,
     setFilterByName,
     filteredData,
     setFilteredData,
@@ -102,6 +122,8 @@ function Provider({ children }) {
     handleChangeNewFilter,
     setFilterByNumericValues,
     removeFilterByNumericValues,
+    newOrder,
+    setNewOrder,
   };
 
   return (
