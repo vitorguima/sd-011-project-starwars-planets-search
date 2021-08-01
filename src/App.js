@@ -6,5 +6,5 @@ function App() {
     <span>Hello, App!</span>
   );
 }
-
+// Comentário aleatório para poder commitar e dar push
 export default App;
