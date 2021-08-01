@@ -48,35 +48,41 @@ function App() {
     console.log(filters.filterByName.name);
   }, [filters]);
 
-  // function planetsFiltered() { // Modificar
-  //   let arrayPlanets = fetchSuccess.filter((item) => ( // Adaptar
-  //     (item.title.includes(searchText))
-  //     || (item.subtitle.includes(searchText))
-  //     || (item.storyline.includes(searchText))));
+  function planetsFiltered() { // Muda "arrayPlanets" em tempo real conforme o prenchimento em FiltersForm.js
+    const { results } = fetchSuccess;
+    const { filterByName: { name } } = filters;
 
-  //   if (selectedGenre !== '') { // Adaptar
-  //     arrayPlanets = arrayPlanets.filter((item) => (
-  //       (item.genre === selectedGenre)));
-  //   }
+    const arrayPlanets = results && results.filter( // Mudar para "let" quando add + filtros
+      (planet) => ( // Adaptar
+        (planet.name.includes(name))
+        // || (planet.subtitle.includes(searchText))
+        // || (planet.storyline.includes(searchText))
+      ),
+    );
 
-  //   if (bookmarkedOnly) { // Adaptar
-  //     arrayPlanets = arrayPlanets.filter((item) => (
-  //       (item.bookmarked === true)));
-  //   }
+    // if (selectedGenre !== '') { // Adaptar a outro filtro pedido
+    //   arrayPlanets = arrayPlanets.filter((item) => (
+    //     (item.genre === selectedGenre)));
+    // }
 
-  //   // return arrayPlanets;
-  //   setChoosenPlanets(arrayPlanets);
-  // }
+    // if (bookmarkedOnly) { // // Adaptar a outro filtro pedido
+    //   arrayPlanets = arrayPlanets.filter((item) => (
+    //     (item.bookmarked === true)));
+    // }
 
-  // useEffect(planetsFiltered, [filters]); // Atualiza array de filmes filtrados: choosenPlanets.
+    // return arrayPlanets;
+    setChoosenPlanets(arrayPlanets); // Muda array "choosenPlanets" que passa ser renderizado em Table.js
+  }
+
+  useEffect(planetsFiltered, [filters]); // Atualiza array (choosenPlanets) cada vez que muda algo em "filters"
 
   const context = {
     fetchSuccess, // Provisório, śo pra testar componentes controlados antes de ajeitar o array  'choosenPlanets'
-    filters,
-    setFilters,
-    choosenPlanets,
-    fetchError,
-    isFetching,
+    filters, // Usado e, FiltersForm.js
+    setFilters, // Usado e, FiltersForm.js
+    choosenPlanets, // Esse que deve ser renderizado no em Table.js AGORA.
+    fetchError, // Talvez use (Opcional)
+    isFetching, // Talvez use (Opcional)
   };
 
   return (
