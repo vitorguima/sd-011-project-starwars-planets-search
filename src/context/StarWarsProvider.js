@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import fetchApi from '../services/fetchApi';
-import StarWarsContent from './StarWarsContent';
+import StarWarsContext from './StarWarsContext';
 
 function StarWarsProvider({ children }) {
     const [data, setData] = useState([]);
@@ -16,13 +16,13 @@ function StarWarsProvider({ children }) {
     }, [data]);
 
     return (
-      <StarWarsContent.Provider
+      <StarWarsContext.Provider
         value={ {
           dataTable,
         } }
       >
         { children }
-      </StarWarsContent.Provider>
+      </StarWarsContext.Provider>
     );
   }
   
