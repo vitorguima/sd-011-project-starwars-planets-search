@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import PlanetsContext from './contexts/PlanetsContext';
 import './App.css';
 import Table from './components/Table';
+import FiltersForm from './components/FiltersForm';
 
 // Falta, também, criar um compponente de campo de Buscar, igual MovieLibrary stantful
 
@@ -16,7 +17,7 @@ function App() {
   const [isFetching, setisFetching] = useState(true); // Para controlar um componente "Loading" durante query a API
   const [filters, setFilters] = useState({ // Suas chaves equivalem a campos controlados:
     filterByName: {
-      name: 'Tatoo',
+      name: '',
       // Outro: algo,
     },
     // filterByNumericValues: [
@@ -42,27 +43,35 @@ function App() {
 
   useEffect(fetchAPI, []); // Execução da requisição à API.
 
-  function planetsFiltered() { // Modificar
-    let arrayPlanets = fetchSuccess.filter((item) => ( // Adaptar
-      (item.title.includes(searchText))
-      || (item.subtitle.includes(searchText))
-      || (item.storyline.includes(searchText))));
+  useEffect(() => { // Verificar se estado de App.js muda por componente controlado em FiltersForm.js
+    console.log('Abaixo o contexto provido por App.js:');
+    console.log(filters.filterByName.name);
+  }, [filters]);
 
-    if (selectedGenre !== '') { // Adaptar
-      arrayPlanets = arrayPlanets.filter((item) => (
-        (item.genre === selectedGenre)));
-    }
+  // function planetsFiltered() { // Modificar
+  //   let arrayPlanets = fetchSuccess.filter((item) => ( // Adaptar
+  //     (item.title.includes(searchText))
+  //     || (item.subtitle.includes(searchText))
+  //     || (item.storyline.includes(searchText))));
 
-    if (bookmarkedOnly) { // Adaptar
-      arrayPlanets = arrayPlanets.filter((item) => (
-        (item.bookmarked === true)));
-    }
+  //   if (selectedGenre !== '') { // Adaptar
+  //     arrayPlanets = arrayPlanets.filter((item) => (
+  //       (item.genre === selectedGenre)));
+  //   }
 
-    // return arrayPlanets;
-    setChoosenPlanets(arrayPlanets);
-  }
+  //   if (bookmarkedOnly) { // Adaptar
+  //     arrayPlanets = arrayPlanets.filter((item) => (
+  //       (item.bookmarked === true)));
+  //   }
+
+  //   // return arrayPlanets;
+  //   setChoosenPlanets(arrayPlanets);
+  // }
+
+  // useEffect(planetsFiltered, [filters]); // Atualiza array de filmes filtrados: choosenPlanets.
 
   const context = {
+    fetchSuccess, // Provisório, śo pra testar componentes controlados antes de ajeitar o array  'choosenPlanets'
     filters,
     setFilters,
     choosenPlanets,
@@ -73,6 +82,7 @@ function App() {
   return (
     <div>
       <PlanetsContext.Provider value={ context }>
+        <FiltersForm />
         <Table />
       </PlanetsContext.Provider>
     </div>
