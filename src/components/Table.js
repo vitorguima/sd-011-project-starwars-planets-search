@@ -1,10 +1,34 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import StarContext from '../context/StarContext';
 
 function Table() {
+  const [filterState, setFilterState] = useState({
+    filters: {
+      filterByName: {
+        name: '',
+      },
+    },
+  });
+
   const { data } = useContext(StarContext);
+  const filteredPlanets = data.filter((planet) => planet.name
+    .includes(filterState.filters.filterByName.name));
   return (
     <div>
+      <label htmlFor="filterPlanets">
+        <input
+          id="filterPlanets"
+          data-testid="name-filter"
+          onChange={ (({ target }) => setFilterState({
+            ...filterState,
+            filters: {
+              filterByName: {
+                name: target.value,
+              },
+            },
+          })) }
+        />
+      </label>
       <table>
         <thead>
           <tr>
@@ -24,7 +48,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          { data.map((planet, index) => (
+          { filteredPlanets.map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
