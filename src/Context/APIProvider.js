@@ -5,6 +5,14 @@ import APIContext from './APIContext';
 function APIProvider({ children }) {
   // Dados salvos da API de planetas
   const [data, setData] = useState([]);
+
+  // Filtro da busca por detalhes
+  const [searchFilters, setSearchFilters] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '100000',
+  });
+
   // Cria state para salvar só os filtros
   const [filters, setFilters] = useState(
     { filterByName: {
@@ -18,8 +26,8 @@ function APIProvider({ children }) {
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
   const filterData = ({ target }) => {
-    const { value } = target;
-    const searchPlanetFiltered = data.filter((planet) => planet.name.includes(value));
+    const searchPlanetFiltered = data
+      .filter((planet) => planet.name.includes(target.value));
     setFilteredPlanets(searchPlanetFiltered);
   };
 
@@ -39,6 +47,8 @@ function APIProvider({ children }) {
     filters,
     setFilters,
     filterData,
+    searchFilters,
+    setSearchFilters,
   };
 
   return (

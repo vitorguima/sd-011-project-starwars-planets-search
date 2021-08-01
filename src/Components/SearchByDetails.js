@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import APIContext from '../Context/APIContext';
 
 function SearchByDetails() {
+  const { searchFilters, setSearchFilters } = useContext(APIContext);
+
+  function handleFilters({ target }) {
+    const { name, value } = target;
+    setSearchFilters({
+      ...searchFilters,
+      [name]: value,
+    });
+  }
+  console.log(searchFilters);
+
   return (
     <div>
       <label htmlFor="column-filter">
         <select
           data-testid="column-filter"
-          name="column-filter"
+          name="column"
+          onChange={ handleFilters }
         >
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
@@ -18,7 +31,8 @@ function SearchByDetails() {
       <label htmlFor="comparison-filter">
         <select
           data-testid="comparison-filter"
-          name="comparison-filter"
+          name="comparison"
+          onChange={ handleFilters }
         >
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
@@ -26,7 +40,12 @@ function SearchByDetails() {
         </select>
       </label>
       <label htmlFor="value-filter">
-        <input data-testid="value-filter" type="number" name="value-filter" />
+        <input
+          data-testid="value-filter"
+          type="number"
+          name="value"
+          onChange={ handleFilters }
+        />
       </label>
       <button type="button" data-testid="button-filter">Filtrar</button>
     </div>
