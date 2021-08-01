@@ -107,6 +107,8 @@ function Table() {
     return dataReceived;
   };
 
+  const camposComFiltro = arrayDeFiltrosDeNumeros.map((item) => item.column);
+
   useEffect(getData, []);
   const todosOsDados = data;
 
@@ -117,10 +119,8 @@ function Table() {
   );
 
   const tabelaDeValores = exibeResultado(valoresPraExibir);
-
   return (
     <div name="form">
-
       <label htmlFor="name-filter">
         Busca por nome
         <input
@@ -138,12 +138,23 @@ function Table() {
         ) }
         id="column-filter"
       >
-        <option>column</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="population">population</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {camposComFiltro.includes('population')
+          ? null
+          : <option value="population">population</option>}
+        {camposComFiltro.includes('orbital_period')
+          ? null
+          : <option value="orbital_period">orbital_period</option>}
+
+        {camposComFiltro.includes('diameter')
+          ? null
+          : <option value="diameter">diameter</option>}
+
+        {camposComFiltro.includes('rotation_period')
+          ? null
+          : <option value="rotation_period">rotation_period</option>}
+        {camposComFiltro.includes('surface_water')
+          ? null
+          : <option value="surface_water">surface_water</option>}
       </select>
 
       <select
