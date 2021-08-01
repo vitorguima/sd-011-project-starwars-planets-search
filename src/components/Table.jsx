@@ -24,13 +24,11 @@ function Table() {
             && parseInt(planet[colum], 0) > parseInt(value, 0),
           );
         case 'menor que':
-          console.log('menor');
           return planets.filter(
             (planet) => planet.name.toLowerCase().includes(name)
             && parseInt(planet[colum], 0) < parseInt(value, 0),
           );
         case 'igual a':
-          console.log('igual');
           return planets.filter(
             (planet) => planet.name.toLowerCase().includes(name)
             && parseInt(planet[colum], 0) === parseInt(value, 0),

@@ -6,6 +6,13 @@ function NumericFilters() {
   const [colum, setColumFilter] = useState('population');
   const [comparison, setComparisonFilter] = useState('maior que');
   const [value, setValueFilter] = useState('');
+  const [columOptions, setColumOptions] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   const updateNumericFilters = () => {
     const selectedfilters = {
@@ -16,6 +23,8 @@ function NumericFilters() {
     setFilters(
       { ...filters, filterByNumericValues: [selectedfilters] },
     );
+    const availableColumns = columOptions.filter((item) => item !== colum);
+    setColumOptions([...availableColumns]);
   };
 
   return (
@@ -25,11 +34,9 @@ function NumericFilters() {
         value={ colum }
         onChange={ (e) => setColumFilter(e.target.value) }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {columOptions.map((item, index) => (
+          <option key={ index } value={ item }>{ item }</option>
+        ))}
       </select>
       <select
         data-testid="comparison-filter"
