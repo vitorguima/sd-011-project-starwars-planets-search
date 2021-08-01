@@ -1,11 +1,14 @@
 import React from 'react';
 import './App.css';
 import Table from './components/Table';
+import FilteredProvider from './context/FilteredProvider';
 
 function App() {
   return (
     <main>
-      <Table />
+      <FilteredProvider>
+        <Table />
+      </FilteredProvider>
     </main>
   );
 }
