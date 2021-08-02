@@ -33,7 +33,7 @@ describe('1 - Faça uma requisição para o endpoint `/planets` da API de Star W
   beforeEach(cleanup);
 
   it('Realize uma requisição para a API', async () => {
-    await act(async () => {
+    await act(async ()  => {
       render(<App />);
     });
     expect(global.fetch).toHaveBeenCalled();
