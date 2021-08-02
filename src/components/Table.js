@@ -11,7 +11,18 @@ function Table() {
   });
 
   const { data, filterByNumericValues } = useContext(StarContext);
-  const [state, setState] = useState({ column: '', comparison: '', valor: '' });
+  const [state, setState] = useState({
+    column: '',
+    comparison: '',
+    valor: '',
+    columnsData: [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ],
+  });
 
   const handleChange = ({ name, value }) => {
     setState({
@@ -20,7 +31,23 @@ function Table() {
     });
   };
 
-  const { column, comparison, valor } = state;
+  const removeColumn = (column) => {
+    const { columnsData } = state;
+    const updateColumns = columnsData;
+    updateColumns.forEach((columnName, index) => {
+      if (columnName === column) {
+        updateColumns.splice(index, 1);
+      }
+    });
+
+    setState({
+      ...state,
+      columnsData: updateColumns,
+    });
+  };
+
+  const { column, comparison, valor, columnsData } = state;
+
   const filteredPlanets = data.filter((planet) => planet.name
     .includes(filterState.filters.filterByName.name));
   return (
@@ -44,12 +71,14 @@ function Table() {
         name="column"
         data-testid="column-filter"
       >
-        <option defaultValue="selected">Selecione uma Opção</option>
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { columnsData.map((columnName, index) => (
+          <option
+            key={ index }
+            value={ columnName }
+          >
+            {columnName}
+          </option>
+        ))}
       </select>
       <select
         onChange={ ({ target }) => handleChange(target) }
@@ -70,6 +99,7 @@ function Table() {
       />
       <button
         onClick={ () => {
+          removeColumn(column);
           filterByNumericValues(column, comparison, valor);
         } }
         data-testid="button-filter"
