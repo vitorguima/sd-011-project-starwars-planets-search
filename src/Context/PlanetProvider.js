@@ -5,6 +5,25 @@ import planetContext from './PlanetContext';
 function PlanetProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, loadedPlanets] = useState([]);
+  const [filteredPlanets, filterPlanetList] = useState([]);
+  const INITIAL_STATES = {
+    filterByName: {
+      name: '',
+    },
+  };
+  const [filters, setFilters] = useState(INITIAL_STATES);
+
+  const tableFilter = () => {
+    const { filterByName: { name } } = filters;
+    const regexpNameFilter = new RegExp(name, 'i');
+    const planetsFiltered = data.filter((planet) => regexpNameFilter.test(planet.name));
+    filterPlanetList(planetsFiltered);
+  };
+
+  useEffect(() => {
+    tableFilter();
+  }, [filters, data]);
+
   const apiFetch = async () => {
     setIsLoading(true);
     let planetData = [];
@@ -27,9 +46,22 @@ function PlanetProvider({ children }) {
     start();
   }, []);
 
+  const changeNameFilter = (nameFilter) => {
+    const filterByName = { name: nameFilter };
+    setFilters({
+      ...filters,
+      filterByName,
+    });
+  };
+
   return (
     <planetContext.Provider
-      value={ { isLoading, data } }
+      value={ {
+        isLoading,
+        changeNameFilter,
+        filteredPlanets,
+        filters,
+      } }
     >
       {children}
     </planetContext.Provider>

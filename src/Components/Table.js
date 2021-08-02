@@ -3,7 +3,7 @@ import planetContext from '../Context/PlanetContext';
 import { columnTitles } from '../Context/PlanetProvider';
 
 function Table() {
-  const { isloading, data } = useContext(planetContext);
+  const { isloading, filteredPlanets } = useContext(planetContext);
   return (
     <div>
       {
@@ -18,8 +18,8 @@ function Table() {
                   </th>
                 ))}
               </tr>
-              {data.map((planet, index) => (
-                <tr key={index}>
+              {filteredPlanets.map((planet, index) => (
+                <tr key={ index }>
                   {Object.values(planet).map((planetData, dataIndex) => (
                     <td key={ dataIndex }>
                       {planetData}
