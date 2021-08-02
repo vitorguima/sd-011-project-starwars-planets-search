@@ -22,17 +22,42 @@ export default function FilterPlanets() {
       ] });
   };
 
+  function optionsFilter() {
+    const columnNames = [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ];
+
+    const { filterByNumericValues } = filters;
+
+    if (filterByNumericValues.length === 0) {
+      return (
+        <select id="column-filter" data-testid="column-filter">
+          {columnNames.map((columnName, index) => (
+            <option key={ index }>{ columnName }</option>))}
+        </select>
+      );
+    }
+
+    const { column } = filterByNumericValues[0];
+    const filteredOptions = columnNames.filter((columnName) => (columnName !== column));
+
+    return (
+      <select id="column-filter" data-testid="column-filter">
+        { filteredOptions.map((columnName, index) => (
+          <option key={ index }>{ columnName }</option>)) }
+      </select>
+    );
+  }
+
   return (
     <div>
       <input data-testid="name-filter" type="text" onChange={ handleFilterPlanets } />
 
-      <select id="column-filter" data-testid="column-filter">
-        <option>population</option>
-        <option>orbital_period</option>
-        <option>diameter</option>
-        <option>rotation_period</option>
-        <option>surface_water</option>
-      </select>
+      { optionsFilter() }
 
       <select id="comparison-filter" data-testid="comparison-filter">
         <option>maior que</option>
