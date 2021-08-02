@@ -20,13 +20,13 @@ function App() {
       name: '',
       // Outro: algo,
     },
-    // filterByNumericValues: [
-    //   {
-    //     column: 'population',
-    //     comparison: 'maior que',
-    //     value: '100000',
-    //   },
-    // ],
+    filterByNumericValues: [
+      {
+        column: 'population',
+        comparison: 'maior que',
+        value: '0',
+      },
+    ],
   });
 
   function fetchAPI() { // Implementação da requisição para API.

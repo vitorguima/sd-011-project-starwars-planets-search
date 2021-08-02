@@ -27,7 +27,7 @@ function Table() {
     const planets = (!choosenPlanets ? results : choosenPlanets);
     return (
       <div>
-        <h1>Eu sou o table Non Filtered</h1>
+        <h1>Planetas</h1>
         <table>
           <thead>
             <tr>
