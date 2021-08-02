@@ -5,29 +5,64 @@ import PlanetContext from './PlanetContext';
 
 function PlanetProvider({ children }) {
   const [dataPlanets, setDataPlanets] = useState([]);
-  const [planets, setPlanets] = useState([]);
+  const [filterPlanets, setFilterPlanets] = useState([]);
+  const [filterPreference, setFilterPreference] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '100000',
+  });
+
+  const columnsOptions = [
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ];
+
+  const comparisonOptions = ['maior que', 'menor que', 'igual a'];
 
   const changePlanet = ({ target: { value } }) => {
     const inputPlanetChosen = dataPlanets
       .filter(({ name }) => name.toLowerCase()
         .includes(value.toLowerCase()));
 
-    setPlanets(inputPlanetChosen);
+    setFilterPlanets(inputPlanetChosen);
+  };
+
+  const filterNumbers = ({ columnFilter, comparisonFilter, valueFilter }) => {
+    const filterTable = dataPlanets.filter((el) => {
+      const column = Number(el[columnFilter]);
+      const value = Number(valueFilter);
+      if (comparisonFilter === 'maior que') {
+        return column > value;
+      }
+      if (comparisonFilter === 'menor que') {
+        return column < value;
+      }
+      return column === value;
+    });
+    setFilterPreference(filterTable);
+  };
+
+  const handleClickTable = (e) => {
+    filterNumbers(filterPreference);
+    e.preventDefault();
   };
 
   const contextValues = {
     dataPlanets,
     setDataPlanets,
-    planets,
-    setPlanets,
+    filterPlanets,
+    setFilterPlanets,
+    columnsOptions,
+    comparisonOptions,
     changePlanet,
+    filterPreference,
+    handleClickTable,
   };
   useEffect(() => {
     getPlanets()
       .then(({ results }) => {
         results.forEach((obj) => delete obj.residents);
         setDataPlanets(results);
-        setPlanets(results);
+        setFilterPlanets(results);
       });
   }, []);
 
