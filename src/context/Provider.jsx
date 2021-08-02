@@ -26,12 +26,26 @@ function Provider({ children }) {
     }
   };
 
+  const removeFilter = (columnFilter) => {
+    if (filters.filterByNumericValues.length === 1) {
+      setFilters({ ...filters,
+        filterByNumericValues: [{ column: '', comparison: '', value: null }],
+      });
+    } else {
+      setFilters({ ...filters,
+        filterByNumericValues: [...filters.filterByNumericValues
+          .filter((filter) => filter.column !== columnFilter)],
+      });
+    }
+  };
+
   const contextValue = {
     data,
     error,
     filters,
     filterByName,
     filterByNumericValues,
+    removeFilter,
   };
 
   return (
