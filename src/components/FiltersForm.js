@@ -6,8 +6,8 @@ function FiltersForm() {
   const { filterByName: { name }, filterByNumericValues } = filters;
   const [othersFilter, setOthersFilter] = useState(
     {
-      column: '',
-      comparison: '',
+      column: 'population',
+      comparison: 'igual a',
       value: '',
     },
   );
@@ -72,9 +72,9 @@ function FiltersForm() {
           name="comparison"
           onChange={ (ev) => changeGenericFilter(ev) }
         >
-          <option value="=">igual a</option>
-          <option value=">">maior que</option>
-          <option value="<">menor que</option>
+          <option value="igual a">igual a</option>
+          <option value="maior que">maior que</option>
+          <option value="menor que">menor que</option>
         </select>
         &nbsp;  &nbsp;
         <input
