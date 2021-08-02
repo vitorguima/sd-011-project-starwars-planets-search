@@ -5,12 +5,12 @@ import PlanetsContext from '../contexts/PlanetsContext';
 function Table() {
   const { fetchSuccess: { results }, choosenPlanets } = useContext(PlanetsContext);
 
-  useEffect(() => { // Para teste
-    if (results) {
-      console.log('Abaixo choosenPlanets em Table.js');
-      console.log(choosenPlanets);
-    }
-  });
+  // useEffect(() => { // Para teste
+  //   if (results) {
+  //     console.log('Abaixo choosenPlanets em Table.js');
+  //     console.log(choosenPlanets);
+  //   }
+  // });
 
   function tableHead() {
     return (

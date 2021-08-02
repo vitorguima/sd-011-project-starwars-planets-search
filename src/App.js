@@ -4,8 +4,6 @@ import './App.css';
 import Table from './components/Table';
 import FiltersForm from './components/FiltersForm';
 
-// Falta, também, criar um compponente de campo de Buscar, igual MovieLibrary stantful
-
 const STARWAR_PLANETS = 'https://swapi-trybe.herokuapp.com/api/planets/?format=json'; // Teste Local
 
 function App() {
@@ -20,13 +18,7 @@ function App() {
       name: '',
       // Outro: algo,
     },
-    filterByNumericValues: [
-      {
-        column: 'population',
-        comparison: 'maior que',
-        value: '0',
-      },
-    ],
+    filterByNumericValues: [],
   });
 
   function fetchAPI() { // Implementação da requisição para API.
@@ -44,34 +36,65 @@ function App() {
   useEffect(fetchAPI, []); // Execução da requisição à API.
 
   useEffect(() => { // Verificar se estado de App.js muda por componente controlado em FiltersForm.js
-    console.log('Abaixo o contexto provido por App.js:');
+    console.log('Abaixo o contexto de "filters" provido por App.js:');
+    console.log('filters.filterByName.name');
     console.log(filters.filterByName.name);
+    console.log('filters.filterByNumericValues');
+    console.log(filters.filterByNumericValues);
   }, [filters]);
+
+  // useEffect(() => { // Verifica mudança em filterByName.name
+  //   console.log('filterByName.name em App.js');
+  //   console.log(filters.filterByName.name);
+  // }, [filters.filterByName.name]);
+
+  useEffect(() => {
+    console.log('Planetas Escolhidos (filtrados)');
+    console.log(choosenPlanets);
+  }, [choosenPlanets]);
 
   function planetsFiltered() { // Muda "arrayPlanets" em tempo real conforme o prenchimento em FiltersForm.js
     const { results } = fetchSuccess;
     const { filterByName: { name } } = filters;
 
-    const arrayPlanets = results && results.filter( // Mudar para "let" quando add + filtros
-      (planet) => ( // Adaptar
-        (planet.name.includes(name))
-        // || (planet.subtitle.includes(searchText))
-        // || (planet.storyline.includes(searchText))
-      ),
-    );
+    // let arrayPlanets = results && results.filter( // Mudar para "let" quando add + filtros
+    //   (planet) => ( // Adaptar
+    //     (planet.name.includes(name)) // || (planet.subtitle.includes(searchText)) || (planet.storyline.includes(searchText))
+    //   ),
+    // );
 
-    // if (selectedGenre !== '') { // Adaptar a outro filtro pedido
-    //   arrayPlanets = arrayPlanets.filter((item) => (
-    //     (item.genre === selectedGenre)));
+    // let arrayPlanets2 = [];
+    // if (filters.filterByNumericValues.length > 0) { // Esse OKKKK
+    //   arrayPlanets2 = results && results.filter((planet) => (
+    //     filters.filterByNumericValues.some(({ column, comparison, value }) => (
+    //       // ((planet[column] !== 'unknown') && (comparison === '>') && (parseInt(planet[column], 10) > parseInt(value, 10)))
+    //       (comparison === '<' && parseInt(planet[column], 10) < parseInt(value, 10))
+    //       // (comparison === '=' && parseInt(planet[column], 10) === parseInt(value, 10))
+    //     ))
+    //   ));
+    //   setChoosenPlanets(arrayPlanets2);
+    // } else {
+    //   setChoosenPlanets(arrayPlanets); // Muda array "choosenPlanets" que passa ser renderizado em Table.js
     // }
 
-    // if (bookmarkedOnly) { // // Adaptar a outro filtro pedido
-    //   arrayPlanets = arrayPlanets.filter((item) => (
-    //     (item.bookmarked === true)));
-    // }
-
-    // return arrayPlanets;
-    setChoosenPlanets(arrayPlanets); // Muda array "choosenPlanets" que passa ser renderizado em Table.js
+    let arrayPlanets2 = results;
+    if (filters.filterByNumericValues.length > 0) { // Esse OKKKK
+      filters.filterByNumericValues.forEach(({ column, comparison, value }) => {
+        switch (comparison) {
+        case '=':
+          // arrayPlanets2 = arrayPlanets2.filter((planet) => parseInt(planet[column], 10) === parseInt(value, 10));
+          // ((planet[column] !== 'unknown') && (comparison === '>') && (parseInt(planet[column], 10) > parseInt(value, 10)))
+          // (comparison === '=' && parseInt(planet[column], 10) === parseInt(value, 10))
+          break;
+        default:
+          break;
+        }
+      });
+      setChoosenPlanets(arrayPlanets2);
+    }
+    // else {
+    //     setChoosenPlanets(arrayPlanets); // Muda array "choosenPlanets" que passa ser renderizado em Table.js
+    //   }
   }
 
   useEffect(planetsFiltered, [filters]); // Atualiza array (choosenPlanets) cada vez que muda algo em "filters"

@@ -3,12 +3,12 @@ import PlanetsContext from '../contexts/PlanetsContext';
 
 function FiltersForm() {
   const { filters, setFilters } = useContext(PlanetsContext);
-  const { filterByName: { name } } = filters;
+  const { filterByName: { name }, filterByNumericValues } = filters;
   const [othersFilter, setOthersFilter] = useState(
     {
-      column: 'population',
-      comparison: 'maior que',
-      value: 0,
+      column: '',
+      comparison: '',
+      value: '',
     },
   );
 
@@ -39,11 +39,10 @@ function FiltersForm() {
 
   // <<< END "By Others"
 
-  function clickNumberFilter({ target }) { // Controla o campos de <FiltersForm /> com App.js via Contexto
-    const { value } = target;
+  function clickNumberFilter() { // Controla o campos de <FiltersForm /> com App.js via Contexto
     setFilters({
       ...filters,
-      filterByName: { name: value },
+      filterByNumericValues: [...filterByNumericValues, othersFilter],
     });
   }
 
@@ -60,11 +59,11 @@ function FiltersForm() {
           onChange={ (ev) => changeGenericFilter(ev) }
         >
 
-          <option value="population">Population</option>
-          <option value="orbital_period">Orbital Period</option>
-          <option value="diameter">Diameter</option>
-          <option value="rotation_period">Rotation Period</option>
-          <option value="surface_water">Surface Water</option>
+          <option value="population">population</option>
+          <option value="orbital_period">orbital_period</option>
+          <option value="diameter">diameter</option>
+          <option value="rotation_period">rotation_period</option>
+          <option value="surface_water">surface_water</option>
         </select>
         &nbsp;  &nbsp;
         <select
@@ -73,9 +72,9 @@ function FiltersForm() {
           name="comparison"
           onChange={ (ev) => changeGenericFilter(ev) }
         >
-          <option value="maior que">maior que</option>
-          <option value="menor que">menor que</option>
-          <option value="igual a">igual a</option>
+          <option value="=">igual a</option>
+          <option value=">">maior que</option>
+          <option value="<">menor que</option>
         </select>
         &nbsp;  &nbsp;
         <input
