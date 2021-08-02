@@ -24,7 +24,7 @@ function Table() {
     case 'maior que':
       return planet[column] > value;
     case 'igual a':
-      return planet[column] === value;
+      return Number(planet[column]) === value;
     case 'menor que':
       return planet[column] < value;
     default:
@@ -52,27 +52,21 @@ function Table() {
       </thead>
 
       <tbody>
-        { handleFilters.map(({ name,
-          rotation_period: rotationPeriod,
-          orbital_period: orbitalPeriod,
-          diameter,
-          climate, gravity, terrain, population,
-          surface_water: surfaceWater, films,
-          created, edited, url }, index) => (
+        { handleFilters.map((planet, index) => (
           <tr key={ index }>
-            <td>{name}</td>
-            <td>{rotationPeriod}</td>
-            <td>{orbitalPeriod}</td>
-            <td>{diameter}</td>
-            <td>{climate}</td>
-            <td>{gravity}</td>
-            <td>{terrain}</td>
-            <td>{surfaceWater}</td>
-            <td>{population}</td>
-            <td>{films}</td>
-            <td>{created}</td>
-            <td>{edited}</td>
-            <td>{url}</td>
+            <td>{planet.name}</td>
+            <td>{planet.rotation_period}</td>
+            <td>{planet.orbital_period}</td>
+            <td>{planet.diameter}</td>
+            <td>{planet.climate}</td>
+            <td>{planet.gravity}</td>
+            <td>{planet.terrain}</td>
+            <td>{planet.surface_water}</td>
+            <td>{planet.population}</td>
+            <td>{planet.films}</td>
+            <td>{planet.created}</td>
+            <td>{planet.edited}</td>
+            <td>{planet.url}</td>
           </tr>
         ))}
       </tbody>

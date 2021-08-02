@@ -5,11 +5,11 @@ function SearchBar() {
   const { filters: { filterByName: { name }, filterByNumericValues },
     setFilterByName, setFilters } = useContext(MyContext);
 
-  const [column, setColumn] = useState('');
-  const [comparison, setComparison] = useState('');
-  const [value, setValue] = useState(0);
   const optionsColumnInitial = ['population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+  const [column, setColumn] = useState(optionsColumnInitial);
+  const [comparison, setComparison] = useState('');
+  const [value, setValue] = useState(0);
 
   const optionsColumn = !column ? optionsColumnInitial
     : optionsColumnInitial.filter((resp) => resp !== column);
@@ -20,7 +20,6 @@ function SearchBar() {
       comparison,
       value,
     };
-
     setFilters([...filterByNumericValues, stateFilter]);
   };
 
@@ -34,7 +33,6 @@ function SearchBar() {
       />
       <select
         data-testid="column-filter"
-        value={ column }
         onChange={ ({ target }) => setColumn(target.value) }
       >
         {optionsColumn.map((option, index) => (
@@ -44,7 +42,6 @@ function SearchBar() {
 
       <select
         data-testid="comparison-filter"
-        value={ comparison }
         onChange={ ({ target }) => setComparison(target.value) }
       >
         <option value="maior que">maior que</option>
@@ -62,7 +59,9 @@ function SearchBar() {
         type="button"
         data-testid="button-filter"
         onClick={ handleFilterButton }
-      />
+      >
+        Filtrar
+      </button>
     </>
   );
 }

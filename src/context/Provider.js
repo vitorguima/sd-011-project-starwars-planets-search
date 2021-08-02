@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import MyContext from './MyContext';
 
@@ -37,3 +38,10 @@ function Provider({ children }) {
 }
 
 export default Provider;
+
+Provider.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+};
