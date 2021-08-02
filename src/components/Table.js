@@ -8,11 +8,12 @@ function Table() {
     setComparison, setValue, filterToApply,
     FilteredResults, addedFiltersArray,
     FilteredOptions, setFilteredOptions, removeFilter, filterBtnOnClickHandler,
+    order, setOder, ApplyOrderBtnClickHandler,
   } = infos;
 
   useEffect(() => {
     setFilteredOptions(Options);
-  }, []);
+  }, [setFilteredOptions]);
 
   function getKeys() {
     if (data[0]) {
@@ -39,15 +40,18 @@ function Table() {
 
   function columSelectRender() {
     return (
-      <select
-        id="setColum"
-        data-testid="column-filter"
-        onChange={ (e) => setColum(e.target.value) }
-      >
-        {FilteredOptions.map((item, index2) => (
-          <option key={ index2 } value={ item }>{item}</option>
-        ))}
-      </select>
+      <label htmlFor="setColum">
+        Filtrar:
+        <select
+          id="setColum"
+          data-testid="column-filter"
+          onChange={ (e) => setColum(e.target.value) }
+        >
+          {FilteredOptions.map((item, index2) => (
+            <option key={ index2 } value={ item }>{item}</option>
+          ))}
+        </select>
+      </label>
     );
   }
 
@@ -67,15 +71,87 @@ function Table() {
 
   function applyFiltersBtnRender() {
     return (
-      <div id="filterApplyBtn">
-        <button
-          data-testid="button-filter"
-          type="button"
-          onClick={ filterBtnOnClickHandler }
+      <button
+        data-testid="button-filter"
+        type="button"
+        onClick={ filterBtnOnClickHandler }
+      >
+        Aplicar Filtros
+      </button>
+    );
+  }
+
+  function orderSelectorRender() {
+    return (
+      <label htmlFor="setColumSort">
+        Ordenar:
+        <select
+          value={ order.column }
+          id="setColumSort"
+          data-testid="column-sort"
+          onChange={ (e) => setOder(
+            {
+              column: e.target.value,
+              sort: order.sort,
+            },
+          ) }
         >
-          Add Filtros
-        </button>
-      </div>
+          {Options.map((item, index2) => (
+            <option key={ index2 } value={ item }>{item}</option>
+          ))}
+        </select>
+      </label>
+    );
+  }
+
+  function radioClickRender(e) {
+    setOder(
+      {
+        column: order.column,
+        sort: e.target.value,
+      },
+    );
+  }
+
+  function inputRadioOrderOptionsRender() {
+    return (
+      <>
+        <label htmlFor="radioASC">
+          Crescente:
+          <input
+            id="radioASC"
+            name="RadioOrder"
+            type="radio"
+            data-testid="column-sort-input-asc"
+            value="ASC"
+            onClick={ radioClickRender }
+            defaultChecked
+          />
+        </label>
+        <label htmlFor="radioDESC">
+          Decrescente:
+          <input
+            id="radioDESC"
+            name="RadioOrder"
+            type="radio"
+            data-testid="column-sort-input-desc"
+            value="DESC"
+            onClick={ radioClickRender }
+          />
+        </label>
+      </>
+    );
+  }
+
+  function applyOrderBtnRender() {
+    return (
+      <button
+        data-testid="column-sort-button"
+        type="button"
+        onClick={ ApplyOrderBtnClickHandler }
+      >
+        Aplicar Ordenação
+      </button>
     );
   }
 
@@ -90,6 +166,10 @@ function Table() {
       { comparisonSelectRender() }
       { valueFieldInputRender() }
       { applyFiltersBtnRender() }
+      { orderSelectorRender() }
+      { inputRadioOrderOptionsRender() }
+      { applyOrderBtnRender() }
+
       {
         addedFiltersArray.map((item, index) => (
           <div
@@ -119,12 +199,16 @@ function Table() {
             !filterToApply ? filerByName.map((item, index) => (
               <tr key={ index }>
                 {Object.values(item).map((tdName, index2) => (
-                  <td key={ index2 }>{tdName}</td>))}
+                  index2 === 0 ? (
+                    <td data-testid="planet-name" key={ tdName }>{tdName}</td>)
+                    : <td key={ index2 }>{tdName}</td>))}
               </tr>)) : (
               FilteredResults.map((item, index) => (
                 <tr key={ index }>
                   {Object.values(item).map((tdName, index2) => (
-                    <td key={ index2 }>{tdName}</td>))}
+                    index2 === 0 ? (
+                      <td data-testid="planet-name" key={ tdName }>{tdName}</td>)
+                      : <td key={ tdName }>{tdName}</td>))}
                 </tr>)))
           }
         </tbody>

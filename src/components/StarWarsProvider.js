@@ -16,6 +16,13 @@ function StarWarsProvider(props) {
   const [FilteredOptions, setFilteredOptions] = useState([]);
   const [addOptionColum, setAddOptionColum] = useState([]);
   const [addedFiltersArray, setAddedFiltersArray] = useState([]);
+  const [order, setOder] = useState(
+    {
+      column: 'population',
+      sort: 'ASC',
+    },
+  );
+  const [OrderFilterValue, setOrderFilter] = useState(null);
 
   let newPosition = null;
 
@@ -61,7 +68,6 @@ function StarWarsProvider(props) {
   function addFilterAtClickRender(filteredByFilters) {
     const filterFormat = {
       column,
-      value,
       filterResults: filteredByFilters,
     };
 
@@ -98,6 +104,35 @@ function StarWarsProvider(props) {
     }
   }
 
+  function ApplyOrderBtnClickHandler() {
+    const ASCinput = document.querySelector('#radioASC');
+    const Descinput = document.querySelector('#radioDESC');
+    if (!filterToApply && order.sort === 'ASC') {
+      ASCinput.value = 'ASC';
+      setOder(
+        {
+          column: order.column,
+          sort: 'ASC',
+        },
+      );
+      setOrderFilter('ASC');
+    }
+    if (!filterToApply && order.sort === 'DESC') {
+      Descinput.value = 'ASC';
+      setOder(
+        {
+          column: order.column,
+          sort: 'DESC',
+        },
+      );
+      setOrderFilter('DESC');
+    }
+  }
+
+  // useEffect(() => {
+  //   ApplyOrderBtnClickHandler();
+  // }, [data]);
+
   const infos = {
     data,
     setData,
@@ -123,15 +158,50 @@ function StarWarsProvider(props) {
     removeFilter: (index) => removeFilter(index),
     setAddedFiltersArray,
     addedFiltersArray,
+    order,
+    setOder,
+    ApplyOrderBtnClickHandler,
+    OrderFilterValue,
+    setOrderFilter,
   };
 
   useEffect(() => {
     const getData = async () => {
       const Data = await fetchPlanetsApi();
-      return setData(Data);
+      const OrderedByName = Data.sort((a, b) => a.name.localeCompare(b.name));
+      setData(OrderedByName);
     };
     getData();
-  }, [planetName]);
+  }, []);
+
+  useEffect(() => {
+    const ASCinput = document.querySelector('#radioASC');
+    const Descinput = document.querySelector('#radioDESC');
+    if (OrderFilterValue === 'ASC') {
+      ASCinput.value = 'ASC';
+      setOder(
+        {
+          column: order.column,
+          sort: 'ASC',
+        },
+      );
+      const orderedAsc = data
+        .sort((a, b) => Number(a[order.column]) - Number(b[order.column]));
+      setData(orderedAsc);
+    }
+    if (OrderFilterValue === 'DESC') {
+      Descinput.value = 'ASC';
+      setOder(
+        {
+          column: order.column,
+          sort: 'DESC',
+        },
+      );
+      const orderedDESC = data
+        .sort((a, b) => Number(b[order.column]) - Number(a[order.column]));
+      setData(orderedDESC);
+    }
+  }, [OrderFilterValue, order.column, data]);
 
   const { children } = props;
   return (
