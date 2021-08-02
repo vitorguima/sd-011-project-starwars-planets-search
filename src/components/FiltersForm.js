@@ -1,9 +1,16 @@
-import React, { useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import PlanetsContext from '../contexts/PlanetsContext';
 
 function FiltersForm() {
   const { filters, setFilters } = useContext(PlanetsContext);
   const { filterByName: { name } } = filters;
+  const [othersFilter, setOthersFilter] = useState(
+    {
+      column: 'population',
+      comparison: 'maior que',
+      value: 0,
+    },
+  );
 
   function changeNameFilter({ target }) { // Controla o campos de <FiltersForm /> com App.js via Contexto
     const { value } = target;
@@ -13,29 +20,24 @@ function FiltersForm() {
     });
   }
 
-  function changeColumnFilter({ target }) { // Controla o campos de <FiltersForm /> com App.js via Contexto
-    const { value } = target;
-    setFilters({
-      ...filters,
-      filterByName: { name: value },
+  // "userEffect" ABAIXO pra testar componentes controlados
+
+  useEffect(() => {
+    console.log('Abaixo o componente controlado do filter');
+    console.log(othersFilter);
+  }, [othersFilter]);
+
+  // START "By Others" >>>
+
+  function changeGenericFilter({ target }) { // Controla o campos de <FiltersForm /> com App.js via Contexto
+    const { value, name: targetName } = target;
+    setOthersFilter({
+      ...othersFilter,
+      [targetName]: value,
     });
   }
 
-  function changeComparisonFilter({ target }) { // Controla o campos de <FiltersForm /> com App.js via Contexto
-    const { value } = target;
-    setFilters({
-      ...filters,
-      filterByName: { name: value },
-    });
-  }
-
-  function changeValueFilter({ target }) { // Controla o campos de <FiltersForm /> com App.js via Contexto
-    const { value } = target;
-    setFilters({
-      ...filters,
-      filterByName: { name: value },
-    });
-  }
+  // <<< END "By Others"
 
   function clickNumberFilter({ target }) { // Controla o campos de <FiltersForm /> com App.js via Contexto
     const { value } = target;
@@ -45,7 +47,7 @@ function FiltersForm() {
     });
   }
 
-  function renderNumberFilter() {
+  function renderOthersFilter() {
     return (
       <fieldset>
         <legend>
@@ -54,9 +56,8 @@ function FiltersForm() {
         <select
           id="columnFilter"
           data-testid="column-filter"
-          name="columns"
-          // value={ selectedGenre }
-          onChange={ (ev) => changeColumnFilter(ev) }
+          name="column"
+          onChange={ (ev) => changeGenericFilter(ev) }
         >
 
           <option value="population">Population</option>
@@ -70,8 +71,7 @@ function FiltersForm() {
           id="comparisonFilter"
           data-testid="comparison-filter"
           name="comparison"
-          // value={ selectedGenre }
-          onChange={ (ev) => changeComparisonFilter(ev) }
+          onChange={ (ev) => changeGenericFilter(ev) }
         >
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
@@ -84,8 +84,7 @@ function FiltersForm() {
           data-testid="value-filter"
           name="value"
           id="valueFilter"
-          value={ name }
-          onChange={ (ev) => changeValueFilter(ev) }
+          onChange={ (ev) => changeGenericFilter(ev) }
         />
       &nbsp;  &nbsp;
         <button
@@ -97,12 +96,6 @@ function FiltersForm() {
         </button>
       </fieldset>
     );
-
-    // {
-    //   column: 'population',
-    //   comparison: 'maior que',
-    //   value: '100000',
-    // },
   }
 
   return (
@@ -122,7 +115,7 @@ function FiltersForm() {
             />
           </label>
           &nbsp;  &nbsp;  &nbsp; &nbsp;  &nbsp;  &nbsp;
-          {renderNumberFilter()}
+          {renderOthersFilter()}
         </fieldset>
       </form>
       <br />
