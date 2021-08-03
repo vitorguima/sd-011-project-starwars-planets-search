@@ -10,5 +10,6 @@ export default async function fetchPlanets() {
   const respWithOutResidents = respResults.filter(
     (planet) => ((planet.residents) ? delete planet.residents : planet),
   );
+  console.log(respWithOutResidents);
   return respWithOutResidents;
 }
