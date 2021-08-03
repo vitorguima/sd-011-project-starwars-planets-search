@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { Fragment, useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 import TableHeader from './TableHeader';
 
@@ -13,8 +13,9 @@ function Table() {
       <tbody>
         {
           data.map((planet, index) => {
+            let planetRow = <Fragment key={ index } />;
             if (planet.name.includes(partOfName)) {
-              return (
+              planetRow = (
                 <tr key={ index }>
                   <td>{ planet.name }</td>
                   <td>{ planet.rotation_period }</td>
@@ -32,6 +33,7 @@ function Table() {
                 </tr>
               );
             }
+            return planetRow;
           })
         }
       </tbody>
