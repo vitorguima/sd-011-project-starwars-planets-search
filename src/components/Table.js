@@ -18,7 +18,8 @@ export default function Table() {
           <th>population</th>
           <th>rotation_period</th>
           <th>surgace_water</th>
-          <th>______________</th>
+          <th>terrain</th>
+          <th>url</th>
         </tr>
       </thead>
       {data.map((planet, index) => (
@@ -26,6 +27,7 @@ export default function Table() {
           <tr key={ index }>
             <td>{ planet.climate }</td>
             <td>{ planet.created }</td>
+            <td>{ planet.diameter }</td>
             <td>{ planet.edited }</td>
             <td>{ planet.films.map((film, i) => (<p key={ i }>{ film }</p>))}</td>
             <td>{ planet.gravity }</td>
@@ -35,6 +37,7 @@ export default function Table() {
             <td>{ planet.rotation_period }</td>
             <td>{ planet.surgace_water }</td>
             <td>{ planet.terrain }</td>
+            <td>{ planet.url }</td>
           </tr>
         </tbody>
       ))}
