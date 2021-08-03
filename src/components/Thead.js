@@ -3,7 +3,7 @@ import React from 'react';
 function Thead() {
   return (
     <thead>
-      <tr>
+      <tr className="linha">
         <th>Name</th>
         <th>Rotation Period</th>
         <th>Orbital Period</th>
@@ -14,9 +14,9 @@ function Thead() {
         <th>Surface Water</th>
         <th>Population</th>
         <th>Films</th>
-        <th>Created</th>
+        {/* <th>Created</th>
         <th>Edited</th>
-        <th>URL</th>
+        <th>URL</th> */}
       </tr>
     </thead>
   );

@@ -6,7 +6,7 @@ import FilmLi from './FilmLi';
 function FilmsUl({ urls }) {
   return (
     <ul>
-      {urls.map((url, i) => (<FilmLi key={ i } url={ url } />))}
+      {urls.map((url, i) => i < 2 && (<FilmLi key={ i } url={ url } />))}
     </ul>
   );
 }

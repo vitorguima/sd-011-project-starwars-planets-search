@@ -16,20 +16,23 @@ function FilterList() {
   };
 
   return (
-    <div>
-      Filtros
-      {filterByNumericValues
-        .map(({ column }, i) => (
-          <div data-testid="filter" key={ i }>
-            { column }
-            <button
-              type="button"
-              onClick={ () => removeFilter(column) }
-            >
-              X
-            </button>
-          </div>
-        ))}
+    <div className="div-filter-list">
+      Filtros:
+      <div className="filter-list">
+        {filterByNumericValues
+          .map(({ column }, i) => (
+            <div data-testid="filter" key={ i }>
+              {/* { column } */}
+              <button
+                className="buttons-filters-list"
+                type="button"
+                onClick={ () => removeFilter(column) }
+              >
+                { column }
+              </button>
+            </div>
+          ))}
+      </div>
     </div>
   );
 }

@@ -98,9 +98,9 @@ function Tbody() {
           <td>{planet.surface_water}</td>
           <td>{planet.population}</td>
           <td><FilmsUl urls={ planet.films } /></td>
-          <td>{planet.created}</td>
+          {/* <td>{planet.created}</td>
           <td>{planet.edited}</td>
-          <td>{planet.url}</td>
+          <td>{planet.url}</td> */}
         </tr>
       ))}
     </tbody>
