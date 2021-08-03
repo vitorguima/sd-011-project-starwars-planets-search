@@ -4,6 +4,12 @@ import PlanetContext from './PlanetContext';
 
 function PlanetProvider({ children }) {
   const [data, setData] = useState([]);
+  const [filters, setFilter] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
+  const [filterPlanets, SetFilterPlanets] = useState([]);
 
   useEffect(() => {
     const getData = async () => {
@@ -14,8 +20,19 @@ function PlanetProvider({ children }) {
     getData();
   }, []);
 
+  function FilterName() {
+    const namePlanets = data.filter(
+      (planet) => planet.name.toLowerCase().includes(filterByName.name),
+    );
+    SetFilterPlanets(namePlanets);
+  }
+
+  useEffect(FilterName, [filters]);
+
   const myPlanets = {
     data,
+    filterPlanets,
+    setFilter,
   };
 
   return (

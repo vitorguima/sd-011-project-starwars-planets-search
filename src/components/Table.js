@@ -3,8 +3,9 @@ import PlanetContext from '../context/PlanetContext';
 
 function Table() {
   const { data } = useContext(PlanetContext);
+  console.log(data);
   return (
-    <table>
+    <table border={ 1 }>
       <thead>
         <tr>
           <th>Name</th>
