@@ -1,32 +1,22 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import Table from './components/Table';
+import NewProvider from './context/MyContext';
 import './App.css';
-// import Table from './components/Table';
+
 // import MyContext from './context/MyContext';
 
-function App() {
-  const [planets, setPlanets] = useState([]);
+//     ✕ Preencha a tabela com os dados retornados (4546ms)
+//     ✕ Verifique se a tabela tem 13 colunas (4514ms)
+//     ✕ Verifique se a tabela tem uma linha para cada planeta retornado (4515ms)
 
-  // didMount
-  useEffect(() => {
-    const getPlanets = async () => {
-      const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
-      const { results } = await fetch(endpoint)
-        .then((data) => data.json());
-      setPlanets(results);
-    };
-    getPlanets();
-  }, []);
+function App() {
   return (
     <div>
-      <ul>
-        {
-          planets.map(({ name }) => <li key={ name }>{ name }</li>)
-        }
-      </ul>
+      <NewProvider>
+        <Table />
+      </NewProvider>
     </div>
   );
 }
 
 export default App;
-
-// apenas um comentário
