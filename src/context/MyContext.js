@@ -22,7 +22,7 @@ function NewProvider({ children }) {
     filter,
     setFilter,
     planets,
-  }
+  };
 
   return (
     <MyContext.Provider value={ objects }>

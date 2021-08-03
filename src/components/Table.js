@@ -1,8 +1,9 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { MyContext } from '../context/MyContext';
 
 function Table() {
   const { planets } = useContext(MyContext);
+  const [fiterPlanets, setFilterPlanets] = useState();
   return (
     <table>
 
