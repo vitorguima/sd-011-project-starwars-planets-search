@@ -20,6 +20,7 @@ function PlanetProvider({ children }) {
     getData();
   }, []);
 
+  // função que faz o filtro do nome
   function FilterName() {
     const namePlanets = data.filter(
       (planet) => planet.name.toLowerCase().includes(filters.filterByName.name),

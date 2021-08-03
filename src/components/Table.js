@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
+import FilterNumber from './FilterNumber';
 
 function Table() {
   const { data, filterPlanets, setFilter, filters } = useContext(PlanetContext);
@@ -20,6 +21,7 @@ function Table() {
     <main>
       <form>
         <label htmlFor="inputName">
+          Digite o Nome de um Planeta
           <input
             id="inputName"
             data-testid="name-filter"
@@ -27,6 +29,7 @@ function Table() {
           />
         </label>
       </form>
+      <FilterNumber />
       <table border={ 1 }>
         <thead>
           <tr>
