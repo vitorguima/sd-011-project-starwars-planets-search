@@ -35,9 +35,10 @@ export default function Table() {
             <td>{ planet.orbital_period }</td>
             <td>{ planet.population }</td>
             <td>{ planet.rotation_period }</td>
-            <td>{ planet.surgace_water }</td>
+            <td>{ planet.surface_water }</td>
             <td>{ planet.terrain }</td>
             <td>{ planet.url }</td>
+            { console.log(data) }
           </tr>
         </tbody>
       ))}
