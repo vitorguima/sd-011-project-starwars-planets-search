@@ -2,8 +2,33 @@ import React, { useContext } from 'react';
 import APIContext from '../Context/APIContext';
 
 function Table() {
-  const { filteredPlanets } = useContext(APIContext);
+  const { filteredPlanets, filters, searchFilters } = useContext(APIContext);
 
+  function filterDataPlanets() {
+    const { filterByNumericValues } = filters;
+    if (filterByNumericValues.length > 0) {
+      const { column, comparison, value } = searchFilters;
+      let newFilteredPlanets = [];
+      switch (comparison) {
+      case 'menor que':
+        newFilteredPlanets = filteredPlanets
+          .filter((planet) => Number(planet[column]) < Number(value));
+        break;
+      case 'maior que':
+        newFilteredPlanets = filteredPlanets
+          .filter((planet) => Number(planet[column]) > Number(value));
+        break;
+      case 'igual a':
+        newFilteredPlanets = filteredPlanets
+          .filter((planet) => Number(planet[column]) === Number(value));
+        break;
+      default:
+        return filteredPlanets;
+      }
+      return newFilteredPlanets;
+    }
+    return filteredPlanets;
+  }
   return (
     <div>
       <table className="table-planets">
@@ -25,7 +50,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          { filteredPlanets.length > 0 && filteredPlanets.map((planet) => (
+          { filterDataPlanets().map((planet) => (
             <tr key={ planet.name }>
               <td>{ planet.name }</td>
               <td>{ planet.rotation_period }</td>

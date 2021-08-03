@@ -2,16 +2,24 @@ import React, { useContext } from 'react';
 import APIContext from '../Context/APIContext';
 
 function SearchByDetails() {
-  const { searchFilters, setSearchFilters } = useContext(APIContext);
+  const { searchFilters, setSearchFilters, filters, setFilters } = useContext(APIContext);
 
-  function handleFilters({ target }) {
+  function handleSaveFilters({ target }) {
     const { name, value } = target;
     setSearchFilters({
       ...searchFilters,
       [name]: value,
     });
   }
-  console.log(searchFilters);
+  /*   console.log(searchFilters); */
+
+  function handleSendFilters(valueFilters) {
+    setFilters({
+      ...filters,
+      filterByNumericValues: [valueFilters],
+    });
+  }
+  /*   console.log(filters); */
 
   return (
     <div>
@@ -19,7 +27,7 @@ function SearchByDetails() {
         <select
           data-testid="column-filter"
           name="column"
-          onChange={ handleFilters }
+          onChange={ handleSaveFilters }
         >
           <option value="population">population</option>
           <option value="orbital_period">orbital_period</option>
@@ -32,7 +40,7 @@ function SearchByDetails() {
         <select
           data-testid="comparison-filter"
           name="comparison"
-          onChange={ handleFilters }
+          onChange={ handleSaveFilters }
         >
           <option value="maior que">maior que</option>
           <option value="menor que">menor que</option>
@@ -44,10 +52,16 @@ function SearchByDetails() {
           data-testid="value-filter"
           type="number"
           name="value"
-          onChange={ handleFilters }
+          onChange={ handleSaveFilters }
         />
       </label>
-      <button type="button" data-testid="button-filter">Filtrar</button>
+      <button
+        type="button"
+        data-testid="button-filter"
+        onClick={ () => handleSendFilters(searchFilters) }
+      >
+        Filtrar
+      </button>
     </div>
   );
 }

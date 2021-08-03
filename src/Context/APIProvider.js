@@ -22,12 +22,17 @@ function APIProvider({ children }) {
     },
   );
 
-  // Cria state para salvar planetas filtrados
+  // Cria state para salvar planetas filtrados que serão lidos na tabela
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
+  // Filtra lista de planetas por nome de acordo com o que é digitado
   const filterData = ({ target }) => {
     const searchPlanetFiltered = data
       .filter((planet) => planet.name.includes(target.value));
+    setFilters({
+      ...filters,
+      filterByName: target.value,
+    });
     setFilteredPlanets(searchPlanetFiltered);
   };
 
