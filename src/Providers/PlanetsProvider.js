@@ -39,27 +39,25 @@ const PlanetsProvider = ({ children }) => {
       .includes(name.toLowerCase()));
 
     let filterByName = newResults;
-    console.log('Filtro', filter);
     if (filter === 1) {
-      console.log('byname', filterByName);
       const { column, comparison, value } = filters.filterByNumericValues[0];
       switch (comparison) {
       case 'maior que':
         {
           const filterForBig = filterByName.filter((item) => parseInt(item[column], 0)
-          > value);
+          > Number(value));
           filterByName = filterForBig;
         } break;
       case 'menor que':
         {
           const filterForSmall = filterByName.filter((item) => parseInt(item[column], 0)
-          < value);
+          < Number(value));
           filterByName = filterForSmall;
         } break;
       case 'igual a':
         {
           const filterForEqual = filterByName.filter((item) => parseInt(item[column], 0)
-          === value);
+          === Number(value));
           filterByName = filterForEqual;
         } break;
       default:
