@@ -3,7 +3,12 @@ import PlanetContext from '../context/PlanetContext';
 import FilterNumber from './FilterNumber';
 
 function Table() {
-  const { data, filterPlanets, setFilter, filters } = useContext(PlanetContext);
+  const { data,
+    filterPlanets,
+    setFilter,
+    filters,
+    filterNumber,
+  } = useContext(PlanetContext);
 
   function handleChange(event) {
     const { value } = event.target;
@@ -15,7 +20,16 @@ function Table() {
     });
   }
 
-  const filterMap = filterPlanets.length <= 0 ? data : filterPlanets;
+  function filterMaps() {
+    if (filterPlanets.length <= 0) {
+      return data;
+    } if (filterNumber.length > 1) {
+      return filterNumber;
+    }
+    return filterPlanets;
+  }
+
+  const filterMap = filterMaps();
 
   return (
     <main>

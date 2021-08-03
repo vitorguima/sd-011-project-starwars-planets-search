@@ -8,7 +8,15 @@ function PlanetProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: '',
+        comparison: '',
+        value: '',
+      },
+    ],
   });
+  // estado onde esta salvo o filtro por nome
   const [filterPlanets, SetFilterPlanets] = useState([]);
 
   useEffect(() => {
@@ -28,6 +36,33 @@ function PlanetProvider({ children }) {
     SetFilterPlanets(namePlanets);
   }
 
+  // função para fazer filtro  numerico
+  const [filterNumber, setFilterNumber] = useState([]);
+
+  function FilterNumberFunc() {
+    const filterColumn = filters.filterByNumericValues.column;
+    const filterComparison = filters.filterByNumericValues.comparison;
+    const filterValue = Number(filters.filterByNumericValues.value);
+    if (filterComparison === 'maior que' && filterColumn === filterPlanets) {
+      const planetFilterName = data.filter(
+        (planet) => planet.Key === filterColumn && Number(planet) > filterValue,
+      );
+      setFilterNumber(planetFilterName);
+    }
+    if (filterComparison === 'menor que' && filterColumn === filterPlanets) {
+      const planetFilterName = data.filter(
+        (planet) => planet.Key === filterColumn && Number(planet) < filterValue,
+      );
+      setFilterNumber(planetFilterName);
+    }
+    if (filterComparison === 'igual a' && filterColumn === filterPlanets) {
+      const planetFilterName = data.filter(
+        (planet) => planet.Key === filterColumn && Number(planet) === filterValue,
+      );
+      setFilterNumber(planetFilterName);
+    }
+  }
+
   useEffect(FilterName, [filters]);
 
   const myPlanets = {
@@ -35,6 +70,8 @@ function PlanetProvider({ children }) {
     filterPlanets,
     setFilter,
     filters,
+    filterNumber,
+    FilterNumberFunc,
   };
 
   return (
