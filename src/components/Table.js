@@ -2,7 +2,13 @@ import React, { useContext } from 'react';
 import StarWarsContext from './Context';
 
 function Table() {
-  const { loading, data } = useContext(StarWarsContext);
+  const { loading,
+    data,
+    filters: { filterByName: { name } },
+  } = useContext(StarWarsContext);
+
+  const filteredPlanets = data.filter((planet) => (
+    planet.name.toLowerCase().includes(name)));
 
   if (loading) {
     return <h1>Loading...</h1>;
@@ -28,7 +34,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { data.map((planet) => (
+        { filteredPlanets.map((planet) => (
           <tr key={ planet.name }>
             <td>{ planet.name }</td>
             <td>{ planet.rotation_period }</td>

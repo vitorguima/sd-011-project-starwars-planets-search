@@ -4,21 +4,13 @@ import PropTypes from 'prop-types';
 import StarWarsContext from './Context';
 import getPlanets from '../services/planetsAPI';
 
-function StarwarsProvider({ children }) { // props descontruction
+function StarWarsProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
-  const [planetsByValue, setPlanetsByValue] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
-    filterByNumericValues: [
-      {
-        column: 'population',
-        comparison: 'maior que',
-        value: '100000',
-      },
-    ],
   });
 
   const fetchPlanets = async () => {
@@ -40,8 +32,6 @@ function StarwarsProvider({ children }) { // props descontruction
         fetchPlanets,
         filters,
         setFilters,
-        planetsByValue,
-        setPlanetsByValue,
       } }
     >
       {children}
@@ -49,8 +39,8 @@ function StarwarsProvider({ children }) { // props descontruction
   );
 }
 
-StarwarsProvider.propTypes = {
+StarWarsProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export default StarwarsProvider;
+export default StarWarsProvider;
