@@ -3,7 +3,8 @@ import { MyContext } from '../context/MyContext';
 
 function Table() {
   const { planets } = useContext(MyContext);
-  const [fiterPlanets, setFilterPlanets] = useState();
+  const [fiterPlanets, setFilterPlanets] = useState(MyContext);
+
   return (
     <table>
 
