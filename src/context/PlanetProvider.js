@@ -22,7 +22,7 @@ function PlanetProvider({ children }) {
 
   function FilterName() {
     const namePlanets = data.filter(
-      (planet) => planet.name.toLowerCase().includes(filterByName.name),
+      (planet) => planet.name.toLowerCase().includes(filters.filterByName.name),
     );
     SetFilterPlanets(namePlanets);
   }
@@ -33,6 +33,7 @@ function PlanetProvider({ children }) {
     data,
     filterPlanets,
     setFilter,
+    filters,
   };
 
   return (
