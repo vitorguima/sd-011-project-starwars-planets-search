@@ -1,5 +1,5 @@
-import React from 'react';
+import { createContext } from 'react';
 
-const PlanetContext = React.createContext();
+const PlanetContext = createContext();
 
 export default PlanetContext;

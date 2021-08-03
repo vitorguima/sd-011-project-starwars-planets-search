@@ -1,24 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext } from 'react';
+import PlanetContext from '../context/PlanetContext';
 
 function Table() {
-  const [list, setList] = useState([]);
-
-  useEffect(() => {
-    const getData = async () => {
-      const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
-      const resultsComplet = await fetch(endpoint).then((data) => data.json());
-      setList(resultsComplet.results);
-    };
-    getData();
-  }, []);
-
+  const { data } = useContext(PlanetContext);
   return (
     <table>
       <thead>
         <tr>
-          {list.map((planet) => <th key={ planet.name }>{planet.name}</th>)}
+          <th>Name</th>
+          <th>Período de Rotação</th>
+          <th>Período Orbital</th>
+          <th>Diametro</th>
+          <th>Clima</th>
+          <th>Gravidade</th>
+          <th>Terreno</th>
+          <th>Água na Superfície</th>
+          <th>População</th>
+          <th>Filmes</th>
+          <th>Criado</th>
+          <th>Editado</th>
+          <th>url</th>
         </tr>
       </thead>
+      <tbody>
+        {data.map((planet) => (
+          <tr key={ planet.name }>
+            <td>{planet.name}</td>
+            <td>{planet.rotation_period}</td>
+            <td>{planet.orbital_period}</td>
+            <td>{planet.diameter}</td>
+            <td>{planet.climate}</td>
+            <td>{planet.gravity}</td>
+            <td>{planet.terrain}</td>
+            <td>{planet.surface_water}</td>
+            <td>{planet.population}</td>
+            <td>{planet.films}</td>
+            <td>{planet.created}</td>
+            <td>{planet.edited}</td>
+            <td>{planet.url}</td>
+          </tr>
+        ))}
+      </tbody>
     </table>
   );
 }

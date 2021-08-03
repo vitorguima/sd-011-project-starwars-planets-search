@@ -1,21 +1,32 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import PlanetContext from './PlanetContext';
 
-// eslint-disable-next-line react/prop-types
 function PlanetProvider({ children }) {
-  const [planet, setPlanet] = useState([]);
+  const [data, setData] = useState([]);
 
-  const addPlanet = (newPlanet) => {
-    setPlanet(planet.concat(newPlanet));
+  useEffect(() => {
+    const getData = async () => {
+      const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
+      const resultsComplet = await fetch(endpoint).then((itens) => itens.json());
+      setData(resultsComplet.results);
+    };
+    getData();
+  }, []);
+
+  const myPlanets = {
+    data,
   };
 
   return (
-    <main>
-      <PlanetContext.Provider value={ { planet, addPlanet } }>
-        {children}
-      </PlanetContext.Provider>
-    </main>
+    <PlanetContext.Provider value={ myPlanets }>
+      {children}
+    </PlanetContext.Provider>
   );
 }
+
+PlanetProvider.propTypes = ({
+  children: PropTypes.node,
+}).isRequired;
 
 export default PlanetProvider;
