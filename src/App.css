@@ -10,3 +10,9 @@
   border: 1px solid black;
   width: 90px;
 }
+
+.tableBody td {
+  border: 1px solid black;
+  font-size: 0.75em;
+  width: 90px;
+}
