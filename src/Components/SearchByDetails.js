@@ -3,6 +3,7 @@ import APIContext from '../Context/APIContext';
 
 function SearchByDetails() {
   const { searchFilters, setSearchFilters, filters, setFilters } = useContext(APIContext);
+  const { columnFilter, setColumnFilter } = useContext(APIContext);
 
   function handleSaveFilters({ target }) {
     const { name, value } = target;
@@ -11,15 +12,14 @@ function SearchByDetails() {
       [name]: value,
     });
   }
-  /*   console.log(searchFilters); */
 
   function handleSendFilters(valueFilters) {
     setFilters({
       ...filters,
       filterByNumericValues: [valueFilters],
     });
+    setColumnFilter(columnFilter.filter((column) => column !== valueFilters.column));
   }
-  /*   console.log(filters); */
 
   return (
     <div>
@@ -29,11 +29,9 @@ function SearchByDetails() {
           name="column"
           onChange={ handleSaveFilters }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {columnFilter.map((column, index) => (
+            <option key={ index } value={ column }>{ column }</option>
+          ))}
         </select>
       </label>
       <label htmlFor="comparison-filter">

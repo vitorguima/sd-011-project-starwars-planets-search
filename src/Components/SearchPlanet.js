@@ -2,7 +2,6 @@ import React, { useContext } from 'react';
 import APIContext from '../Context/APIContext';
 
 function SearchPlanet() {
-  /*  const { searchPlanet, handleChange } = useContext(APIContext); */
   const { value, filterData } = useContext(APIContext);
 
   return (
@@ -13,8 +12,6 @@ function SearchPlanet() {
           data-testid="name-filter"
           type="text"
           name="name-filter"
-          /*           value={ searchPlanet }
-          onChange={ handleChange } */
           value={ value }
           onChange={ filterData }
         />

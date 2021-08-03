@@ -25,6 +25,10 @@ function APIProvider({ children }) {
   // Cria state para salvar planetas filtrados que serão lidos na tabela
   const [filteredPlanets, setFilteredPlanets] = useState([]);
 
+  const [columnFilter, setColumnFilter] = useState(
+    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
+  );
+
   // Filtra lista de planetas por nome de acordo com o que é digitado
   const filterData = ({ target }) => {
     const searchPlanetFiltered = data
@@ -54,6 +58,8 @@ function APIProvider({ children }) {
     filterData,
     searchFilters,
     setSearchFilters,
+    columnFilter,
+    setColumnFilter,
   };
 
   return (
