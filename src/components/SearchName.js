@@ -17,7 +17,6 @@ function SearchName() {
   return (
     <label
       htmlFor="search-name"
-      data-testid="name-filter"
     >
       <input
         type="text"
