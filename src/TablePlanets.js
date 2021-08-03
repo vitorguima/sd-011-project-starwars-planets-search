@@ -2,12 +2,10 @@ import React from 'react';
 import Context from './context/Context';
 
 function TablePlanets() {
-  const { data, filterPlanetName: { filters } } = React.useContext(Context);
-  const planetsFilteds = data
-    .filter((planet) => planet.name.toLowerCase()
-      .includes(filters.filterPlanetName.name.toLowerCase()));
+  const { data, filteredPlanets } = React.useContext(Context);
 
   if (data.length === 0) return <h1>Carregando...</h1>;
+  if (filteredPlanets.length === 0) return <h1>Planeta não encontrado!</h1>;
 
   return (
     <div>
@@ -21,7 +19,7 @@ function TablePlanets() {
           </tr>
         </thead>
         <tbody>
-          {planetsFilteds.map((planet, index) => (
+          {filteredPlanets.map((planet, index) => (
             <tr key={ index }>
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
