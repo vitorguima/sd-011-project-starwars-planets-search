@@ -23,7 +23,7 @@ export default function Table() {
       {
         list.map((element, index) => (
           <tr key={ index }>
-            <td>{ element.name }</td>
+            <td data-testid="planet-name">{ element.name }</td>
             <td>{ element.rotation_period }</td>
             <td>{ element.orbital_period }</td>
             <td>{ element.diameter }</td>

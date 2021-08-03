@@ -2,8 +2,13 @@ import React, { useContext, useRef, useState } from 'react';
 import AppContext from '../Context';
 
 const initialValue = <div>initialValue</div>;
-const initialColumns = ['population',
-  'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
+const initialColumns = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
 
 export default function SearchByNumber() {
   const [columns, setColumns] = useState(initialColumns);
@@ -23,8 +28,30 @@ export default function SearchByNumber() {
     setColumns(newColumns);
   }
 
+  function removeFilter(column) {
+    setColumns([...columns, column]);
+    const newFilters = filters.filter((element) => element.column !== column);
+    setFilter(newFilters);
+  }
+
   return (
     <div>
+      {
+        (filters.length > 0) && (
+          filters.map(({ column, comparison, value }, index) => (
+            <div key={ index } data-testid="filter">
+              {`${column}--${comparison}--${value}`}
+              <button
+                type="button"
+                data-testid="'button-filter"
+                onClick={ () => removeFilter(column) }
+              >
+                X
+              </button>
+            </div>
+          ))
+        )
+      }
       <select data-testid="column-filter" ref={ columnFilter }>
         { columns.map((element, index) => (
           <option value={ element } key={ index }>{ element }</option>

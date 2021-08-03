@@ -12,8 +12,10 @@ function App() {
     async function planets() {
       const planetList = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
       const planetJSON = await planetList.json();
-      setData(planetJSON.results);
-      setList(planetJSON.results);
+      const { results } = planetJSON;
+      const newPlanets = results.sort((a, b) => a.name.localeCompare(b.name));
+      setData(newPlanets);
+      setList(newPlanets);
     }
     planets();
   }, []);
