@@ -1,6 +1,7 @@
 import React from 'react';
 import Table from './components/Table';
 import NewProvider from './context/MyContext';
+import Filters from './components/Filters';
 import './App.css';
 
 // import MyContext from './context/MyContext';
@@ -13,6 +14,7 @@ function App() {
   return (
     <div>
       <NewProvider>
+        <Filters />
         <Table />
       </NewProvider>
     </div>

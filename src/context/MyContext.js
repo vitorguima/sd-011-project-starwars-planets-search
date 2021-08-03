@@ -5,6 +5,7 @@ export const MyContext = createContext();
 
 function NewProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [filter, setFilter] = useState([]);
 
   // didMount
   useEffect(() => {
@@ -17,8 +18,14 @@ function NewProvider({ children }) {
     getPlanets();
   }, []);
 
+  const objects = {
+    filter,
+    setFilter,
+    planets,
+  }
+
   return (
-    <MyContext.Provider value={ planets }>
+    <MyContext.Provider value={ objects }>
       { children }
     </MyContext.Provider>
   );

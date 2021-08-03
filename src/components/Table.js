@@ -2,8 +2,7 @@ import React, { useContext } from 'react';
 import { MyContext } from '../context/MyContext';
 
 function Table() {
-  const planets = useContext(MyContext);
-  console.log(planets);
+  const { planets } = useContext(MyContext);
   return (
     <table>
 
