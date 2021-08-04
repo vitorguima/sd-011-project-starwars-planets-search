@@ -41,11 +41,8 @@ function PlanetProvider({ children }) {
 
   function FilterNumberFunc() {
     const filterColumn = filters.filterByNumericValues[0].column;
-    console.log(filterColumn);
     const filterComparison = filters.filterByNumericValues[0].comparison;
-    console.log(filterComparison);
     const filterValue = filters.filterByNumericValues[0].value;
-    console.log(filterValue);
     // if (filterComparison === 'maior que' && filterColumn === filterPlanets) {
     //   const planetFilterName = data.filter(
     //     (planet) => planet.Key === filterColumn && Number(planet) > filterValue,
