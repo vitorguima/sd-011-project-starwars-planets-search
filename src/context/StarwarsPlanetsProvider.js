@@ -4,9 +4,19 @@ import starwarsPlanetsContext from './starwarsPlanetsContext';
 
 function StarwarsPlanetsProvider({ children }) {
   const [data, setData] = useState([{}]);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
+  const [savePlanets, setSavePlanets] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+
   const valueState = {
     data,
     setData,
+    filters,
+    setFilters,
+    savePlanets,
+    setSavePlanets,
+    isLoading,
+    setIsLoading,
   };
 
   return (
