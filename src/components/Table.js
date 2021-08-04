@@ -5,10 +5,11 @@ function Table() {
   const { loading,
     data,
     filters: { filterByName: { name } },
+    planetsByValue,
   } = useContext(StarWarsContext);
 
-  const filteredPlanets = data.filter((planet) => (
-    planet.name.toLowerCase().includes(name)));
+  const filteredPlanets = planetsByValue.length > 0 ? planetsByValue
+    : data.filter((planet) => (planet.name.toLowerCase().includes(name)));
 
   if (loading) {
     return <h1>Loading...</h1>;

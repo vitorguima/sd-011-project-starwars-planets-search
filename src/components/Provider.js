@@ -7,10 +7,18 @@ import getPlanets from '../services/planetsAPI';
 function StarWarsProvider({ children }) {
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
+  const [planetsByValue, setPlanetsByValue] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [
+      {
+        column: 'population',
+        comparison: 'maior que',
+        value: '100000',
+      },
+    ],
   });
 
   const fetchPlanets = async () => {
@@ -32,6 +40,8 @@ function StarWarsProvider({ children }) {
         fetchPlanets,
         filters,
         setFilters,
+        planetsByValue,
+        setPlanetsByValue,
       } }
     >
       {children}
