@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
-import ContextApp from '../context/Context';
+import ContextMain from '../context/Context';
+import SearchBar from './SearchBar';
 
 function Table() {
-  const { data } = useContext(ContextApp);
+  const { data } = useContext(ContextMain);
   return (
     <div>
+      <SearchBar />
       <table>
         <thead>
           <tr>
