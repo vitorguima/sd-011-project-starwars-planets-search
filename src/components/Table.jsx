@@ -3,7 +3,7 @@ import ContextMain from '../context/Context';
 import SearchBar from './SearchBar';
 
 function Table() {
-  const { data } = useContext(ContextMain);
+  const { filteredPlanets } = useContext(ContextMain);
   return (
     <div>
       <SearchBar />
@@ -26,7 +26,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.map((planet) => (
+          {filteredPlanets.map((planet) => (
             <tr key={ planet.name }>
               <td>
                 {planet.name}
