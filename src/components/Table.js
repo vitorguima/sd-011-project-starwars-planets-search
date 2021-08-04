@@ -1,11 +1,21 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import ContextApp from '../context/ContextApp';
 
 function ShowTable() {
-  const { titles, data, filters } = useContext(ContextApp);
+  const { titles, APIResult, dataFiltered, nameFilter } = useContext(ContextApp);
+  const [renderUpdate, setRenderUpdate] = useState([]);
 
-  const filtered = data.filter(({ name }) => (
-    name.toLowerCase().includes(filters))).map((planet) => planet);
+  useEffect(() => {
+    const filteredData = APIResult.filter(({ name }) => (
+      name.toLowerCase().includes(nameFilter))).map((planet) => planet);
+    const data = nameFilter
+      ? filteredData : APIResult;
+    setRenderUpdate(data);
+  }, [APIResult, dataFiltered, nameFilter]);
+
+  useEffect(() => {
+    setRenderUpdate(dataFiltered);
+  }, [dataFiltered]);
 
   return (
     <table>
@@ -15,7 +25,7 @@ function ShowTable() {
         )) }
       </tr>
 
-      { filtered.map((contentColumn, index) => (
+      { renderUpdate.map((contentColumn, index) => (
         <tr key={ index }>
           <td>{ contentColumn.name }</td>
           <td>{ contentColumn.rotation_period }</td>
