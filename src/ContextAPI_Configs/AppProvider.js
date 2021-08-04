@@ -22,9 +22,7 @@ function Provider({ children }) {
 
   function deleteFilter(string) {
     const { filters: { filterByNumericValues } } = userFilter;
-    const removeFilter = filterByNumericValues.filter(({ column }) => {
-      return column !== string;
-    });
+    const removeFilter = filterByNumericValues.filter(({ column }) => column !== string);
 
     setUserFilter({
       ...userFilter,
