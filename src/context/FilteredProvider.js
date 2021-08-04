@@ -4,11 +4,11 @@ import FilteredContext from './FilteredContext';
 
 function FilteredProvider({ children }) {
   const [planets, setPlanets] = useState([]);
-  // const [inputFilter, setInputFilter] = useState('');
   const [filters, setFilters] = useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
   useEffect(() => {
@@ -23,6 +23,7 @@ function FilteredProvider({ children }) {
 
   const contexValue = {
     planets,
+    setPlanets,
     filters,
     setFilters,
   };
