@@ -51,7 +51,6 @@ function FilterNumbers() {
       </select>
       <input
         name="value"
-        type="number"
         data-testid="value-filter"
         placeholder="Digite o valor"
         onChange={ handleChange }

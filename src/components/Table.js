@@ -23,7 +23,7 @@ function Table() {
   function filterMaps() {
     if (filterPlanets.length <= 0) {
       return data;
-    } if (filterNumber.length > 1) {
+    } if (filterNumber.length >= 1) {
       return filterNumber;
     }
     return filterPlanets;
