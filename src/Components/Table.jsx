@@ -8,6 +8,7 @@ import ColumnFilter from './Filters/ColumnFilter';
 import ComparisonFilter from './Filters/ComparisonFilter';
 import ValueFilter from './Filters/ValueFilter';
 import ApplyFilter from './Filters/ApplyFilter';
+import UsedFilters from './Filters/UsedFilters';
 
 const errorMsg = <p>Erro ao fazer requisição! Contate o administrador do sistema!</p>;
 
@@ -30,6 +31,7 @@ function Table() {
       <ComparisonFilter />
       <ValueFilter />
       <ApplyFilter />
+      <UsedFilters />
       <table>
         <tr>
           {columnInformation

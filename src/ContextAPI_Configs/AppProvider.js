@@ -15,13 +15,29 @@ function Provider({ children }) {
 
   const [numericFilter, setNumericFilter] = useState({
     // modificação significativa-
-    column: 'population',
-    comparison: 'maior que',
+    column: '',
+    comparison: '',
     value: 0,
   });
 
+  function deleteFilter(string) {
+    const { filters: { filterByNumericValues } } = userFilter;
+    const removeFilter = filterByNumericValues.filter(({ column }) => {
+      return column !== string;
+    });
+
+    setUserFilter({
+      ...userFilter,
+      filters: {
+        ...userFilter.filters,
+        filterByNumericValues:
+          removeFilter,
+      },
+    });
+  }
+
   const context = {
-    userFilter, setUserFilter, numericFilter, setNumericFilter,
+    userFilter, setUserFilter, numericFilter, setNumericFilter, deleteFilter,
   };
 
   return (

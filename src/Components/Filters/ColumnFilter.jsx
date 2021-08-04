@@ -14,7 +14,7 @@ function ColumnFilter() {
   const { numericFilter, setNumericFilter } = useContext(AppContext);
   const { userFilter: { filters: { filterByNumericValues } } } = useContext(AppContext);
   const columnUseds = filterByNumericValues.map(({ column }) => column);
-  console.log(columnUseds);
+
   return (
     <label htmlFor="column-filter">
       <select
