@@ -14,8 +14,6 @@ function Table() {
     setSavePlanets,
   } = useContext(starwarsPlanetsContext);
 
-  const { filterByName: { name } } = filters;
-
   function saveData(planets) {
     setData(planets);
     setIsLoading(false);
@@ -32,7 +30,7 @@ function Table() {
 
   useEffect(setPlanetsApi, []);
 
-  const handleChange = ({ target: { value } }) => {
+  const handleChangeInput = ({ target: { value } }) => {
     setFilters({
       ...filters,
       filterByName: { ...filters.filterByName, name: value },
@@ -42,8 +40,46 @@ function Table() {
     setSavePlanets(filterPlanet);
   };
 
+  const handleChangeFilters = ({ target: { name, value } }) => {
+    setFilters({
+      ...filters,
+      filterByNumericValues: { ...filters.filterByNumericValues, [name]: value },
+    });
+  };
+
+  const handleClickBtnFilter = () => {
+    const { filterByNumericValues: { column, comparison, value } } = filters;
+
+    let filtered = [];
+
+    if (comparison === 'maior que') {
+      filtered = data.filter((planet) => (
+        parseInt(planet[column], 10) > parseInt(value, 10)));
+    } else if (comparison === 'menor que') {
+      filtered = data.filter((planet) => (
+        parseInt(planet[column], 10) < parseInt(value, 10)));
+    } else {
+      filtered = data.filter((planet) => (
+        planet[column] === value));
+    }
+
+    setSavePlanets(filtered);
+  };
+
   function table() {
+    const { filterByName: { name }, filterByNumericValues: { column, value } } = filters;
     const headers = Object.keys(data[0]);
+
+    const optionsColumn = [
+      'selecione',
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ];
+
+    const optionsComparison = ['maior que', 'menor que', 'igual a'];
 
     return (
       <>
@@ -51,9 +87,49 @@ function Table() {
           <input
             type="text"
             value={ name }
-            onChange={ handleChange }
+            onChange={ handleChangeInput }
             data-testid="name-filter"
           />
+          <select
+            onChange={ handleChangeFilters }
+            data-testid="column-filter"
+            name="column"
+            value={ column }
+          >
+            {optionsColumn.map((option, index) => (
+              <option
+                key={ index }
+                value={ option }
+              >
+                { option }
+              </option>))}
+          </select>
+          <select
+            onChange={ handleChangeFilters }
+            data-testid="comparison-filter"
+            name="comparison"
+          >
+            {optionsComparison.map((option, index) => (
+              <option
+                key={ index }
+              >
+                { option }
+              </option>))}
+          </select>
+          <input
+            type="number"
+            name="value"
+            value={ value }
+            onChange={ handleChangeFilters }
+            data-testid="value-filter"
+          />
+          <button
+            type="button"
+            onClick={ () => handleClickBtnFilter() }
+            data-testid="button-filter"
+          >
+            Filtrar
+          </button>
         </div>
         <table>
           <thead>
