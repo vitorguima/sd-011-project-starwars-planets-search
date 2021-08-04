@@ -24,7 +24,7 @@ function SearchBar() {
 
   useEffect(() => {
     filterPlanets();
-  }, []);
+  }, [search]);
 
   const handleChange = ({ target: { name, value } }) => {
     setFilter({
