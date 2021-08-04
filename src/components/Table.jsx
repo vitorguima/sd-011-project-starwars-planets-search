@@ -2,7 +2,24 @@ import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function Table() {
-  const { filterPlanets } = useContext(PlanetContext);
+  const { dataPlanets, filterPlanets } = useContext(PlanetContext);
+  const renderingTable = (objPlanet, index) => (
+    <tr key={ index }>
+      {Object.values(objPlanet).map((planet, i) => (
+        <td key={ i }>{planet}</td>
+      ))}
+    </tr>
+  );
+
+  // const renderingKeyTable = (objPlanet, index) => (
+  //   <thead>
+  //     <tr key={ index }>
+  //       {Object.keys(objPlanet).map((key, i) => (
+  //         <th key={ i }>{key}</th>
+  //       ))}
+  //     </tr>
+  //   </thead>
+  // );
 
   return (
     <table width="100%" border="1px">
@@ -23,24 +40,11 @@ function Table() {
           <th>URL</th>
         </tr>
       </thead>
+      {/* {dataPlanets.map((el, index) => renderingKeyTable(el, index))} */}
       <tbody>
-        {filterPlanets.map((planet) => (
-          <tr key={ planet.name }>
-            <td>{planet.name}</td>
-            <td>{planet.rotation_period}</td>
-            <td>{planet.orbital_period}</td>
-            <td>{planet.diameter}</td>
-            <td>{planet.climate}</td>
-            <td>{planet.gravity}</td>
-            <td>{planet.terrain}</td>
-            <td>{planet.surface_water}</td>
-            <td>{planet.population}</td>
-            <td>{planet.films}</td>
-            <td>{planet.created}</td>
-            <td>{planet.edited}</td>
-            <td>{planet.url}</td>
-          </tr>
-        ))}
+        {filterPlanets.length > 0
+          ? filterPlanets.map((planet, index) => renderingTable(planet, index))
+          : dataPlanets.map((planet, index) => renderingTable(planet, index))}
       </tbody>
     </table>
   );

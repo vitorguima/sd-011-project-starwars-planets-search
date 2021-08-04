@@ -3,8 +3,8 @@ import PlanetContext from '../context/PlanetContext';
 
 function Form() {
   const {
-    changePlanet, columnsOptions, comparisonOptions, handleClickTable,
-    filterPreference, dataPlanets,
+    /* changePlanet */ columnsOptions, comparisonOptions, handleClickTable,
+    filterPreference, getNamePlanet, searchPlanet, handleChangeNamePlanets,
   } = useContext(PlanetContext);
 
   return (
@@ -14,8 +14,8 @@ function Form() {
         <input
           id="planet"
           data-testid="name-filter"
-          value={ dataPlanets.name }
-          onChange={ changePlanet }
+          value={ searchPlanet }
+          onChange={ getNamePlanet }
           type="text"
         />
       </label>
@@ -24,8 +24,9 @@ function Form() {
         <select
           id="column"
           data-testid="column-filter"
-          name="column"
+          name="columnFilter"
           value={ filterPreference.column }
+          onChange={ handleChangeNamePlanets }
         >
           {columnsOptions.map((option, index) => (
             <option key={ index }>
@@ -38,9 +39,10 @@ function Form() {
         Escolha uma comparação:
         <select
           id="comparision"
-          name="comparision"
+          name="comparisonFilter"
           data-testid="comparison-filter"
           value={ filterPreference.comparison }
+          onChange={ handleChangeNamePlanets }
         >
           {comparisonOptions.map((comparision, index) => (
             <option key={ index }>
@@ -54,15 +56,16 @@ function Form() {
         <input
           type="number"
           id="number"
-          name="number"
+          name="valueFilter"
           data-testid="value-filter"
           value={ filterPreference.value }
+          onChange={ handleChangeNamePlanets }
         />
       </label>
       <button
         type="submit"
         data-testid="button-filter"
-        onClick={ handleClickTable }
+        onClick={ (e) => handleClickTable(e) }
       >
         Filtrar
       </button>
