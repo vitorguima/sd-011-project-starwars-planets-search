@@ -41,8 +41,11 @@ function PlanetProvider({ children }) {
 
   function FilterNumberFunc() {
     const filterColumn = filters.filterByNumericValues[0].column;
+    console.log(parseInt(filterColumn, 10));
     const filterComparison = filters.filterByNumericValues[0].comparison;
+    console.log(parseInt(filterComparison, 10));
     const filterValue = filters.filterByNumericValues[0].value;
+    console.log(parseInt(filterValue, 10));
     // if (filterComparison === 'maior que' && filterColumn === filterPlanets) {
     //   const planetFilterName = data.filter(
     //     (planet) => planet.Key === filterColumn && Number(planet) > filterValue,
@@ -68,8 +71,10 @@ function PlanetProvider({ children }) {
         return parseInt(planet[filterColumn], 10) > parseInt(filterValue, 10);
       case 'menor que':
         return parseInt(planet[filterColumn], 10) < parseInt(filterValue, 10);
-      default:
+      case 'igual a':
         return parseInt(planet[filterColumn], 10) === parseInt(filterValue, 10);
+      default:
+        return null;
       }
     });
     setFilterNumber(newData);
