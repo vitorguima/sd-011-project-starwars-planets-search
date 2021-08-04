@@ -1,9 +1,17 @@
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import ContextApp from '../context/ContextApp';
+
+const ALTERNATIVES = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
 
 function Forms() {
   const { filters, setFilter } = useContext(ContextApp);
-  const [FilterBtn, setFilterBtn] = useState(false);
+  const [alternatives, setAlternatives] = useState(ALTERNATIVES);
   const [numberFilter, setNumberFilter] = useState({
     comparison: 'maior que',
     column: 'population',
@@ -19,21 +27,14 @@ function Forms() {
 
   const handleClick = () => {
     setFilter({ ...filters, filterByNumericValues: [numberFilter] });
+    const newAlternatives = ALTERNATIVES
+      .filter((element) => numberFilter.column !== element);
+    setAlternatives(newAlternatives);
   };
 
   const handleFilters = ({ target: { name, value } }) => {
     setNumberFilter({ ...numberFilter, [name]: value });
   };
-
-  const handlefilterBtn = () => {
-    const { comparison, column, number } = numberFilter;
-    if (!comparison || !column || !number) setFilterBtn(false);
-    else setFilterBtn(true);
-  };
-
-  useEffect(() => {
-    handlefilterBtn();
-  });
 
   return (
     <header>
@@ -56,11 +57,9 @@ function Forms() {
             data-testid="column-filter"
             onChange={ handleFilters }
           >
-            <option value="population">population</option>
-            <option value="orbital_period">orbital_period</option>
-            <option value="diameter">diameter</option>
-            <option value="rotation_period">rotation_period</option>
-            <option value="surface_water">surface_water</option>
+            {alternatives.map((element, index) => (
+              <option key={ index } value={ element }>{ element }</option>
+            ))}
           </select>
 
           <select
@@ -85,7 +84,9 @@ function Forms() {
           <button
             data-testid="button-filter"
             type="button"
-            disabled={ !FilterBtn }
+            disabled={ (!numberFilter.comparison
+              || !numberFilter.column
+              || !numberFilter.number) }
             onClick={ handleClick }
           >
             Filter
