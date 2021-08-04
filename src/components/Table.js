@@ -7,12 +7,7 @@ import TableHeader from './TableHeader';
 function Table() {
   const {
     loadingStatus,
-    getPlanetsData,
   } = useContext(PlanetsContext);
-
-  useEffect(() => {
-    getPlanetsData();
-  }, [getPlanetsData]);
 
   useEffect(() => {}, []);
   if (loadingStatus) return <div>Loading...</div>;
