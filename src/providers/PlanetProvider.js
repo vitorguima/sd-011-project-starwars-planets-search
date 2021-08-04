@@ -9,6 +9,7 @@ export default function PlanetsProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
 
   };
 
@@ -24,6 +25,15 @@ export default function PlanetsProvider({ children }) {
     });
   }
 
+  function handleNumericFilter(numericFilter) {
+    const { filterByNumericValues } = filters;
+    setFilters({
+      ...filters,
+      filterByNumericValues: [...filterByNumericValues, numericFilter],
+    });
+    console.log(filters);
+  }
+
   useEffect(() => {
     const setResultsAsData = async () => {
       await fetchPlanets().then(
@@ -35,12 +45,23 @@ export default function PlanetsProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    setPlanets(data);
-    const { filterByName: { name } } = filters;
+    let filteredPlanets = [...data];
+    const { filterByName: { name }, filterByNumericValues } = filters;
     if (name) {
-      const filteredPlanets = filterFunctions.filterByName(data, name);
-      setPlanets(filteredPlanets);
+      filteredPlanets = filterFunctions.filterByName(data, name);
     }
+
+    if (filterByNumericValues.length > 0) {
+      filterByNumericValues.forEach(({ comparison, column, value }) => {
+        filteredPlanets = filterFunctions.filterBYNumber(
+          comparison,
+          column,
+          value,
+          filteredPlanets,
+        );
+      });
+    }
+    setPlanets(filteredPlanets);
   }, [data, filters]);
 
   const contextValue = {
@@ -49,6 +70,8 @@ export default function PlanetsProvider({ children }) {
     planets,
     setPlanets,
     handleTextFilter,
+    handleNumericFilter,
+    filters,
 
   };
 
