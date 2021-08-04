@@ -13,18 +13,16 @@ function SearchBar() {
   const { planets } = dataFromApi;
   const { filters: { filterByName: { search } } } = filter;
 
-  const filterPlanets = () => {
-    const filterByQuery = new RegExp(`^.*${search}.*`, 'i');
-
-    setPlanetsFilter({
-      filteredPlanets: planets.results
-        .filter((result) => filterByQuery.test(result.name)),
-    });
-  };
-
   useEffect(() => {
+    const filterPlanets = () => {
+      const filterByQuery = new RegExp(`^.*${search}.*`, 'i');
+      setPlanetsFilter({
+        filteredPlanets: planets.results
+          .filter((result) => filterByQuery.test(result.name)),
+      });
+    };
     filterPlanets();
-  });
+  }, [search, planets.results, setPlanetsFilter]);
 
   const handleChange = ({ target: { name, value } }) => {
     setFilter({
