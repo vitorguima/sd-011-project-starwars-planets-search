@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
-import FilterNumber from './FilterNumber';
+import FilterNumbers from './FilterNumber';
 
 function Table() {
   const { data,
@@ -43,7 +43,7 @@ function Table() {
           />
         </label>
       </form>
-      <FilterNumber />
+      <FilterNumbers />
       <table border={ 1 }>
         <thead>
           <tr>

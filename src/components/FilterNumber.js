@@ -1,21 +1,13 @@
 import React, { useContext, useState } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
-function FilterNumber() {
+function FilterNumbers() {
   const { setFilter, filters, FilterNumberFunc } = useContext(PlanetContext);
   const [atualState, setAtualState] = useState({
     column: 'population',
     comparison: 'maior que',
     value: '',
   });
-
-  function handleChange({ target }) {
-    const { value, name } = target;
-    setAtualState({
-      ...atualState,
-      [name]: value,
-    });
-  }
 
   function handleClick() {
     setFilter({
@@ -29,6 +21,15 @@ function FilterNumber() {
       ],
     });
     FilterNumberFunc();
+  }
+
+  function handleChange({ target }) {
+    const { value, name } = target;
+    setAtualState({
+      ...atualState,
+      [name]: value,
+    });
+    handleClick();
   }
 
   return (
@@ -66,4 +67,4 @@ function FilterNumber() {
   );
 }
 
-export default FilterNumber;
+export default FilterNumbers;
