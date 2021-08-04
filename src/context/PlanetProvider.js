@@ -4,33 +4,24 @@ import fetchPlanets from '../services/api';
 import PlanetsContext from './PlanetsContext';
 
 export default function PlanetsProvider({ children }) {
-  const [planets, setPlanets] = useState([]);
-  const [filteredPlanets, setFilteredPlanets] = useState([]);
-  const [filters, setFilters] = useState({
-    filterByName: { name: '' },
-  });
-
-  function handleInputPlanet({ value }) {
-    setFilters({ filterByName: { name: value } });
-  }
+  const [planetsAPI, setPlanetsAPI] = useState([]);
 
   async function asyncFunc() {
-    setPlanets(await fetchPlanets());
+    setPlanetsAPI(await fetchPlanets());
   }
 
-  useEffect(() => {
-    const { filterByName: { name } } = filters;
-    const filtered = planets.filter((planet) => planet.name
-      .toLowerCase().includes(name));
-    setFilteredPlanets(filtered);
-  }, [filters, planets]);
+  // useEffect(() => {
+  //   const filtered = planets.filter((planet) => planet.name
+  //     .toLowerCase().includes(name));
+  //   setFilteredPlanets(filtered);
+  // }, [filters, name, planets]);
 
   useEffect(() => {
     asyncFunc();
   }, []);
 
   return (
-    <PlanetsContext.Provider value={ { planets, handleInputPlanet } }>
+    <PlanetsContext.Provider value={ { planetsAPI } }>
       {children}
     </PlanetsContext.Provider>
   );
