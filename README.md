@@ -185,7 +185,7 @@ A tabela deve ser renderizada por um componente chamado `<Table />`. Os dados re
 
 A API a ser consultada está [nesse link](https://swapi-trybe.herokuapp.com/api/planets/). Ou seja, você deverá fazer um fetch para a URL `https://swapi-trybe.herokuapp.com/api/planets/`
 
-A tabela deve ter uma primeira linha com os headers e as demais com as informações de cada campo.
+A tabela deve ter uma primeira linha com os headers e as demais com as informações de cada campo,
 
 O que será verificado:
 ```
