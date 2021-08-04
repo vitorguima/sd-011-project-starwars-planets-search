@@ -13,6 +13,7 @@ const SearchBar = () => {
     comparison: 'maior que',
     value: 'null',
   });
+
   const [dropdown, setdropdrown] = useState([
     'population',
     'orbital_period',
@@ -40,9 +41,10 @@ const SearchBar = () => {
       filtersLocal,
     ]);
   };
+
   return (
     <form>
-      <section>
+      <section className="search-bar">
         <input
           type="text"
           name="searchText"

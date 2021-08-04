@@ -10,10 +10,9 @@ function Provider({ children }) {
   useEffect(() => {
     getApi().then((response) => setData(response));
   }, []);
+
   useEffect(() => {
-    getApi().then(
-      (response) => setFilteredPlanets(response),
-    );
+    getApi().then((response) => setFilteredPlanets(response));
   }, []);
 
   const filterPlanetsByName = (textName) => {
@@ -28,10 +27,9 @@ function Provider({ children }) {
     setFilters(delFilter);
   };
 
-  const filterPlanetsByNumericValues = ({ column, comparison, value }) => {
+  const filterPlanetsByNumericValues = ({ column, comparison }) => {
     const newFilter = data.filter((planet) => {
       const infoPlanet = Number(planet[column]);
-      const toCompare = Number(value);
       if (comparison === 'menor que') {
         return infoPlanet < toCompare;
       }
@@ -42,17 +40,18 @@ function Provider({ children }) {
     });
     setFilteredPlanets(newFilter);
   };
-  const contextMainValue = {
+
+  const contextValue = {
     data,
     filteredPlanets,
+    filters,
     deleteFilter,
     setFilters,
     filterByName: (textName) => filterPlanetsByName(textName),
-    filterByNumericValues: (filtersLocal) => filterPlanetsByNumericValues((filtersLocal)),
+    filterByNumericValues: (filtersLocal) => filterPlanetsByNumericValues(filtersLocal),
   };
-
   return (
-    <ContextMain.Provider value={ contextMainValue }>
+    <ContextMain.Provider value={ contextValue }>
       {children}
     </ContextMain.Provider>
   );
