@@ -109,7 +109,7 @@ export default function TabelaProvider({ children }) {
 
   useEffect(() => {
     fetchPlanets();
-  }, [fetchPlanets]);
+  }, []);
 
   return (
     <TabelaContext.Provider value={ sharedProperties }>
