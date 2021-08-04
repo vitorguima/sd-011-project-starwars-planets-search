@@ -1,7 +1,7 @@
 import React from 'react';
 
-import StarWarsProvider from './Context/StarWarsProvider';
-import Home from './Pages/Home';
+import StarWarsProvider from './context/ProviderContext';
+import Home from './pages/Home';
 
 function App() {
   return (
