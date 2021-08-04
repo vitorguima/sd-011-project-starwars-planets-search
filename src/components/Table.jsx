@@ -2,7 +2,10 @@ import React, { useContext } from 'react';
 import StarContext from '../context/StarContext';
 
 function Table() {
-  const { responseAPI } = useContext(StarContext);
+  const { data, filters } = useContext(StarContext);
+  const filter = (filters.filters.filterByName.name !== '')
+    ? data.filter((planet) => (planet.name).includes(filters.filters.filterByName.name))
+    : data;
 
   return (
     <table className="planetas">
@@ -24,7 +27,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        {responseAPI.map((planet) => (
+        {filter.map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>
