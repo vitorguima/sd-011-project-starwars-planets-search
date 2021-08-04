@@ -9,7 +9,7 @@ function FilterNumbers() {
     value: '',
   });
 
-  function handleClick() {
+  async function handleClick() {
     setFilter({
       ...filters,
       filterByNumericValues: [
@@ -20,7 +20,7 @@ function FilterNumbers() {
         },
       ],
     });
-    FilterNumberFunc();
+    await FilterNumberFunc();
   }
 
   function handleChange({ target }) {
@@ -29,7 +29,6 @@ function FilterNumbers() {
       ...atualState,
       [name]: value,
     });
-    handleClick();
   }
 
   return (

@@ -79,7 +79,7 @@ function PlanetProvider({ children }) {
   }
 
   useEffect(FilterName, [filters]);
-  // useEffect(FilterNumberFunc, [filters]);
+  useEffect(FilterNumberFunc, [filters]);
 
   const myPlanets = {
     data,
