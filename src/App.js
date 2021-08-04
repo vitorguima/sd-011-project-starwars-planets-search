@@ -1,6 +1,6 @@
 import React from 'react';
 import Table from './components/Table';
-import Provider from './context/Provider'
+import Provider from './context/Provider';
 
 const App = () => (
   <div>
