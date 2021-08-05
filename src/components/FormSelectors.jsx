@@ -1,6 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import PlanetsContext from '../context/PlanetsContext';
 
 export default function FormSelectors() {
+  const { setColumn,
+    setComparison,
+    setValue,
+    handleFilterButton,
+  } = useContext(PlanetsContext);
+
   const columns = ['population', 'orbital_period', 'diameter',
     'rotation_period', 'surface_water'];
 
@@ -9,7 +16,7 @@ export default function FormSelectors() {
       <label htmlFor="column">
         Filter by:
         <select
-          // onChange={ (event) => setColumn(event.target.value) }
+          onChange={ (event) => setColumn(event.target.value) }
           data-testid="column-filter"
         >
           { columns.map((col, i) => (
@@ -19,7 +26,7 @@ export default function FormSelectors() {
       <label htmlFor="comparison">
         Compare by:
         <select
-          // onChange={ (event) => setComparison(event.target.value) }
+          onChange={ (event) => setComparison(event.target.value) }
           data-testid="comparison-filter"
         >
           <option value="">Select your option</option>
@@ -32,10 +39,11 @@ export default function FormSelectors() {
         Value:
         <input
           type="number"
-          // onChange={ (event) => setValue(event.target.value) }
+          onChange={ (event) => setValue(event.target.value) }
           data-testid="value-filter"
         />
       </label>
+      <button type="button" onClick={ () => handleFilterButton() }>Set Filter</button>
     </form>
   );
 }
