@@ -7,7 +7,7 @@ function Table() {
   return (
     <div>
       <SearchBar />
-      <table>
+      <table border="1">
         <thead>
           <tr>
             <th> Name </th>

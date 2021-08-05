@@ -1,13 +1,12 @@
 import React, { useContext, useState } from 'react';
-import AppContext from '../context/Context';
+import ContextMain from '../context/Context';
 
 const SearchBar = () => {
   const {
     filterByName,
     filters,
     setFilters,
-    deleteFilter,
-    filterByNumericValues } = useContext(AppContext);
+    deleteFilter } = useContext(ContextMain);
   const [filtersLocal, setFiltersLocal] = useState({
     column: 'population',
     comparison: 'maior que',
