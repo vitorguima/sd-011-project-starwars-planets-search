@@ -4,24 +4,30 @@ import fetchPlanets from '../services/api';
 import PlanetsContext from './PlanetsContext';
 
 export default function PlanetsProvider({ children }) {
-  const [planetsAPI, setPlanetsAPI] = useState([]);
+  const [data, setData] = useState([]);
+  const [filters, setFilters] = useState({ filterByName: { name: '' } });
 
   async function asyncFunc() {
-    setPlanetsAPI(await fetchPlanets());
+    setData(await fetchPlanets());
   }
-
-  // useEffect(() => {
-  //   const filtered = planets.filter((planet) => planet.name
-  //     .toLowerCase().includes(name));
-  //   setFilteredPlanets(filtered);
-  // }, [filters, name, planets]);
 
   useEffect(() => {
     asyncFunc();
   }, []);
 
+  const filteredPlanets = data
+    .filter((planet) => planet.name.toLowerCase().includes(filters.filterByName.name));
+
+  function handleInputPlanet(event) {
+    setFilters({ filterByName: { name: event.target.value } });
+  }
+
+  // setar as funções para comparação, ajustar o filters e zás
+
+  const valuesContext = { handleInputPlanet, data, filteredPlanets };
+
   return (
-    <PlanetsContext.Provider value={ { planetsAPI } }>
+    <PlanetsContext.Provider value={ valuesContext }>
       {children}
     </PlanetsContext.Provider>
   );

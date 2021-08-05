@@ -1,66 +1,44 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function Table() {
-  const { planetsAPI } = useContext(PlanetsContext);
-  const [planets, setPlanets] = useState();
-  const [filters, setFilters] = useState({
-    filters: {
-      filterByName: { name: '' },
-    },
-  });
-  const [numFilters, setNumFilters] = useState([]);
+  const { filteredPlanets } = useContext(PlanetsContext);
+  // const [numFilters, setNumFilters] = useState([]);
 
-  const [column, setColumn] = useState('population');
-  const [comparison, setComparison] = useState('maior que');
-  const magicNumber = 100000;
-  const [value, setValue] = useState(magicNumber);
+  // const [column, setColumn] = useState('population');
+  // const [comparison, setComparison] = useState('maior que');
+  // const magicNumber = 100000;
+  // const [value, setValue] = useState(magicNumber);
 
   const header = ['Name', 'Rotation', 'Orbital Period',
     'Diameter', 'Climate', 'Gravity',
     'Terrain', 'Surface Water', 'Population',
     'Films', 'Created', 'Edited', 'Url'];
-  const columns = ['population', 'orbital_period', 'diameter',
-    'rotation_period', 'surface_water'];
+  // const columns = ['population', 'orbital_period', 'diameter',
+  //   'rotation_period', 'surface_water'];
 
-  function handleInputPlanet({ target }) {
-    setFilters({ filters: { filterByName: { name: target.value } } });
-    console.log(numFilters);
-  }
+  // function handleInputPlanet({ target }) {
+  //   setFilters({ filters: { filterByName: { name: target.value } } });
+  //   console.log(numFilters);
+  // }
 
-  function handleNumFilters() {
-    const filter = [...numFilters];
-    filter.push({ column, comparison, value });
-    setNumFilters(filter);
-  }
+  // function handleNumFilters() {
+  //   const filter = [...numFilters];
+  //   filter.push({ column, comparison, value });
+  //   setNumFilters(filter);
+  // }
 
-  function handleClear() {
-    setFilters({ filters: { filterByName: { name: '' } } });
-    setNumFilters([]);
-    setColumn('population');
-    setComparison('maior que');
-    setValue(magicNumber);
-  }
-
-  useEffect(() => {
-    setPlanets(planetsAPI.filter((planet) => planet.name.toLowerCase()
-      .includes(filters.filters.filterByName.name)));
-  }, [planetsAPI, filters.filters.filterByName.name]);
-
-  if (!planets) {
-    return <div>Loading!</div>;
-  }
+  // function handleClear() {
+  //   setFilters({ filters: { filterByName: { name: '' } } });
+  //   setNumFilters([]);
+  //   setColumn('population');
+  //   setComparison('maior que');
+  //   setValue(magicNumber);
+  // }
 
   return (
     <>
-      <label htmlFor="input-planets">
-        <input
-          onChange={ (event) => handleInputPlanet(event) }
-          data-testid="name-filter"
-          placeholder="Filter by name"
-        />
-      </label>
-      <form>
+      {/* <form>
         <label htmlFor="column">
           Filter by:
           <select
@@ -104,7 +82,7 @@ export default function Table() {
         >
           X
         </button>
-      </form>
+      </form> */}
       <table>
         <thead>
           <tr className="tableHead">
@@ -112,7 +90,7 @@ export default function Table() {
           </tr>
         </thead>
         <tbody>
-          {planets.map((planet, i) => (
+          {filteredPlanets.map((planet, i) => (
             <tr key={ i } className="tableBody">
               <td>{planet.name}</td>
               <td>{planet.rotation_period}</td>
