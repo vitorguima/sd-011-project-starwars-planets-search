@@ -6,10 +6,16 @@ export default function FormSelectors() {
     setComparison,
     setValue,
     handleFilterButton,
+    numeric,
   } = useContext(PlanetsContext);
 
-  const columns = ['population', 'orbital_period', 'diameter',
-    'rotation_period', 'surface_water'];
+  // https://github.com/tryber/sd-011-project-starwars-planets-search/blob/amandhawb-project-starwars/src/App.js - used this repo as reference
+  const allColumns = numeric.map((item) => item.column);
+  const showPopulation = !allColumns.includes('population');
+  const showOrbital = !allColumns.includes('orbital_period');
+  const showDiameter = !allColumns.includes('diameter');
+  const showRotation = !allColumns.includes('rotation_period');
+  const showSurface = !allColumns.includes('surface_water');
 
   return (
     <form>
@@ -19,8 +25,11 @@ export default function FormSelectors() {
           onChange={ (event) => setColumn(event.target.value) }
           data-testid="column-filter"
         >
-          { columns.map((col, i) => (
-            <option key={ i } value={ col }>{ col }</option>)) }
+          {showPopulation && <option>population</option>}
+          {showOrbital && <option>orbital_period</option>}
+          {showDiameter && <option>diameter</option>}
+          {showRotation && <option>rotation_period</option>}
+          {showSurface && <option>surface_water</option>}
         </select>
       </label>
       <label htmlFor="comparison">
