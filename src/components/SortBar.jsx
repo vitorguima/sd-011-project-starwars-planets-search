@@ -1,77 +1,104 @@
 import React, { useContext, useState } from 'react';
-import ContextMain from '../context/Context';
+import { StarWarsContext } from '../context/Provider';
 
-export default function SortForm() {
-  const { setFilterSort } = useContext(ContextMain);
+function SortBar() {
+  const titles = { column: 'name', sort: 'ASC' };
+  const { data, filters, setFilters } = useContext(StarWarsContext);
+  const [orderOption, setOrderOption] = useState(titles);
 
-  const [sortBy, setSortBy] = useState({
-    column: 'name',
-    sort: 'ASC',
-  });
+  const selectOptions = () => (
+    Object.keys(data[0])
+      .map((titulo) => (<option key={ titulo } value={ titulo }>{titulo}</option>))
+  );
 
-  const { column } = sortBy;
+  const testOrder = ({ target: { name, value } }) => (
+    setOrderOption({
+      ...orderOption,
+      [name]: value,
+    })
+  );
 
-  const columns = [
-    'name',
-    'rotation_period',
-    'orbital_period',
-    'diameter',
-    'climate',
-    'terrain',
-    'surface_water',
-    'population',
-  ];
-
-  const handleSort = () => {
-    setFilterSort(sortBy);
-  };
-
-  const handleChange = ({ target }) => {
-    setSortBy({
-      ...sortBy,
-      [target.name]: target.value,
+  const columnSel = () => {
+    setFilters({
+      ...filters,
+      order: {
+        ...orderOption,
+      },
     });
   };
 
+  const numbersToOrdened = {
+    max: 1,
+    min: -1,
+  };
+
+  const ordenedData = () => {
+    columnSel();
+    const { column, sort } = orderOption;
+
+    if (sort === 'ASC') {
+      data.sort((var1, var2) => {
+        if (var1[column] > var2[column]) {
+          return numbersToOrdened.max;
+        }
+        return numbersToOrdened.min;
+      });
+    } else if (sort === 'DESC') {
+      data.sort((var1, var2) => {
+        if (var1[column] < var2[column]) {
+          return numbersToOrdened.max;
+        }
+        return numbersToOrdened.min;
+      });
+    }
+    data.sort((var1, var2) => (
+      var2[column] - var1[column]
+    ));
+  };
+
   return (
-    <>
-      <select
-        value={ column }
-        name="column"
-        onChange={ handleChange }
-        data-testid="column-sort"
-      >
-        {columns.map((columnOption) => (
-          <option key={ columnOption }>{columnOption}</option>
-        ))}
-      </select>
-      <span>
+    <div>
+      <div>
+        <select
+          data-testid="column-sort"
+          name="column"
+          onChange={ testOrder }
+        >
+          <option>Select option</option>
+          {selectOptions()}
+        </select>
         <label htmlFor="ASC">
-          Ascendent
+          ASC
           <input
             type="radio"
-            data-testid="column-sort-input-asc"
-            value="ASC"
             id="ASC"
             name="sort"
-            onChange={ handleChange }
+            value="ASC"
+            data-testid="column-sort-input-asc"
+            onChange={ testOrder }
           />
         </label>
         <label htmlFor="DESC">
-          Descendent
+          DESC
           <input
             type="radio"
-            data-testid="column-sort-input-desc"
-            value="DESC"
             id="DESC"
-            onChange={ handleChange }
             name="sort"
+            value="DESC"
+            data-testid="column-sort-input-desc"
+            onChange={ testOrder }
           />
         </label>
-      </span>
-      <button type="button" data-testid="column-sort-button" onClick={ handleSort }>
-        Sort
-      </button>
-    </>
+        <button
+          type="button"
+          data-testid="column-sort-button"
+          onClick={ ordenedData }
+        >
+          Ordenar
+        </button>
+      </div>
+    </div>
   );
 }
+
+export default SortBar;

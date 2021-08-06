@@ -1,7 +1,12 @@
 const URL_API = 'https://swapi-trybe.herokuapp.com/api/planets/';
 
-export default function getApi() {
-  return fetch(URL_API)
-    .then((response) => response.json())
-    .then((data) => data.results);
-}
+const requestPlanets = async () => {
+  const apiAwait = await fetch(URL_API);
+  const responseAwait = await apiAwait.json();
+  const result = responseAwait.results;
+  // Delete keys of a given object
+  result.forEach((element) => delete element.residents);
+  return result;
+};
+
+export default requestPlanets;
