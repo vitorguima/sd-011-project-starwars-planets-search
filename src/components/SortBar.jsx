@@ -1,104 +1,93 @@
 import React, { useContext, useState } from 'react';
-import { StarWarsContext } from '../context/Provider';
+import AppContext from '../context/Context';
 
-function SortBar() {
-  const titles = { column: 'name', sort: 'ASC' };
-  const { data, filters, setFilters } = useContext(StarWarsContext);
-  const [orderOption, setOrderOption] = useState(titles);
+export default function SortForm() {
+  const { setFilterSort } = useContext(AppContext);
 
-  const selectOptions = () => (
-    Object.keys(data[0])
-      .map((titulo) => (<option key={ titulo } value={ titulo }>{titulo}</option>))
-  );
+  const [sortBy, setSortBy] = useState({
+    column: 'name',
+    sort: 'ASC',
+  });
 
-  const testOrder = ({ target: { name, value } }) => (
-    setOrderOption({
-      ...orderOption,
-      [name]: value,
-    })
-  );
+  //   useEffect(() => {
+  //     setFilterSort(sortBy);
+  //   }, []);
 
-  const columnSel = () => {
-    setFilters({
-      ...filters,
-      order: {
-        ...orderOption,
-      },
+  const { column } = sortBy;
+
+  const columns = [
+    'name',
+    'rotation_period',
+    'orbital_period',
+    'diameter',
+    'climate',
+    'terrain',
+    'surface_water',
+    'population',
+  ];
+
+  const handleSort = () => {
+    // const inOrder = filteredPlanets.sort((a, b) => {
+    //   let planetA = Number(a[column]) ? Number(a[column]) : a[column];
+    //   let planetB = Number(b[column]) ? Number(b[column]) : b[column];
+    //   if (planetA === 'unknown') planetA = Infinity;
+    //   if (planetB === 'unknown') planetB = Infinity;
+    //   if (planetA > planetB && sort === 'ASC') return 1;
+    //   if (planetA < planetB && sort === 'ASC') return -1;
+    //   if (planetA > planetB && sort === 'DESC') return -1;
+    //   if (planetA < planetB && sort === 'DESC') return 1;
+    //   return 0;
+    // });
+    // setFilteredPlanets(inOrder);
+    setFilterSort(sortBy);
+  };
+
+  const handleChange = ({ target }) => {
+    setSortBy({
+      ...sortBy,
+      [target.name]: target.value,
     });
   };
 
-  const numbersToOrdened = {
-    max: 1,
-    min: -1,
-  };
-
-  const ordenedData = () => {
-    columnSel();
-    const { column, sort } = orderOption;
-
-    if (sort === 'ASC') {
-      data.sort((var1, var2) => {
-        if (var1[column] > var2[column]) {
-          return numbersToOrdened.max;
-        }
-        return numbersToOrdened.min;
-      });
-    } else if (sort === 'DESC') {
-      data.sort((var1, var2) => {
-        if (var1[column] < var2[column]) {
-          return numbersToOrdened.max;
-        }
-        return numbersToOrdened.min;
-      });
-    }
-    data.sort((var1, var2) => (
-      var2[column] - var1[column]
-    ));
-  };
-
   return (
-    <div>
-      <div>
-        <select
-          data-testid="column-sort"
-          name="column"
-          onChange={ testOrder }
-        >
-          <option>Select option</option>
-          {selectOptions()}
-        </select>
+    <>
+      <select
+        value={ column }
+        name="column"
+        onChange={ handleChange }
+        data-testid="column-sort"
+      >
+        {columns.map((columnOption) => (
+          <option key={ columnOption }>{columnOption}</option>
+        ))}
+      </select>
+      <span>
         <label htmlFor="ASC">
-          ASC
+          Ascendent
           <input
             type="radio"
+            data-testid="column-sort-input-asc"
+            value="ASC"
             id="ASC"
             name="sort"
-            value="ASC"
-            data-testid="column-sort-input-asc"
-            onChange={ testOrder }
+            onChange={ handleChange }
           />
         </label>
         <label htmlFor="DESC">
-          DESC
+          Descendent
           <input
             type="radio"
-            id="DESC"
-            name="sort"
-            value="DESC"
             data-testid="column-sort-input-desc"
-            onChange={ testOrder }
+            value="DESC"
+            id="DESC"
+            onChange={ handleChange }
+            name="sort"
           />
         </label>
-        <button
-          type="button"
-          data-testid="column-sort-button"
-          onClick={ ordenedData }
-        >
-          Ordenar
-        </button>
-      </div>
-    </div>
+      </span>
+      <button type="button" data-testid="column-sort-button" onClick={ handleSort }>
+        Sort
+      </button>
+    </>
   );
 }
-
-export default SortBar;
