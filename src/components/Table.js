@@ -2,11 +2,38 @@ import React, { useContext } from 'react';
 import MainContext from '../context/MainContext';
 
 function Table() {
-  const value = useContext(MainContext);
-  console.log(value);
-  return (
-    <p>Table Component</p>
-  );
+  const { data } = useContext(MainContext);
+  let column = [];
+
+  if (data.length) {
+    column = Object.keys(data[0]);
+
+    return (
+      <table border="1">
+        <thead>
+          <tr>
+            {
+              column.map((key) => {
+                if (key !== 'residents') return <th key={ key }>{ key }</th>;
+                return null;
+              })
+            }
+          </tr>
+        </thead>
+        <tbody>
+          {data.map((planets, index) => (
+            <tr key={ index }>
+              {Object.values(planets).map((value) => (
+                <td key={ value }>{value}</td>
+              ))}
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    );
+  }
+
+  return <p>Loading...</p>;
 }
 
 export default Table;

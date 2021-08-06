@@ -4,11 +4,11 @@ import starWarsAPI from '../services.js/starWarsAPI';
 import MainContext from './MainContext';
 
 function MainProvider({ children }) {
-  const [value, setValue] = useState({});
+  const [value, setValue] = useState({ data: [] });
 
   useEffect(() => {
     const getPlanets = async () => {
-      setValue(await starWarsAPI());
+      setValue({ data: await starWarsAPI() });
     };
     getPlanets();
   }, []);
