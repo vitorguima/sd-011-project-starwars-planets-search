@@ -17,7 +17,7 @@ function tableComponents(data, filters, setFilters) {
         .map((element) => (
           <tr key={ element.name }>
             {Object.values(element)
-              .map((value) => <td key={ value }>{value}</td>)}
+              .map((value) => <td key={ value } data-testid="planet-name">{value}</td>)}
           </tr>))}
     </tbody>
   );
