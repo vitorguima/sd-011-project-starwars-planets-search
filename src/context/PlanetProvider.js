@@ -5,9 +5,9 @@ import PlanetsContext from './PlanetsContext';
 
 export default function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
-  const [column, setColumn] = useState('');
-  const [comparison, setComparison] = useState('');
-  const [value, setValue] = useState('0');
+  const [column, setColumn] = useState('population');
+  const [comparison, setComparison] = useState('maior que');
+  const [value, setValue] = useState('100000');
   // const [filters, setFilters] = useState({ filterByName: { name: '' },
   //   filterByNumericValues: [] });
   const [theRender, setTheRender] = useState([]);

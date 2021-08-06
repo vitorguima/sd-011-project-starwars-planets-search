@@ -52,7 +52,13 @@ export default function FormSelectors() {
           data-testid="value-filter"
         />
       </label>
-      <button type="button" onClick={ () => handleFilterButton() }>Set Filter</button>
+      <button
+        type="button"
+        onClick={ () => handleFilterButton() }
+        data-testid="button-filter"
+      >
+        Set Filter
+      </button>
     </form>
   );
 }
