@@ -1,9 +1,13 @@
 import React from 'react';
+import TablePlanetsProvider from './contexts/TablePlanetsProvider';
+import Table from './components/Table';
 import './App.css';
 
 function App() {
   return (
-    <span>Hello, App!</span>
+    <TablePlanetsProvider>
+      <Table />
+    </TablePlanetsProvider>
   );
 }
 
