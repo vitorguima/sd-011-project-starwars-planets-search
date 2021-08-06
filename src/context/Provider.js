@@ -36,7 +36,7 @@ function Provider({ children }) {
       }
       return numbersToOrdened.min;
     });
-  }, []);
+  }, [data, initial, numbersToOrdened.max, numbersToOrdened.min]);
 
   const contextValue = { data, filters, setFilters, setData };
 
