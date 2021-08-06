@@ -1,32 +1,29 @@
 import React, { useContext } from 'react';
 import { MyContext } from '../context/MyContext';
 
+// https://pt.stackoverflow.com/questions/456689/filtro-de-tabela-pelo-nome-em-react
+
 function Filters() {
   const { filter, setFilter } = useContext(MyContext);
 
-  function handleInput(e) {
-    const inputValue = e.target.value;
-    setData(searchTable(inputValue));
-  }
+  // function searchTable(value) {
+  //   const filteredData = [];
 
-  function searchTable(value) {
-    const filteredData = [];
+  //   if (value.length === 0) {
+  //     return filter;
+  //   }
 
-    if (value.length === 0) {
-      return filter;
-    }
+  //   for (let i = 0; i < data.length; i += 1) {
+  //     const newValue = value.toLowerCase();
 
-    for (let i = 0; i < data.length; i+=) {
-      const newValue = value.toLowerCase();
+  //     const user = data[i].user.toLowerCase();
 
-      const user = data[i].user.toLowerCase();
-
-      if (user.includes(newValue)) {
-        filteredData.push(data[i]);
-      }
-    }
-    return filteredData;
-  }
+  //     if (user.includes(newValue)) {
+  //       filteredData.push(data[i]);
+  //     }
+  //   }
+  //   return filteredData;
+  // }
 
   return (
     <form>
@@ -35,7 +32,7 @@ function Filters() {
           data-testid="name-filter"
           id="filterInput"
           type="text"
-          onChange={ handleInput }
+          onChange={ (e) => setFilter(e.target.value) }
           value={ filter }
           placeholder="Econtre um planeta"
         />

@@ -1,9 +1,14 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext } from 'react';
+// useState
 import { MyContext } from '../context/MyContext';
 
 function Table() {
-  const { planets } = useContext(MyContext);
-  const [fiterPlanets, setFilterPlanets] = useState(MyContext);
+  const { planets, filter } = useContext(MyContext);
+  const [fiterPlanets, setFilterPlanets] = useState([]);
+
+  function filterPlanet() {
+    planets.filter((planet) => planet.results === filter.length);
+  }
 
   return (
     <table>
