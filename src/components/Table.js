@@ -13,10 +13,9 @@ function Table() {
         <thead>
           <tr>
             {
-              column.map((key) => {
-                if (key !== 'residents') return <th key={ key }>{ key }</th>;
-                return null;
-              })
+              column.map((key) => (
+                <th key={ key }>{ key }</th>
+              ))
             }
           </tr>
         </thead>
