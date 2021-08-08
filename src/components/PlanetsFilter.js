@@ -2,7 +2,16 @@ import React, { useContext } from 'react';
 import MainContext from '../context/MainContext';
 
 function PlanetsFilter() {
-  const { filters, setFilters } = useContext(MainContext);
+  const { data, setFilteredData } = useContext(MainContext);
+
+  function handleFormChange(value) {
+    const newData = data.filter((planet) => {
+      if (planet.name.includes(value)) return true;
+      return false;
+    });
+    setFilteredData(newData);
+  }
+
   return (
     <form>
       <fieldset>
@@ -13,8 +22,7 @@ function PlanetsFilter() {
             id="name-filter"
             data-testid="name-filter"
             placeholder="Tatooine"
-            onChange={ ({ target: { value: name } }) => (
-              setFilters(({ ...filters, filterByName: { name } }))) }
+            onChange={ ({ target: { value } }) => handleFormChange(value) }
           />
         </label>
       </fieldset>

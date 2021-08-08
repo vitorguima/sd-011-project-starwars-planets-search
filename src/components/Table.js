@@ -2,11 +2,11 @@ import React, { useContext } from 'react';
 import MainContext from '../context/MainContext';
 
 function Table() {
-  const { data } = useContext(MainContext);
+  const { filteredData } = useContext(MainContext);
   let column = [];
 
-  if (data.length) {
-    column = Object.keys(data[0]);
+  if (filteredData.length) {
+    column = Object.keys(filteredData[0]);
 
     return (
       <table border="1">
@@ -20,7 +20,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {data.map((planets, index) => (
+          {filteredData.map((planets, index) => (
             <tr key={ index }>
               {Object.values(planets).map((value) => (
                 <td key={ value }>{value}</td>
