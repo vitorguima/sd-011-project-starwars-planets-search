@@ -8,6 +8,8 @@ function MainProvider({ children }) {
   const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState({
     filterByName: {},
+    filterByNumericValues: [],
+    order: {},
   });
 
   useEffect(() => {
