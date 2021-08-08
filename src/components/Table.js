@@ -3,50 +3,62 @@ import TablePlanetsContext from '../contexts/TablePlanetsContext';
 import './css/Table.css';
 
 function Table() {
-  const { planets } = useContext(TablePlanetsContext);
+  const {
+    filterbyInput,
+    filtered } = useContext(TablePlanetsContext);
 
   return (
-    <table className="table">
-      <thead>
-        <tr>
-          <th>name</th>
-          <th>rotation_period</th>
-          <th>orbital_period</th>
-          <th>diameter</th>
-          <th>climate</th>
-          <th>gravity</th>
-          <th>terrain</th>
-          <th>surface_water</th>
-          <th>population</th>
-          <th>films</th>
-          <th>created</th>
-          <th>edited</th>
-          <th>url</th>
-        </tr>
-      </thead>
-      <tbody>
-        { planets.map((planet, index) => (
-          <tr key={ index }>
-            <td data-test-id="planet-name">
-              {' '}
-              { planet.name }
-            </td>
-            <td>{ planet.rotation_period }</td>
-            <td>{ planet.orbital_period }</td>
-            <td>{ planet.diameter }</td>
-            <td>{ planet.climate }</td>
-            <td>{ planet.gravity }</td>
-            <td>{ planet.terrain }</td>
-            <td>{ planet.surface_water }</td>
-            <td>{ planet.population }</td>
-            <td>{ planet.films }</td>
-            <td>{ planet.created }</td>
-            <td>{ planet.edited }</td>
-            <td>{ planet.url }</td>
+    <div>
+      <label htmlFor="filtered-input">
+        <input
+          id="filtered-input"
+          type="text"
+          onChange={ (e) => filterbyInput(e) }
+          data-testid="name-filter"
+        />
+      </label>
+      <table className="table">
+        <thead>
+          <tr>
+            <th>name</th>
+            <th>rotation_period</th>
+            <th>orbital_period</th>
+            <th>diameter</th>
+            <th>climate</th>
+            <th>gravity</th>
+            <th>terrain</th>
+            <th>surface_water</th>
+            <th>population</th>
+            <th>films</th>
+            <th>created</th>
+            <th>edited</th>
+            <th>url</th>
           </tr>
-        ))}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          { filtered && filtered.map((planet, index) => (
+            <tr key={ index }>
+              <td data-test-id="planet-name">
+                {' '}
+                { planet.name }
+              </td>
+              <td>{ planet.rotation_period }</td>
+              <td>{ planet.orbital_period }</td>
+              <td>{ planet.diameter }</td>
+              <td>{ planet.climate }</td>
+              <td>{ planet.gravity }</td>
+              <td>{ planet.terrain }</td>
+              <td>{ planet.surface_water }</td>
+              <td>{ planet.population }</td>
+              <td>{ planet.films }</td>
+              <td>{ planet.created }</td>
+              <td>{ planet.edited }</td>
+              <td>{ planet.url }</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 

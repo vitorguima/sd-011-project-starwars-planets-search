@@ -5,6 +5,26 @@ import fetchPlanets from '../services/FetchPlanets';
 
 export default function TablePlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
+  const [filtered, setFiltered] = useState('');
+  const [filter, setFilter] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
+
+  const filterbyInput = (event) => {
+    setFilter({
+      ...filter,
+      filterByName: {
+        name: event.target.value,
+      },
+    });
+  };
+
+  useEffect(() => {
+    setFiltered(planets.filter((planet) => planet.name.toLowerCase()
+      .includes(filter.filterByName.name)));
+  }, [filter, planets]);
 
   useEffect(() => {
     const PlanetsResult = async () => {
@@ -16,6 +36,8 @@ export default function TablePlanetsProvider({ children }) {
 
   const context = {
     planets,
+    filterbyInput,
+    filtered,
   };
 
   return (
