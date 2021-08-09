@@ -18,7 +18,7 @@ function PlanetsFilter() {
   } = useContext(MainContext);
 
   const [listFilterChoise, setListFilterChoise] = useState('population');
-  const [comparisonFilter, setComparisonFilter] = useState('Maior');
+  const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState(0);
 
   function handleNameChange(value) {
@@ -31,7 +31,7 @@ function PlanetsFilter() {
   }
 
   async function handleNumericChange() {
-    listFilter.splice(listFilter.indexOf(listFilterChoise), 1);
+    listFilter.splice(listFilter.indexOf(listFilterChoise) || 0, 1);
     await setFilters({
       ...filters,
       filterByNumericValues: [
@@ -45,21 +45,21 @@ function PlanetsFilter() {
     });
 
     switch (comparisonFilter) {
-    case 'Maior':
+    case 'maior que':
       setFilteredData(filteredData.filter((planet) => {
         if (parseInt(planet[listFilterChoise], 10) > valueFilter) return true;
         return false;
       }));
       break;
 
-    case 'Menor':
+    case 'menor que':
       setFilteredData(filteredData.filter((planet) => {
         if (parseInt(planet[listFilterChoise], 10) < valueFilter) return true;
         return false;
       }));
       break;
 
-    case 'Igual':
+    case 'igual a':
       setFilteredData(filteredData.filter((planet) => {
         if (parseInt(planet[listFilterChoise], 10) === valueFilter) return true;
         return false;
@@ -104,9 +104,9 @@ function PlanetsFilter() {
             value={ comparisonFilter }
             onChange={ ({ target: { value } }) => setComparisonFilter(value) }
           >
-            <option>Maior</option>
-            <option>Menor</option>
-            <option>Igual</option>
+            <option>maior que</option>
+            <option>menor que</option>
+            <option>igual a</option>
           </select>
         </label>
         <label htmlFor="column-filter">
@@ -117,7 +117,13 @@ function PlanetsFilter() {
             value={ valueFilter }
           />
         </label>
-        <button type="button" onClick={ handleNumericChange }>Filtrar por valor</button>
+        <button
+          type="button"
+          onClick={ handleNumericChange }
+          data-testid="value-filter"
+        >
+          Filtrar por valor
+        </button>
       </fieldset>
     </form>
   );
