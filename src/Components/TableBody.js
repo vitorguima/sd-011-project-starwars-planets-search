@@ -21,7 +21,7 @@ function TableBody() {
         <td>{data.rotation_period}</td>
         <td>{data.orbital_period}</td>
         <td>{data.diameter}</td>
-        <td>{data.cliamte}</td>
+        <td>{data.climate}</td>
         <td>{data.gravity}</td>
         <td>{data.terrain}</td>
         <td>{data.surface_water}</td>
