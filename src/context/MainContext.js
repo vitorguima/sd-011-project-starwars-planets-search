@@ -1,5 +1,5 @@
 import { createContext } from 'react';
 
-const context = createContext({ data: [], filters: {} });
+const context = createContext({ data: [], filters: {}, order: {} });
 
 export default context;

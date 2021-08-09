@@ -9,7 +9,6 @@ function MainProvider({ children }) {
   const [filters, setFilters] = useState({
     filterByName: {},
     filterByNumericValues: [],
-    order: {},
   });
 
   useEffect(() => {
