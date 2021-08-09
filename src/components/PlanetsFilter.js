@@ -1,6 +1,13 @@
 import React, { useContext, useState } from 'react';
 import MainContext from '../context/MainContext';
 
+const listFilter = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water'];
+
 function PlanetsFilter() {
   const {
     data,
@@ -10,14 +17,7 @@ function PlanetsFilter() {
     setFilteredData,
   } = useContext(MainContext);
 
-  const listFilter = [
-    'population',
-    'orbital_period',
-    'diameter',
-    'rotation_period',
-    'surface_water'];
-
-  const [listFilterChoise, setListFilterChoise] = useState();
+  const [listFilterChoise, setListFilterChoise] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('Maior');
   const [valueFilter, setValueFilter] = useState(0);
 
@@ -31,8 +31,7 @@ function PlanetsFilter() {
   }
 
   async function handleNumericChange() {
-    listFilter.shift();
-    console.log(listFilter);
+    listFilter.splice(listFilter.indexOf(listFilterChoise), 1);
     await setFilters({
       ...filters,
       filterByNumericValues: [
@@ -47,32 +46,24 @@ function PlanetsFilter() {
 
     switch (comparisonFilter) {
     case 'Maior':
-      filters.filterByNumericValues.forEach((filter) => {
-        setFilteredData(filteredData.filter((planet) => {
-          console.log(planet);
-          console.log(filter);
-          if (parseFloat(planet[listFilterChoise]) > filter.value) return true;
-          return false;
-        }));
-      });
+      setFilteredData(filteredData.filter((planet) => {
+        if (parseInt(planet[listFilterChoise], 10) > valueFilter) return true;
+        return false;
+      }));
       break;
 
     case 'Menor':
-      filters.filterByNumericValues.forEach((filter) => {
-        setFilteredData(filteredData.filter((planet) => {
-          if (parseFloat(planet[listFilterChoise]) < filter.value) return true;
-          return false;
-        }));
-      });
+      setFilteredData(filteredData.filter((planet) => {
+        if (parseInt(planet[listFilterChoise], 10) < valueFilter) return true;
+        return false;
+      }));
       break;
 
     case 'Igual':
-      filters.filterByNumericValues.forEach((filter) => {
-        setFilteredData(filteredData.filter((planet) => {
-          if (parseFloat(planet[listFilterChoise]) === filter.value) return true;
-          return false;
-        }));
-      });
+      setFilteredData(filteredData.filter((planet) => {
+        if (parseInt(planet[listFilterChoise], 10) === valueFilter) return true;
+        return false;
+      }));
       break;
 
     default:
