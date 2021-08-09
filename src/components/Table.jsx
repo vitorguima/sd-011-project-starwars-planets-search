@@ -5,6 +5,14 @@ import FilterBar from './FilterBar';
 
 function Table() {
   const { planets } = useContext(PlanetsContext);
+  const { filteredPlanets } = useContext(PlanetsContext);
+
+  const planetsToRender = () => {
+    if (filteredPlanets.length === 0) {
+      return planets;
+    }
+    return filteredPlanets;
+  };
 
   return (
     <div>
@@ -28,7 +36,7 @@ function Table() {
             <th>Url</th>
           </tr>
         </thead>
-        { planets.map((planet) => (
+        { planetsToRender().map((planet) => (
           <tr key={ planet.name }>
             <td>{ planet.name }</td>
             <td>{ planet.rotation_period }</td>
