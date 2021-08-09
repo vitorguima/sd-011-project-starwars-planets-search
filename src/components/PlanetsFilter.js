@@ -109,9 +109,11 @@ function PlanetsFilter() {
             <option>igual a</option>
           </select>
         </label>
-        <label htmlFor="column-filter">
+        <label htmlFor="value-filter">
           Valor:
           <input
+            id="value-filter"
+            data-testid="value-filter"
             type="number"
             onChange={ ({ target: { value } }) => setValueFilter(value) }
             value={ valueFilter }
@@ -120,7 +122,7 @@ function PlanetsFilter() {
         <button
           type="button"
           onClick={ handleNumericChange }
-          data-testid="value-filter"
+          data-testid="button-filter"
         >
           Filtrar por valor
         </button>
