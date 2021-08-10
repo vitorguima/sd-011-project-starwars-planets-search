@@ -10,7 +10,6 @@ function FilterByNumber() {
     'surface_water',
   ]);
   const { filters, setFilters } = useAuth();
-  // const { filterByNumericValues } = filters;
 
   const [localFilters, setLocalFilters] = useState({
     column: 'population',
@@ -38,8 +37,6 @@ function FilterByNumber() {
       value,
     });
   }
-
-  // console.log(filters.filterByNumericValues);
 
   function setFilterOptions() {
     setFilters({

@@ -17,6 +17,7 @@ function PlanetsProvider() {
     const { filterByName: { name } } = filters;
     const { filterByNumericValues } = filters;
     const minusOne = -1;
+    console.log(filterByNumericValues);
     if (filterByNumericValues.length > 0) {
       const { column, comparison, value } = filterByNumericValues[0];
       switch (comparison) {
@@ -52,6 +53,7 @@ function PlanetsProvider() {
           id="name-filter"
           data-testid="name-filter"
           onChange={ (e) => setFilters({
+            ...filters,
             filterByName: {
               name: e.target.value,
             },
