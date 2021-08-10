@@ -3,8 +3,11 @@ import SWPlanetsContext from '../context/Context';
 import swloading from '../images/swloading.gif'
 
 function Table() {
-  const { loading, planets } = useContext(SWPlanetsContext);
- 
+  const { loading, planets, filters: { filterByName: { name } } } = useContext(SWPlanetsContext);
+  
+  const filters = planets.filter((planet) => (
+    planet.name.toLowerCase().includes(name)));
+
   if (loading) {
     return (
       <img
@@ -35,7 +38,7 @@ function Table() {
         </tr>
       </thead>
       <tbody>
-        { planets.map((r) => (
+        { filters.map((r) => (
           <tr key={ r.name }>
             <td>{ r.name }</td>
             <td>{ r.rotation_period }</td>

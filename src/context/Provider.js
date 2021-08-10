@@ -6,6 +6,11 @@ import SWPlanetsContext from '../context/Context';
 function SWPlanetsProvider ({ children }) {
   const [loading, setLoading] = useState(false);
   const [planets, setPlanets] = useState([]);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name:'',
+    }
+  });
 
   const fetchPlanets = async () => {
     setLoading(true);
@@ -24,6 +29,8 @@ function SWPlanetsProvider ({ children }) {
       loading,
       planets,
       fetchPlanets,
+      filters,
+      setFilters,
     } }
     >
       { children }
