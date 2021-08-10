@@ -1,20 +1,20 @@
 body {
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
   background-image: url("https://exame.com/wp-content/uploads/2018/08/espaco.jpg");
   background-size: cover;
   color: white;
+  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
 }
 
 .table {
   background: rgba(193, 178, 235, 0.712);
-  margin-top: 40px;
-  color: black;
   border-radius: 5px;
+  color: black;
   font-size: small;
+  margin-top: 40px;
 }
 
 .thead {
   background: rgb(1, 1, 75);
-  color: white;
   border-radius: 3px;
+  color: white;
 }

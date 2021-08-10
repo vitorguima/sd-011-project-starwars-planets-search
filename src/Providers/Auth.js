@@ -8,6 +8,7 @@ export const AuthProvider = (props) => {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
 
   const { children } = props;
@@ -17,6 +18,7 @@ export const AuthProvider = (props) => {
     </PlanetsContext.Provider>
   );
 };
+
 // Porta de entrada para alterar o estado global:
 export const useAuth = () => React.useContext(PlanetsContext);
 

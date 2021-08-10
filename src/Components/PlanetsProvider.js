@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Table from './Table';
 import { useAuth } from '../Providers/Auth';
+import FilterByNumber from './FilterByNumber';
 
 function PlanetsProvider() {
   const [data, setData] = useState([]);
@@ -35,6 +36,7 @@ function PlanetsProvider() {
           }) }
         />
       </label>
+      <FilterByNumber />
       <Table dataForTable={ filteredData(data) } />
     </div>
   );
