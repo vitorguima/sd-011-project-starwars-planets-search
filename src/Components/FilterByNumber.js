@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useAuth } from '../Providers/Auth';
 
 function FilterByNumber() {
-  const [colFilters, setColFilters] = useState([
+  const [colFilters] = useState([
+    // const [colFilters, setColFilters] = useState([
     'population',
     'orbital_period',
     'diameter',
@@ -10,7 +11,7 @@ function FilterByNumber() {
     'surface_water',
   ]);
   const { filters, setFilters } = useAuth();
-  const { filterByNumericValues } = filters;
+  // const { filterByNumericValues } = filters;
 
   const [localFilters, setLocalFilters] = useState({
     column: 'population',
