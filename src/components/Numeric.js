@@ -1,14 +1,14 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
-export default function NumericFilter() {
+export default function Numeric() {
   const [filtersInputs, setFiltersInput] = useState({
-    columnInput: 'population',
+    columnInput: '',
     comparisonInput: 'maior que',
     valueInput: 0,
   });
   const { filters, setFilters } = useContext(StarWarsContext);
-  const { filterByNumericValues: { column, comparison, value } } = filters;
+  const { columns, setColumns } = useContext(StarWarsContext);
 
   const handleChange = ({ target }) => {
     setFiltersInput({ ...filtersInputs, [target.name]: target.value });
@@ -17,13 +17,33 @@ export default function NumericFilter() {
   const handleClick = () => {
     setFilters({
       ...filters,
-      filterByNumericValues: {
-        column: filtersInputs.columnInput,
-        comparison: filtersInputs.comparisonInput,
-        value: filtersInputs.valueInput,
-      },
+      filterByNumericValues: [
+        ...filters.filterByNumericValues,
+        {
+          column: filtersInputs.columnInput || columns[0],
+          comparison: filtersInputs.comparisonInput,
+          value: filtersInputs.valueInput,
+        },
+      ],
     });
+    const availableColumns = columns.filter(
+      (column) => (filtersInputs.columnInput
+        ? column !== filtersInputs.columnInput
+        : column !== columns[0]),
+    );
+    setColumns(availableColumns);
   };
+
+  const renderOptions = () => columns.map(
+    (column, index) => (
+      <option
+        key={ index }
+        value={ column }
+      >
+        { column }
+      </option>
+    ),
+  );
 
   return (
     <div>
@@ -33,23 +53,20 @@ export default function NumericFilter() {
           data-testid="column-filter"
           id="column-filter"
           name="columnInput"
-          value={ column }
+          value={ filtersInputs.columnInput }
           onChange={ (e) => handleChange(e) }
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {renderOptions()}
         </select>
       </label>
+
       <label htmlFor="comparison-filter">
         Comparação:
         <select
           data-testid="comparison-filter"
           id="comparison-filter"
           name="comparisonInput"
-          value={ comparison }
+          value={ filtersInputs.comparisonInput }
           onChange={ (e) => handleChange(e) }
         >
           <option value="maior que">maior que</option>
@@ -65,7 +82,7 @@ export default function NumericFilter() {
           data-testid="value-filter"
           id="value-filter"
           name="valueInput"
-          value={ value }
+          value={ filtersInputs.valueInput }
           onChange={ (e) => handleChange(e) }
         />
       </label>
@@ -74,7 +91,7 @@ export default function NumericFilter() {
         data-testid="button-filter"
         onClick={ () => handleClick() }
       >
-        Acionar filtro
+        Filtrar
       </button>
     </div>
   );
