@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Table from './Table';
-import PlanetsContext from './PlanetsContext';
+import AppContext from './AppContext';
 import './App.css';
 
 function App() {
   const [data, setData] = useState(undefined);
+  const [filterByName, setFilterByName] = useState('');
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -15,9 +16,22 @@ function App() {
   }, []);
 
   return (
-    <PlanetsContext.Provider value={ { data } }>
+    <AppContext.Provider
+      value={ {
+        data,
+        filters: {
+          filterByName: { name: filterByName },
+        },
+      } }
+    >
+      <input
+        type="text"
+        data-testid="name-filter"
+        value={ filterByName }
+        onChange={ (event) => setFilterByName(event.currentTarget.value) }
+      />
       <Table />
-    </PlanetsContext.Provider>
+    </AppContext.Provider>
   );
 }
 
