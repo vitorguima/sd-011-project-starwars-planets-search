@@ -6,6 +6,7 @@ import * as services from '../services/Services';
 function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
+  const [filteredColumn, setFilteredColumn] = useState([]);
 
   useEffect(() => {
     const callbackFetchPlanets = async () => {
@@ -15,13 +16,41 @@ function PlanetsProvider({ children }) {
     callbackFetchPlanets();
   }, []);
 
-  const handleFilter = (param) => {
+  const handleFilterByName = (param) => {
     setFilteredPlanets(planets
       .filter((planet) => planet.name.includes(param)));
   };
 
+  const handleFilterByColumn = ({ fieldColumn, fieldComparison, fieldInputValue }) => {
+    switch (fieldComparison) {
+    case 'maior que':
+      setFilteredColumn(planets
+        .filter((planet) => planet[fieldColumn] > parseInt(fieldInputValue, 10)));
+      console.log('maior', filteredColumn);
+      break;
+    case 'menor que':
+      setFilteredColumn(planets
+        .filter((planet) => planet[fieldColumn] < parseInt(fieldInputValue, 10)));
+      console.log('menor');
+      break;
+    case 'igual a':
+      setFilteredColumn(planets
+        .filter((planet) => fieldInputValue === planet[fieldColumn]));
+      console.log('=');
+      break;
+    default:
+    }
+  };
+  const objToProvide = {
+    planets,
+    filteredPlanets,
+    filteredColumn,
+    handleFilterByName,
+    handleFilterByColumn,
+  };
+
   return (
-    <PlanetsContext.Provider value={ { planets, handleFilter, filteredPlanets } }>
+    <PlanetsContext.Provider value={ objToProvide }>
       { children }
     </PlanetsContext.Provider>
   );
