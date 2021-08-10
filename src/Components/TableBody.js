@@ -4,18 +4,17 @@ import AppContext from '../Context/AppContext';
 function TableBody() {
   const {
     planets,
+    planetFiltered,
   } = useContext(AppContext);
 
-  const remove = (element) => {
-    element.map((data) => {
-      delete data.residents;
-      return data;
-    });
-    return element;
-  };
+  let render = planets;
+
+  if (planetFiltered.length > 1) {
+    render = planetFiltered;
+  }
 
   return (
-    remove(planets).map((data, index) => (
+    render.map((data, index) => (
       <tr key={ index }>
         <td>{data.name}</td>
         <td>{data.rotation_period}</td>

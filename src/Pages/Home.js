@@ -1,12 +1,14 @@
-import React, { Component } from 'react';
+import React from 'react';
+import SearchBar from '../Components/SearchBar';
 import TableHead from '../Components/TableHead';
 
-class Home extends Component {
-  render() {
-    return (
+function Home() {
+  return (
+    <div>
+      <SearchBar />
       <TableHead />
-    );
-  }
+    </div>
+  );
 }
 
 export default Home;
