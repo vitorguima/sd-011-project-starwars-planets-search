@@ -2,7 +2,7 @@ body {
   background-image: url('https://exame.com/wp-content/uploads/2018/08/espaco.jpg');
   background-size: cover;
   color: white;
-  font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+  font-family: Arial, Helvetica, sans-serif;
 }
 
 .table {
