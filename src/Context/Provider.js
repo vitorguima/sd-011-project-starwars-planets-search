@@ -4,11 +4,27 @@ import Context from './Context';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
+  const [value] = useState(0);
   const [filterPlanets, setFilterPlanets] = useState({
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
+
+  const [column] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
+
+  const [comparison] = ([
+    'maior que',
+    'menor que',
+    'igual a',
+  ]);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -21,11 +37,28 @@ function Provider({ children }) {
     getPlanets();
   }, []);
 
+  const filterPlanetValues = () => {
+    // event.preventDefault();
+    const { filterByNumericValues: number } = filterPlanets;
+    const updateFilter = {
+      column,
+      value,
+      comparison,
+    };
+    setFilterPlanets({
+      ...filterPlanets, filterByNumericValues: [...number, updateFilter],
+    });
+  };
+
   const myDataPlanets = {
     data,
     setData,
     filterPlanets,
     setFilterPlanets,
+    column,
+    value,
+    comparison,
+    filterPlanetValues,
   };
 
   return (

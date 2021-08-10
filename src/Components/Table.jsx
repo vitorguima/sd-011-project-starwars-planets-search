@@ -5,8 +5,13 @@ export default function Table() {
   const { data,
     filterPlanets,
     setFilterPlanets,
+    column,
   } = useContext(Context);
   const [storeFilterPlanets, setStoreFilterPlanets] = useState([]);
+  const [saveSelectColumn, setSaveSelectColumn] = useState(column[0]);
+  const [saveSelectComparative, setSaveSelectComparative] = useState('maior que');
+  const [saveInputValue, setSaveInputValue] = useState(0);
+  const [storeColumn] = useState(column);
   const { name } = filterPlanets.filterByName;
 
   const filterNames = ({ target }) => {
@@ -16,23 +21,107 @@ export default function Table() {
     });
   };
 
+  const selectedValues = () => {
+    setFilterPlanets({
+      ...filterPlanets,
+      filterByNumericValues: [
+        ...filterPlanets.filterByNumericValues, {
+          column: saveSelectColumn,
+          comparison: saveSelectComparative,
+          value: saveInputValue,
+        },
+      ],
+    });
+  };
+
   useEffect(() => {
-    const getPlanetData = data.filter((planet) => planet
+    const { filterByNumericValues: number } = filterPlanets;
+    let getPlanetData = data.filter((planet) => planet
       .name.toLowerCase().includes(name));
+
+    if (number.length) {
+      number.forEach((filter) => {
+        if (filter.comparison === 'maior que') {
+          getPlanetData = getPlanetData
+            .filter((planetData) => parseInt(
+              planetData[filter.column], 10,
+            ) > filter.value);
+        }
+        if (filter.comparison === 'menor que') {
+          getPlanetData = getPlanetData
+            .filter((planetData) => parseInt(
+              planetData[filter.column], 10,
+            ) < filter.value);
+        }
+        if (filter.comparison === 'igual a') {
+          getPlanetData = getPlanetData
+            .filter((planetData) => planetData[filter.column]
+             === filter.value);
+        }
+      });
+    }
     setStoreFilterPlanets(getPlanetData);
-  }, [data, filterPlanets, name]);
+  }, [data, filterPlanets, name, setStoreFilterPlanets]);
 
   return (
     <>
       <h1>In the Table</h1>
-      <label htmlFor="filter-label">
-        Filtro:
-        <input
-          type="text"
-          data-testid="name-filter"
-          onChange={ filterNames }
-        />
-      </label>
+      <fieldset>
+        <label htmlFor="filter-label">
+          Filtro:
+          <input
+            type="text"
+            data-testid="name-filter"
+            onChange={ filterNames }
+          />
+        </label>
+        <label htmlFor="select-label">
+          Filtrar por valor:
+          <select
+            data-testid="column-filter"
+            onChange={ ({ target }) => setSaveSelectColumn(target.value) }
+          >
+            {
+              storeColumn.map(
+                (columns) => (
+                  <option
+                    key={ columns }
+                    value={ columns }
+                  >
+                    {columns}
+                  </option>),
+              )
+            }
+          </select>
+        </label>
+        <label htmlFor="select-comparison-label">
+          Comparação:
+          <select
+            data-testid="comparison-filter"
+            onChange={ ({ target }) => setSaveSelectComparative(target.value) }
+          >
+            <option>maior que</option>
+            <option>menor que</option>
+            <option>igual a</option>
+          </select>
+        </label>
+        <label htmlFor="input-label">
+          Valor:
+          <input
+            type="number"
+            min="0"
+            data-testid="value-filter"
+            onChange={ ({ target }) => setSaveInputValue(target.value) }
+          />
+        </label>
+        <button
+          type="button"
+          data-testid="button-filter"
+          onClick={ selectedValues }
+        >
+          Filtrar
+        </button>
+      </fieldset>
       <thead>
         <tr>
           <th>Name</th>
