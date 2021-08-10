@@ -1,15 +1,14 @@
 import React from 'react';
 import Table from './components/Table';
-import SWPlanetsProvider from './context/Provider';
-import Filter from './components/Filter'
-import './App.css';
+import PlanetsProvider from './context/Provider';
+import Form from './components/Form';
 
 function App() {
   return (
-    <SWPlanetsProvider>
-      <Filter />
+    <PlanetsProvider>
+      <Form />
       <Table />
-    </SWPlanetsProvider>
+    </PlanetsProvider>
   );
 }
 
