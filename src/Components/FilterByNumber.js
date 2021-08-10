@@ -2,8 +2,7 @@ import React, { useState } from 'react';
 import { useAuth } from '../Providers/Auth';
 
 function FilterByNumber() {
-  const [colFilters] = useState([
-    // const [colFilters, setColFilters] = useState([
+  const [colFilters, setColFilters] = useState([
     'population',
     'orbital_period',
     'diameter',
@@ -47,6 +46,18 @@ function FilterByNumber() {
       ...filters,
       filterByNumericValues: [...filters.filterByNumericValues, localFilters],
     });
+    const newFilters = [];
+    const avaliableColFilter = colFilters.filter((col) => (
+      col !== localFilters.column
+    ));
+    avaliableColFilter.forEach((col) => {
+      newFilters.push(col);
+    });
+    setColFilters(newFilters);
+    const event = {
+      target: { value: newFilters[0] },
+    };
+    handleColumnFilter(event);
   }
 
   return (
