@@ -1,12 +1,16 @@
 import React from 'react';
 import RenderHeader from './RenderHeader';
 import RenderBody from './RenderBody';
+import FormFiltersOrder from './FormFiltersOrder';
 
 export default function Table() {
   return (
-    <table>
-      <RenderHeader />
-      <RenderBody />
-    </table>
+    <div>
+      <FormFiltersOrder />
+      <table>
+        <RenderHeader />
+        <RenderBody />
+      </table>
+    </div>
   );
 }

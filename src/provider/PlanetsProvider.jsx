@@ -5,6 +5,15 @@ import PlanetsContext from '../context/PlanetsContext';
 
 export default function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
+  const [selectFilter, setSelectFilter] = useState(
+    {
+      filters: {
+        filterByName: {
+          name: '',
+        },
+      },
+    },
+  );
 
   async function getFetchApiStarWarsPlanets() {
     const planets = await fetchApiStarWarsPlanets();
@@ -15,8 +24,23 @@ export default function PlanetsProvider({ children }) {
     getFetchApiStarWarsPlanets();
   }, []);
 
+  const handleFilterName = ({ target }) => {
+    setSelectFilter({
+      filters: {
+        ...selectFilter.filters,
+        filterByName: { name: target.value },
+      },
+    });
+  };
+
   return (
-    <PlanetsContext.Provider value={ { data } }>
+    <PlanetsContext.Provider
+      value={ {
+        data,
+        selectFilter,
+        handleFilterName,
+      } }
+    >
       { children }
     </PlanetsContext.Provider>
   );

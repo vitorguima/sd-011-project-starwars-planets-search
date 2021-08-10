@@ -2,11 +2,14 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function RenderBody() {
-  const { data } = useContext(PlanetsContext);
+  const { data, selectFilter } = useContext(PlanetsContext);
+  const { name: filterName } = selectFilter.filters.filterByName;
+
+  const arrayFilterName = data.filter(({ name }) => name.includes(filterName));
 
   return (
     <tbody>
-      { data.map(({
+      { arrayFilterName.map(({
         name,
         rotation_period: rotation,
         orbital_period: orbital,
