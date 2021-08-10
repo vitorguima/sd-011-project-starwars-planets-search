@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
+import Numeric from './Numeric';
 
 export default function Filters() {
   const { filters, setFilters } = useContext(StarWarsContext);
@@ -10,16 +11,19 @@ export default function Filters() {
   };
 
   return (
-    <label htmlFor="input-filter">
-      Filtrar por nome:
-      <input
-        type="text"
-        data-testid="name-filter"
-        id="input-filter"
-        name="input-filter"
-        value={ filterByName.name }
-        onChange={ (e) => handleChange(e) }
-      />
-    </label>
+    <div>
+      <label htmlFor="input-filter">
+        Filtrar por nome:
+        <input
+          type="text"
+          data-testid="name-filter"
+          id="input-filter"
+          name="input-filter"
+          value={ filterByName.name }
+          onChange={ (e) => handleChange(e) }
+        />
+      </label>
+      <Numeric />
+    </div>
   );
 }

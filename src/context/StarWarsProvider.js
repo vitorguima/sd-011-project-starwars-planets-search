@@ -11,6 +11,9 @@ function StarWarsProvider({ children }) {
       name: '',
     },
   });
+  const [columns, setColumns] = useState([
+    'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
+  ]);
 
   useEffect(() => {
     fetchApi()
@@ -23,9 +26,11 @@ function StarWarsProvider({ children }) {
 
   useEffect(() => {
     const { filterByName } = filters;
+
     const filteredResult = data.filter(
       (planet) => planet.name.includes(filterByName.name),
     );
+
     setDataTable(filteredResult);
   }, [filters]);
 
@@ -35,6 +40,8 @@ function StarWarsProvider({ children }) {
         dataTable,
         filters,
         setFilters,
+        columns,
+        setColumns,
       } }
     >
       { children }
