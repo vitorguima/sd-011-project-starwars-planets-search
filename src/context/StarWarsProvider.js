@@ -6,6 +6,11 @@ import StarWarsContext from './StarWarsContext';
 function StarWarsProvider({ children }) {
   const [data, setData] = useState([]);
   const [dataTable, setDataTable] = useState([]);
+  const [filters, setFilters] = useState({
+    filterByName: {
+      name: '',
+    },
+  });
 
   useEffect(() => {
     fetchApi()
@@ -16,10 +21,20 @@ function StarWarsProvider({ children }) {
     setDataTable(data);
   }, [data]);
 
+  useEffect(() => {
+    const { filterByName } = filters;
+    const filteredResult = data.filter(
+      (planet) => planet.name.includes(filterByName.name),
+    );
+    setDataTable(filteredResult);
+  }, [filters]);
+
   return (
     <StarWarsContext.Provider
       value={ {
         dataTable,
+        filters,
+        setFilters,
       } }
     >
       { children }
