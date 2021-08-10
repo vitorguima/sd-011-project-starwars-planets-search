@@ -24,11 +24,9 @@ function Table() {
           break;
 
         case 'igual a':
-          setFilteredData((oldFilteredData) => oldFilteredData.filter((planet) => {
-            console.log(planet[filter.column]);
-            console.log(filter.value);
-            return parseInt(planet[filter.column], 10) === parseInt(filter.value, 10);
-          }));
+          setFilteredData((oldFilteredData) => oldFilteredData.filter((planet) => (
+            (parseInt(planet[filter.column], 10) === parseInt(filter.value, 10))
+          )));
           break;
 
         default:
