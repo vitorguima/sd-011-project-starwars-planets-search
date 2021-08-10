@@ -26,31 +26,35 @@ function Table() {
     const minusOne = -1;
 
     if (filterByNumericValues[0]) {
-      const { column, value, comparison } = filterByNumericValues[0];
+      let results = '';
 
-      // return rows.filter((row) => (
-      //   row.name.toLowerCase().indexOf(name) > minusOne
-      //   && parseInt(row[column], 0) > parseInt(value, 0)
-      // ));
+      filterByNumericValues.forEach((filters) => {
+        const { column, value, comparison } = filters;
 
-      switch (comparison) {
-      case 'maior que':
-        return rows.filter((row) => (
-          row.name.toLowerCase().indexOf(name) > minusOne
-            && parseInt(row[column], 0) > parseInt(value, 0)
-        ));
-      case 'menor que':
-        return rows.filter((row) => (
-          row.name.toLowerCase().indexOf(name) > minusOne
-            && parseInt(row[column], 0) < parseInt(value, 0)
-        ));
-      case 'igual a':
-        return rows.filter((row) => (
-          row.name.toLowerCase().indexOf(name) > minusOne
-            && parseInt(row[column], 0) === parseInt(value, 0)
-        ));
-      default:
-      }
+        switch (comparison) {
+        case 'maior que':
+          results = rows.filter((row) => (
+            row.name.toLowerCase().indexOf(name) > minusOne
+                && parseInt(row[column], 0) > parseInt(value, 0)
+          ));
+          break;
+        case 'menor que':
+          results = rows.filter((row) => (
+            row.name.toLowerCase().indexOf(name) > minusOne
+                && parseInt(row[column], 0) < parseInt(value, 0)
+          ));
+          break;
+        case 'igual a':
+          results = rows.filter((row) => (
+            row.name.toLowerCase().indexOf(name) > minusOne
+                && parseInt(row[column], 0) === parseInt(value, 0)
+          ));
+          break;
+        default:
+        }
+      });
+
+      return results;
     }
 
     return rows.filter((row) => (
