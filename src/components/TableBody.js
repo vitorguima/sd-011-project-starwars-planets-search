@@ -2,13 +2,10 @@ import React, { useContext } from 'react';
 import MyContext from './context/MyContext';
 
 function TableBody() {
-  const { planets, listAtt } = useContext(MyContext);
-  let list = planets;
-  if (listAtt.length > 0) {
-    list = listAtt;
-  }
+  const { listAtt } = useContext(MyContext);
+
   return (
-    list.map((planet, index) => (
+    listAtt.map((planet, index) => (
       <tr key={ index }>
         <td>{planet.name}</td>
         <td>{planet.rotation_period}</td>

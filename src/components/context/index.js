@@ -6,35 +6,57 @@ import getPlanets from '../../services/data';
 function Provider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [listAtt, setList] = useState([]);
-  const [filter, setFilter] = useState({
-    filters: {
-      filterByName: {},
-    },
-  });
+  const [attNumber, setFilterNumber] = useState([]);
+  const [attText, setFilterText] = useState([]);
   const contextValue = {
     planets,
     setPlanets,
-    filter,
-    setFilter,
+    attText,
+    setFilterText,
+    attNumber,
+    setFilterNumber,
     listAtt,
+    setList,
   };
 
   useEffect(() => {
     const dataPlanets = async () => {
       const data = await getPlanets();
       setPlanets(data);
+      setList(data);
     };
     dataPlanets();
   }, []);
 
   useEffect(() => {
-    const searchLoad = () => {
-      const filterPlanets = planets
-        .filter((planet) => (planet.name).toLowerCase().includes(filter) === true);
-      setList(filterPlanets);
+    const searchName = () => {
+      const filterText = planets
+        .filter(({ name }) => name.toLowerCase().includes(attText) === true);
+      setList(filterText);
     };
-    searchLoad();
-  }, [filter, planets]);
+    searchName();
+  }, [attText, attNumber, planets]);
+
+  useEffect(() => {
+    attNumber.map(({ column, comparison, value }) => {
+      switch (comparison) {
+      case 'maior que':
+        return setList(
+          [...planets.filter((planet) => Number(planet[column]) > Number(value))],
+        );
+      case 'menor que':
+        return setList(
+          [...planets.filter((planet) => Number(planet[column]) < Number(value))],
+        );
+      case 'igual a':
+        return setList(
+          [...planets.filter((planet) => Number(planet[column]) === Number(value))],
+        );
+      default:
+        return planets;
+      }
+    });
+  }, [attNumber]);
 
   return (
     <MyContext.Provider value={ contextValue }>
