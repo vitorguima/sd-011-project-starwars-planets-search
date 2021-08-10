@@ -14,6 +14,7 @@ function NewProvider({ children }) {
       const data = await fetch(endpoint)
         .then((results) => results.json());
       setPlanets(data.results);
+      console.log(data.results);
     };
     getPlanets();
   }, []);
