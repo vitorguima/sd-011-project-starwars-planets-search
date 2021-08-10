@@ -1,12 +1,13 @@
 import React from 'react';
 import './App.css';
-import Data from './Components/Data';
+import PlanetsProvider from './Components/PlanetsProvider';
+import { AuthProvider } from './Providers/Auth';
 
 function App() {
   return (
-    <div>
-      <Data />
-    </div>
+    <AuthProvider>
+      <PlanetsProvider />
+    </AuthProvider>
   );
 }
 

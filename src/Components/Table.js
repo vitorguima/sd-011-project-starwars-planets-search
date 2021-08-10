@@ -4,13 +4,13 @@ import PropTypes from 'prop-types';
 function Table({ dataForTable }) {
   const columns = dataForTable[0] && Object.keys(dataForTable[0]);
   return (
-    <table>
+    <table className="table">
       <thead>
         <tr>
           { dataForTable[0]
           && columns.map((head, index) => {
             if (head === 'residents') return null;
-            return <th key={ index }>{ head }</th>;
+            return <th className="thead" key={ index }>{ head }</th>;
           })}
         </tr>
       </thead>
@@ -19,7 +19,11 @@ function Table({ dataForTable }) {
           <tr key={ index }>
             { columns.map((column) => {
               if (column === 'residents') return null;
-              return <td key={ `${index} ${rolls[columns]}` }>{ rolls[column] }</td>;
+              return (
+                <td className="trbody" key={ `${index} ${rolls[columns]}` }>
+                  { rolls[column] }
+                </td>
+              );
             })}
           </tr>
         ))}
