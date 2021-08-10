@@ -10,6 +10,7 @@ function StarWarsProvider({ children }) {
     filterByName: {
       name: '',
     },
+    filterByNumericValues: [],
   });
   const [columns, setColumns] = useState([
     'population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
@@ -25,12 +26,24 @@ function StarWarsProvider({ children }) {
   }, [data]);
 
   useEffect(() => {
-    const { filterByName } = filters;
+    const { filterByNumericValues, filterByName } = filters;
 
-    const filteredResult = data.filter(
+    let filteredResult = data.filter(
       (planet) => planet.name.includes(filterByName.name),
     );
 
+    if (filterByNumericValues) {
+      filterByNumericValues.forEach((numFilter) => {
+        const { column, comparison, value } = numFilter;
+        filteredResult = filteredResult.filter(
+          (planet) => {
+            if (comparison === 'maior que') return planet[column] > Number(value);
+            if (comparison === 'igual a') return planet[column] === value;
+            return planet[column] < Number(value);
+          },
+        );
+      });
+    }
     setDataTable(filteredResult);
   }, [filters]);
 
