@@ -6,9 +6,6 @@ import StarWarsContext from './StarWarsContext';
 function StarWarsProvider({ children }) {
   const [data, setData] = useState([]);
   const [dataTable, setDataTable] = useState([]);
-  const [columns, setColumns] = useState([
-    'population ', 'orbital_period', 'diameter', 'rotation_period', 'surface_water',
-  ]);
 
   useEffect(() => {
     fetchApi()
@@ -23,8 +20,6 @@ function StarWarsProvider({ children }) {
     <StarWarsContext.Provider
       value={ {
         dataTable,
-        columns,
-        setColumns,
       } }
     >
       { children }
