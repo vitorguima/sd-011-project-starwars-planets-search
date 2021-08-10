@@ -3,7 +3,7 @@ import StarWarsContext from '../context/StarWarsContext';
 import Numeric from './Numeric';
 
 export default function Filters() {
-  const { filters, setFilters } = useContext(StarWarsContext);
+  const { filters, setFilters, columns, setColumns } = useContext(StarWarsContext);
   const { filterByNumericValues, filterByName } = filters;
 
   const handleChange = ({ target }) => {
@@ -18,6 +18,7 @@ export default function Filters() {
       ...filters,
       filterByNumericValues: filtredResult,
     });
+    setColumns([...columns, column]);
   };
 
   return (
