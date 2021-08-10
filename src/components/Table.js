@@ -1,14 +1,22 @@
-import React, { useContext } from 'react';
-// useState
+import React, { useContext, useState, useEffect } from 'react';
 import { MyContext } from '../context/MyContext';
 
 function Table() {
   const { planets, filter } = useContext(MyContext);
-  const [fiterPlanets, setFilterPlanets] = useState([]);
+  const [filterPlanets, setFilterPlanets] = useState([]);
 
   function filterPlanet() {
-    planets.filter((planet) => planet.results === filter.length);
+    const getPlanet = planets.filter((planet) => (filter !== '' ? planet.name.includes(filter) : true));
+    setFilterPlanets(getPlanet);
   }
+
+  useEffect(() => {
+    setFilterPlanets(planets);
+  }, []);
+
+  useEffect(() => {
+    filterPlanet();
+  }, [filter]);
 
   return (
     <table>
@@ -32,7 +40,7 @@ function Table() {
       </thead>
 
       <tbody>
-        {planets.map((planet) => (
+        {filterPlanets.map((planet) => (
           <tr key={ planet.name }>
             <td>{planet.name}</td>
             <td>{planet.rotation_period}</td>
