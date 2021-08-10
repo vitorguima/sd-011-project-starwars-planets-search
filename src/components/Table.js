@@ -6,12 +6,19 @@ function Table() {
   const [filterPlanets, setFilterPlanets] = useState([]);
 
   function filterPlanet() {
-    const getPlanet = planets.filter((planet) => (filter !== '' ? planet.name.includes(filter) : true));
+    const getPlanet = planets
+      .filter((planet) => (filter !== [] ? planet.name.includes(filter) : true));
     setFilterPlanets(getPlanet);
   }
 
   useEffect(() => {
-    setFilterPlanets(planets);
+    const getPlanets = async () => {
+      const endpoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
+      const data = await fetch(endpoint)
+        .then((results) => results.json());
+      setFilterPlanets(data.results);
+    };
+    getPlanets();
   }, []);
 
   useEffect(() => {
