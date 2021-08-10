@@ -4,10 +4,20 @@ import Numeric from './Numeric';
 
 export default function Filters() {
   const { filters, setFilters } = useContext(StarWarsContext);
-  const { filterByName } = filters;
+  const { filterByNumericValues, filterByName } = filters;
 
   const handleChange = ({ target }) => {
     setFilters({ ...filters, filterByName: { name: target.value } });
+  };
+
+  const handleClick = (column) => {
+    const filtredResult = filterByNumericValues.filter(
+      (filter) => filter.column !== column,
+    );
+    setFilters({
+      ...filters,
+      filterByNumericValues: filtredResult,
+    });
   };
 
   return (
@@ -24,6 +34,26 @@ export default function Filters() {
         />
       </label>
       <Numeric />
+      {filterByNumericValues.length >= 1 ? filterByNumericValues.map(
+        (filter, index) => {
+          if (filter.column) {
+            return (
+              <div key={ index } data-testid="filter">
+                <span>
+                  { `${filter.column} ${filter.comparison} ${filter.value}`}
+                </span>
+                <button
+                  type="button"
+                  data-testid="filter"
+                  onClick={ () => handleClick(filter.column) }
+                >
+                  X
+                </button>
+              </div>);
+          }
+          return '';
+        },
+      ) : 'Sem filtro'}
     </div>
   );
 }
