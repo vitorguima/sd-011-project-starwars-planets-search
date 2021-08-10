@@ -39,7 +39,7 @@ function FilterByNumber() {
     });
   }
 
-  console.log(filters.filterByNumericValues);
+  // console.log(filters.filterByNumericValues);
 
   function setFilterOptions() {
     setFilters({
