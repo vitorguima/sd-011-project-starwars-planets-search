@@ -1,13 +1,19 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import MainContext from '../context/MainContext';
 
 function Table() {
-  const { filteredData } = useContext(MainContext);
+  const { data, filters: { filterByName: { name } } } = useContext(MainContext);
+  const [filteredData, setFilteredData] = useState([]);
   let column = [];
 
-  if (filteredData.length) {
-    column = Object.keys(filteredData[0]);
+  useEffect(() => {
+    if (name) {
+      setFilteredData(data.filter((planet) => planet.name.includes(name)));
+    } else setFilteredData(data);
+  }, [data, name]);
 
+  if (data.length) {
+    column = Object.keys(data[0]);
     return (
       <table border="1">
         <thead>

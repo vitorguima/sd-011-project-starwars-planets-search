@@ -9,30 +9,15 @@ const listFilter = [
   'surface_water'];
 
 function PlanetsFilter() {
-  const {
-    data,
-    filters,
-    setFilters,
-    filteredData,
-    setFilteredData,
-  } = useContext(MainContext);
+  const { filters, setFilters } = useContext(MainContext);
 
   const [listFilterChoise, setListFilterChoise] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
   const [valueFilter, setValueFilter] = useState(0);
 
-  function handleNameChange(value) {
-    const newData = data.filter((planet) => {
-      if (planet.name.includes(value)) return true;
-      return false;
-    });
-    setFilteredData(newData);
-    setFilters({ ...filters, filterByName: { name: value } });
-  }
-
-  async function handleNumericChange() {
+  function handleNumericChange() {
     listFilter.splice(listFilter.indexOf(listFilterChoise) || 0, 1);
-    await setFilters({
+    setFilters({
       ...filters,
       filterByNumericValues: [
         ...filters.filterByNumericValues,
@@ -43,32 +28,7 @@ function PlanetsFilter() {
         },
       ],
     });
-
-    switch (comparisonFilter) {
-    case 'maior que':
-      setFilteredData(filteredData.filter((planet) => {
-        if (parseInt(planet[listFilterChoise], 10) > valueFilter) return true;
-        return false;
-      }));
-      break;
-
-    case 'menor que':
-      setFilteredData(filteredData.filter((planet) => {
-        if (parseInt(planet[listFilterChoise], 10) < valueFilter) return true;
-        return false;
-      }));
-      break;
-
-    case 'igual a':
-      setFilteredData(filteredData.filter((planet) => {
-        if (parseInt(planet[listFilterChoise], 10) === valueFilter) return true;
-        return false;
-      }));
-      break;
-
-    default:
-      setFilteredData(data);
-    }
+    setListFilterChoise(listFilter[0]);
   }
 
   return (
@@ -81,7 +41,12 @@ function PlanetsFilter() {
             id="name-filter"
             data-testid="name-filter"
             placeholder="Tatooine"
-            onChange={ ({ target: { value } }) => handleNameChange(value) }
+            onChange={
+              ({ target: { value } }) => setFilters({
+                ...filters,
+                filterByName: { name: value },
+              })
+            }
           />
         </label>
         <p>Valores numéricos:</p>

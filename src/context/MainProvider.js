@@ -5,16 +5,17 @@ import MainContext from './MainContext';
 
 function MainProvider({ children }) {
   const [data, setData] = useState([]);
-  const [filteredData, setFilteredData] = useState([]);
   const [filters, setFilters] = useState({
-    filterByName: {},
+    filterByName: {
+      name: '',
+    },
     filterByNumericValues: [],
+    order: {},
   });
 
   useEffect(() => {
     const getPlanets = async () => {
       setData(await starWarsAPI());
-      setFilteredData(await starWarsAPI());
     };
     getPlanets();
   }, []);
@@ -25,8 +26,8 @@ function MainProvider({ children }) {
         data,
         filters,
         setFilters,
-        filteredData,
-        setFilteredData,
+        setData,
+        sets: { setData, setFilters },
       } }
     >
       { children }
