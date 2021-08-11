@@ -15,3 +15,5 @@ export default function UsedFilters() {
     </ul>
   );
 }
+// Diego Figuerêdo e Pedro Piquini, ambos da turma 11, me ajudaram com o requisito 5 e 6.
+// Muitissimo obrigado galera vocês são feras demais.
