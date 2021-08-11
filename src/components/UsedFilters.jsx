@@ -6,10 +6,10 @@ export default function UsedFilters() {
   const { filterByNumericValues } = filters;
   return (
     <ul>
-      { filterByNumericValues.map(({ column, comparison, value }) => (
+      { filterByNumericValues.map(({ column, comparison, value }, index) => (
         <li key={ column } data-testid="filter">
           { `${column} ${comparison} ${value}` }
-          <button type="button" onClick={ () => removeFilter(column) }>X</button>
+          <button type="button" onClick={ () => removeFilter(index) }>X</button>
         </li>
       )) }
     </ul>

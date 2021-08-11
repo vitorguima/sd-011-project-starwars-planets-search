@@ -67,14 +67,28 @@ export default function PlanetsProvider({ children }) {
     });
   };
 
-  const removeFilter = (selectColumn) => {
-    const { filterByNumericValues } = selectFilter.filters;
+  // const removeFilter = (selectColumn) => {
+  //   const { filterByNumericValues } = selectFilter.filters;
+  //   setSelectFilter({
+  //     filters: {
+  //       ...selectFilter.filters,
+  //       filterByNumericValues: [
+  //         filterByNumericValues
+  //           .filter((numericValues) => numericValues.column !== selectColumn),
+  //       ],
+  //     },
+  //   });
+  // };
+
+  const removeFilter = (key) => {
     setSelectFilter({
       filters: {
         ...selectFilter.filters,
         filterByNumericValues: [
-          filterByNumericValues
-            .filter((numericValues) => numericValues.column !== selectColumn),
+          ...selectFilter
+            .filters
+            .filterByNumericValues
+            .filter((_, idx) => key !== idx),
         ],
       },
     });

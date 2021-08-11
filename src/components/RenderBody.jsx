@@ -29,7 +29,7 @@ export default function RenderBody() {
     }
     return 0;
   });
-  console.log(finalFilter);
+
   return (
     <tbody>
       { finalFilter.map(({
