@@ -16,7 +16,7 @@ export default function FormSelectors() {
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
   return (
-    <form>
+    <form className="container">
       <label htmlFor="column">
         Filter by:
         <select

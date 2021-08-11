@@ -19,7 +19,7 @@ export default function Table() {
       <tbody>
         {theRender.map((planet, i) => (
           <tr key={ i } className="tableBody">
-            <td>{planet.name}</td>
+            <td data-testid="planet-name">{planet.name}</td>
             <td>{planet.rotation_period}</td>
             <td>{planet.orbital_period}</td>
             <td>{planet.diameter}</td>

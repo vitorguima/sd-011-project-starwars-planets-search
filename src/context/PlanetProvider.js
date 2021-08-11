@@ -5,6 +5,7 @@ import PlanetsContext from './PlanetsContext';
 
 export default function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
+  const [order, setOrder] = useState({ column: 'name', sort: 'asc' });
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('100000');
@@ -67,6 +68,28 @@ export default function PlanetsProvider({ children }) {
     setName(event.target.value);
   }
 
+  function sortColumns(sortOption, filtereds) {
+    const NEGATIVE_ONE = -1;
+    switch (true) {
+    case sortOption.sort === 'asc' && (sortOption.column === 'name'):
+      return filtereds.sort((a, b) => (
+        (a[sortOption.column] > b[sortOption.column]) ? 1 : NEGATIVE_ONE));
+    case sortOption.sort === 'desc' && (sortOption.column === 'name'):
+      return filtereds.sort((a, b) => (
+        (a[sortOption.column] < b[sortOption.column]) ? 1 : NEGATIVE_ONE));
+    case sortOption.sort === 'asc' && (sortOption.column !== 'name'):
+      return filtereds.sort((a, b) => Number(a[sortOption.column]) - Number(b[sortOption.column]));
+    case sortOption.sort === 'desc' && (sortOption.column !== 'name'):
+      return filtereds.sort((a, b) => Number(b[sortOption.column]) - Number(a[sortOption.column]));
+    default:
+      return filtereds;
+    }
+  }
+
+  useEffect(() => {
+    setTheRender(sortColumns);
+  }, [order]);
+
   const valuesContext = {
     handleInputPlanet,
     data,
@@ -78,6 +101,9 @@ export default function PlanetsProvider({ children }) {
     theRender,
     setTheRender,
     numeric,
+    sortColumns,
+    setOrder,
+    order,
   };
 
   return (
