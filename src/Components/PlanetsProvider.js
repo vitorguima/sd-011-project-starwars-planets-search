@@ -6,7 +6,8 @@ import FilterByNumber from './FilterByNumber';
 function PlanetsProvider() {
   const [data, setData] = useState([]);
   const { filters, setFilters } = useAuth();
-  const { filterByNumericValues } = filters;
+  const { filterByNumericValues, order } = filters;
+  const minusOne = -1;
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -17,7 +18,6 @@ function PlanetsProvider() {
   function filteredData(rows) {
     const { filterByName: { name } } = filters;
     const results = [];
-    const minusOne = -1;
 
     if (filterByNumericValues.length > 0) {
       filterByNumericValues.forEach((filter) => {
@@ -68,6 +68,73 @@ function PlanetsProvider() {
     });
   };
 
+  function sortString(dataNA) {
+    if (order.sort === 'ASC') {
+      return dataNA.sort((a, b) => {
+        if (a.name < b.name) {
+          return minusOne;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    return dataNA.sort((a, b) => {
+      if (a.name < b.name) {
+        return 1;
+      }
+      if (a.name > b.name) {
+        return minusOne;
+      }
+      return 0;
+    });
+  }
+
+  function sortNumber(dataNA) {
+    console.log(dataNA);
+    if (order.sort === 'ASC') {
+      return dataNA.sort((a, b) => (
+        a.orbital_period.localeCompare(b.orbital_period, undefined, {
+          numeric: true,
+          sensitivity: 'base',
+        })
+      ));
+    }
+    return dataNA.sort((a, b) => b.orbital_period - a.orbital_period);
+  }
+
+  // const [buttonClick, setButtonClick] = useState([true, false]);
+
+  function sortData(dataA) {
+    if (order.column === 'Name') {
+      const DATA = sortString(dataA);
+
+      return DATA;
+    }
+    const DATA = sortNumber(dataA);
+
+    return DATA;
+  }
+
+  const [localSort, setLocalSort] = useState({
+    order: {
+      column: 'Name',
+      sort: 'ASC',
+    },
+  });
+
+  function sendToUseAuth() {
+    console.log({
+      ...filters,
+      ...localSort,
+    });
+    setFilters({
+      ...filters,
+      ...localSort,
+    });
+  }
+
   return (
     <div>
       <label htmlFor="name-filter">
@@ -85,7 +152,8 @@ function PlanetsProvider() {
         />
       </label>
       <FilterByNumber />
-      {/* Requisito 5 desenvolvido em parceiria com Gabriel Carvalho e Pedro Oliveira */}
+
+      {/* Req. 5 e 6 desenvolvido em parceiria com Gabriel Carvalho e Pedro Oliveira */}
       { filterByNumericValues.length > 0
       && (
         filterByNumericValues.map((value, index) => (
@@ -102,7 +170,56 @@ function PlanetsProvider() {
           </div>
         ))
       )}
-      <Table dataForTable={ filteredData(data) } />
+
+      <select
+        data-testid="column-sort"
+        onChange={ (e) => setLocalSort({
+          order: {
+            ...localSort.order,
+            column: e.target.value,
+          },
+        }) }
+      >
+        <option value="Name">Name</option>
+        <option value="orbital_period">Orbital Period</option>
+      </select>
+
+      <div
+        onChange={ (e) => setLocalSort({
+          order: {
+            ...localSort.order,
+            sort: e.target.id,
+          },
+        }) }
+      >
+        <label htmlFor="ASC">
+          Crescente
+          <input
+            type="radio"
+            name="sort"
+            id="ASC"
+            data-testid="column-sort-input-asc"
+          />
+        </label>
+        <label htmlFor="DESC">
+          Decrescente
+          <input
+            type="radio"
+            name="sort"
+            id="DESC"
+            data-testid="column-sort-input-desc"
+          />
+        </label>
+      </div>
+      <button
+        data-testid="column-sort-button"
+        type="button"
+        onClick={ sendToUseAuth }
+      >
+        Ordernar
+      </button>
+
+      <Table dataForTable={ sortData(filteredData(data)) } />
     </div>
   );
 }
