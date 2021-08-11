@@ -6,6 +6,9 @@ export const MyContext = createContext();
 function NewProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filter, setFilter] = useState([]);
+  const [searchPlanet, setSearchPlanet] = useState([
+    { column: 'population', comparison: 'menor que', value: 0 },
+  ]);
 
   // didMount
   useEffect(() => {
@@ -14,7 +17,6 @@ function NewProvider({ children }) {
       const data = await fetch(endpoint)
         .then((results) => results.json());
       setPlanets(data.results);
-      console.log(data.results);
     };
     getPlanets();
   }, []);
@@ -23,6 +25,8 @@ function NewProvider({ children }) {
     filter,
     setFilter,
     planets,
+    searchPlanet,
+    setSearchPlanet,
   };
 
   return (

@@ -3,6 +3,7 @@ import Table from './components/Table';
 import NewProvider from './context/MyContext';
 import Filters from './components/Filters';
 import './App.css';
+import NumericFilter from './components/NumericFilter';
 
 // import MyContext from './context/MyContext';
 
@@ -15,6 +16,7 @@ function App() {
     <div>
       <NewProvider>
         <Filters />
+        <NumericFilter />
         <Table />
       </NewProvider>
     </div>
