@@ -44,7 +44,7 @@ function NumericFilter() {
       <button
         data-testid="button-filter"
         onClick={ () => setSearchPlanet([
-          { column: getColumn }, { comparison: getComparison }, { value: getInput },
+          { column: getColumn, comparison: getComparison, value: getInput },
         ]) }
         type="button"
       >

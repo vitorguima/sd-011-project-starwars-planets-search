@@ -12,9 +12,7 @@ function Table() {
   }
 
   function filterData(objectData) {
-    const { column } = searchPlanet[0];
-    const { comparison } = searchPlanet[1];
-    const { value } = searchPlanet[2];
+    const { column, comparison, value } = searchPlanet[0];
 
     if (comparison === 'maior que') {
       return objectData
@@ -51,14 +49,20 @@ function Table() {
   return (
     <>
       {
-        searchPlanet ? (
-          <button
-            data-testid="filter"
-            type="button"
-            onClick={ () => setFilterPlanets(planets) }
-          >
-            X
-          </button>) : ''
+        searchPlanet.length > 0 && (
+          searchPlanet.map(({ column }, index) => (
+            <span key={ index }>
+              { column }
+              <button
+                data-testid="filter"
+                type="button"
+                onClick={ () => setFilterPlanets(planets) }
+              >
+                X
+              </button>
+            </span>
+          ))
+        )
       }
       <table>
 
