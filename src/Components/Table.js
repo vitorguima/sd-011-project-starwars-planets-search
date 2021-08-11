@@ -4,6 +4,9 @@ import { columnTitles } from '../Context/PlanetProvider';
 
 function Table() {
   const { isloading, filteredPlanets } = useContext(planetContext);
+  const dataTestMarks = ['name', 'rotation-period', 'orbital-period', 'diameter',
+    'climate', 'gravity', 'terrain', 'surface-water', 'population', 'films',
+    'created', 'edited', 'url'];
   return (
     <div>
       {
@@ -21,7 +24,10 @@ function Table() {
               {filteredPlanets.map((planet, index) => (
                 <tr key={ index }>
                   {Object.values(planet).map((planetData, dataIndex) => (
-                    <td key={ dataIndex }>
+                    <td
+                      data-testid={ `planet-${dataTestMarks[dataIndex]}` }
+                      key={ dataIndex }
+                    >
                       {planetData}
                     </td>
                   ))}
