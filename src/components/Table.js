@@ -7,7 +7,7 @@ function Table() {
 
   function filterPlanet() {
     const getPlanet = planets
-      .filter((planet) => (filter !== [] ? planet.name.includes(filter) : true));
+      .filter((planet) => (planet.name.includes(filter)));
     setFilterPlanets(getPlanet);
   }
 
