@@ -67,10 +67,6 @@ export default function PlanetsProvider({ children }) {
     setName(event.target.value);
   }
 
-  // function handleClear() {
-
-  // }
-
   const valuesContext = {
     handleInputPlanet,
     data,
