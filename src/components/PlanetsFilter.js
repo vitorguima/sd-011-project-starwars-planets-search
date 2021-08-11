@@ -153,7 +153,7 @@ function PlanetsFilter() {
             />
           </label>
           <button
-            data-testid="data-testid='column-sort-button"
+            data-testid="column-sort-button"
             onClick={ handleOrder }
             type="button"
           >

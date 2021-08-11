@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import MainContext from '../context/MainContext';
+import { numericFilter } from '../helpers/fitlersFunctions';
 
 function Table() {
   const {
@@ -14,32 +15,7 @@ function Table() {
   let column = [];
 
   useEffect(() => {
-    if (filterByNumericValues.length) {
-      filterByNumericValues.forEach((filter) => {
-        switch (filter.comparison) {
-        case 'maior que':
-          setFilteredData((oldFilteredData) => oldFilteredData.filter((planet) => (
-            (parseInt(planet[filter.column], 10) > filter.value)
-          )));
-          break;
-
-        case 'menor que':
-          setFilteredData((oldFilteredData) => oldFilteredData.filter((planet) => (
-            (parseInt(planet[filter.column], 10) < filter.value)
-          )));
-          break;
-
-        case 'igual a':
-          setFilteredData((oldFilteredData) => oldFilteredData.filter((planet) => (
-            (parseInt(planet[filter.column], 10) === parseInt(filter.value, 10))
-          )));
-          break;
-
-        default:
-          break;
-        }
-      });
-    } else setFilteredData(data);
+    numericFilter(data, filterByNumericValues, setFilteredData);
   }, [filterByNumericValues, data, name, setFilteredData]);
 
   if (data.length) {
