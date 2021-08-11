@@ -24,7 +24,6 @@ function Main() {
       gravity,
       surface_water: surfaceWater,
       population,
-      residents,
       films,
       created,
       edited,
@@ -40,9 +39,6 @@ function Main() {
         <td>{gravity}</td>
         <td>{surfaceWater}</td>
         <td>{population}</td>
-        <td>
-          {residents.map((resident) => <a key={ resident } href={ resident }>Link</a>)}
-        </td>
         <td>{films.map((film) => <a key={ film } href={ film }>Link</a>)}</td>
         <td>{created}</td>
         <td>{edited}</td>
@@ -64,7 +60,6 @@ function Main() {
             <th>Gravity</th>
             <th>Surface Water</th>
             <th>Population</th>
-            <th>Residents</th>
             <th>Films</th>
             <th>Created</th>
             <th>Edited</th>
