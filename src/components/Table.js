@@ -1,18 +1,11 @@
-import React, { useContext, useState } from 'react';
-import TablePlanetsContext from '../contexts/TablePlanetsContext';
+import React from 'react';
 import './css/Table.css';
+import PropTypes from 'prop-types';
 
 function Table({ data }) {
   // const {
   //   handleChangeByName,
   //   filtered } = useContext(TablePlanetsContext);
-
-  const [columns, setColumns] = useState(
-    ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
-  );
-
-  const [column, setColumn] = useState('');
-  const [value, setValue] = useState('');
 
   return (
     <div>
@@ -59,5 +52,9 @@ function Table({ data }) {
     </div>
   );
 }
+
+Table.propTypes = {
+  data: PropTypes.arrayOf(Object),
+}.isRequired;
 
 export default Table;

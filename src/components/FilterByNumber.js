@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import TablePlanetsContext from '../contexts/TablePlanetsContext';
 
 export default function FilterByNumber() {
-  const { filter, setFilter, addFilter } = useContext(TablePlanetsContext);
+  const { filter, setFilter } = useContext(TablePlanetsContext);
 
   const [columns, setColumns] = useState(
     ['population', 'orbital_period', 'diameter', 'rotation_period', 'surface_water'],
