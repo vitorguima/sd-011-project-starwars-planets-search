@@ -6,6 +6,7 @@ import FilterByNumber from './FilterByNumber';
 function PlanetsProvider() {
   const [data, setData] = useState([]);
   const { filters, setFilters } = useAuth();
+  const { filterByNumericValues } = filters;
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -15,34 +16,57 @@ function PlanetsProvider() {
 
   function filteredData(rows) {
     const { filterByName: { name } } = filters;
-    const { filterByNumericValues } = filters;
+    const results = [];
     const minusOne = -1;
-    console.log(filterByNumericValues);
+
     if (filterByNumericValues.length > 0) {
-      const { column, comparison, value } = filterByNumericValues[0];
-      switch (comparison) {
-      case 'maior que':
-        return rows.filter((row) => (
-          row.name.toLowerCase().indexOf(name.toLowerCase()) > minusOne
+      filterByNumericValues.forEach((filter) => {
+        const { column, comparison, value } = filter;
+
+        switch (comparison) {
+        case 'maior que':
+          results.push(rows.filter((row) => (
+            row.name.toLowerCase().indexOf(name.toLowerCase()) > minusOne
           && parseInt(row[column], 0) > parseInt(value, 0)
-        ));
-      case 'menor que':
-        return rows.filter((row) => (
-          row.name.toLowerCase().indexOf(name.toLowerCase()) > minusOne
+          )));
+          break;
+        case 'menor que':
+          results.push(rows.filter((row) => (
+            row.name.toLowerCase().indexOf(name.toLowerCase()) > minusOne
           && parseInt(row[column], 0) < parseInt(value, 0)
-        ));
-      case 'igual a':
-        return rows.filter((row) => (
-          row.name.toLowerCase().indexOf(name.toLowerCase()) > minusOne
+          )));
+          break;
+        case 'igual a':
+          results.push(rows.filter((row) => (
+            row.name.toLowerCase().indexOf(name.toLowerCase()) > minusOne
           && parseInt(row[column], 0) === parseInt(value, 0)
+          )));
+          break;
+        default:
+        }
+      });
+
+      if (results[0] && results[1]) {
+        const finalFilter = results[0].filter((planet) => (
+          results[1].includes(planet)
         ));
-      default:
+        return finalFilter;
       }
+      return results[0];
     }
     return rows.filter((row) => (
       row.name.toLowerCase().indexOf(name.toLowerCase()) > minusOne
     ));
   }
+
+  const delFilter = () => {
+    const savedFilters = filterByNumericValues;
+    savedFilters.shift();
+    setFilters({
+      ...filters,
+      filterByNumericValues: savedFilters,
+    });
+  };
 
   return (
     <div>
@@ -61,6 +85,23 @@ function PlanetsProvider() {
         />
       </label>
       <FilterByNumber />
+      {/* Requisito 5 desenvolvido em parceiria com Gabriel Carvalho e Pedro Oliveira */}
+      { filterByNumericValues.length > 0
+      && (
+        filterByNumericValues.map((value, index) => (
+          <div data-testid="filter" key={ index }>
+            <span>{ `${value.column} ` }</span>
+            <span>{ `${value.comparison} ` }</span>
+            <span>{ `${value.value} ` }</span>
+            <button
+              onClick={ delFilter }
+              type="button"
+            >
+              X
+            </button>
+          </div>
+        ))
+      )}
       <Table dataForTable={ filteredData(data) } />
     </div>
   );
