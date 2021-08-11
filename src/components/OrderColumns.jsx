@@ -1,8 +1,9 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function OrderColumns() {
-  const { sortColumn, sort, setSortColumn, setSort, sortColumns, theRender } = useContext(PlanetsContext);
+  const { sortColumn,
+    sort, setSortColumn, setSort, sortColumns, theRender } = useContext(PlanetsContext);
   const allColumns = ['name', 'population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 

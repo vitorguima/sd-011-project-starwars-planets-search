@@ -26,7 +26,7 @@ export default function PlanetsProvider({ children }) {
     } else if (name === '') {
       setTheRender(data);
     }
-  }, [data, name]);
+  }, [data, name, theRender]);
 
   useEffect(() => {
     if (numeric !== []) {
@@ -71,15 +71,15 @@ export default function PlanetsProvider({ children }) {
   }
 
   function sortColumns(sortCol, sortOp, filtereds) {
-    const NEGATIVE_ONE = -1;
+    const magicNumber = -1;
     switch (true) {
     case sortOp === 'asc' && (sortCol === 'name'):
       setTheRender(filtereds.sort((a, b) => (
-        (a[sortCol] > b[sortCol]) ? 1 : NEGATIVE_ONE)));
+        (a[sortCol] > b[sortCol]) ? 1 : magicNumber)));
       break;
     case sortOp === 'desc' && (sortCol === 'name'):
       setTheRender(filtereds.sort((a, b) => (
-        (a[sortCol] < b[sortCol]) ? 1 : NEGATIVE_ONE)));
+        (a[sortCol] < b[sortCol]) ? 1 : magicNumber)));
       break;
     case sortOp === 'asc' && (sortCol !== 'name'):
       setTheRender(filtereds.sort((a, b) => Number(a[sortCol]) - Number(b[sortCol])));
