@@ -34,16 +34,40 @@ function Filter() {
       'rotation_period',
       'surface_water',
     ];
-    const filteredOptions = options
-      .filter((option) => !filterAlreadyUsed('column', option));
-    return filteredOptions
-      .map((filteredoption, index) => (
-        <option
-          key={ index }
-          value={ filteredoption }
-        >
-          {filteredoption}
-        </option>));
+    const filteredOptions = options.filter(
+      (option) => !filterAlreadyUsed('column', option),
+    );
+    return filteredOptions.map((filteredOption, index) => (
+      <option key={ index } value={ filteredOption }>
+        {filteredOption}
+      </option>
+    ));
+  };
+
+  const removeFilter = (filter) => {
+    const filterToRemove = filterByValue.filter(({ column }) => column !== filter);
+    setFilterByValue(filterToRemove);
+  };
+
+  const renderUsedFilterList = () => {
+    if (filterByValue.length === 0) return;
+    return filterByValue.map((filter) => {
+      const { column, comparison, value } = filter;
+      return (
+        <p key={ column } data-testid="filter">
+          {`${column} ${comparison} ${value}`}
+          <button
+            id={ column }
+            type="button"
+            onClick={ ({ target }) => {
+              removeFilter(target.id);
+            } }
+          >
+            Remove
+          </button>
+        </p>
+      );
+    });
   };
 
   return (
@@ -96,6 +120,7 @@ function Filter() {
       <button onClick={ filterList } type="button" data-testid="button-filter">
         Search
       </button>
+      <div>{renderUsedFilterList()}</div>
     </>
   );
 }

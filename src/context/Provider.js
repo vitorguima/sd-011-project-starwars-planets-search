@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { PropTypes } from 'prop-types';
 import StarContext from './StarContext';
+import testData from '../testData';
 
 function Provider({ children }) {
   const [data, setData] = useState([]);
@@ -8,10 +9,14 @@ function Provider({ children }) {
   const [filterByValue, setFilterByValue] = useState([]);
 
   useEffect(() => {
+    const PLANETS_URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
     const fetchAPI = async () => {
-      fetch('https://swapi-trybe.herokuapp.com/api/planets/?format=json')
-        .then((response) => response.json())
-        .then((resp) => setData(resp.results));
+      const planetsList = await fetch(PLANETS_URL)
+        .then((res) => res.json())
+        .then(({ results }) => results);
+      return planetsList
+        ? setData(planetsList)
+        : setData(testData.results);
     };
     fetchAPI();
   });

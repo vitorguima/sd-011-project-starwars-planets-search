@@ -57,7 +57,7 @@ function Table() {
               .filter((planet) => (nameFilter
                 ? planet.name.includes(nameFilter)
                 : planet))
-              .filter((planet) => (filterFromContext(planet)))
+              .filter((planet) => filterFromContext(planet))
               .map(
                 ({
                   name,
@@ -75,7 +75,7 @@ function Table() {
                   url,
                 }) => (
                   <tr key={ name }>
-                    <td>{name}</td>
+                    <td data-testid="planet-name">{name}</td>
                     <td>{rotationPeriod}</td>
                     <td>{orbitalPeriod}</td>
                     <td>{diameter}</td>
