@@ -2,6 +2,7 @@ import React, { useContext } from 'react';
 import '../styles/table.css';
 import PlanetsContext from '../context/PlanetsContext';
 import FilterBar from './FilterBar';
+import OrderBar from './OrderBar';
 
 function Table() {
   const {
@@ -20,6 +21,7 @@ function Table() {
     <div>
       <h2>Componente Tabela</h2>
       <FilterBar />
+      <OrderBar />
       <table>
         <thead>
           <tr>
@@ -40,7 +42,7 @@ function Table() {
         </thead>
         { planetsToRender().map((planet) => (
           <tr key={ planet.name }>
-            <td>{ planet.name }</td>
+            <td data-testid="planet-name">{ planet.name }</td>
             <td>{ planet.rotation_period }</td>
             <td>{ planet.orbital_period }</td>
             <td>{ planet.diameter }</td>

@@ -8,12 +8,16 @@ function PlanetsProvider({ children }) {
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [filteredColumn, setFilteredColumn] = useState([]);
   const [removedFilters, setRemovedFilters] = useState([]);
+  const [order, setOrder] = useState('');
 
   const [filters, setFilters] = useState([]);
 
   useEffect(() => {
     const callbackFetchPlanets = async () => {
       const result = await services.fetchPlanets();
+      result.sort((a, b) => (
+        a.name > b.name || (a.name === b.name) - 1
+      ));
       setPlanets(result);
       setFilteredColumn(result);
     };
@@ -42,10 +46,30 @@ function PlanetsProvider({ children }) {
       break;
     default:
     }
-    // document.getElementById(fieldColumn).remove();
   };
 
+  useEffect(() => {
+    const functionSort = () => {
+      const { column, radio } = order;
+      switch (radio) {
+      case 'ASC':
+        setFilteredPlanets(planets
+          .sort((a, b) => Number(a[column]) - Number(b[column])));
+        break;
+      case 'DESC':
+        setFilteredPlanets(planets
+          .sort((a, b) => Number(b[column]) - Number(a[column])));
+        break;
+      default:
+        return planets;
+      }
+    };
+    functionSort();
+  }, [order]);
+
   const objToProvide = {
+    order,
+    setOrder,
     filters,
     setFilters,
     planets,
