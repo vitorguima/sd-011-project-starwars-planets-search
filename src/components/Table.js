@@ -26,35 +26,43 @@ function Table() {
     const minusOne = -1;
 
     if (filterByNumericValues[0]) {
-      let results = '';
+      const results = [];
 
       filterByNumericValues.forEach((filters) => {
         const { column, value, comparison } = filters;
 
         switch (comparison) {
         case 'maior que':
-          results = rows.filter((row) => (
+          results.push(rows.filter((row) => (
             row.name.toLowerCase().indexOf(name) > minusOne
                 && parseInt(row[column], 0) > parseInt(value, 0)
-          ));
+          )));
           break;
         case 'menor que':
-          results = rows.filter((row) => (
+          results.push(rows.filter((row) => (
             row.name.toLowerCase().indexOf(name) > minusOne
                 && parseInt(row[column], 0) < parseInt(value, 0)
-          ));
+          )));
           break;
         case 'igual a':
-          results = rows.filter((row) => (
+          results.push(rows.filter((row) => (
             row.name.toLowerCase().indexOf(name) > minusOne
                 && parseInt(row[column], 0) === parseInt(value, 0)
-          ));
+          )));
           break;
         default:
         }
       });
 
-      return results;
+      if (results[0] && results[1]) {
+        const finalFilter = results[0].filter((planet) => (
+          results[1].includes(planet)
+        ));
+
+        return finalFilter;
+      }
+
+      return results[0];
     }
 
     return rows.filter((row) => (
