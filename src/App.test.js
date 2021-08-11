@@ -231,7 +231,6 @@ describe('3 - Crie um filtro para valores numéricos', () => {
     fireEvent.change(await screen.findByTestId(COMPARISON_FILTER_SELECTOR), { target: { value: 'maior que' }});
     fireEvent.change(await screen.findByTestId(VALUE_FILTER_SELECTOR), { target: { value: '8900' }});
     fireEvent.click(await screen.findByTestId(BUTTON_FILTER_SELECTOR));
-
     expect(await screen.findAllByRole(ROW_ROLE_SELECTOR)).toHaveLength(8);
   });
 
@@ -292,6 +291,7 @@ describe('5 - Apague o filtro de valores numéricos e desfaça as filtragens dos
 
   const removeFilter = async () => {
     const filters = await screen.findAllByTestId(REMOVE_FILTER_SELECTOR);
+    // console.log(filters[0].querySelector('button'));
     fireEvent.click(filters[0].querySelector('button'));
   };
 
