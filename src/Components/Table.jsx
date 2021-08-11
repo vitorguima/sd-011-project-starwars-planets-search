@@ -6,6 +6,7 @@ export default function Table() {
     filterPlanets,
     setFilterPlanets,
     column,
+    setColumn,
   } = useContext(Context);
   const [storeFilterPlanets, setStoreFilterPlanets] = useState([]);
   const [saveSelectColumn, setSaveSelectColumn] = useState(column[0]);
@@ -63,6 +64,29 @@ export default function Table() {
     setStoreFilterPlanets(getPlanetData);
   }, [data, filterPlanets, name, setStoreFilterPlanets]);
 
+  const showAndDelete = () => {
+    const { filterByNumericValues: number } = filterPlanets;
+    return number.map((value, index) => (
+      <div key={ value.column } data-testid="filter">
+        <span>{ `${value.column} ${value.comparison} ${value.value}` }</span>
+        <button
+          type="button"
+          onClick={ async () => {
+            number.splice(index, 1);
+            await setFilterPlanets(({
+              ...filterPlanets,
+              filterByNumericValues: number,
+            }));
+            const columns = document.querySelector('#column').value;
+            setColumn(columns);
+          } }
+        >
+          X
+        </button>
+      </div>
+    ));
+  };
+
   return (
     <>
       <h1>In the Table</h1>
@@ -79,6 +103,7 @@ export default function Table() {
           Filtrar por valor:
           <select
             data-testid="column-filter"
+            id="column"
             onChange={ ({ target }) => setSaveSelectColumn(target.value) }
           >
             {
@@ -114,6 +139,7 @@ export default function Table() {
             onChange={ ({ target }) => setSaveInputValue(target.value) }
           />
         </label>
+
         <button
           type="button"
           data-testid="button-filter"
@@ -121,44 +147,47 @@ export default function Table() {
         >
           Filtrar
         </button>
+        {showAndDelete()}
       </fieldset>
-      <thead>
-        <tr>
-          <th>Name</th>
-          <th>Período de Rotação</th>
-          <th>Período Orbital</th>
-          <th>Diametro</th>
-          <th>Clima</th>
-          <th>Gravidade</th>
-          <th>Terreno</th>
-          <th>Água na Superfície</th>
-          <th>População</th>
-          <th>Filmes</th>
-          <th>Criado</th>
-          <th>Editado</th>
-          <th>url</th>
-        </tr>
-      </thead>
-
-      <tbody>
-        {storeFilterPlanets.map((planets) => (
-          <tr key={ planets.name }>
-            <td>{planets.name}</td>
-            <td>{planets.rotation_period}</td>
-            <td>{planets.orbital_period}</td>
-            <td>{planets.diameter}</td>
-            <td>{planets.climate}</td>
-            <td>{planets.gravity}</td>
-            <td>{planets.terrain}</td>
-            <td>{planets.surface_water}</td>
-            <td>{planets.population}</td>
-            <td>{planets.films}</td>
-            <td>{planets.created}</td>
-            <td>{planets.edited}</td>
-            <td>{planets.url}</td>
+      <table>
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Período de Rotação</th>
+            <th>Período Orbital</th>
+            <th>Diametro</th>
+            <th>Clima</th>
+            <th>Gravidade</th>
+            <th>Terreno</th>
+            <th>Água na Superfície</th>
+            <th>População</th>
+            <th>Filmes</th>
+            <th>Criado</th>
+            <th>Editado</th>
+            <th>url</th>
           </tr>
-        ))}
-      </tbody>
+        </thead>
+
+        <tbody>
+          {storeFilterPlanets.map((planets) => (
+            <tr key={ planets.name }>
+              <td>{planets.name}</td>
+              <td>{planets.rotation_period}</td>
+              <td>{planets.orbital_period}</td>
+              <td>{planets.diameter}</td>
+              <td>{planets.climate}</td>
+              <td>{planets.gravity}</td>
+              <td>{planets.terrain}</td>
+              <td>{planets.surface_water}</td>
+              <td>{planets.population}</td>
+              <td>{planets.films}</td>
+              <td>{planets.created}</td>
+              <td>{planets.edited}</td>
+              <td>{planets.url}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
     </>
   );
 }

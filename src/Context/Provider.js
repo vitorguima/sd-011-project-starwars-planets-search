@@ -12,7 +12,7 @@ function Provider({ children }) {
     filterByNumericValues: [],
   });
 
-  const [column] = useState([
+  const [column, setColumn] = useState([
     'population',
     'orbital_period',
     'diameter',
@@ -37,17 +37,18 @@ function Provider({ children }) {
     getPlanets();
   }, []);
 
-  const filterPlanetValues = () => {
-    // event.preventDefault();
+  const filterPlanetValues = async () => {
     const { filterByNumericValues: number } = filterPlanets;
     const updateFilter = {
       column,
       value,
       comparison,
     };
-    setFilterPlanets({
+    await setFilterPlanets({
       ...filterPlanets, filterByNumericValues: [...number, updateFilter],
     });
+    const selectColumn = document.querySelector('#column').value;
+    setColumn(selectColumn);
   };
 
   const myDataPlanets = {
@@ -56,6 +57,7 @@ function Provider({ children }) {
     filterPlanets,
     setFilterPlanets,
     column,
+    setColumn,
     value,
     comparison,
     filterPlanetValues,
