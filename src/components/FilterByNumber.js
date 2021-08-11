@@ -44,10 +44,10 @@ export default function FilterByNumber() {
         newColumn.push(column);
         setColumns(newColumn);
       });
-    const target = {
-      value: newColumn[0],
+    const event = {
+      target: { value: newColumn[0] },
     };
-    handleColumnFilters(target);
+    handleColumnFilters(event);
   };
 
   return (

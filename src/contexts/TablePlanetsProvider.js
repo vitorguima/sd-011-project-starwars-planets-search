@@ -9,6 +9,10 @@ export default function TablePlanetsProvider({ children }) {
       name: '',
     },
     filterbyNumericValues: [],
+    order: {
+      column: 'Name',
+      sort: 'ASC',
+    },
   });
 
   // const handleChangeByName = (event) => {
@@ -54,9 +58,7 @@ export default function TablePlanetsProvider({ children }) {
   const context = {
     planets,
     setPlanets,
-    // handleChangeByName,
     setFilter,
-    // addFilter,
     filter,
   };
 

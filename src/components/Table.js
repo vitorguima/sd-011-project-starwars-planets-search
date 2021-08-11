@@ -30,7 +30,7 @@ function Table({ data }) {
         <tbody>
           { data && data.map((planet, index) => (
             <tr key={ index }>
-              <td data-test-id="planet-name">
+              <td data-testid="planet-name">
                 { planet.name }
               </td>
               <td>{ planet.rotation_period }</td>
