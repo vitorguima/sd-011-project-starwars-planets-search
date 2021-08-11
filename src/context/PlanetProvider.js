@@ -28,30 +28,6 @@ export default function PlanetsProvider({ children }) {
     }
   }, [data, name, theRender]);
 
-  console.log(order);
-
-  // function sortColumns(orderl, filtereds) {
-  //   const magicNumber = -1;
-  //   switch (true) {
-  //   case orderl.sort === 'asc' && (orderl.column === 'name'):
-  //     setTheRender(filtereds.sort((a, b) => (
-  //       (a[orderl.column] > b[orderl.column]) ? 1 : magicNumber)));
-  //     break;
-  //   case orderl.sort === 'desc' && (orderl.column === 'name'):
-  //     setTheRender(filtereds.sort((a, b) => (
-  //       (a[orderl.column] < b[orderl.column]) ? 1 : magicNumber)));
-  //     break;
-  //   case orderl.sort === 'asc' && (orderl.column !== 'name'):
-  //     setTheRender(filtereds.sort((a, b) => Number(a[orderl.column]) - Number(b[orderl.column])));
-  //     break;
-  //   case orderl.sort === 'desc' && (orderl.column !== 'name'):
-  //     setTheRender(filtereds.sort((a, b) => Number(b[orderl.column]) - Number(a[orderl.column])));
-  //     break;
-  //   default:
-  //     setTheRender(filtereds);
-  //   }
-  // }
-
   useEffect(() => {
     let filtereds;
     const magicNumber = -1;
