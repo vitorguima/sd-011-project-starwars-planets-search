@@ -1,11 +1,13 @@
 import React from 'react';
 import Table from '../components/Table';
-import InputFilter from '../components/InputFilter';
+import InputFilterByName from '../components/InputFilterByName';
+import InputFilterByNumber from '../components/InputFIlterByNumber';
 
 function Main() {
   return (
     <main>
-      <InputFilter />
+      <InputFilterByName />
+      <InputFilterByNumber />
       <Table />
     </main>
   );

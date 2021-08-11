@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import StarWarsContext from '../context/StarWarsContext';
 
-export default function InputFilter() {
+export default function InputFilterByName() {
   const { handleTextFilter } = useContext(StarWarsContext);
   return (
     <div>

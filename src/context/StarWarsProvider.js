@@ -1,17 +1,33 @@
-import PropTypes from 'prop-types';
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import StarWarsContext from './StarWarsContext';
 import { getThePlanets } from '../services';
 import * as filterfunctions from '../functions/FilterFunctions';
 
 function StarWarsProvider({ children }) {
-  const [data, setData] = useState([]);
-  const [planets, setPlanets] = useState([]);
-  const [filters, setFilters] = useState({
+  const initialFiltes = {
     filterByName: {
       name: '',
     },
-  });
+    filterByNumericValues: [],
+  };
+  const [data, setData] = useState([]);
+  const [planets, setPlanets] = useState([]);
+  const [filters, setFilters] = useState(initialFiltes);
+
+  function handleTextFilter({ target: { value } }) {
+    setFilters({ ...filters, filterByName: { name: value } });
+  }
+
+  function handleNumericalFilter(numericFilter) {
+    const { filterByNumericValues } = filters;
+    setFilters({
+      ...filters,
+      filterByNumericValues: [
+        ...filterByNumericValues, numericFilter,
+      ],
+    });
+  }
 
   useEffect(() => {
     const get = async () => {
@@ -22,25 +38,31 @@ function StarWarsProvider({ children }) {
   }, []);
 
   useEffect(() => {
-    setPlanets(data);
-    const { filterByName: { name } } = filters;
+    let filteredPlanets = [...data];
+    const { filterByName: { name }, filterByNumericValues } = filters;
     if (name) {
-      const filterPlanets = filterfunctions.filterByName(data, name);
-      setPlanets(filterPlanets);
+      filteredPlanets = filterfunctions.filterByName(data, name);
     }
-  }, [data, filters]);
-  console.log(planets);
 
-  function handleTextFilter({ target: { value } }) {
-    setFilters({ ...filters, filterByName: { name: value } });
-  }
+    if (filterByNumericValues.length > 0) {
+      filterByNumericValues.forEach(({ comparison, column, value }) => {
+        filteredPlanets = filterfunctions.filterByNumber(
+          comparison, column, value, filteredPlanets,
+        );
+      });
+    }
+    setPlanets(filteredPlanets);
+  }, [data, filters]);
+
   const contextValue = {
     data,
+    setData,
     filters,
     setFilters,
     handleTextFilter,
     planets,
     setPlanets,
+    handleNumericalFilter,
   };
 
   return (
@@ -55,7 +77,3 @@ export default StarWarsProvider;
 StarWarsProvider.propTypes = {
   children: PropTypes.shape({}).isRequired,
 };
-/*
-useEffect(() => {
-  setPlanets([...data]);
-}, [data]); */
