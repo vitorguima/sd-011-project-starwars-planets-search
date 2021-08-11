@@ -4,19 +4,21 @@ import StarWarsContext from './StarWarsContext';
 import { getThePlanets } from '../services';
 
 function StarWarsProvider({ children }) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState({});
 
   useEffect(() => {
     const get = async () => {
-      const listPlanets = await getThePlanets();
-      await setData(listPlanets);
-      console.log(listPlanets);
+      const r = await getThePlanets();
+      await setData(r);
     };
     get();
   }, []);
-
+  console.log(data);
+  const contextValue = {
+    data,
+  };
   return (
-    <StarWarsContext.Provider value={ data }>
+    <StarWarsContext.Provider value={ contextValue }>
       { children }
     </StarWarsContext.Provider>
   );
