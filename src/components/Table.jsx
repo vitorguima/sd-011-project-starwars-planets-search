@@ -9,6 +9,7 @@ export default function Table() {
     'Terrain', 'Surface Water', 'Population',
     'Films', 'Created', 'Edited', 'Url'];
 
+  console.log(theRender);
   return (
     <table>
       <thead>
@@ -24,6 +25,7 @@ export default function Table() {
             <td>{planet.orbital_period}</td>
             <td>{planet.diameter}</td>
             <td>{planet.climate}</td>
+            {/* {console.log(planet)} */}
             <td>{planet.gravity}</td>
             <td>{planet.terrain}</td>
             <td>{planet.surface_water}</td>

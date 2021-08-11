@@ -26,6 +26,7 @@ export default function PlanetsProvider({ children }) {
     } else if (name === '') {
       setTheRender(data);
     }
+    console.log('input');
   }, [data, name, theRender]);
 
   useEffect(() => {
@@ -34,21 +35,28 @@ export default function PlanetsProvider({ children }) {
     if (order.sort === 'asc' && (order.column === 'name')) {
       filtereds = theRender
         .sort((a, b) => ((a[order.column] > b[order.column]) ? 1 : magicNumber));
+      console.log(1);
       setTheRender(filtereds);
     } else if (order.sort === 'desc' && (order.column === 'name')) {
       filtereds = theRender
         .sort((a, b) => ((a[order.column] < b[order.column]) ? 1 : magicNumber));
+      console.log(2);
+
       setTheRender(filtereds);
     } else if (order.sort === 'asc' && (order.column !== 'name')) {
       filtereds = theRender
         .sort((a, b) => Number(a[order.column]) - Number(b[order.column]));
+      console.log(3);
+
       setTheRender(filtereds);
     } else if (order.sort === 'desc' && (order.column !== 'name')) {
       filtereds = theRender
         .sort((a, b) => Number(b[order.column]) - Number(a[order.column]));
+      console.log(4);
+
       setTheRender(filtereds);
     }
-  }, [order.sort, order.column, theRender]);
+  }, [order, theRender]);
 
   useEffect(() => {
     if (numeric !== []) {
@@ -107,10 +115,11 @@ export default function PlanetsProvider({ children }) {
     sort,
     setSortColumn,
     setSort,
-    // sortColumns,
     setOrder,
     order,
   };
+
+  console.log(theRender);
 
   return (
     <PlanetsContext.Provider value={ valuesContext }>
