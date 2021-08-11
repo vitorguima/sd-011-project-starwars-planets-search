@@ -3,9 +3,13 @@ import PlanetsContext from '../context/PlanetsContext';
 
 export default function FormFiltersOrder() {
   const {
+    data,
     addFilter,
     selectFilter,
     handleFilterName,
+    handleColumnNameChange,
+    handleRadioOrderChange,
+    handleColumnOrderChange,
     handleFilterNumericValues,
   } = useContext(PlanetsContext);
 
@@ -81,6 +85,51 @@ export default function FormFiltersOrder() {
         data-testid="button-filter"
       >
         Add filter
+      </button>
+
+      <select
+        data-testid="column-sort"
+        htmlFor="columns"
+        onChange={ handleColumnNameChange }
+      >
+        {
+          data.map((planet, index) => {
+            const tag = Object.keys(planet)
+              .filter((planetName) => planetName !== 'residents')[index];
+            return <option key={ index }>{ tag }</option>;
+          })
+        }
+      </select>
+
+      <label htmlFor="ASC">
+        ASC
+        <input
+          onClick={ handleRadioOrderChange }
+          data-testid="column-sort-input-asc"
+          checked
+          value="ASC"
+          id="ASC"
+          name="sort-radio"
+          type="radio"
+        />
+      </label>
+      <label htmlFor="DESC">
+        DESC
+        <input
+          onClick={ handleRadioOrderChange }
+          data-testid="column-sort-input-desc"
+          value="DESC"
+          id="DESC"
+          name="sort-radio"
+          type="radio"
+        />
+      </label>
+      <button
+        onClick={ handleColumnOrderChange }
+        data-testid="column-sort-button"
+        type="button"
+      >
+        Ordenar
       </button>
     </form>
   );

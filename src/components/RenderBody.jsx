@@ -2,30 +2,37 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function RenderBody() {
-  const { data, selectFilter } = useContext(PlanetsContext);
+  const { data, selectFilter, filterNumeric } = useContext(PlanetsContext);
   const { filterByName: { name: filterName },
-    filterByNumericValues } = selectFilter.filters;
+    filterByNumericValues,
+    order: { sort, column: col } } = selectFilter.filters;
+  const arrayFiltered = data.filter(({ name }) => name.includes(filterName));
 
-  let arrayFiltered = data.filter(({ name }) => name.includes(filterName));
+  const finalFilter = arrayFiltered.filter((planet) => {
+    if (filterByNumericValues.length === 0) return true;
 
-  filterByNumericValues.forEach(({ comparison, column, value }) => {
-    arrayFiltered = arrayFiltered.filter((planet) => {
-      switch (comparison) {
-      case 'maior que':
-        return Number(planet[column]) > value;
-      case 'menor que':
-        return Number(planet[column]) < value;
-      case 'igual a':
-        return Number(planet[column]) === value;
-      default:
-        return arrayFiltered;
-      }
-    });
+    const nPlanet = Number(planet[filterNumeric.column]);
+    const nValue = Number(filterNumeric.value);
+
+    return {
+      'maior que': nPlanet > nValue,
+      'menor que': nPlanet < nValue,
+      'igual a': nPlanet === nValue,
+    }[filterNumeric.comparison];
+  }).sort((planetA, planetB) => {
+    const options = { numeric: true };
+    if (sort === 'ASC') {
+      return new Intl.Collator(undefined, options).compare(planetA[col], planetB[col]);
+    }
+    if (sort === 'DESC') {
+      return new Intl.Collator(undefined, options).compare(planetB[col], planetA[col]);
+    }
+    return 0;
   });
-
+  console.log(finalFilter);
   return (
     <tbody>
-      { arrayFiltered.map(({
+      { finalFilter.map(({
         name,
         rotation_period: rotation,
         orbital_period: orbital,
@@ -41,7 +48,7 @@ export default function RenderBody() {
         url,
       }) => (
         <tr key={ name }>
-          <td>{name}</td>
+          <td data-testid="planet-name">{name}</td>
           <td>{rotation}</td>
           <td>{orbital}</td>
           <td>{diameter}</td>

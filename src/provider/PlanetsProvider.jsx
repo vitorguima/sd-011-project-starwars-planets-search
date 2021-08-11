@@ -5,6 +5,8 @@ import PlanetsContext from '../context/PlanetsContext';
 
 export default function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
+  const [order, setOrder] = useState('ASC');
+  const [column, setColumn] = useState('name');
 
   const [filterNumeric, setFilterNumeric] = useState({
     column: 'population',
@@ -19,6 +21,10 @@ export default function PlanetsProvider({ children }) {
           name: '',
         },
         filterByNumericValues: [],
+        order: {
+          column: 'Name',
+          sort: 'ASC',
+        },
       },
     },
   );
@@ -74,13 +80,35 @@ export default function PlanetsProvider({ children }) {
     });
   };
 
+  const handleColumnNameChange = ({ target }) => setColumn(target.value);
+
+  const handleRadioOrderChange = ({ target }) => setOrder(target.value);
+
+  const handleColumnOrderChange = () => {
+    setSelectFilter({
+      filters: {
+        ...selectFilter.filters,
+        order: {
+          column,
+          sort: order,
+        },
+      },
+    });
+  };
+
+  useEffect(() => handleColumnOrderChange(), []);
+
   return (
     <PlanetsContext.Provider
       value={ {
         data,
-        removeFilter,
         selectFilter,
+        removeFilter,
+        filterNumeric,
         handleFilterName,
+        handleColumnNameChange,
+        handleRadioOrderChange,
+        handleColumnOrderChange,
         handleFilterNumericValues,
         addFilter,
       } }
