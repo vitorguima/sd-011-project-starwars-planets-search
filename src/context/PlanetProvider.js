@@ -5,9 +5,9 @@ import PlanetsContext from './PlanetsContext';
 
 export default function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
-  // const [order, setOrder] = useState({ column: 'name', sort: 'asc' });
   const [sortColumn, setSortColumn] = useState('name');
   const [sort, setSort] = useState('asc');
+  const [order, setOrder] = useState({ column: 'name', sort: 'asc' });
   const [column, setColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [value, setValue] = useState('100000');
@@ -27,6 +27,52 @@ export default function PlanetsProvider({ children }) {
       setTheRender(data);
     }
   }, [data, name, theRender]);
+
+  console.log(order);
+
+  // function sortColumns(orderl, filtereds) {
+  //   const magicNumber = -1;
+  //   switch (true) {
+  //   case orderl.sort === 'asc' && (orderl.column === 'name'):
+  //     setTheRender(filtereds.sort((a, b) => (
+  //       (a[orderl.column] > b[orderl.column]) ? 1 : magicNumber)));
+  //     break;
+  //   case orderl.sort === 'desc' && (orderl.column === 'name'):
+  //     setTheRender(filtereds.sort((a, b) => (
+  //       (a[orderl.column] < b[orderl.column]) ? 1 : magicNumber)));
+  //     break;
+  //   case orderl.sort === 'asc' && (orderl.column !== 'name'):
+  //     setTheRender(filtereds.sort((a, b) => Number(a[orderl.column]) - Number(b[orderl.column])));
+  //     break;
+  //   case orderl.sort === 'desc' && (orderl.column !== 'name'):
+  //     setTheRender(filtereds.sort((a, b) => Number(b[orderl.column]) - Number(a[orderl.column])));
+  //     break;
+  //   default:
+  //     setTheRender(filtereds);
+  //   }
+  // }
+
+  useEffect(() => {
+    let filtereds;
+    const magicNumber = -1;
+    if (order.sort === 'asc' && (order.column === 'name')) {
+      filtereds = theRender
+        .sort((a, b) => ((a[order.column] > b[order.column]) ? 1 : magicNumber));
+      setTheRender(filtereds);
+    } else if (order.sort === 'desc' && (order.column === 'name')) {
+      filtereds = theRender
+        .sort((a, b) => ((a[order.column] < b[order.column]) ? 1 : magicNumber));
+      setTheRender(filtereds);
+    } else if (order.sort === 'asc' && (order.column !== 'name')) {
+      filtereds = theRender
+        .sort((a, b) => Number(a[order.column]) - Number(b[order.column]));
+      setTheRender(filtereds);
+    } else if (order.sort === 'desc' && (order.column !== 'name')) {
+      filtereds = theRender
+        .sort((a, b) => Number(b[order.column]) - Number(a[order.column]));
+      setTheRender(filtereds);
+    }
+  }, [order.sort, order.column, theRender]);
 
   useEffect(() => {
     if (numeric !== []) {
@@ -70,28 +116,6 @@ export default function PlanetsProvider({ children }) {
     setName(event.target.value);
   }
 
-  function sortColumns(sortCol, sortOp, filtereds) {
-    const magicNumber = -1;
-    switch (true) {
-    case sortOp === 'asc' && (sortCol === 'name'):
-      setTheRender(filtereds.sort((a, b) => (
-        (a[sortCol] > b[sortCol]) ? 1 : magicNumber)));
-      break;
-    case sortOp === 'desc' && (sortCol === 'name'):
-      setTheRender(filtereds.sort((a, b) => (
-        (a[sortCol] < b[sortCol]) ? 1 : magicNumber)));
-      break;
-    case sortOp === 'asc' && (sortCol !== 'name'):
-      setTheRender(filtereds.sort((a, b) => Number(a[sortCol]) - Number(b[sortCol])));
-      break;
-    case sortOp === 'desc' && (sortCol !== 'name'):
-      setTheRender(filtereds.sort((a, b) => Number(b[sortCol]) - Number(a[sortCol])));
-      break;
-    default:
-      setTheRender(filtereds);
-    }
-  }
-
   const valuesContext = {
     handleInputPlanet,
     data,
@@ -107,7 +131,9 @@ export default function PlanetsProvider({ children }) {
     sort,
     setSortColumn,
     setSort,
-    sortColumns,
+    // sortColumns,
+    setOrder,
+    order,
   };
 
   return (

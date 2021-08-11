@@ -2,17 +2,16 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function OrderColumns() {
-  const { sortColumn,
-    sort, setSortColumn, setSort, sortColumns, theRender } = useContext(PlanetsContext);
+  const { sortColumn, setOrder,
+    sort, setSortColumn, setSort } = useContext(PlanetsContext);
   const allColumns = ['name', 'population',
     'orbital_period', 'diameter', 'rotation_period', 'surface_water'];
 
-  console.log(sortColumn, sort);
   return (
-    <div className="container">
+    <form className="container">
       <label htmlFor="column-selector">
         <select
-          onClick={ ({ currentTarget }) => setSortColumn(currentTarget.value) }
+          onChange={ ({ currentTarget }) => setSortColumn(currentTarget.value) }
           data-testid="column-sort"
         >
           {allColumns.map((item, index) => (
@@ -44,11 +43,11 @@ export default function OrderColumns() {
       </label>
       <button
         type="button"
-        onClick={ () => sortColumns(sortColumn, sort, theRender) }
+        onClick={ () => setOrder({ column: sortColumn, sort }) }
         data-testid="column-sort-button"
       >
         Sort
       </button>
-    </div>
+    </form>
   );
 }
