@@ -43,6 +43,8 @@ export default function PlanetsProvider({ children }) {
           setTheRender(filterPlanetsByNums);
         }
       });
+    } else {
+      setTheRender(data);
     }
   }, [data, numeric]);
 
@@ -65,14 +67,20 @@ export default function PlanetsProvider({ children }) {
     setName(event.target.value);
   }
 
+  // function handleClear() {
+
+  // }
+
   const valuesContext = {
     handleInputPlanet,
     data,
     setColumn,
     setComparison,
     setValue,
+    setNumeric,
     handleFilterButton,
     theRender,
+    setTheRender,
     numeric,
   };
 

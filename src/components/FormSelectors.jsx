@@ -5,8 +5,11 @@ export default function FormSelectors() {
   const { setColumn,
     setComparison,
     setValue,
+    setNumeric,
+    setTheRender,
     handleFilterButton,
     numeric,
+    data,
   } = useContext(PlanetsContext);
 
   // https://github.com/tryber/sd-011-project-starwars-planets-search/blob/amandhawb-project-starwars/src/App.js - used this repo as reference
@@ -53,6 +56,25 @@ export default function FormSelectors() {
       >
         Set Filter
       </button>
+      {numeric.map(({ column, value, comparison }, index) => (
+        <>
+          <p key={ index }>
+            {`${column} ${comparison} ${value}`}
+          </p>
+          <button
+            data-testid="filter"
+            type="button"
+            onClick={ () => {
+              const num = numeric.filter((item) => item.column !== column);
+              setNumeric(num);
+              // console.log(numeric);
+              if (num.length === 0) setTheRender(data);
+            } }
+          >
+            X
+          </button>
+        </>
+      ))}
     </form>
   );
 }
