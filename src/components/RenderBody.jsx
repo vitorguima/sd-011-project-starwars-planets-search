@@ -3,13 +3,29 @@ import PlanetsContext from '../context/PlanetsContext';
 
 export default function RenderBody() {
   const { data, selectFilter } = useContext(PlanetsContext);
-  const { name: filterName } = selectFilter.filters.filterByName;
+  const { filterByName: { name: filterName },
+    filterByNumericValues } = selectFilter.filters;
 
-  const arrayFilterName = data.filter(({ name }) => name.includes(filterName));
+  let arrayFiltered = data.filter(({ name }) => name.includes(filterName));
+
+  filterByNumericValues.forEach(({ comparison, column, value }) => {
+    arrayFiltered = arrayFiltered.filter((planet) => {
+      switch (comparison) {
+      case 'maior que':
+        return Number(planet[column]) > value;
+      case 'menor que':
+        return Number(planet[column]) < value;
+      case 'igual a':
+        return Number(planet[column]) === value;
+      default:
+        return arrayFiltered;
+      }
+    });
+  });
 
   return (
     <tbody>
-      { arrayFilterName.map(({
+      { arrayFiltered.map(({
         name,
         rotation_period: rotation,
         orbital_period: orbital,

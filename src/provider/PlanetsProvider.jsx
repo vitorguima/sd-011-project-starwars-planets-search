@@ -5,12 +5,20 @@ import PlanetsContext from '../context/PlanetsContext';
 
 export default function PlanetsProvider({ children }) {
   const [data, setData] = useState([]);
+
+  const [filterNumeric, setFilterNumeric] = useState({
+    column: 'population',
+    comparison: 'maior que',
+    value: '',
+  });
+
   const [selectFilter, setSelectFilter] = useState(
     {
       filters: {
         filterByName: {
           name: '',
         },
+        filterByNumericValues: [],
       },
     },
   );
@@ -33,12 +41,34 @@ export default function PlanetsProvider({ children }) {
     });
   };
 
+  const handleFilterNumericValues = ({ target }) => {
+    const { name, value } = target;
+    setFilterNumeric({
+      ...filterNumeric,
+      [name]: value,
+    });
+  };
+
+  const addFilter = () => {
+    setSelectFilter({
+      filters: {
+        ...selectFilter.filters,
+        filterByNumericValues: [
+          ...selectFilter.filters.filterByNumericValues,
+          filterNumeric,
+        ],
+      },
+    });
+  };
+
   return (
     <PlanetsContext.Provider
       value={ {
         data,
         selectFilter,
         handleFilterName,
+        handleFilterNumericValues,
+        addFilter,
       } }
     >
       { children }
