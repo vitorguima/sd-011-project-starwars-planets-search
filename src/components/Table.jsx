@@ -11,11 +11,8 @@ function Table() {
   } = useContext(PlanetsContext);
 
   const planetsToRender = () => {
-    if (filteredColumn.length > 0) {
-      return filteredColumn;
-    }
     if (filteredPlanets.length === 0) {
-      return planets;
+      return filteredColumn;
     }
     return filteredPlanets;
   };

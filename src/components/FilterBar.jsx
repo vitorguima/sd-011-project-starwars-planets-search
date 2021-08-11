@@ -4,17 +4,21 @@ import '../styles/filterBar.css';
 
 function FilterBar() {
   const {
+    planets,
     filters,
     setFilters,
     handleFilterByName,
     handleFilterByColumn,
-    removedFilters,
+    // filteredColumn,
+    setFilteredColumn,
+    // removedFilters,
+    // setRemovedFilters,
   } = useContext(PlanetsContext);
 
   const handleChange = ({ target: { value } }) => {
     handleFilterByName(value);
   };
-
+  // console.log(` log do filter do contexto ${filters}`, filters);
   const arrayOptions = [
     'population',
     'orbital_period',
@@ -39,7 +43,36 @@ function FilterBar() {
     setFilters([...filters, obj]);
   };
 
-  console.log(`estado ${filteredOptions}, array ${arrayOptions}`);
+  // console.log(`estado ${filteredOptions}, array ${arrayOptions}`);
+
+  const delectedFilter = ({ target: { name } }) => {
+    const eraseFilter = filters.filter((item) => item.fieldColumn !== name);
+    setFilters(eraseFilter);
+    if (eraseFilter.length >= 1) {
+      const restorePlanets = eraseFilter.filter((newFilter) => {
+        switch (newFilter.comparison) {
+        case 'maior que':
+          return (planets
+            .filter((planet) => planet[newFilter.fieldColumn] > parseInt(newFilter.inputValue, 10)));
+
+        case 'menor que':
+          return (planets
+            .filter((planet) => planet[newFilter.fieldColumn] < parseInt(newFilter.inputValue, 10)));
+
+        case 'igual a':
+          return (planets
+            .filter((planet) => newFilter.inputValue === planet[newFilter.fieldColumn]));
+
+        default:
+          return planets;
+        }
+      });
+      setFilteredColumn(restorePlanets);
+    } else {
+      setFilteredColumn(planets);
+    }
+    console.log('console filters', filters, 'erase filter', eraseFilter);
+  };
 
   return (
     <div>
@@ -98,14 +131,15 @@ function FilterBar() {
           Filtrar
         </button>
       </div>
-      <div>
-        { removedFilters.map((filter, index) => (
-          <div key={ index } className="container-filtered">
-            <p>{filter}</p>
+      <div className="container-filters-selected">
+        { filters.map((filter, index) => (
+          <div key={ index } className="filtered-item" data-testid="filter">
+            <p>{filter.fieldColumn}</p>
             <button
               type="button"
               className="filter-button"
-              data-testid="filter"
+              name={ filter.fieldColumn }
+              onClick={ delectedFilter }
             >
               x
             </button>

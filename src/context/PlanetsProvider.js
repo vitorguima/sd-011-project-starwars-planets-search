@@ -15,12 +15,13 @@ function PlanetsProvider({ children }) {
     const callbackFetchPlanets = async () => {
       const result = await services.fetchPlanets();
       setPlanets(result);
+      setFilteredColumn(result);
     };
     callbackFetchPlanets();
   }, []);
 
   const handleFilterByName = (param) => {
-    setFilteredPlanets(planets
+    setFilteredPlanets(filteredColumn
       .filter((planet) => planet.name.includes(param)));
   };
 
@@ -28,15 +29,15 @@ function PlanetsProvider({ children }) {
     setRemovedFilters([...removedFilters, fieldColumn]);
     switch (comparison) {
     case 'maior que':
-      setFilteredColumn(planets
+      setFilteredColumn(filteredColumn
         .filter((planet) => planet[fieldColumn] > parseInt(inputValue, 10)));
       break;
     case 'menor que':
-      setFilteredColumn(planets
+      setFilteredColumn(filteredColumn
         .filter((planet) => planet[fieldColumn] < parseInt(inputValue, 10)));
       break;
     case 'igual a':
-      setFilteredColumn(planets
+      setFilteredColumn(filteredColumn
         .filter((planet) => inputValue === planet[fieldColumn]));
       break;
     default:
@@ -48,8 +49,10 @@ function PlanetsProvider({ children }) {
     filters,
     setFilters,
     planets,
+    setRemovedFilters,
     filteredPlanets,
     filteredColumn,
+    setFilteredColumn,
     removedFilters,
     handleFilterByName,
     handleFilterByColumn,

@@ -3,3 +3,15 @@
   padding: 8px;
   width: fit-content;
 }
+
+.container-filters-selected {
+  background-color: cadetblue;
+  border: 1px solid black;
+  display: flex;
+  width: fit-content;
+}
+
+.filtered-item {
+  display: flex;
+  padding-right: 15px;
+}
