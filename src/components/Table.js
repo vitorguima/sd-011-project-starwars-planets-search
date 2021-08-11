@@ -1,5 +1,6 @@
 import React, { useContext, useEffect } from 'react';
 import MainContext from '../context/MainContext';
+import sortNumbers from '../helpers/functionsFitlers';
 
 function Table() {
   const {
@@ -10,6 +11,7 @@ function Table() {
     },
     filteredData,
     sets: { setFilteredData },
+    order,
   } = useContext(MainContext);
   let column = [];
 
@@ -43,6 +45,7 @@ function Table() {
   }, [filterByNumericValues, data, name, setFilteredData]);
 
   if (data.length) {
+    sortNumbers(order, filteredData, setFilteredData);
     column = Object.keys(data[0]);
     return (
       <table border="1">
@@ -62,15 +65,25 @@ function Table() {
                 planets.name.includes(name)
                   ? (
                     <tr key={ index }>
-                      {Object.values(planets).map((value) => (
-                        <td key={ value } data-testid="planet-name">{value}</td>
-                      ))}
+                      {Object.values(planets).map((value, position) => (
+                  <td
+                    key={ value }
+                    data-testid={ position === 0 ? 'planet-name' : '' }
+                  >
+                    {value}
+                  </td>
+                ))}
                     </tr>) : null);
             }
             return (
               <tr key={ index }>
-                {Object.values(planets).map((value) => (
-                  <td key={ value }>{value}</td>
+                {Object.values(planets).map((value, position) => (
+                  <td
+                    key={ value }
+                    data-testid={ position === 0 ? 'planet-name' : '' }
+                  >
+                    {value}
+                  </td>
                 ))}
               </tr>);
           })}

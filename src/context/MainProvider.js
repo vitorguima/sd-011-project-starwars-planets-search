@@ -11,7 +11,6 @@ function MainProvider({ children }) {
       name: '',
     },
     filterByNumericValues: [],
-    order: {},
   });
   const [listFilter, setListFilter] = useState([
     'population',

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import MainContext from '../context/MainContext';
 import FiltersChoised from './FiltersChoised';
 import sortNumbers from '../helpers/functionsFitlers';
@@ -51,6 +51,10 @@ function PlanetsFilter() {
     });
     setListFilterChoise(listFilter[0]);
   }
+
+  useEffect(() => {
+    sortNumbers({ column: orderColumn, sort: orderRadios }, filteredData, setFilteredData);
+  }, [filteredData, orderColumn, orderRadios, setFilteredData]);
 
   function handleOrder() {
     setOrder({
