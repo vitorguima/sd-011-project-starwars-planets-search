@@ -37,8 +37,8 @@ function MainProvider({ children }) {
     const { column, sort } = order;
     if (
       column !== 'name'
-      && column !== 'climate'
-      && column !== 'terrain' && column !== 'films' && column !== 'url'
+      || column !== 'climate'
+      || column !== 'terrain' || column !== 'films' || column !== 'url'
     ) {
       setFilteredData((oldData) => oldData.sort((a, b) => {
         switch (sort) {
@@ -63,11 +63,13 @@ function MainProvider({ children }) {
       setFilteredData((oldData) => oldData.sort((a, b) => {
         switch (sort) {
         case 'ASC':
+          if (a[column] < b[column]) return -1;
+          if (a[column] > b[column]) return 1;
+          return 0;
+        case 'DESC':
           if (a[column] > b[column]) return -1;
           if (a[column] < b[column]) return 1;
           return 0;
-        case 'DESC':
-          return parseInt(b[column], 10) - parseInt(a[column], 10);
         default:
           return 0;
         }
