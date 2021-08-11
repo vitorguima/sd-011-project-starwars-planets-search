@@ -1,12 +1,15 @@
 import React, { useContext, useEffect, useState } from 'react';
 import Context from '../Context/Context';
 
+import Sort from './Sort';
+
 export default function Table() {
   const { data,
     filterPlanets,
     setFilterPlanets,
     column,
     setColumn,
+    setSort,
   } = useContext(Context);
   const [storeFilterPlanets, setStoreFilterPlanets] = useState([]);
   const [saveSelectColumn, setSaveSelectColumn] = useState(column[0]);
@@ -61,8 +64,9 @@ export default function Table() {
         }
       });
     }
+    setSort(getPlanetData);
     setStoreFilterPlanets(getPlanetData);
-  }, [data, filterPlanets, name, setStoreFilterPlanets]);
+  }, [data, filterPlanets, name, setSort, setStoreFilterPlanets]);
 
   const showAndDelete = () => {
     const { filterByNumericValues: number } = filterPlanets;
@@ -91,6 +95,7 @@ export default function Table() {
     <>
       <h1>In the Table</h1>
       <fieldset>
+        <Sort />
         <label htmlFor="filter-label">
           Filtro:
           <input
@@ -171,7 +176,7 @@ export default function Table() {
         <tbody>
           {storeFilterPlanets.map((planets) => (
             <tr key={ planets.name }>
-              <td>{planets.name}</td>
+              <td data-testid="planet-name">{planets.name}</td>
               <td>{planets.rotation_period}</td>
               <td>{planets.orbital_period}</td>
               <td>{planets.diameter}</td>
@@ -180,7 +185,7 @@ export default function Table() {
               <td>{planets.terrain}</td>
               <td>{planets.surface_water}</td>
               <td>{planets.population}</td>
-              <td>{planets.films}</td>
+              <td>{planets.films.reduce((all, film) => `${all}, ${film}`)}</td>
               <td>{planets.created}</td>
               <td>{planets.edited}</td>
               <td>{planets.url}</td>

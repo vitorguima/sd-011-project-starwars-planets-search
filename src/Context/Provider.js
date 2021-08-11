@@ -5,11 +5,17 @@ import Context from './Context';
 function Provider({ children }) {
   const [data, setData] = useState([]);
   const [value] = useState(0);
+  const [sortColumn, setSortColumn] = useState('name');
+  const [orderSort, setOrderSort] = useState('ASC');
   const [filterPlanets, setFilterPlanets] = useState({
     filterByName: {
       name: '',
     },
     filterByNumericValues: [],
+    order: {
+      column: 'name',
+      sort: 'ASC',
+    },
   });
 
   const [column, setColumn] = useState([
@@ -26,6 +32,53 @@ function Provider({ children }) {
     'igual a',
   ]);
 
+  const orderOptions = [
+    'name',
+    'climate',
+    'created',
+    'diameter',
+    'edited',
+    'gravity',
+    'orbital_period',
+    'population',
+    'rotation_period',
+    'surface_water',
+    'terrain',
+  ];
+
+  const categories = [
+    'name',
+    'climate',
+    'created',
+    'edited',
+    'gravity',
+    'terrain',
+  ];
+
+  const sorting = (ordered, num, a, b) => {
+    const { order } = filterPlanets;
+    const findCategory = categories.find((cat) => cat === ordered.column);
+    const magicNumber = -1;
+    if (order.sort === 'ASC') {
+      if (findCategory) {
+        return a[ordered.column] > b[ordered.column] ? 1 : magicNumber;
+      }
+      return num > 0 ? 1 : magicNumber;
+    }
+    if (findCategory) {
+      return a[order.column] > b[order.column] ? 1 : magicNumber;
+    }
+    return num > 0 ? magicNumber : 1;
+  };
+
+  const setSort = (array) => {
+    const { order } = filterPlanets;
+    array.sort((a, b) => {
+      const num = a[order.column] - b[order.column];
+      return sorting(order, num, a, b);
+    });
+  };
+
   useEffect(() => {
     const getPlanets = async () => {
       const endPoint = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -36,6 +89,14 @@ function Provider({ children }) {
     };
     getPlanets();
   }, []);
+
+  const toSort = () => {
+    const filtered = {
+      column: sortColumn,
+      sort: orderSort,
+    };
+    setFilterPlanets({ ...filterPlanets, order: filtered });
+  };
 
   const filterPlanetValues = async () => {
     const { filterByNumericValues: number } = filterPlanets;
@@ -61,6 +122,11 @@ function Provider({ children }) {
     value,
     comparison,
     filterPlanetValues,
+    toSort,
+    orderOptions,
+    setSortColumn,
+    setOrderSort,
+    setSort,
   };
 
   return (
