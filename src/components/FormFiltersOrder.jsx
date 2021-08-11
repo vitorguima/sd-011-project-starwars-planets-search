@@ -9,7 +9,24 @@ export default function FormFiltersOrder() {
     handleFilterNumericValues,
   } = useContext(PlanetsContext);
 
-  const { name } = selectFilter.filters.filterByName;
+  const { filterByName: { name },
+    filterByNumericValues } = selectFilter.filters;
+
+  const columnsOptions = [
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ];
+
+  const selectedColumns = filterByNumericValues.map(
+    (numericFilter) => numericFilter.column,
+  );
+
+  const filteredColumns = columnsOptions.filter(
+    (column) => !selectedColumns.includes(column),
+  );
 
   return (
     <form>
@@ -28,11 +45,14 @@ export default function FormFiltersOrder() {
         name="column"
         onChange={ handleFilterNumericValues }
       >
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        { filteredColumns.map((column) => (
+          <option
+            key={ column }
+            value={ column }
+          >
+            { column }
+          </option>
+        )) }
       </select>
 
       <select
