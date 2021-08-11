@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Table from './Table';
 import AppContext from './AppContext';
 import NumericFilter from './NumericFilter';
+import UsedFilters from './UsedFilters';
 import './App.css';
 
 function App() {
@@ -21,6 +22,14 @@ function App() {
     setFilterByNumericValues([...filterByNumericValues, numericFilter]);
   }
 
+  function removeFilter(column) {
+    setFilterByNumericValues(
+      filterByNumericValues.filter(
+        (numericFilter) => numericFilter.column !== column,
+      ),
+    );
+  }
+
   return (
     <AppContext.Provider
       value={ {
@@ -38,6 +47,7 @@ function App() {
         onChange={ (event) => setFilterByName(event.currentTarget.value) }
       />
       <NumericFilter onSubmit={ addFilter } />
+      <UsedFilters onRemove={ removeFilter } />
       <Table />
     </AppContext.Provider>
   );
