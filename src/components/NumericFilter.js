@@ -1,14 +1,19 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { MyContext } from '../context/MyContext';
 // import { MyContext } from '../context/MyContext';
 
 function NumericFilter() {
-  const { searchPlanet, setSearchPlanet } = useContext(MyContext);
+  const { setSearchPlanet } = useContext(MyContext);
+  const [getColumn, setColumn] = useState('population');
+  const [getComparison, setComparison] = useState('menor que');
+  const [getInput, setInput] = useState(0);
 
-  
   return (
     <div>
-      <select data-testid="column-filter">
+      <select
+        data-testid="column-filter"
+        onChange={ (e) => setColumn(e.target.value) }
+      >
         <option value="population">population</option>
         <option value="orbital_period">orbital_period</option>
         <option value="diameter">diameter</option>
@@ -16,7 +21,10 @@ function NumericFilter() {
         <option value="surface_water">surface_water</option>
       </select>
 
-      <select data-testid="comparison-filter">
+      <select
+        data-testid="comparison-filter"
+        onChange={ (e) => setComparison(e.target.value) }
+      >
         <option value="menor que">menor que</option>
         <option value="maior que">maior que</option>
         <option value="igual a">igual a</option>
@@ -24,12 +32,16 @@ function NumericFilter() {
 
       <input
         data-testid="value-filter"
+        onChange={ (e) => setInput(e.target.value) }
         type="number"
       />
 
       <button
         data-testid="button-filter"
-        type="submit"
+        onClick={ () => setSearchPlanet([
+          { column: getColumn }, { comparison: getComparison }, { value: getInput },
+        ]) }
+        type="button"
       >
         Buscar
       </button>

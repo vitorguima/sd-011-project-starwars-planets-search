@@ -7,7 +7,7 @@ function NewProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filter, setFilter] = useState([]);
   const [searchPlanet, setSearchPlanet] = useState([
-    { column: 'population', comparison: 'menor que', value: 0 },
+    { column: 'population' }, { comparison: 'menor que' }, { value: 0 },
   ]);
 
   // didMount
