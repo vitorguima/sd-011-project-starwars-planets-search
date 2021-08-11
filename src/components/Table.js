@@ -3,6 +3,7 @@ import StarWarsContext from '../context/StarWarsContext';
 
 export default function Table() {
   const { dataTable } = useContext(StarWarsContext);
+  const { orderedList } = useContext(StarWarsContext);
 
   return (
     <div>
@@ -18,7 +19,7 @@ export default function Table() {
               </tr>
             </thead>
             <tbody>
-              { dataTable.map((planet, indexPlanet) => (
+              { orderedList.map((planet, indexPlanet) => (
                 <tr key={ indexPlanet }>
                   {
                     Object.values(planet).map((value, index) => (

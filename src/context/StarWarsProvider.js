@@ -47,6 +47,50 @@ function StarWarsProvider({ children }) {
     setDataTable(filteredResult);
   }, [filters]);
 
+  const [orderedList, setOrderedList] = useState([]);
+  const [order, setOrder] = useState('ASC');
+  const [orderColumn, setOrderColumn] = useState('name');
+
+  useEffect(() => {
+    const menosUm = -1;
+    if ((order === 'ASC') && (orderColumn === 'name')) {
+      const newListAsc = [...dataTable];
+      newListAsc.sort((a, b) => {
+        if (a[orderColumn] > b[orderColumn]) { return 1; }
+        if (b[orderColumn] > a[orderColumn]) { return menosUm; } return 0;
+      });
+      setOrderedList(newListAsc);
+    }
+  }, [dataTable, order, orderColumn]);
+
+  useEffect(() => {
+    const menosUm = -1;
+    if ((order === 'DESC') && (orderColumn === 'name')) {
+      const newListAsc = [...dataTable];
+      newListAsc.sort((a, b) => {
+        if (a[orderColumn] < b[orderColumn]) { return 1; }
+        if (b[orderColumn] < a[orderColumn]) { return menosUm; } return 0;
+      });
+      setOrderedList(newListAsc);
+    }
+  }, [dataTable, order, orderColumn]);
+
+  useEffect(() => {
+    if ((order === 'ASC') && (orderColumn !== 'name')) {
+      const newListAsc = [...dataTable];
+      newListAsc.sort((a, b) => (a[orderColumn] - b[orderColumn]));
+      setOrderedList(newListAsc);
+    }
+  }, [dataTable, order, orderColumn]);
+
+  useEffect(() => {
+    if ((order === 'DESC') && (orderColumn !== 'name')) {
+      const newListAsc = [...dataTable];
+      newListAsc.sort((a, b) => (b[orderColumn] - a[orderColumn]));
+      setOrderedList(newListAsc);
+    }
+  }, [dataTable, order, orderColumn]);
+
   return (
     <StarWarsContext.Provider
       value={ {
@@ -55,6 +99,9 @@ function StarWarsProvider({ children }) {
         setFilters,
         columns,
         setColumns,
+        orderedList,
+        setOrder,
+        setOrderColumn,
       } }
     >
       { children }
