@@ -3,18 +3,34 @@ import AppContext from './AppContext';
 
 export default function Table() {
   const { data, filters } = useContext(AppContext);
-  const { filterByName } = filters;
+  const { filterByName, filterByNumericValues } = filters;
 
   if (!data) {
     return null;
   }
 
-  const filteredData = filterByName.name
-    ? data.filter((planet) => {
+  let filteredData = data;
+
+  if (filterByName.name) {
+    filteredData = filteredData.filter((planet) => {
       const lowerCasePlanetName = planet.name.toLowerCase();
       return lowerCasePlanetName.includes(filterByName.name.toLowerCase());
-    })
-    : data;
+    });
+  }
+
+  filterByNumericValues.forEach(({ comparison, column, value }) => {
+    filteredData = filteredData.filter((planet) => {
+      if (comparison === 'maior que') {
+        return Number(planet[column]) > value;
+      }
+
+      if (comparison === 'menor que') {
+        return Number(planet[column]) < value;
+      }
+
+      return Number(planet[column]) === value;
+    });
+  });
 
   return (
     <table>

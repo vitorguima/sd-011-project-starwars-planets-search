@@ -4,6 +4,7 @@ const AppContext = createContext({
   data: undefined,
   filters: {
     filterByName: { name: '' },
+    filterByNumericValues: [],
   },
 });
 
