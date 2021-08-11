@@ -23,6 +23,29 @@ function Filter() {
     ]);
   };
 
+  const filterAlreadyUsed = (filterType, option) => filterByValue
+    .find((filter) => filter[filterType] === option);
+
+  const renderOptions = () => {
+    const options = [
+      'population',
+      'orbital_period',
+      'diameter',
+      'rotation_period',
+      'surface_water',
+    ];
+    const filteredOptions = options
+      .filter((option) => !filterAlreadyUsed('column', option));
+    return filteredOptions
+      .map((filteredoption, index) => (
+        <option
+          key={ index }
+          value={ filteredoption }
+        >
+          {filteredoption}
+        </option>));
+  };
+
   return (
     <>
       <label htmlFor="filterByName">
@@ -44,11 +67,7 @@ function Filter() {
           ref={ filterColumn }
           data-testid="column-filter"
         >
-          <option value="population">population</option>
-          <option value="orbital_period">orbital_period</option>
-          <option value="diameter">diameter</option>
-          <option value="rotation_period">rotation_period</option>
-          <option value="surface_water">surface_water</option>
+          {renderOptions()}
         </select>
       </label>
 
