@@ -17,6 +17,26 @@ function SearchBar() {
       value: 0,
     },
   );
+  const [sortList, setSortList] = useState(
+    {
+      column: '',
+      sort: '',
+    },
+  );
+
+  const handleSort = ({ target: { name, value } }) => {
+    setSortList({
+      ...sortList,
+      [name]: value,
+    });
+  };
+
+  const setSortParamenters = () => {
+    setFilter({
+      ...filter,
+      order: { ...filter.order, ...sortList },
+    });
+  };
 
   const handleSerachBar = ({ target: { name, value } }) => {
     setFilter({
@@ -116,6 +136,36 @@ function SearchBar() {
         {filter.filterByNumericValues.map((filtered, index) => (
           renderButtons(filtered, index)))}
       </ul>
+      <select
+        data-testid="column-sort"
+        onChange={ handleSort }
+        name="column"
+      >
+        {listDrop.map((drop, index) => (<option key={ index }>{drop}</option>))}
+      </select>
+      <input
+        name="sort"
+        type="radio"
+        data-testid="column-sort-input-asc"
+        onChange={ handleSort }
+        value="ASC"
+      />
+      ASC
+      <input
+        name="sort"
+        type="radio"
+        data-testid="column-sort-input-desc"
+        onChange={ handleSort }
+        value="DESC"
+      />
+      DESC
+      <button
+        type="button"
+        onClick={ setSortParamenters }
+        data-testid="column-sort-button"
+      >
+        Ordenar
+      </button>
     </form>
   );
 }

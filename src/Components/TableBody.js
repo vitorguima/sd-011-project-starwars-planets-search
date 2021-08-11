@@ -6,9 +6,18 @@ function TableBody() {
     planets,
     planetFiltered,
     dropFilter,
+    filter,
   } = useContext(AppContext);
 
-  let render = planets;
+  const { sort, column } = filter.order;
+  let render = planets.sort((a, b) => (a[column]).localeCompare(b[column]));
+  // console.log(column);
+  if (sort === 'DESC') {
+    render.sort((b, a) => a[column] - b[column]);
+  } else {
+    render.sort((a, b) => a[column] - b[column]);
+  }
+  // console.log(render);
 
   if (planetFiltered.length > 0) {
     render = planetFiltered;
@@ -25,7 +34,7 @@ function TableBody() {
   return (
     render.map((data, index) => (
       <tr key={ index }>
-        <td>{data.name}</td>
+        <td data-testid="planet-name">{data.name}</td>
         <td>{data.rotation_period}</td>
         <td>{data.orbital_period}</td>
         <td>{data.diameter}</td>
