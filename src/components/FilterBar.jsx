@@ -53,11 +53,13 @@ function FilterBar() {
         switch (newFilter.comparison) {
         case 'maior que':
           return (planets
-            .filter((planet) => planet[newFilter.fieldColumn] > parseInt(newFilter.inputValue, 10)));
+            .filter((planet) => planet[newFilter.fieldColumn]
+            > parseInt(newFilter.inputValue, 10)));
 
         case 'menor que':
           return (planets
-            .filter((planet) => planet[newFilter.fieldColumn] < parseInt(newFilter.inputValue, 10)));
+            .filter((planet) => planet[newFilter.fieldColumn]
+            < parseInt(newFilter.inputValue, 10)));
 
         case 'igual a':
           return (planets

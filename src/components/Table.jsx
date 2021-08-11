@@ -5,7 +5,6 @@ import FilterBar from './FilterBar';
 
 function Table() {
   const {
-    planets,
     filteredPlanets,
     filteredColumn,
   } = useContext(PlanetsContext);
