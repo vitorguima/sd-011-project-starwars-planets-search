@@ -61,10 +61,24 @@ export default function PlanetsProvider({ children }) {
     });
   };
 
+  const removeFilter = (selectColumn) => {
+    const { filterByNumericValues } = selectFilter.filters;
+    setSelectFilter({
+      filters: {
+        ...selectFilter.filters,
+        filterByNumericValues: [
+          filterByNumericValues
+            .filter((numericValues) => numericValues.column !== selectColumn),
+        ],
+      },
+    });
+  };
+
   return (
     <PlanetsContext.Provider
       value={ {
         data,
+        removeFilter,
         selectFilter,
         handleFilterName,
         handleFilterNumericValues,
