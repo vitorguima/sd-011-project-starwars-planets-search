@@ -11,11 +11,7 @@ function Provider({ children }) {
     filterByName: {
       name: '',
     },
-    filterByNumericValues: {
-      column: '',
-      comparison: '',
-      value: '',
-    },
+    filterByNumericValues: [],
   });
 
   const value = {
@@ -40,24 +36,39 @@ function Provider({ children }) {
 
   useEffect(() => {
     const dropsPlanets = () => {
-      const drops = planetFiltered.filter((planet) => {
-        const planetColumn = Number(planet[filter.filterByNumericValues.column]);
-        const valueColumn = Number(filter.filterByNumericValues.value);
-        if (filter.filterByNumericValues.comparison === 'maior que') {
-          return (
-            planetColumn > valueColumn
-          );
-        }
-        if (filter.filterByNumericValues.comparison === 'menor que') {
-          return (
-            planetColumn < valueColumn
-          );
-        }
-        return planetColumn === valueColumn;
+      let array = planetFiltered;
+      if (dropFilter.length > 0) {
+        array = dropFilter;
+      }
+      const drops = array.filter((planet) => {
+        // console.log(array);
+        let planetColumn = '';
+        let valueColumn = '';
+        const resultsFilter = filter.filterByNumericValues.every((item) => {
+          planetColumn = Number(planet[item.column]);
+          valueColumn = Number(item.value);
+          // console.log(item);
+          if (item.comparison === 'maior que') {
+            return (
+              planetColumn > valueColumn
+            );
+          }
+          if (item.comparison === 'menor que') {
+            return (
+              planetColumn < valueColumn
+            );
+          }
+          return planetColumn === valueColumn;
+        });
+        // console.log(resultsFilter);
+        return resultsFilter;
       });
-      setDropFilter(drops);
+      // console.log(drops);
+      setDropFilter([...drops]);
     };
-    dropsPlanets();
+    if (filter.filterByNumericValues.length > 0) {
+      dropsPlanets();
+    }
   }, [filter, planetFiltered, setDropFilter]);
 
   // useEffect(() => {

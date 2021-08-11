@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import AppContext from '../Context/AppContext';
 
 function SearchBar() {
-  const { setFilter, filter } = useContext(AppContext);
+  const { setFilter, filter, setDropFilter } = useContext(AppContext);
   const [listDrop, setListDrop] = useState([
     'population',
     'orbital_period',
@@ -34,10 +34,8 @@ function SearchBar() {
   };
 
   const handleSelects = () => {
-    setFilter({
-      ...filter,
-      filterByNumericValues: { ...filter.filterByNumericValues, ...buttonSettings },
-
+    setFilter({ ...filter,
+      filterByNumericValues: [...filter.filterByNumericValues, buttonSettings],
     });
   };
 
@@ -46,14 +44,37 @@ function SearchBar() {
     'menor que',
     'igual a',
   ];
+
+  const removeFilter = ({ target: { parentElement } }) => {
+    setFilter({
+      ...filter,
+      filterByNumericValues: filter.filterByNumericValues.filter(
+        (filterColumn) => filterColumn.column !== parentElement.id,
+      ),
+    });
+    setListDrop([...listDrop, parentElement.id]);
+    setDropFilter([]);
+  };
+
+  const renderButtons = (filtered, index) => (
+    <li data-testid="filter" key={ index } id={ filtered.column }>
+      {filtered.column}
+      <button type="button" onClick={ removeFilter }>X</button>
+    </li>
+  );
+
   useEffect(() => {
     const removeListDrop = () => {
-      const newListDrop = listDrop.filter((item) => (
-        item !== filter.filterByNumericValues.column));
-      setListDrop(newListDrop);
+      filter.filterByNumericValues.map((list) => {
+        const newListDrop = listDrop.filter((item) => (
+          item !== list.column));
+        return setListDrop(newListDrop);
+      });
     };
-    removeListDrop();
-  }, [filter.filterByNumericValues.column]);
+    if (filter.filterByNumericValues.length > 0) {
+      removeListDrop();
+    }
+  }, [filter.filterByNumericValues]);
 
   return (
     <form>
@@ -62,7 +83,6 @@ function SearchBar() {
         data-testid="name-filter"
         type="text"
         name="name"
-        // value={ filter.filterByName }
         onChange={ handleSerachBar }
       />
       <select
@@ -92,6 +112,10 @@ function SearchBar() {
       >
         Buscar
       </button>
+      <ul>
+        {filter.filterByNumericValues.map((filtered, index) => (
+          renderButtons(filtered, index)))}
+      </ul>
     </form>
   );
 }
