@@ -4,7 +4,11 @@ import PlanetsContext from '../context/PlanetsContext';
 import FilterBar from './FilterBar';
 
 function Table() {
-  const { planets, filteredPlanets, filteredColumn } = useContext(PlanetsContext);
+  const {
+    planets,
+    filteredPlanets,
+    filteredColumn,
+  } = useContext(PlanetsContext);
 
   const planetsToRender = () => {
     if (filteredColumn.length > 0) {

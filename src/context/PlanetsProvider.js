@@ -7,6 +7,9 @@ function PlanetsProvider({ children }) {
   const [planets, setPlanets] = useState([]);
   const [filteredPlanets, setFilteredPlanets] = useState([]);
   const [filteredColumn, setFilteredColumn] = useState([]);
+  const [removedFilters, setRemovedFilters] = useState([]);
+
+  const [filters, setFilters] = useState([]);
 
   useEffect(() => {
     const callbackFetchPlanets = async () => {
@@ -21,37 +24,40 @@ function PlanetsProvider({ children }) {
       .filter((planet) => planet.name.includes(param)));
   };
 
-  const handleFilterByColumn = ({ fieldColumn, fieldComparison, fieldInputValue }) => {
-    switch (fieldComparison) {
+  const handleFilterByColumn = ({ fieldColumn, comparison, inputValue }) => {
+    setRemovedFilters([...removedFilters, fieldColumn]);
+    switch (comparison) {
     case 'maior que':
       setFilteredColumn(planets
-        .filter((planet) => planet[fieldColumn] > parseInt(fieldInputValue, 10)));
-      console.log('maior', filteredColumn);
+        .filter((planet) => planet[fieldColumn] > parseInt(inputValue, 10)));
       break;
     case 'menor que':
       setFilteredColumn(planets
-        .filter((planet) => planet[fieldColumn] < parseInt(fieldInputValue, 10)));
-      console.log('menor');
+        .filter((planet) => planet[fieldColumn] < parseInt(inputValue, 10)));
       break;
     case 'igual a':
       setFilteredColumn(planets
-        .filter((planet) => fieldInputValue === planet[fieldColumn]));
-      console.log('=');
+        .filter((planet) => inputValue === planet[fieldColumn]));
       break;
     default:
     }
+    // document.getElementById(fieldColumn).remove();
   };
+
   const objToProvide = {
+    filters,
+    setFilters,
     planets,
     filteredPlanets,
     filteredColumn,
+    removedFilters,
     handleFilterByName,
     handleFilterByColumn,
   };
 
   return (
     <PlanetsContext.Provider value={ objToProvide }>
-      { children }
+      {children}
     </PlanetsContext.Provider>
   );
 }

@@ -6,3 +6,13 @@ table {
 th, thead {
   border: 1px solid;
 }
+
+.container-filtered {
+  display: flex;
+}
+
+.filter-button {
+  align-self: center;
+  height: 20px;
+  width: 25px;
+}
