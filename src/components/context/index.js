@@ -70,7 +70,7 @@ function Provider({ children }) {
       setList(filterText);
     };
     searchName();
-  }, [attText, planets]);
+  }, [attText, attNumber, planets]);
 
   useEffect(() => {
     attNumber.map(({ column, comparison, value }) => {
@@ -91,7 +91,7 @@ function Provider({ children }) {
         return planets;
       }
     });
-  }, [attNumber, planets]);
+  }, [attNumber, attText, planets]);
 
   const verifyType = (optionSort) => {
     let isTypeNumber = false;
