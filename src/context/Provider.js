@@ -7,6 +7,10 @@ function Provider({ children }) {
   const [data, setData] = useState([]);
   const [filterByName, setFilterByName] = useState('');
   const [filterByValue, setFilterByValue] = useState([]);
+  const [order, setOrder] = useState({
+    column: 'name',
+    sort: 'ASC',
+  });
 
   useEffect(() => {
     const PLANETS_URL = 'https://swapi-trybe.herokuapp.com/api/planets/';
@@ -28,9 +32,10 @@ function Provider({ children }) {
       name: filterByName,
     },
     filterByValue,
+    order,
   };
 
-  const context = { data, setFilterByName, setFilterByValue, filters };
+  const context = { data, setFilterByName, setFilterByValue, setOrder, filters };
 
   return (
 

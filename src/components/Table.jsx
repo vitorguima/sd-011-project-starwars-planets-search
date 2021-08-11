@@ -1,6 +1,7 @@
 import React, { useContext } from 'react';
 import StarContext from '../context/StarContext';
 import Filter from './Filter';
+import { sortByName, sortByValues } from './Sort';
 
 function Table() {
   const {
@@ -8,6 +9,7 @@ function Table() {
     filters: {
       filterByName: { name: nameFilter },
       filterByValue,
+      order,
     },
   } = useContext(StarContext);
 
@@ -29,6 +31,14 @@ function Table() {
       return planet;
     }
   };
+
+  if (Object.keys(order)) {
+    data.sort((a, b) => {
+      const { column } = order;
+      if (column === 'name') return sortByName(a, b, order);
+      return sortByValues(a, b, order);
+    });
+  }
 
   return (
     <section>
