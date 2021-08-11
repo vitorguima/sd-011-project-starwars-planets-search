@@ -5,12 +5,21 @@ function TableBody() {
   const {
     planets,
     planetFiltered,
+    dropFilter,
   } = useContext(AppContext);
 
   let render = planets;
 
-  if (planetFiltered.length > 1) {
+  if (planetFiltered.length > 0) {
     render = planetFiltered;
+  }
+
+  if (dropFilter.length > 0) {
+    render = dropFilter;
+  }
+
+  if (planetFiltered.length === 0 && dropFilter.length === 0) {
+    render = planets;
   }
 
   return (
