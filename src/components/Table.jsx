@@ -2,14 +2,29 @@ import React, { useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
 
 export default function Table() {
-  const { theRender } = useContext(PlanetsContext);
+  const { theRender, order } = useContext(PlanetsContext);
 
   const header = ['Name', 'Rotation', 'Orbital Period',
     'Diameter', 'Climate', 'Gravity',
     'Terrain', 'Surface Water', 'Population',
     'Films', 'Created', 'Edited', 'Url'];
 
-  console.log(theRender);
+  let filtereds;
+  const magicNumber = -1;
+  if (order.sort === 'asc' && (order.column === 'name')) {
+    filtereds = theRender
+      .sort((a, b) => ((a[order.column] > b[order.column]) ? 1 : magicNumber));
+  } else if (order.sort === 'desc' && (order.column === 'name')) {
+    filtereds = theRender
+      .sort((a, b) => ((a[order.column] < b[order.column]) ? 1 : magicNumber));
+  } else if (order.sort === 'asc' && (order.column !== 'name')) {
+    filtereds = theRender
+      .sort((a, b) => Number(a[order.column]) - Number(b[order.column]));
+  } else if (order.sort === 'desc' && (order.column !== 'name')) {
+    filtereds = theRender
+      .sort((a, b) => Number(b[order.column]) - Number(a[order.column]));
+  }
+
   return (
     <table>
       <thead>
@@ -18,14 +33,13 @@ export default function Table() {
         </tr>
       </thead>
       <tbody>
-        {theRender.map((planet, i) => (
+        {filtereds.map((planet, i) => (
           <tr key={ i } className="tableBody">
             <td data-testid="planet-name">{planet.name}</td>
             <td>{planet.rotation_period}</td>
             <td>{planet.orbital_period}</td>
             <td>{planet.diameter}</td>
             <td>{planet.climate}</td>
-            {/* {console.log(planet)} */}
             <td>{planet.gravity}</td>
             <td>{planet.terrain}</td>
             <td>{planet.surface_water}</td>
