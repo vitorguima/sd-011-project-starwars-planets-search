@@ -53,7 +53,11 @@ function PlanetsFilter() {
   }
 
   useEffect(() => {
-    sortNumbers({ column: orderColumn, sort: orderRadios }, filteredData, setFilteredData);
+    sortNumbers(
+      { column: orderColumn, sort: orderRadios },
+      filteredData,
+      setFilteredData,
+    );
   }, [filteredData, orderColumn, orderRadios, setFilteredData]);
 
   function handleOrder() {
@@ -61,7 +65,11 @@ function PlanetsFilter() {
       column: orderColumn,
       sort: orderRadios,
     });
-    sortNumbers({ column: orderColumn, sort: orderRadios }, filteredData, setFilteredData);
+    sortNumbers(
+      { column: orderColumn, sort: orderRadios },
+      filteredData,
+      setFilteredData,
+    );
   }
 
   return (
