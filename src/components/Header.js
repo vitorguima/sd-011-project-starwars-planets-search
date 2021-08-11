@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react';
 import MyContext from './context/MyContext';
 import FiltersBar from './FiltersBar';
+import SortBar from './SortBar';
 
 function Header() {
   const { setFilterText, attNumber, setFilterNumber } = useContext(MyContext);
@@ -99,6 +100,7 @@ function Header() {
       >
         Filtrar
       </button>
+      <SortBar />
       <FiltersBar />
     </header>
   );

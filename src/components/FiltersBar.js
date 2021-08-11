@@ -12,18 +12,26 @@ function FiltersBar() {
   return (
     <div>
       { attNumber.map(({ column }, index) => (
-        <button
-          type="button"
-          data-testid="filter"
-          name={ column }
-          onClick={ deleteFilter }
-          key={ index }
-        >
-          {`${column}🗑`}
-        </button>
+        <span data-testid="filter" key={ index }>
+          <button
+            type="button"
+            name={ column }
+            onClick={ deleteFilter }
+          >
+            {`${column}🗑`}
+          </button>
+        </span>
       ))}
     </div>
   );
 }
 
 export default FiltersBar;
+
+// {/* <button
+//           type="button"
+//           data-testid="filter"
+//           name={ column }
+//           onClick={ deleteFilter }
+//           key={ index }
+//         ></button> */}
