@@ -1,7 +1,19 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import PropTypes from 'prop-types';
+import AppContext from './AppContext';
+
+const columns = [
+  'population',
+  'orbital_period',
+  'diameter',
+  'rotation_period',
+  'surface_water',
+];
 
 function NumericFilter({ onSubmit }) {
+  const { filters } = useContext(AppContext);
+  const { filterByNumericValues } = filters;
+
   const [form, setForm] = useState({
     column: '',
     comparison: '',
@@ -17,6 +29,14 @@ function NumericFilter({ onSubmit }) {
     });
   }
 
+  const usedColumns = filterByNumericValues.map(
+    (numericFilter) => numericFilter.column,
+  );
+
+  const filteredColumns = columns.filter(
+    (column) => !usedColumns.includes(column),
+  );
+
   return (
     <div>
       <select
@@ -26,14 +46,11 @@ function NumericFilter({ onSubmit }) {
           setForm({ ...form, column: event.currentTarget.value });
         } }
       >
-        <option disabled value="">
-          Select one
-        </option>
-        <option value="population">population</option>
-        <option value="orbital_period">orbital_period</option>
-        <option value="diameter">diameter</option>
-        <option value="rotation_period">rotation_period</option>
-        <option value="surface_water">surface_water</option>
+        {filteredColumns.map((column) => (
+          <option key={ column } value={ column }>
+            {column}
+          </option>
+        ))}
       </select>
       <select
         data-testid="comparison-filter"
@@ -42,9 +59,6 @@ function NumericFilter({ onSubmit }) {
           setForm({ ...form, comparison: event.currentTarget.value });
         } }
       >
-        <option disabled value="">
-          Select one
-        </option>
         <option value="maior que">maior que</option>
         <option value="menor que">menor que</option>
         <option value="igual a">igual a</option>
