@@ -6,7 +6,7 @@ function Header() {
   const { setFilterText, attNumber, setFilterNumber } = useContext(MyContext);
   const [nameQuote, setNameQuote] = useState('');
   const [columnQuote, setColumnQuote] = useState('population');
-  const [comparisonQuote, setComparisionQuote] = useState('');
+  const [comparisonQuote, setComparisionQuote] = useState('maior que');
   const [numberQuote, setNumberQuote] = useState('');
   const initialOptionsSeachArr = [
     'population',

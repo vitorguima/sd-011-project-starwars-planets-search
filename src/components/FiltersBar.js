@@ -5,7 +5,8 @@ function FiltersBar() {
   const { attNumber, setFilterNumber } = useContext(MyContext);
   const deleteFilter = ({ target }) => {
     const { name } = target;
-    const upDate = attNumber.filter((filter) => filter !== name);
+    const upDate = attNumber.filter(({ column }) => column !== name);
+    console.log(upDate);
     setFilterNumber(upDate);
   };
   return (
