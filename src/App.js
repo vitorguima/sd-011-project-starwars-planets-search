@@ -1,13 +1,17 @@
 import React from 'react';
-
-import StarWarsProvider from './context/ProviderContext';
-import Home from './pages/Home';
+import Table from './components/tabela';
+import Provider from './context/provider';
+import Filter from './components/filters';
+import Order from './components/ordena';
 
 function App() {
   return (
-    <StarWarsProvider>
-      <Home />
-    </StarWarsProvider>
+    <Provider>
+      <span>Hello, App!</span>
+      <Filter />
+      <Order />
+      <Table />
+    </Provider>
   );
 }
 

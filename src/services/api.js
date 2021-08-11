@@ -1,10 +1,8 @@
-const URL_BASE = 'https://swapi-trybe.herokuapp.com/api/';
-
-export default async () => {
-  const response = await fetch(`${URL_BASE}planets/`, {
-    headers: { 'Content-Type': 'application/json' },
-  });
-  const data = await response.json();
-
-  return data;
+const planetsAPI = async () => {
+  const response = await fetch('https://swapi-trybe.herokuapp.com/api/planets/');
+  const planets = await response.json();
+  planets.results.forEach((result) => delete result.residents);
+  return planets;
 };
+
+export default planetsAPI;
