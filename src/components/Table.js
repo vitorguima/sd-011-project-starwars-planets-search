@@ -2,7 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { MyContext } from '../context/MyContext';
 
 function Table() {
-  const { planets, filter } = useContext(MyContext);
+  const { planets, filter, searchPlanet } = useContext(MyContext);
   const [filterPlanets, setFilterPlanets] = useState([]);
 
   function filterPlanet() {
@@ -10,6 +10,29 @@ function Table() {
       .filter((planet) => (filter !== [] ? planet.name.includes(filter) : true));
     setFilterPlanets(getPlanet);
   }
+
+  function filterData(objectData) {
+    const { column } = searchPlanet[0];
+    const { comparison } = searchPlanet[1];
+    const { value } = searchPlanet[2];
+
+    if (comparison === 'maior que') {
+      return objectData
+        .filter((element) => parseFloat(element[column]) > parseFloat(value));
+    }
+    if (comparison === 'menor que') {
+      return objectData
+        .filter((element) => parseFloat(element[column]) < parseFloat(value));
+    }
+    if (comparison === 'igual a') {
+      return objectData
+        .filter((element) => parseFloat(element[column]) === parseFloat(value));
+    }
+  }
+
+  useEffect(() => {
+    setFilterPlanets(filterData(planets));
+  }, [searchPlanet]);
 
   useEffect(() => {
     const getPlanets = async () => {
