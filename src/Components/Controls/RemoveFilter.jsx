@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { usePlanets } from '../../hooks/usePlanet';
+import { usePlanets } from '../../hooks/usePlanets';
 
 function RemoveFilter({ type }) {
   const { removeFilter } = usePlanets();
