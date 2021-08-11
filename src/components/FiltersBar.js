@@ -6,7 +6,6 @@ function FiltersBar() {
   const deleteFilter = ({ target }) => {
     const { name } = target;
     const upDate = attNumber.filter(({ column }) => column !== name);
-    console.log(upDate);
     setFilterNumber(upDate);
   };
   return (
@@ -27,11 +26,3 @@ function FiltersBar() {
 }
 
 export default FiltersBar;
-
-// {/* <button
-//           type="button"
-//           data-testid="filter"
-//           name={ column }
-//           onClick={ deleteFilter }
-//           key={ index }
-//         ></button> */}
