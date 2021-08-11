@@ -1,10 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext, useEffect } from 'react';
 import MainContext from '../context/MainContext';
 
 function Table() {
-  const { data, filters:
-    { filterByName: { name }, filterByNumericValues } } = useContext(MainContext);
-  const [filteredData, setFilteredData] = useState([]);
+  const {
+    data,
+    filters: {
+      filterByName: { name },
+      filterByNumericValues,
+    },
+    filteredData,
+    sets: { setFilteredData },
+  } = useContext(MainContext);
   let column = [];
 
   useEffect(() => {
@@ -34,7 +40,7 @@ function Table() {
         }
       });
     } else setFilteredData(data);
-  }, [filterByNumericValues, data, name]);
+  }, [filterByNumericValues, data, name, setFilteredData]);
 
   if (data.length) {
     column = Object.keys(data[0]);

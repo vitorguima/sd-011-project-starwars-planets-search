@@ -29,9 +29,9 @@ function FiltersChoised() {
         <p style={ { margin: '10px' } }>Excluir</p>
       </div>
       <div>
-        { filterByNumericValues.map((filter) => (
+        { filterByNumericValues.map((filter, index) => (
           <div
-            key={ filter }
+            key={ index }
             style={ { display: 'flex', justifyContent: 'center' } }
             data-testid="filter"
           >
