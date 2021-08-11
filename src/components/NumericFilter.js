@@ -1,12 +1,17 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { MyContext } from '../context/MyContext';
 // import { MyContext } from '../context/MyContext';
 
 function NumericFilter() {
-  const { setSearchPlanet } = useContext(MyContext);
+  const { searchPlanet, setSearchPlanet } = useContext(MyContext);
   const [getColumn, setColumn] = useState('population');
   const [getComparison, setComparison] = useState('menor que');
   const [getInput, setInput] = useState(0);
+
+  // useEffect(() => {
+  //   console.log(searchPlanet);
+  //   // setSearchPlanet();
+  // }, [searchPlanet]);
 
   return (
     <div>

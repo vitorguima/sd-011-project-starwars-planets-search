@@ -7,7 +7,7 @@ function Table() {
 
   function filterPlanet() {
     const getPlanet = planets
-      .filter((planet) => (planet.name.includes(filter)));
+      .filter((planet) => (planet.name.toLowerCase().includes(filter.toLowerCase())));
     setFilterPlanets(getPlanet);
   }
 
@@ -32,7 +32,7 @@ function Table() {
 
   useEffect(() => {
     setFilterPlanets(filterData(planets));
-  }, [planets]);
+  }, [searchPlanet]);
 
   useEffect(() => {
     const getPlanets = async () => {
