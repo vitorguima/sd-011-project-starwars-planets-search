@@ -12,6 +12,13 @@ function MainProvider({ children }) {
     filterByNumericValues: [],
     order: {},
   });
+  const [listFilter, setListFilter] = useState([
+    'population',
+    'orbital_period',
+    'diameter',
+    'rotation_period',
+    'surface_water',
+  ]);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -27,7 +34,8 @@ function MainProvider({ children }) {
         filters,
         setFilters,
         setData,
-        sets: { setData, setFilters },
+        listFilter,
+        sets: { setData, setFilters, setListFilter },
       } }
     >
       { children }

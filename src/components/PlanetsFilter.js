@@ -2,12 +2,6 @@ import React, { useContext, useState } from 'react';
 import MainContext from '../context/MainContext';
 import FiltersChoised from './FiltersChoised';
 
-const listFilter = [
-  'population',
-  'orbital_period',
-  'diameter',
-  'rotation_period',
-  'surface_water'];
 const listComparison = [
   'maior que',
   'menor que',
@@ -15,7 +9,7 @@ const listComparison = [
 ];
 
 function PlanetsFilter() {
-  const { filters, setFilters } = useContext(MainContext);
+  const { filters, setFilters, listFilter } = useContext(MainContext);
 
   const [listFilterChoise, setListFilterChoise] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');

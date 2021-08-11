@@ -4,7 +4,21 @@ import MainContext from '../context/MainContext';
 function FiltersChoised() {
   const {
     filters: { filterByNumericValues },
-    sets: { setFilters } } = useContext(MainContext);
+    sets: { setFilters, setListFilter } } = useContext(MainContext);
+
+  function handleDelete(filter) {
+    setFilters((oldFilters) => ({
+      ...oldFilters,
+      filterByNumericValues: [
+        ...oldFilters.filterByNumericValues
+          .filter((filter2) => filter2 !== filter),
+      ],
+    }));
+    setListFilter((oldValues) => ([
+      ...oldValues,
+      filter.column,
+    ]));
+  }
 
   return (
     <>
@@ -16,19 +30,17 @@ function FiltersChoised() {
       </div>
       <div>
         { filterByNumericValues.map((filter) => (
-          <div key={ filter } style={ { display: 'flex', justifyContent: 'center' } }>
+          <div
+            key={ filter }
+            style={ { display: 'flex', justifyContent: 'center' } }
+            data-testid="filter"
+          >
             <p style={ { margin: '10px' } }>{ filter.column }</p>
             <p style={ { margin: '10px' } }>{ filter.comparison }</p>
             <p style={ { margin: '10px' } }>{ filter.value }</p>
             <button
               type="button"
-              onClick={ () => setFilters((oldFilters) => ({
-                ...oldFilters,
-                filterByNumericValues: [
-                  ...oldFilters.filterByNumericValues
-                    .filter((filter2) => filter2 !== filter),
-                ],
-              })) }
+              onClick={ () => handleDelete(filter) }
             >
               X
             </button>
