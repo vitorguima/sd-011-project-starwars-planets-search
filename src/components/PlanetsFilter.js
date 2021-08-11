@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react';
 import MainContext from '../context/MainContext';
 import FiltersChoised from './FiltersChoised';
+import sortNumbers from '../helpers/functionsFitlers';
 
 const listComparison = [
   'maior que',
@@ -9,7 +10,11 @@ const listComparison = [
 ];
 
 function PlanetsFilter() {
-  const { filters, listFilter, sets: { setOrder, setFilters } } = useContext(MainContext);
+  const {
+    filters,
+    listFilter,
+    filteredData,
+    sets: { setOrder, setFilters, setFilteredData } } = useContext(MainContext);
 
   const [listFilterChoise, setListFilterChoise] = useState('population');
   const [comparisonFilter, setComparisonFilter] = useState('maior que');
@@ -52,6 +57,7 @@ function PlanetsFilter() {
       column: orderColumn,
       sort: orderRadios,
     });
+    sortNumbers({ column: orderColumn, sort: orderRadios }, filteredData, setFilteredData);
   }
 
   return (
