@@ -26,7 +26,7 @@ export default function PlanetsProvider({ children }) {
     } else if (name === '') {
       setTheRender(data);
     }
-  }, [data, name, theRender]);
+  }, [data, name]);
 
   useEffect(() => {
     if (numeric !== []) {
@@ -88,8 +88,6 @@ export default function PlanetsProvider({ children }) {
     setOrder,
     order,
   };
-
-  console.log(theRender);
 
   return (
     <PlanetsContext.Provider value={ valuesContext }>
