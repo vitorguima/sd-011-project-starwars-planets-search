@@ -4,11 +4,16 @@ import AppContext from './AppContext';
 import NumericFilter from './NumericFilter';
 import UsedFilters from './UsedFilters';
 import './App.css';
+import OrderFilter from './OrderFilter';
 
 function App() {
   const [data, setData] = useState(undefined);
   const [filterByName, setFilterByName] = useState('');
   const [filterByNumericValues, setFilterByNumericValues] = useState([]);
+  const [order, setOrder] = useState({
+    column: 'name',
+    sort: 'asc',
+  });
 
   useEffect(() => {
     fetch('https://swapi-trybe.herokuapp.com/api/planets/')
@@ -38,6 +43,7 @@ function App() {
           filterByName: { name: filterByName },
           filterByNumericValues,
         },
+        order,
       } }
     >
       <input
@@ -48,6 +54,7 @@ function App() {
       />
       <NumericFilter onSubmit={ addFilter } />
       <UsedFilters onRemove={ removeFilter } />
+      <OrderFilter onSubmit={ setOrder } />
       <Table />
     </AppContext.Provider>
   );

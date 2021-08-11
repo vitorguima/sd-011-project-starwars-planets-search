@@ -1,36 +1,72 @@
 import React, { useContext } from 'react';
 import AppContext from './AppContext';
+import TableBody from './TableBody';
+
+const BEFORE = -1;
+const AFTER = 1;
+
+function transformNumber(original) {
+  const transformed = Number(original);
+
+  if (Number.isNaN(transformed)) {
+    return original;
+  }
+
+  return transformed;
+}
+
+function compareNumber(comparison, a, b) {
+  if (comparison === 'maior que') {
+    return a > b;
+  }
+
+  if (comparison === 'menor que') {
+    return a < b;
+  }
+
+  return a === b;
+}
+
+function caseInsensitiveIncludes(a, b) {
+  return a.toLowerCase().includes(b.toLowerCase());
+}
 
 export default function Table() {
-  const { data, filters } = useContext(AppContext);
+  const { data, filters, order } = useContext(AppContext);
   const { filterByName, filterByNumericValues } = filters;
 
   if (!data) {
     return null;
   }
 
-  let filteredData = data;
+  let filtered = data;
 
   if (filterByName.name) {
-    filteredData = filteredData.filter((planet) => {
-      const lowerCasePlanetName = planet.name.toLowerCase();
-      return lowerCasePlanetName.includes(filterByName.name.toLowerCase());
+    filtered = filtered.filter((planet) => {
+      const result = caseInsensitiveIncludes(planet.name, filterByName.name);
+      return result;
     });
   }
 
   filterByNumericValues.forEach(({ comparison, column, value }) => {
-    filteredData = filteredData.filter((planet) => {
-      if (comparison === 'maior que') {
-        return Number(planet[column]) > value;
-      }
-
-      if (comparison === 'menor que') {
-        return Number(planet[column]) < value;
-      }
-
-      return Number(planet[column]) === value;
+    filtered = filtered.filter((planet) => {
+      const result = compareNumber(comparison, Number(planet[column]), value);
+      return result;
     });
   });
+
+  const sortedData = order
+    ? filtered.sort((planetA, planetB) => {
+      const valueA = transformNumber(planetA[order.column]);
+      const valueB = transformNumber(planetB[order.column]);
+
+      if (valueA > valueB) {
+        return order.sort === 'asc' ? AFTER : BEFORE;
+      }
+
+      return order.sort === 'asc' ? BEFORE : AFTER;
+    })
+    : filtered;
 
   return (
     <table>
@@ -51,25 +87,7 @@ export default function Table() {
           <th>url</th>
         </tr>
       </thead>
-      <tbody>
-        {filteredData.map((planet) => (
-          <tr key={ planet.name }>
-            <td>{planet.name}</td>
-            <td>{planet.rotation_period}</td>
-            <td>{planet.orbital_period}</td>
-            <td>{planet.diameter}</td>
-            <td>{planet.climate}</td>
-            <td>{planet.gravity}</td>
-            <td>{planet.terrain}</td>
-            <td>{planet.surface_water}</td>
-            <td>{planet.population}</td>
-            <td>{planet.films}</td>
-            <td>{planet.created}</td>
-            <td>{planet.edited}</td>
-            <td>{planet.url}</td>
-          </tr>
-        ))}
-      </tbody>
+      <TableBody sortedData={ sortedData } />
     </table>
   );
 }

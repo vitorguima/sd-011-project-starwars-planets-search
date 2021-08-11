@@ -6,6 +6,7 @@ const AppContext = createContext({
     filterByName: { name: '' },
     filterByNumericValues: [],
   },
+  order: undefined,
 });
 
 export default AppContext;
