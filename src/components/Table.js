@@ -70,6 +70,76 @@ function Table() {
     ));
   }
 
+  const { order } = filters;
+
+  function sortString(dataNA) {
+    if (order.sort === 'ASC') {
+      return dataNA.sort((a, b) => {
+        if (a.name < b.name) {
+          return -1;
+        }
+        if (a.name > b.name) {
+          return 1;
+        }
+        return 0;
+      });
+    }
+    return dataNA.sort((a, b) => {
+      if (a.name < b.name) {
+        return 1;
+      }
+      if (a.name > b.name) {
+        return -1;
+      }
+      return 0;
+    });
+  }
+
+  // Ref: https://stackoverflow.com/questions/2802341/javascript-natural-sort-of-alphanumerical-strings
+  function sortNumber(dataNA) {
+    console.log(dataNA);
+    if (order.sort === 'ASC') {
+      return dataNA.sort((a, b) => (
+        a.orbital_period.localeCompare(b.orbital_period, undefined, {
+          numeric: true,
+          sensitivity: 'base',
+        })
+      ));
+    }
+    return dataNA.sort((a, b) => b.orbital_period - a.orbital_period);
+  }
+
+  // const [buttonClick, setButtonClick] = useState([true, false]);
+
+  function sortData(dataA) {
+    if (order.column === 'Name') {
+      const DATA = sortString(dataA);
+
+      return DATA;
+    }
+    const DATA = sortNumber(dataA);
+
+    return DATA;
+  }
+
+  const [localSort, setLocalSort] = useState({
+    order: {
+      column: 'Name',
+      sort: 'ASC',
+    },
+  });
+
+  function sendToGlobalStore() {
+    console.log({
+      ...filters,
+      ...localSort,
+    });
+    setFilters({
+      ...filters,
+      ...localSort,
+    });
+  }
+
   return (
     <div>
       <input
@@ -82,8 +152,54 @@ function Table() {
         }) }
       />
       <FilterNumericNumbers />
+      <select
+        data-testid="column-sort"
+        onChange={ (e) => setLocalSort({
+          order: {
+            ...localSort.order,
+            column: e.target.value,
+          },
+        }) }
+      >
+        <option value="Name">Name</option>
+        <option value="orbital_period">Orbital Period</option>
+      </select>
+      <div
+        onChange={ (e) => setLocalSort({
+          order: {
+            ...localSort.order,
+            sort: e.target.id,
+          },
+        }) }
+      >
+        <label htmlFor="ASC">
+          Crescente
+          <input
+            type="radio"
+            name="sort"
+            id="ASC"
+            data-testid="column-sort-input-asc"
+          />
+        </label>
+        <label htmlFor="DESC">
+          Decrescente
+          <input
+            type="radio"
+            name="sort"
+            id="DESC"
+            data-testid="column-sort-input-desc"
+          />
+        </label>
+      </div>
+      <button
+        data-testid="column-sort-button"
+        type="button"
+        onClick={ sendToGlobalStore }
+      >
+        Ordernar
+      </button>
       <div>
-        <Datatable data={ search(data) } />
+        <Datatable data={ sortData(search(data)) } />
       </div>
     </div>
   );

@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 
 function Datatable({ data }) {
   const columns = data[0] && Object.keys(data[0]);
-  delete data.residents;
 
   return (
     <table>
@@ -21,6 +20,13 @@ function Datatable({ data }) {
             {
               columns.map((column) => {
                 if (column === 'residents') return null;
+                if (column === 'name') {
+                  return (
+                    <td data-testid="planet-name" key={ `${index} ${row[column]}` }>
+                      {row[column]}
+                    </td>
+                  );
+                }
                 return <td key={ `${index} ${row[column]}` }>{row[column]}</td>;
               })
             }
