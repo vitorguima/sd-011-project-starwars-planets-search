@@ -32,7 +32,7 @@ function Table() {
 
   useEffect(() => {
     setFilterPlanets(filterData(planets));
-  }, [searchPlanet]);
+  }, [filterData, planets, searchPlanet]);
 
   useEffect(() => {
     const getPlanets = async () => {
@@ -46,11 +46,21 @@ function Table() {
 
   useEffect(() => {
     filterPlanet();
-  }, [filter]);
+  }, [filter, filterPlanet]);
 
   return (
     <table>
 
+      {
+        searchPlanet ? (
+          <button
+            data-testid="filter"
+            type="button"
+            onClick={ () => setFilterPlanets(planets) }
+          >
+            X
+          </button>) : ''
+      }
       <thead>
         <tr>
           <th>Nome</th>
