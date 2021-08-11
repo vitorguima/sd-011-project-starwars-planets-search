@@ -31,6 +31,36 @@ function qualquerCoisa(filterByNumericValues, data, name, setFilteredData) {
   } else setFilteredData(data);
 }
 
+function qualquerCoisa2(filteredData, name) {
+  return filteredData.map((planets, index) => {
+    if (name.length) {
+      return (
+        planets.name.includes(name)
+          ? (
+            <tr key={ index }>
+              {Object.values(planets).map((value, position) => (
+                <td
+                  key={ value }
+                  data-testid={ position === 0 ? 'planet-name' : '' }
+                >
+                  {value}
+                </td>
+              ))}
+            </tr>) : null);
+    }
+    return (
+      <tr key={ index }>
+        {Object.values(planets).map((value, position) => (
+          <td
+            key={ value }
+            data-testid={ position === 0 ? 'planet-name' : '' }
+          >
+            {value}
+          </td>
+        ))}
+      </tr>);
+  });
+}
 function Table() {
   const {
     data,
@@ -63,34 +93,7 @@ function Table() {
           </tr>
         </thead>
         <tbody>
-          {filteredData.map((planets, index) => {
-            if (name.length) {
-              return (
-                planets.name.includes(name)
-                  ? (
-                    <tr key={ index }>
-                      {Object.values(planets).map((value, position) => (
-                        <td
-                          key={ value }
-                          data-testid={ position === 0 ? 'planet-name' : '' }
-                        >
-                          {value}
-                        </td>
-                      ))}
-                    </tr>) : null);
-            }
-            return (
-              <tr key={ index }>
-                {Object.values(planets).map((value, position) => (
-                  <td
-                    key={ value }
-                    data-testid={ position === 0 ? 'planet-name' : '' }
-                  >
-                    {value}
-                  </td>
-                ))}
-              </tr>);
-          })}
+          { qualquerCoisa2(filteredData, name) }
         </tbody>
       </table>
     );
