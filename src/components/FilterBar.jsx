@@ -80,13 +80,13 @@ function FilterBar() {
               type="text"
               name="search-name"
               data-testid="name-filter"
-              placeholder="Pesquise o planeta pelo nome"
+              placeholder="Pesquise o Planeta pelo Nome"
               onChange={ handleChange }
               className="search-input"
             />
           </label>
         </div>
-        <label htmlFor="filter-by-column">
+        <label htmlFor="filter-by-column" className="input-label">
           <select
             data-testid="column-filter"
             name="filter-by-column"
