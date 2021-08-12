@@ -33,7 +33,6 @@ function OrderBar() {
 
   return (
     <div>
-      <h1>OrderBar</h1>
       <select data-testid="column-sort" onChange={ handleColumn }>
         <option>Seleciona a coluna</option>
         {listColumns.map((column, index) => (

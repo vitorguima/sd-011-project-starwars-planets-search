@@ -9,16 +9,9 @@ function FilterBar() {
     setFilters,
     handleFilterByName,
     handleFilterByColumn,
-    // filteredColumn,
     setFilteredColumn,
-    // removedFilters,
-    // setRemovedFilters,
   } = useContext(PlanetsContext);
 
-  const handleChange = ({ target: { value } }) => {
-    handleFilterByName(value);
-  };
-  // console.log(` log do filter do contexto ${filters}`, filters);
   const arrayOptions = [
     'population',
     'orbital_period',
@@ -26,10 +19,15 @@ function FilterBar() {
     'rotation_period',
     'surface_water',
   ];
+
   const [fieldColumn, setFieldColumn] = useState('population');
   const [comparison, setComparison] = useState('maior que');
   const [inputValue, setInputValue] = useState(0);
   const [filteredOptions, setFilteredOptions] = useState(arrayOptions);
+
+  const handleChange = ({ target: { value } }) => {
+    handleFilterByName(value);
+  };
 
   const compareFilters = () => {
     const obj = {
@@ -42,8 +40,6 @@ function FilterBar() {
     handleFilterByColumn(obj);
     setFilters([...filters, obj]);
   };
-
-  // console.log(`estado ${filteredOptions}, array ${arrayOptions}`);
 
   const delectedFilter = ({ target: { name } }) => {
     const eraseFilter = filters.filter((item) => item.fieldColumn !== name);
@@ -73,21 +69,23 @@ function FilterBar() {
     } else {
       setFilteredColumn(planets);
     }
-    console.log('console filters', filters, 'erase filter', eraseFilter);
   };
 
   return (
     <div>
       <div className="bar-container">
-        <label htmlFor="search-name">
-          <input
-            type="text"
-            name="search-name"
-            data-testid="name-filter"
-            placeholder="Pesquise pelo nome"
-            onChange={ handleChange }
-          />
-        </label>
+        <div className="field-search">
+          <label htmlFor="search-name">
+            <input
+              type="text"
+              name="search-name"
+              data-testid="name-filter"
+              placeholder="Pesquise o planeta pelo nome"
+              onChange={ handleChange }
+              className="search-input"
+            />
+          </label>
+        </div>
         <label htmlFor="filter-by-column">
           <select
             data-testid="column-filter"

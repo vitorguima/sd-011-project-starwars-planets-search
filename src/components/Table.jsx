@@ -19,7 +19,6 @@ function Table() {
 
   return (
     <div>
-      <h2>Componente Tabela</h2>
       <FilterBar />
       <OrderBar />
       <table>
