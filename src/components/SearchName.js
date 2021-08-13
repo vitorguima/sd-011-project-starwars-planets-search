@@ -2,16 +2,27 @@ import React, { useContext } from 'react';
 import PlanetContext from '../context/PlanetContext';
 
 function SearchName() {
-  const { setFilters } = useContext(PlanetContext);
+  const {
+    setFilters,
+    setSearchByName,
+    setSearchByNumeric,
+  } = useContext(PlanetContext);
 
   function handleName({ target: { value } }) {
     setFilters({
-      filters: {
-        filterByName: {
-          name: value,
-        },
+      filterByName: {
+        name: value,
       },
+      filterByNumericValues: [
+        {
+          column: '',
+          comparision: '',
+          value: '',
+        },
+      ],
     });
+    setSearchByName(true);
+    setSearchByNumeric(false);
   }
 
   return (
