@@ -73,19 +73,20 @@ function FilterBar() {
 
   return (
     <div>
-      <div className="bar-container">
-        <div className="field-search">
-          <label htmlFor="search-name">
-            <input
-              type="text"
-              name="search-name"
-              data-testid="name-filter"
-              placeholder="Pesquise o Planeta pelo Nome"
-              onChange={ handleChange }
-              className="search-input"
-            />
-          </label>
-        </div>
+      <div className="field-search">
+        <label htmlFor="search-name">
+          <input
+            type="text"
+            name="search-name"
+            data-testid="name-filter"
+            placeholder="Pesquise o Planeta pelo Nome"
+            onChange={ handleChange }
+            className="search-input"
+          />
+        </label>
+      </div>
+      <fieldset className="bar-container">
+        <legend>Filtros</legend>
         <label htmlFor="filter-by-column" className="input-label">
           <select
             data-testid="column-filter"
@@ -130,7 +131,7 @@ function FilterBar() {
         >
           Filtrar
         </button>
-      </div>
+      </fieldset>
       <div className="container-filters-selected">
         { filters.map((filter, index) => (
           <div key={ index } className="filtered-item" data-testid="filter">

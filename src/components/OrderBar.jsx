@@ -1,5 +1,6 @@
 import React, { useState, useContext } from 'react';
 import PlanetsContext from '../context/PlanetsContext';
+import '../styles/orderBar.css';
 
 function OrderBar() {
   const listColumns = [
@@ -32,9 +33,11 @@ function OrderBar() {
   };
 
   return (
-    <div>
+    <fieldset className="order-container">
+      <legend>Ordene sua Pesquisa</legend>
+
       <select data-testid="column-sort" onChange={ handleColumn }>
-        <option>Seleciona a coluna</option>
+        <option>Selecione a coluna</option>
         {listColumns.map((column, index) => (
           <option key={ index }>{column}</option>
         ))}
@@ -65,9 +68,9 @@ function OrderBar() {
         data-testid="column-sort-button"
         onClick={ sortFields }
       >
-        asd
+        Ordenar
       </button>
-    </div>
+    </fieldset>
   );
 }
 export default OrderBar;

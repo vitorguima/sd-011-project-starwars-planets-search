@@ -1,24 +1,35 @@
 .bar-container {
   display: flex;
   justify-content: center;
+  margin: auto;
   background-color: white;
   padding: 8px;
-  width: 100%;
-}
-
-.container-filters-selected {
-  background-color: cadetblue;
-  border: 1px solid black;
-  display: flex;
+  margin-bottom: 20px;
   width: fit-content;
 }
 
-.filtered-item {
+.container-filters-selected {
+  background-color: white;
   display: flex;
-  padding-right: 15px;
+  justify-content: space-between;
+  margin: auto;
+  width: 700px;
+}
+
+.filtered-item {
+  background-color: wheat;
+  border: 1px solid black;
+  display: flex;
+  justify-content: space-between;
+  margin: auto;
+  padding: 5px;
+  width: 130px;
 }
 .field-search {
-  width: 80px;
+  background-color: #F7F4DE;
+  display: flex;
+  justify-content: center;
+  width: 100%;
 }
 .search-input {
   display: flex;
